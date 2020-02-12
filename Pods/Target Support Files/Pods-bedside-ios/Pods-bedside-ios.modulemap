@@ -1,0 +1,6 @@
+framework module Pods_bedside_ios {
+  umbrella header "Pods-bedside-ios-umbrella.h"
+
+  export *
+  module * { export * }
+}

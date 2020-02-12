@@ -1,0 +1,14 @@
+{
+    "trigger": true,
+    "modules": [
+        "add-to-group"
+    ],
+    "parentResource": "bedside18eb32eb",
+    "functionName": "bedside18eb32ebPostConfirmation",
+    "parentStack": "auth",
+    "triggerEnvs": "[]",
+    "triggerTemplate": "PostConfirmation.json.ejs",
+    "roleName": "bedside18eb32ebPostConfirmation",
+    "skipEdit": true,
+    "resourceName": "bedside18eb32ebPostConfirmation"
+}
