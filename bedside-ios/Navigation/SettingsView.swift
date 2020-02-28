@@ -11,11 +11,10 @@ import AWSMobileClient
 
 struct SettingsView: View {
     
-    @Binding var rootIsActive : Bool
-    
+    @EnvironmentObject var authUtil : AuthUtil
+        
     func signOut() {
-        AWSMobileClient.default().signOut()
-        rootIsActive = false
+        authUtil.signOut()
     }
     
     var body: some View {
@@ -29,6 +28,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(rootIsActive: .constant(true))
+        SettingsView()
     }
 }

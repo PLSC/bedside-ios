@@ -10,40 +10,25 @@ import SwiftUI
 import AWSMobileClient
 
 
-struct ContentView: View {
+
+
+struct LoginView: View {
     
-    @State private var email = ""
+    @EnvironmentObject var authUtil : AuthUtil
+    
+    @State private var username = ""
     @State private var password = ""
-    @State private var signedInMessage = ""
-    @State private var isLoggedIn: Bool = false
     
     init() {
         print("Init app")
+        
+        
     }
     
     func signIn() {
-        
-        AWSMobileClient.default().signIn(username: email, password: password) { (signInResult, error) in
-            if let error = error  {
-                print("\(error.localizedDescription)")
-            } else if let signInResult = signInResult {
-                switch (signInResult.signInState) {
-                case .signedIn:
-                    if let user = AWSMobileClient.default().username {
-                        let loggedInMessage = "User is signed in: \(user)"
-                        self.signedInMessage = loggedInMessage
-                        self.isLoggedIn = true
-                        print(loggedInMessage)
-                    }
-                   
-                   
-                case .smsMFA:
-                    print("SMS message sent to \(signInResult.codeDetails!.destination!)")
-                default:
-                    print("Sign In needs info which is not yet supported.")
-                }
-            }
-        }
+        authUtil.signIn(userName: username, password: password)
+        username = ""
+        password = ""
     }
     
     var body: some View {
@@ -57,16 +42,17 @@ struct ContentView: View {
                     .padding([.top, .bottom], 20)
                     
             
-                  TextField("Email", text: self.$email)
+                  TextField("Username", text: self.$username)
                     .padding()
                     .cornerRadius(20)
-                    .keyboardType(/*@START_MENU_TOKEN@*/.emailAddress/*@END_MENU_TOKEN@*/)
+                    .keyboardType(.alphabet)
+                    .autocapitalization(.none)
                     
                   SecureField("Password", text: self.$password)
                     .padding()
                     .cornerRadius(20)
                     
-                    NavigationLink(destination: BaseView(rootIsActive: self.$isLoggedIn), isActive: self.$isLoggedIn) {
+                    NavigationLink(destination: BaseView(), isActive: $authUtil.isSignedIn) {
                         Text("")
                     }
 
@@ -78,9 +64,7 @@ struct ContentView: View {
                             .frame(width: 300, height: 50)
                             .background(Color.blue)
                             .cornerRadius(15.0)
-                    
                     }
-                    
                 }.padding()
             }
         }
@@ -91,6 +75,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        LoginView()
     }
 }

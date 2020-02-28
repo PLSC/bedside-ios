@@ -10,8 +10,6 @@ import SwiftUI
 
 struct BaseView: View {
     
-    @Binding var rootIsActive: Bool
-    
     var body: some View {
         TabView {
             VerifyView()
@@ -24,7 +22,7 @@ struct BaseView: View {
                     Image(systemName: "gauge")
                     Text("Evaluate")
                 }
-            SettingsView(rootIsActive: self.$rootIsActive)
+            SettingsView()
                 .tabItem {
                     Image(systemName: "gear")
                     Text("Settings")
@@ -37,6 +35,6 @@ struct BaseView: View {
 
 struct BaseView_Previews: PreviewProvider {
     static var previews: some View {
-        BaseView(rootIsActive: .constant(true))
+        BaseView()
     }
 }

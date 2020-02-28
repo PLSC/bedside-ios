@@ -15,11 +15,12 @@
 		3918A53E23F461F5007AAF67 /* AmplifyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3918A53B23F461F5007AAF67 /* AmplifyModels.swift */; };
 		391C05FB23F4414000935BBC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C05FA23F4414000935BBC /* AppDelegate.swift */; };
 		391C05FD23F4414000935BBC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C05FC23F4414000935BBC /* SceneDelegate.swift */; };
-		391C05FF23F4414000935BBC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C05FE23F4414000935BBC /* ContentView.swift */; };
+		391C05FF23F4414000935BBC /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C05FE23F4414000935BBC /* LoginView.swift */; };
 		391C060123F4414200935BBC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 391C060023F4414200935BBC /* Assets.xcassets */; };
 		391C060423F4414200935BBC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 391C060323F4414200935BBC /* Preview Assets.xcassets */; };
 		391C060723F4414200935BBC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 391C060523F4414200935BBC /* LaunchScreen.storyboard */; };
 		391C061223F4414200935BBC /* bedside_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C061123F4414200935BBC /* bedside_iosTests.swift */; };
+		392AA7CA240992D100A64981 /* AuthUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392AA7C9240992D100A64981 /* AuthUtil.swift */; };
 		39B6541724095F6100EEA4A2 /* VerifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B6541624095F6100EEA4A2 /* VerifyView.swift */; };
 		39B65419240962D300EEA4A2 /* EvaluateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B65418240962D300EEA4A2 /* EvaluateView.swift */; };
 		39B6541B2409632F00EEA4A2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B6541A2409632F00EEA4A2 /* SettingsView.swift */; };
@@ -46,7 +47,7 @@
 		391C05F723F4414000935BBC /* bedside-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "bedside-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		391C05FA23F4414000935BBC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		391C05FC23F4414000935BBC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		391C05FE23F4414000935BBC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		391C05FE23F4414000935BBC /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		391C060023F4414200935BBC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		391C060323F4414200935BBC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		391C060623F4414200935BBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -54,6 +55,7 @@
 		391C060D23F4414200935BBC /* bedside-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "bedside-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		391C061123F4414200935BBC /* bedside_iosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bedside_iosTests.swift; sourceTree = "<group>"; };
 		391C061323F4414200935BBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		392AA7C9240992D100A64981 /* AuthUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUtil.swift; sourceTree = "<group>"; };
 		39B6541624095F6100EEA4A2 /* VerifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyView.swift; sourceTree = "<group>"; };
 		39B65418240962D300EEA4A2 /* EvaluateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluateView.swift; sourceTree = "<group>"; };
 		39B6541A2409632F00EEA4A2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -125,11 +127,12 @@
 		391C05F923F4414000935BBC /* bedside-ios */ = {
 			isa = PBXGroup;
 			children = (
+				392AA7CB24099FB300A64981 /* Utils */,
 				39B6541C2409633C00EEA4A2 /* Navigation */,
 				3918A53823F461E1007AAF67 /* Models */,
 				391C05FA23F4414000935BBC /* AppDelegate.swift */,
 				391C05FC23F4414000935BBC /* SceneDelegate.swift */,
-				391C05FE23F4414000935BBC /* ContentView.swift */,
+				391C05FE23F4414000935BBC /* LoginView.swift */,
 				391C060023F4414200935BBC /* Assets.xcassets */,
 				391C060523F4414200935BBC /* LaunchScreen.storyboard */,
 				391C060823F4414200935BBC /* Info.plist */,
@@ -153,6 +156,14 @@
 				391C061323F4414200935BBC /* Info.plist */,
 			);
 			path = "bedside-iosTests";
+			sourceTree = "<group>";
+		};
+		392AA7CB24099FB300A64981 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				392AA7C9240992D100A64981 /* AuthUtil.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		39B6541C2409633C00EEA4A2 /* Navigation */ = {
@@ -360,8 +371,9 @@
 				391C05FD23F4414000935BBC /* SceneDelegate.swift in Sources */,
 				3918A53D23F461F5007AAF67 /* Todo+Schema.swift in Sources */,
 				39B6541724095F6100EEA4A2 /* VerifyView.swift in Sources */,
-				391C05FF23F4414000935BBC /* ContentView.swift in Sources */,
+				391C05FF23F4414000935BBC /* LoginView.swift in Sources */,
 				39B6541B2409632F00EEA4A2 /* SettingsView.swift in Sources */,
+				392AA7CA240992D100A64981 /* AuthUtil.swift in Sources */,
 				3918A53E23F461F5007AAF67 /* AmplifyModels.swift in Sources */,
 				39B6541E240968C000EEA4A2 /* BaseView.swift in Sources */,
 				3918A53C23F461F5007AAF67 /* Todo.swift in Sources */,
