@@ -11,14 +11,6 @@ import SwiftUI
 struct UserHeader: View {
     var body: some View {
         VStack {
-            HStack{
-                Text("Dr. Lenox")
-                .font(.largeTitle)
-                    .fontWeight(.heavy)
-                    .padding(.leading)
-                Spacer()
-            }
-            
             ZStack(alignment: .center) {
                 Rectangle()
                     .frame(maxHeight:250)

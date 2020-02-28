@@ -26,10 +26,10 @@ struct BaseView: View {
                 .tabItem {
                     Image(systemName: "gear")
                     Text("Settings")
-                }
+            }
         }
-        .font(.headline)
         .navigationBarBackButtonHidden(true)
+        .navigationBarTitle("Dr. Lenox")
     }
 }
 
