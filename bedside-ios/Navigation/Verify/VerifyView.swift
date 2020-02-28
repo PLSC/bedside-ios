@@ -10,7 +10,10 @@ import SwiftUI
 
 struct VerifyView: View {
     var body: some View {
-        Text("Verify")
+        VStack {
+            UserHeader()
+            ProcedureListView()
+        }
     }
 }
 

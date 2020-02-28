@@ -10,7 +10,9 @@ import SwiftUI
 
 struct EvaluateView: View {
     var body: some View {
+        
         Text("Evaluate")
+        
     }
 }
 
