@@ -46,21 +46,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
 
-        AWSMobileClient.default().signIn(username: "andy", password: "star6969") { (signInResult, error) in
-            if let error = error  {
-                print("\(error.localizedDescription)")
-            } else if let signInResult = signInResult {
-                switch (signInResult.signInState) {
-                case .signedIn:
-                    self.apiMutate()
-                    print("User is signed in: \(String(describing: AWSMobileClient.default().username))")
-                case .smsMFA:
-                    print("SMS message sent to \(signInResult.codeDetails!.destination!)")
-                default:
-                    print("Sign In needs info which is not yet supported.")
-                }
-            }
-        }
+//        AWSMobileClient.default().signIn(username: "andy", password: "star6969") { (signInResult, error) in
+//            if let error = error  {
+//                print("\(error.localizedDescription)")
+//            } else if let signInResult = signInResult {
+//                switch (signInResult.signInState) {
+//                case .signedIn:
+//                    self.apiMutate()
+//                    print("User is signed in: \(String(describing: AWSMobileClient.default().username))")
+//                case .smsMFA:
+//                    print("SMS message sent to \(signInResult.codeDetails!.destination!)")
+//                default:
+//                    print("Sign In needs info which is not yet supported.")
+//                }
+//            }
+//        }
         
         
         
