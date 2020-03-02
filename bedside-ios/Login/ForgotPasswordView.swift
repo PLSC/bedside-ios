@@ -92,6 +92,8 @@ struct ForgotPasswordView: View {
                     .cornerRadius(15.0)
             }
             
+            Spacer()
+            
             
         }.padding()
     }
@@ -99,6 +101,8 @@ struct ForgotPasswordView: View {
 
 struct ForgotPasswordView_Previews: PreviewProvider {
     static var previews: some View {
-        ForgotPasswordView(showSelf: .constant(true))
+        Group {
+            ForgotPasswordView(showSelf: .constant(true))
+        }
     }
 }
