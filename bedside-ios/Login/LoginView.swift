@@ -63,6 +63,8 @@ struct LoginView: View {
                     Text("Forgot Password")
                 }
                 
+                Spacer()
+                
             }.padding()
             
         }

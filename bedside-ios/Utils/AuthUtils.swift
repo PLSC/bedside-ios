@@ -51,9 +51,10 @@ class AuthUtils {
                                newPassword:String,
                                code: String,
                                callback: @escaping (Bool, String)->())  {
-        AWSMobileClient.default().confirmForgotPassword(username: username,
-                                                        newPassword: newPassword,
-                                                        confirmationCode: code) { (result, error) in
+        AWSMobileClient.default()
+            .confirmForgotPassword(username: username,
+                                newPassword: newPassword,
+                                confirmationCode: code) { (result, error) in
             if let forgotPasswordResult = result {
                 switch(forgotPasswordResult.forgotPasswordState) {
                 case .done:
