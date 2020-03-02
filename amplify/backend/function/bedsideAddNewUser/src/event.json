@@ -1,0 +1,19 @@
+{
+    "version": 1,
+    "triggerSource": "string",
+    "region": "AWSRegion",
+    "userPoolId": "string",
+    "userName": "test-username",
+    "callerContext": 
+        {
+            "awsSdkVersion": "string",
+            "clientId": "string"
+        },
+    "request":
+        {
+            "userAttributes": {
+                "email": "andy+localtest@simpl.org"
+            }
+        },
+    "response": {}
+}

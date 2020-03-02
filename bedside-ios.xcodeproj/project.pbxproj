@@ -10,9 +10,6 @@
 		022EB93DC2C24E58F1ADFE43 /* Pods_bedside_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35CD085736C73D131D30010D /* Pods_bedside_ios.framework */; };
 		235DB0924F2543CB8CD3B84C /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = D7E4AE6C6C8A41EDB2467A80 /* amplifyconfiguration.json */; };
 		35629178E16A8EAF2FBDF0D9 /* Pods_bedside_iosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D68E0ADEB562A759153372F5 /* Pods_bedside_iosTests.framework */; };
-		3918A53C23F461F5007AAF67 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3918A53923F461F5007AAF67 /* Todo.swift */; };
-		3918A53D23F461F5007AAF67 /* Todo+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3918A53A23F461F5007AAF67 /* Todo+Schema.swift */; };
-		3918A53E23F461F5007AAF67 /* AmplifyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3918A53B23F461F5007AAF67 /* AmplifyModels.swift */; };
 		391C05FB23F4414000935BBC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C05FA23F4414000935BBC /* AppDelegate.swift */; };
 		391C05FD23F4414000935BBC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C05FC23F4414000935BBC /* SceneDelegate.swift */; };
 		391C05FF23F4414000935BBC /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C05FE23F4414000935BBC /* LoginView.swift */; };
@@ -22,6 +19,14 @@
 		391C061223F4414200935BBC /* bedside_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C061123F4414200935BBC /* bedside_iosTests.swift */; };
 		392AA7CA240992D100A64981 /* AuthUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392AA7C9240992D100A64981 /* AuthUtil.swift */; };
 		392AA7CE2409AFAB00A64981 /* UserHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392AA7CD2409AFAB00A64981 /* UserHeader.swift */; };
+		39424F24240D654F00FD21A3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 39424F23240D654F00FD21A3 /* README.md */; };
+		398D28F8240D65E4005EF1E9 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398D28F1240D65E4005EF1E9 /* Todo.swift */; };
+		398D28F9240D65E4005EF1E9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398D28F2240D65E4005EF1E9 /* User.swift */; };
+		398D28FA240D65E4005EF1E9 /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398D28F3240D65E4005EF1E9 /* Program.swift */; };
+		398D28FB240D65E4005EF1E9 /* AmplifyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398D28F4240D65E4005EF1E9 /* AmplifyModels.swift */; };
+		398D28FC240D65E4005EF1E9 /* Program+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398D28F5240D65E4005EF1E9 /* Program+Schema.swift */; };
+		398D28FD240D65E4005EF1E9 /* Todo+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398D28F6240D65E4005EF1E9 /* Todo+Schema.swift */; };
+		398D28FE240D65E4005EF1E9 /* User+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398D28F7240D65E4005EF1E9 /* User+Schema.swift */; };
 		39B6541724095F6100EEA4A2 /* VerifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B6541624095F6100EEA4A2 /* VerifyView.swift */; };
 		39B65419240962D300EEA4A2 /* EvaluateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B65418240962D300EEA4A2 /* EvaluateView.swift */; };
 		39B6541B2409632F00EEA4A2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B6541A2409632F00EEA4A2 /* SettingsView.swift */; };
@@ -45,9 +50,6 @@
 /* Begin PBXFileReference section */
 		029F21FE67194E7595C74426 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = awsconfiguration.json; path = ./awsconfiguration.json; sourceTree = "<group>"; };
 		35CD085736C73D131D30010D /* Pods_bedside_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bedside_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3918A53923F461F5007AAF67 /* Todo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
-		3918A53A23F461F5007AAF67 /* Todo+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Todo+Schema.swift"; sourceTree = "<group>"; };
-		3918A53B23F461F5007AAF67 /* AmplifyModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmplifyModels.swift; sourceTree = "<group>"; };
 		391C05F723F4414000935BBC /* bedside-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "bedside-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		391C05FA23F4414000935BBC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		391C05FC23F4414000935BBC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +63,14 @@
 		391C061323F4414200935BBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		392AA7C9240992D100A64981 /* AuthUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUtil.swift; sourceTree = "<group>"; };
 		392AA7CD2409AFAB00A64981 /* UserHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHeader.swift; sourceTree = "<group>"; };
+		39424F23240D654F00FD21A3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		398D28F1240D65E4005EF1E9 /* Todo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
+		398D28F2240D65E4005EF1E9 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		398D28F3240D65E4005EF1E9 /* Program.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
+		398D28F4240D65E4005EF1E9 /* AmplifyModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmplifyModels.swift; sourceTree = "<group>"; };
+		398D28F5240D65E4005EF1E9 /* Program+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Program+Schema.swift"; sourceTree = "<group>"; };
+		398D28F6240D65E4005EF1E9 /* Todo+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Todo+Schema.swift"; sourceTree = "<group>"; };
+		398D28F7240D65E4005EF1E9 /* User+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+Schema.swift"; sourceTree = "<group>"; };
 		39B6541624095F6100EEA4A2 /* VerifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyView.swift; sourceTree = "<group>"; };
 		39B65418240962D300EEA4A2 /* EvaluateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluateView.swift; sourceTree = "<group>"; };
 		39B6541A2409632F00EEA4A2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -101,9 +111,13 @@
 		3918A53823F461E1007AAF67 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				3918A53B23F461F5007AAF67 /* AmplifyModels.swift */,
-				3918A53923F461F5007AAF67 /* Todo.swift */,
-				3918A53A23F461F5007AAF67 /* Todo+Schema.swift */,
+				398D28F4240D65E4005EF1E9 /* AmplifyModels.swift */,
+				398D28F3240D65E4005EF1E9 /* Program.swift */,
+				398D28F5240D65E4005EF1E9 /* Program+Schema.swift */,
+				398D28F1240D65E4005EF1E9 /* Todo.swift */,
+				398D28F6240D65E4005EF1E9 /* Todo+Schema.swift */,
+				398D28F2240D65E4005EF1E9 /* User.swift */,
+				398D28F7240D65E4005EF1E9 /* User+Schema.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -211,6 +225,7 @@
 		D9E6BEDC14EE800BACCD4E1D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				39424F23240D654F00FD21A3 /* README.md */,
 				35CD085736C73D131D30010D /* Pods_bedside_ios.framework */,
 				D68E0ADEB562A759153372F5 /* Pods_bedside_iosTests.framework */,
 			);
@@ -301,6 +316,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39424F24240D654F00FD21A3 /* README.md in Resources */,
 				391C060723F4414200935BBC /* LaunchScreen.storyboard in Resources */,
 				391C060423F4414200935BBC /* Preview Assets.xcassets in Resources */,
 				391C060123F4414200935BBC /* Assets.xcassets in Resources */,
@@ -389,18 +405,22 @@
 			files = (
 				391C05FB23F4414000935BBC /* AppDelegate.swift in Sources */,
 				39BFFF782409B7DA00F3769D /* ProcedureRowView.swift in Sources */,
+				398D28FD240D65E4005EF1E9 /* Todo+Schema.swift in Sources */,
+				398D28FC240D65E4005EF1E9 /* Program+Schema.swift in Sources */,
 				391C05FD23F4414000935BBC /* SceneDelegate.swift in Sources */,
-				3918A53D23F461F5007AAF67 /* Todo+Schema.swift in Sources */,
 				39B6541724095F6100EEA4A2 /* VerifyView.swift in Sources */,
+				398D28FB240D65E4005EF1E9 /* AmplifyModels.swift in Sources */,
 				391C05FF23F4414000935BBC /* LoginView.swift in Sources */,
+				398D28FA240D65E4005EF1E9 /* Program.swift in Sources */,
 				39BFFF7A2409BB8600F3769D /* ProcedureListView.swift in Sources */,
+				398D28FE240D65E4005EF1E9 /* User+Schema.swift in Sources */,
+				398D28F9240D65E4005EF1E9 /* User.swift in Sources */,
 				39B6541B2409632F00EEA4A2 /* SettingsView.swift in Sources */,
 				392AA7CA240992D100A64981 /* AuthUtil.swift in Sources */,
-				3918A53E23F461F5007AAF67 /* AmplifyModels.swift in Sources */,
 				39B6541E240968C000EEA4A2 /* BaseView.swift in Sources */,
-				3918A53C23F461F5007AAF67 /* Todo.swift in Sources */,
 				39BFFF7C2409BC7300F3769D /* ProcedureDetailView.swift in Sources */,
 				39B65419240962D300EEA4A2 /* EvaluateView.swift in Sources */,
+				398D28F8240D65E4005EF1E9 /* Todo.swift in Sources */,
 				392AA7CE2409AFAB00A64981 /* UserHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

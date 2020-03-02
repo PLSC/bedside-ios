@@ -1,5 +1,13 @@
-type Todo @model {
+
+type Program @model {
   id: ID!
   name: String!
   description: String
+}
+
+type User @model {
+  id: ID!
+  userName: String!
+  email: String
+  phone: String
 }

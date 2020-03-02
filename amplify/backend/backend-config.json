@@ -44,6 +44,25 @@
 			"service": "Lambda",
 			"providerPlugin": "awscloudformation",
 			"build": true
+		},
+		"AdminQueriesc8c14260": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": [
+				{
+					"category": "auth",
+					"resourceName": "bedside18eb32eb",
+					"attributes": [
+						"UserPoolId"
+					]
+				}
+			]
+		},
+		"bedsideAddNewUser": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true
 		}
 	},
 	"api": {
@@ -61,6 +80,27 @@
 					}
 				}
 			}
+		},
+		"AdminQueries": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "auth",
+					"resourceName": "bedside18eb32eb",
+					"attributes": [
+						"UserPoolId"
+					]
+				},
+				{
+					"category": "function",
+					"resourceName": "AdminQueriesc8c14260",
+					"attributes": [
+						"Arn",
+						"Name"
+					]
+				}
+			]
 		}
 	}
 }
