@@ -11,7 +11,7 @@ import AWSMobileClient
 
 struct SettingsView: View {
     
-    @EnvironmentObject var authUtil : AuthUtil
+    let authUtil = AuthUtils()
         
     func signOut() {
         authUtil.signOut()

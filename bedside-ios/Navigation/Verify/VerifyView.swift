@@ -10,9 +10,11 @@ import SwiftUI
 
 struct VerifyView: View {
     var body: some View {
-        VStack {
-            UserHeader()
-            ProcedureListView()
+        NavigationView {
+            VStack {
+                UserHeader()
+                ProcedureListView()
+            }.navigationBarTitle(Text("Dr. Lenox"))
         }
     }
 }

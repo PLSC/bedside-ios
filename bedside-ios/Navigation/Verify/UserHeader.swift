@@ -22,8 +22,9 @@ struct UserHeader: View {
                     .shadow(radius: 10)
                 
             }
-            Text("Dr. Lenox has been deemed competent to perform the following procedures under Indirect Supervision")
-            .padding()
+            Group {
+                Text("Dr. Lenox has been deemed competent to perform the following procedures under ") + Text("Indirect Supervision").font(.headline)
+            }.padding()
         }
     }
 }

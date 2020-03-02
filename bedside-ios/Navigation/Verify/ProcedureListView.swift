@@ -1,4 +1,4 @@
-//
+    //
 //  ProcedureListView.swift
 //  bedside-ios
 //
@@ -10,29 +10,28 @@ import SwiftUI
 
 struct ProcedureListView: View {
     var body: some View {
-        NavigationView {
-            List {
-                NavigationLink(destination: ProcedureDetailView()) {
-                    ProcedureRowView(completed: true)
-                }
-                
-                NavigationLink(destination: ProcedureDetailView()) {
-                    ProcedureRowView(completed: true)
-                }
-                NavigationLink(destination: ProcedureDetailView()) {
-                    ProcedureRowView(completed: true)
-                }
-                NavigationLink(destination: ProcedureDetailView()) {
-                    ProcedureRowView(completed: false)
-                }
+        List {
+            NavigationLink(destination: ProcedureDetailView()) {
+                ProcedureRowView(completed: true)
+            }
+            
+            NavigationLink(destination: ProcedureDetailView()) {
+                ProcedureRowView(completed: true)
+            }
+            NavigationLink(destination: ProcedureDetailView()) {
+                ProcedureRowView(completed: true)
+            }
+            NavigationLink(destination: ProcedureDetailView()) {
+                ProcedureRowView(completed: false)
             }
         }
-        
     }
 }
 
 struct ProcedureListView_Previews: PreviewProvider {
     static var previews: some View {
-        ProcedureListView()
+        NavigationView {
+            ProcedureListView()
+        }
     }
 }
