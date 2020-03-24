@@ -66,21 +66,6 @@
 		}
 	},
 	"api": {
-		"evaluation": {
-			"service": "AppSync",
-			"providerPlugin": "awscloudformation",
-			"output": {
-				"authConfig": {
-					"additionalAuthenticationProviders": [],
-					"defaultAuthentication": {
-						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
-						"userPoolConfig": {
-							"userPoolId": "authbedside18eb32eb"
-						}
-					}
-				}
-			}
-		},
 		"AdminQueries": {
 			"service": "API Gateway",
 			"providerPlugin": "awscloudformation",
@@ -101,6 +86,21 @@
 					]
 				}
 			]
+		},
+		"bedside": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
+						"userPoolConfig": {
+							"userPoolId": "authbedside18eb32eb"
+						}
+					}
+				}
+			}
 		}
 	}
 }

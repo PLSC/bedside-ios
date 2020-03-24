@@ -29,8 +29,13 @@ class AuthUtils {
     
     func signIn(userName: String, password: String) {
         AWSMobileClient.default().signIn(username: userName, password: password) { (signInResult, error) in
-            if let error = error  {
-                print("\(error.localizedDescription)")
+            if let error = error as? AWSMobileClientError  {
+                switch error {
+                case .userNotConfirmed(let message):
+                    print("go to confirm user page? \(message)")
+                default:
+                    print(error.localizedDescription)
+                }
             } else if let signInResult = signInResult {
                 switch (signInResult.signInState) {
                 case .signedIn:
@@ -40,6 +45,8 @@ class AuthUtils {
                     }
                 case .smsMFA:
                     print("SMS message sent to \(signInResult.codeDetails!.destination!)")
+                case .newPasswordRequired:
+                    print("TODO: go to new password screen")
                 default:
                     print("Sign In needs info which is not yet supported.")
                 }

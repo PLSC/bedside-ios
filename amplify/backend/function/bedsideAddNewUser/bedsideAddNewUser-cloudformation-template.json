@@ -63,7 +63,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-bedside-dev-102822-deployment",
-					"S3Key": "amplify-builds/bedsideAddNewUser-776f3746366762463767-build.zip"
+					"S3Key": "amplify-builds/bedsideAddNewUser-52392f31735476583266-build.zip"
 				}
 			}
 		},

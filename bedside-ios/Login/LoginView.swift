@@ -9,9 +9,6 @@
 import SwiftUI
 import AWSMobileClient
 
-
-
-
 struct LoginView: View {
         
     @State private var username = ""

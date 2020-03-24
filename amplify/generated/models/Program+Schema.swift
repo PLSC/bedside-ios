@@ -7,7 +7,9 @@ extension Program {
    public enum CodingKeys: String, ModelKey {
     case id
     case name
+    case orgID
     case description
+    case memberships
   }
   
   public static let keys = CodingKeys.self
@@ -21,7 +23,9 @@ extension Program {
     model.fields(
       .id(),
       .field(program.name, is: .required, ofType: .string),
-      .field(program.description, is: .optional, ofType: .string)
+      .field(program.orgID, is: .required, ofType: .string),
+      .field(program.description, is: .optional, ofType: .string),
+      .hasMany(program.memberships, is: .optional, ofType: Membership.self, associatedWith: Membership.keys.program)
     )
     }
 }

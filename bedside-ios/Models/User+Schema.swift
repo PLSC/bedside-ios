@@ -9,6 +9,10 @@ extension User {
     case userName
     case email
     case phone
+    case firstName
+    case lastName
+    case npi
+    case memberships
   }
   
   public static let keys = CodingKeys.self
@@ -21,9 +25,13 @@ extension User {
     
     model.fields(
       .id(),
-      .field(user.userName, is: .required, ofType: .string),
-      .field(user.email, is: .optional, ofType: .string),
-      .field(user.phone, is: .optional, ofType: .string)
+      .field(user.userName, is: .optional, ofType: .string),
+      .field(user.email, is: .required, ofType: .string),
+      .field(user.phone, is: .optional, ofType: .string),
+      .field(user.firstName, is: .optional, ofType: .string),
+      .field(user.lastName, is: .optional, ofType: .string),
+      .field(user.npi, is: .optional, ofType: .int),
+      .hasMany(user.memberships, is: .optional, ofType: Membership.self, associatedWith: Membership.keys.user)
     )
     }
 }
