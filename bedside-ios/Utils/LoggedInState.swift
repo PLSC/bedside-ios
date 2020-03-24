@@ -12,6 +12,7 @@ import AWSMobileClient
 class LoggedInState: ObservableObject {
     
     @Published var isSignedIn : Bool = false
+    @Published var userState : UserState = .unknown
     
     
     func setIsSignedIn(userState: UserState) {
@@ -31,6 +32,7 @@ class LoggedInState: ObservableObject {
         AWSMobileClient.default().initialize { (userState, error) in
             if let userState = userState {
                 self.setIsSignedIn(userState: userState)
+                self.userState = userState
             } else if let error = error {
                 print("error: \(error.localizedDescription)")
             }

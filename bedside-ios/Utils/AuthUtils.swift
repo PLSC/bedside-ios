@@ -9,6 +9,11 @@
 import Foundation
 import AWSMobileClient
 
+enum SignInResult {
+    case signedIn
+    case needsConfirmation
+}
+
 class AuthUtils {
     func sendAuthCode(username: String,  callback: @escaping (Bool, String)->()) {
         AWSMobileClient.default().forgotPassword(username: username) { (result, error) in
@@ -27,18 +32,20 @@ class AuthUtils {
         }
     }
     
-    func signIn(userName: String, password: String) {
+    func signIn(userName: String, password: String,  completion: @escaping (SignInResult) -> Void) {
         AWSMobileClient.default().signIn(username: userName, password: password) { (signInResult, error) in
             if let error = error as? AWSMobileClientError  {
                 switch error {
                 case .userNotConfirmed(let message):
-                    print("go to confirm user page? \(message)")
+                    print(message)
+                    completion(.needsConfirmation)
                 default:
                     print(error.localizedDescription)
                 }
             } else if let signInResult = signInResult {
                 switch (signInResult.signInState) {
                 case .signedIn:
+                    completion(.signedIn)
                     if let user = AWSMobileClient.default().username {
                         let loggedInMessage = "User is signed in: \(user)"
                         print(loggedInMessage)
@@ -73,6 +80,24 @@ class AuthUtils {
                 callback(false, "Error occurred: \(error.localizedDescription)")
             }
         }
+    }
+    
+    func confirmSignUp(username: String, confirmationCode: String, completion: @escaping ()->()) {
+        AWSMobileClient.default().confirmSignUp(username: username, confirmationCode: confirmationCode) { (signInResult, error) in
+            completion()
+        }
+    }
+    
+    func resendConfirmationCode(username: String, completion: @escaping (String, Error?)->()) {
+        AWSMobileClient.default().resendSignUpCode(username: "your_username", completionHandler: { (result, error) in
+            if let signUpResult = result {
+                let message = "A verification code has been sent via \(signUpResult.codeDeliveryDetails!.deliveryMedium) at \(signUpResult.codeDeliveryDetails!.destination!)"
+                print(message)
+                completion(message, nil)
+            } else if let error = error {
+                completion("A problem has occurred", error)
+            }
+        })
     }
     
     func signOut() {

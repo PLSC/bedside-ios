@@ -9,14 +9,12 @@
 /* Begin PBXBuildFile section */
 		022EB93DC2C24E58F1ADFE43 /* Pods_bedside_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35CD085736C73D131D30010D /* Pods_bedside_ios.framework */; };
 		235DB0924F2543CB8CD3B84C /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = D7E4AE6C6C8A41EDB2467A80 /* amplifyconfiguration.json */; };
-		35629178E16A8EAF2FBDF0D9 /* Pods_bedside_iosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D68E0ADEB562A759153372F5 /* Pods_bedside_iosTests.framework */; };
 		391C05FB23F4414000935BBC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C05FA23F4414000935BBC /* AppDelegate.swift */; };
 		391C05FD23F4414000935BBC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C05FC23F4414000935BBC /* SceneDelegate.swift */; };
 		391C05FF23F4414000935BBC /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C05FE23F4414000935BBC /* LoginView.swift */; };
 		391C060123F4414200935BBC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 391C060023F4414200935BBC /* Assets.xcassets */; };
 		391C060423F4414200935BBC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 391C060323F4414200935BBC /* Preview Assets.xcassets */; };
 		391C060723F4414200935BBC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 391C060523F4414200935BBC /* LaunchScreen.storyboard */; };
-		391C061223F4414200935BBC /* bedside_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C061123F4414200935BBC /* bedside_iosTests.swift */; };
 		392AA7CE2409AFAB00A64981 /* UserHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392AA7CD2409AFAB00A64981 /* UserHeader.swift */; };
 		39424F24240D654F00FD21A3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 39424F23240D654F00FD21A3 /* README.md */; };
 		3942E778240D67520038011D /* StartupContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3942E777240D67520038011D /* StartupContainerView.swift */; };
@@ -37,6 +35,7 @@
 		39A58011242A6718004999AD /* Organization+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A58003242A6718004999AD /* Organization+Schema.swift */; };
 		39A58012242A6718004999AD /* Procedure+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A58004242A6718004999AD /* Procedure+Schema.swift */; };
 		39A58013242A6718004999AD /* Procedure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A58005242A6718004999AD /* Procedure.swift */; };
+		39A58015242A6C1A004999AD /* EmailCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A58014242A6C1A004999AD /* EmailCodeView.swift */; };
 		39B6541724095F6100EEA4A2 /* VerifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B6541624095F6100EEA4A2 /* VerifyView.swift */; };
 		39B65419240962D300EEA4A2 /* EvaluateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B65418240962D300EEA4A2 /* EvaluateView.swift */; };
 		39B6541B2409632F00EEA4A2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B6541A2409632F00EEA4A2 /* SettingsView.swift */; };
@@ -46,16 +45,6 @@
 		39BFFF7C2409BC7300F3769D /* ProcedureDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BFFF7B2409BC7300F3769D /* ProcedureDetailView.swift */; };
 		4F8A576514EF455AAEE00886 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 029F21FE67194E7595C74426 /* awsconfiguration.json */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		391C060E23F4414200935BBC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 391C05EF23F4414000935BBC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 391C05F623F4414000935BBC;
-			remoteInfo = "bedside-ios";
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		029F21FE67194E7595C74426 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = awsconfiguration.json; path = ./awsconfiguration.json; sourceTree = "<group>"; };
@@ -68,8 +57,6 @@
 		391C060323F4414200935BBC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		391C060623F4414200935BBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		391C060823F4414200935BBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		391C060D23F4414200935BBC /* bedside-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "bedside-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		391C061123F4414200935BBC /* bedside_iosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bedside_iosTests.swift; sourceTree = "<group>"; };
 		391C061323F4414200935BBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		392AA7CD2409AFAB00A64981 /* UserHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHeader.swift; sourceTree = "<group>"; };
 		39424F23240D654F00FD21A3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -91,6 +78,7 @@
 		39A58003242A6718004999AD /* Organization+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Organization+Schema.swift"; sourceTree = "<group>"; };
 		39A58004242A6718004999AD /* Procedure+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Procedure+Schema.swift"; sourceTree = "<group>"; };
 		39A58005242A6718004999AD /* Procedure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Procedure.swift; sourceTree = "<group>"; };
+		39A58014242A6C1A004999AD /* EmailCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailCodeView.swift; sourceTree = "<group>"; };
 		39B6541624095F6100EEA4A2 /* VerifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyView.swift; sourceTree = "<group>"; };
 		39B65418240962D300EEA4A2 /* EvaluateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluateView.swift; sourceTree = "<group>"; };
 		39B6541A2409632F00EEA4A2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -114,14 +102,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				022EB93DC2C24E58F1ADFE43 /* Pods_bedside_ios.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		391C060A23F4414200935BBC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				35629178E16A8EAF2FBDF0D9 /* Pods_bedside_iosTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,7 +148,6 @@
 			isa = PBXGroup;
 			children = (
 				391C05F723F4414000935BBC /* bedside.app */,
-				391C060D23F4414200935BBC /* bedside-iosTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -202,7 +181,6 @@
 		391C061023F4414200935BBC /* bedside-iosTests */ = {
 			isa = PBXGroup;
 			children = (
-				391C061123F4414200935BBC /* bedside_iosTests.swift */,
 				391C061323F4414200935BBC /* Info.plist */,
 			);
 			path = "bedside-iosTests";
@@ -234,6 +212,7 @@
 			children = (
 				391C05FE23F4414000935BBC /* LoginView.swift */,
 				39759C9B240D6E1500C1C87B /* ForgotPasswordView.swift */,
+				39A58014242A6C1A004999AD /* EmailCodeView.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -292,25 +271,6 @@
 			productReference = 391C05F723F4414000935BBC /* bedside.app */;
 			productType = "com.apple.product-type.application";
 		};
-		391C060C23F4414200935BBC /* bedside-iosTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 391C061923F4414200935BBC /* Build configuration list for PBXNativeTarget "bedside-iosTests" */;
-			buildPhases = (
-				531B2714B3407540E6C87141 /* [CP] Check Pods Manifest.lock */,
-				391C060923F4414200935BBC /* Sources */,
-				391C060A23F4414200935BBC /* Frameworks */,
-				391C060B23F4414200935BBC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				391C060F23F4414200935BBC /* PBXTargetDependency */,
-			);
-			name = "bedside-iosTests";
-			productName = "bedside-iosTests";
-			productReference = 391C060D23F4414200935BBC /* bedside-iosTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -323,10 +283,6 @@
 				TargetAttributes = {
 					391C05F623F4414000935BBC = {
 						CreatedOnToolsVersion = 11.3.1;
-					};
-					391C060C23F4414200935BBC = {
-						CreatedOnToolsVersion = 11.3.1;
-						TestTargetID = 391C05F623F4414000935BBC;
 					};
 				};
 			};
@@ -344,7 +300,6 @@
 			projectRoot = "";
 			targets = (
 				391C05F623F4414000935BBC /* bedside-ios */,
-				391C060C23F4414200935BBC /* bedside-iosTests */,
 			);
 		};
 /* End PBXProject section */
@@ -363,38 +318,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		391C060B23F4414200935BBC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		531B2714B3407540E6C87141 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-bedside-iosTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		D33648811D8A6C2EB3916A58 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -447,6 +373,7 @@
 				39759C9C240D6E1500C1C87B /* ForgotPasswordView.swift in Sources */,
 				39BFFF782409B7DA00F3769D /* ProcedureRowView.swift in Sources */,
 				39A5800E242A6718004999AD /* AmplifyModels.swift in Sources */,
+				39A58015242A6C1A004999AD /* EmailCodeView.swift in Sources */,
 				39759CA0240D867200C1C87B /* AuthUtils.swift in Sources */,
 				391C05FD23F4414000935BBC /* SceneDelegate.swift in Sources */,
 				39A58008242A6718004999AD /* Role.swift in Sources */,
@@ -473,23 +400,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		391C060923F4414200935BBC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				391C061223F4414200935BBC /* bedside_iosTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		391C060F23F4414200935BBC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 391C05F623F4414000935BBC /* bedside-ios */;
-			targetProxy = 391C060E23F4414200935BBC /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		391C060523F4414200935BBC /* LaunchScreen.storyboard */ = {
@@ -661,52 +572,6 @@
 			};
 			name = Release;
 		};
-		391C061A23F4414200935BBC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 590B078A065B544C4A6E0021 /* Pods-bedside-iosTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = EUY77Y4C9L;
-				INFOPLIST_FILE = "bedside-iosTests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.procedurallearning.bedside-iosTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bedside-ios.app/bedside-ios";
-			};
-			name = Debug;
-		};
-		391C061B23F4414200935BBC /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = BB2DCC7199BAA76235D104F9 /* Pods-bedside-iosTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = EUY77Y4C9L;
-				INFOPLIST_FILE = "bedside-iosTests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.procedurallearning.bedside-iosTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bedside-ios.app/bedside-ios";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -724,15 +589,6 @@
 			buildConfigurations = (
 				391C061723F4414200935BBC /* Debug */,
 				391C061823F4414200935BBC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		391C061923F4414200935BBC /* Build configuration list for PBXNativeTarget "bedside-iosTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				391C061A23F4414200935BBC /* Debug */,
-				391C061B23F4414200935BBC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

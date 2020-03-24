@@ -96,6 +96,8 @@ struct ForgotPasswordView: View {
             
             
         }.padding()
+            .navigationBarItems(leading: Button(action: {self.showSelf=false}, label: { Text("Back")
+            }))
     }
 }
 

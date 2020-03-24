@@ -14,18 +14,28 @@ struct LoginView: View {
     @State private var username = ""
     @State private var password = ""
     @State private var showForgotPassword = false
+    @State private var showEmailCodeEnter = false
     
     let authUtil = AuthUtils()
     
     func signIn() {
-        authUtil.signIn(userName: username, password: password)
-        username = ""
-        password = ""
+        authUtil.signIn(userName: username, password: password) {
+            result in
+            switch result {
+            case .signedIn:
+                print("Cool, signed in")
+                self.username = ""
+                self.password = ""
+            case .needsConfirmation:
+                print("Show code screen")
+                self.showEmailCodeEnter = true
+            }
+        }
     }
     
     var body: some View {
         NavigationView {
-            VStack(alignment: .center, spacing: 15) {
+            VStack(alignment: HorizontalAlignment.center, spacing: 15) {
                 Text("Bedside Procedures")
                     .font(.largeTitle)
                     .foregroundColor(.gray)
@@ -60,10 +70,13 @@ struct LoginView: View {
                     Text("Forgot Password")
                 }
                 
+                NavigationLink(destination: EmailCodeView(showSelf: $showEmailCodeEnter, username: $username, confirmationCode: ""), isActive: $showEmailCodeEnter) {
+                    Text("")
+                }
+                
                 Spacer()
                 
             }.padding()
-            
         }
     }
 }
