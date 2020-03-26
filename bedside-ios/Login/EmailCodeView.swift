@@ -70,8 +70,7 @@ struct EmailCodeView: View {
             
             Spacer()
             
-        }.padding().navigationBarItems(leading: Button(action: {self.showSelf=false}, label: {Text("Back")}))
-        
+        }.padding()
     }
 }
 
