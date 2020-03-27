@@ -45,7 +45,7 @@ struct EmailCodeView: View {
                .padding()
                .keyboardType(.alphabet)
                .autocapitalization(.none)
-                .disabled(true)
+               .disabled(true)
             
             TextField("Confirmation Code", text: self.$confirmationCode)
                 .padding()

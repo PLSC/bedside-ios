@@ -18,6 +18,11 @@
 		392AA7CE2409AFAB00A64981 /* UserHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392AA7CD2409AFAB00A64981 /* UserHeader.swift */; };
 		39424F24240D654F00FD21A3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 39424F23240D654F00FD21A3 /* README.md */; };
 		3942E778240D67520038011D /* StartupContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3942E777240D67520038011D /* StartupContainerView.swift */; };
+		3946F688242D2A55005AC547 /* ProcedureSelectRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3946F687242D2A55005AC547 /* ProcedureSelectRow.swift */; };
+		3946F68A242D3018005AC547 /* RaterSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3946F689242D3018005AC547 /* RaterSelect.swift */; };
+		3946F68C242D302A005AC547 /* ProgramSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3946F68B242D302A005AC547 /* ProgramSelect.swift */; };
+		3960372C242CD489006B216E /* UserBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3960372B242CD489006B216E /* UserBanner.swift */; };
+		3960372E242CD634006B216E /* ProcedureSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3960372D242CD634006B216E /* ProcedureSelect.swift */; };
 		39759C9C240D6E1500C1C87B /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39759C9B240D6E1500C1C87B /* ForgotPasswordView.swift */; };
 		39759C9E240D865400C1C87B /* LoggedInState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39759C9D240D865400C1C87B /* LoggedInState.swift */; };
 		39759CA0240D867200C1C87B /* AuthUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39759C9F240D867200C1C87B /* AuthUtils.swift */; };
@@ -61,6 +66,11 @@
 		392AA7CD2409AFAB00A64981 /* UserHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHeader.swift; sourceTree = "<group>"; };
 		39424F23240D654F00FD21A3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		3942E777240D67520038011D /* StartupContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupContainerView.swift; sourceTree = "<group>"; };
+		3946F687242D2A55005AC547 /* ProcedureSelectRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcedureSelectRow.swift; sourceTree = "<group>"; };
+		3946F689242D3018005AC547 /* RaterSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaterSelect.swift; sourceTree = "<group>"; };
+		3946F68B242D302A005AC547 /* ProgramSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramSelect.swift; sourceTree = "<group>"; };
+		3960372B242CD489006B216E /* UserBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBanner.swift; sourceTree = "<group>"; };
+		3960372D242CD634006B216E /* ProcedureSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcedureSelect.swift; sourceTree = "<group>"; };
 		39759C9B240D6E1500C1C87B /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		39759C9D240D865400C1C87B /* LoggedInState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInState.swift; sourceTree = "<group>"; };
 		39759C9F240D867200C1C87B /* AuthUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUtils.swift; sourceTree = "<group>"; };
@@ -217,12 +227,33 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		39603729242CD403006B216E /* Evaluate */ = {
+			isa = PBXGroup;
+			children = (
+				39B65418240962D300EEA4A2 /* EvaluateView.swift */,
+				3960372D242CD634006B216E /* ProcedureSelect.swift */,
+				3946F687242D2A55005AC547 /* ProcedureSelectRow.swift */,
+				3946F689242D3018005AC547 /* RaterSelect.swift */,
+				3946F68B242D302A005AC547 /* ProgramSelect.swift */,
+			);
+			path = Evaluate;
+			sourceTree = "<group>";
+		};
+		3960372A242CD46D006B216E /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				3960372B242CD489006B216E /* UserBanner.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		39B6541C2409633C00EEA4A2 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				3960372A242CD46D006B216E /* Shared */,
+				39603729242CD403006B216E /* Evaluate */,
 				392AA7CC2409AF8D00A64981 /* Verify */,
 				39B6541A2409632F00EEA4A2 /* SettingsView.swift */,
-				39B65418240962D300EEA4A2 /* EvaluateView.swift */,
 				39B6541D240968C000EEA4A2 /* BaseView.swift */,
 			);
 			path = Navigation;
@@ -377,6 +408,7 @@
 				39759CA0240D867200C1C87B /* AuthUtils.swift in Sources */,
 				391C05FD23F4414000935BBC /* SceneDelegate.swift in Sources */,
 				39A58008242A6718004999AD /* Role.swift in Sources */,
+				3946F688242D2A55005AC547 /* ProcedureSelectRow.swift in Sources */,
 				39A58013242A6718004999AD /* Procedure.swift in Sources */,
 				39B6541724095F6100EEA4A2 /* VerifyView.swift in Sources */,
 				39A58012242A6718004999AD /* Procedure+Schema.swift in Sources */,
@@ -390,7 +422,11 @@
 				39B6541B2409632F00EEA4A2 /* SettingsView.swift in Sources */,
 				39A5800D242A6718004999AD /* Organization.swift in Sources */,
 				39A5800C242A6718004999AD /* Membership+Schema.swift in Sources */,
+				3946F68C242D302A005AC547 /* ProgramSelect.swift in Sources */,
 				39B6541E240968C000EEA4A2 /* BaseView.swift in Sources */,
+				3960372C242CD489006B216E /* UserBanner.swift in Sources */,
+				3946F68A242D3018005AC547 /* RaterSelect.swift in Sources */,
+				3960372E242CD634006B216E /* ProcedureSelect.swift in Sources */,
 				39BFFF7C2409BC7300F3769D /* ProcedureDetailView.swift in Sources */,
 				39B65419240962D300EEA4A2 /* EvaluateView.swift in Sources */,
 				3942E778240D67520038011D /* StartupContainerView.swift in Sources */,

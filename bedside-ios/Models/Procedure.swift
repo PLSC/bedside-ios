@@ -2,7 +2,7 @@
 import Amplify
 import Foundation
 
-public struct Procedure: Model {
+public struct Procedure: Model, Identifiable {
   public let id: String
   public var name: String
   public var description: String?
