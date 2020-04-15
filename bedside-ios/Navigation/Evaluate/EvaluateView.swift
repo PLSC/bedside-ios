@@ -11,8 +11,26 @@ import SwiftUI
 struct EvaluateView: View {
     
     @State var selectedProcedure : Procedure?
+    @State var selectedRater : User?
     @State var presentProcedures: Bool = false
+    @State var presentRaterSelect: Bool = false
     @State var procedureDate: Date = Date()
+    
+    func procedureIsValid() -> Bool {
+        return selectedProcedure != nil
+    }
+    
+    func dateIsValid() -> Bool {
+        return procedureDate < Date()
+    }
+    
+    func raterIsValid() -> Bool {
+        return true
+    }
+    
+    func submitDisabled() -> Bool {
+        return !procedureIsValid() || !dateIsValid() || !raterIsValid()
+    }
     
     var body: some View {
         NavigationView {
@@ -26,12 +44,40 @@ struct EvaluateView: View {
                         isActive: $presentProcedures) {
                         ProcedureSelectRow(selectedProcedure: $selectedProcedure)
                     }
-                    DatePicker(selection: $procedureDate) {
+                    DatePicker(selection: $procedureDate, in: ...Date()) {
                         Text("Date")
                     }.padding()
                     
-                }.navigationBarTitle("New Evaluation")
-            }
+                    NavigationLink(destination: RaterSelect(), isActive:$presentRaterSelect) {
+                        RaterSelectRow(selectedRater: $selectedRater).padding()
+                    }
+                    
+                    
+                    
+                    
+                    HStack {
+                        Spacer(minLength: 35)
+                        Button(action: {
+                            print("Next button clicked.")
+                        }) {
+                            HStack {
+                                Spacer()
+                                Text("Next")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                Spacer()
+                            }
+                        }
+                        .padding()
+                        .background(submitDisabled() ? Color.gray : Color.blue)
+                        .cornerRadius(10)
+                        .disabled(submitDisabled())
+                        Spacer(minLength: 35)
+                    }
+                
+                }
+                
+            }.navigationBarTitle("New Evaluation")
         }
     }
 }

@@ -16,6 +16,8 @@
 		391C060423F4414200935BBC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 391C060323F4414200935BBC /* Preview Assets.xcassets */; };
 		391C060723F4414200935BBC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 391C060523F4414200935BBC /* LaunchScreen.storyboard */; };
 		392AA7CE2409AFAB00A64981 /* UserHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392AA7CD2409AFAB00A64981 /* UserHeader.swift */; };
+		393DE74C2446068700EE97B4 /* RaterSelectRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393DE74B2446068700EE97B4 /* RaterSelectRow.swift */; };
+		393DE74E24462BA900EE97B4 /* PerformanceEvaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393DE74D24462BA900EE97B4 /* PerformanceEvaluation.swift */; };
 		39424F24240D654F00FD21A3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 39424F23240D654F00FD21A3 /* README.md */; };
 		3942E778240D67520038011D /* StartupContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3942E777240D67520038011D /* StartupContainerView.swift */; };
 		3946F688242D2A55005AC547 /* ProcedureSelectRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3946F687242D2A55005AC547 /* ProcedureSelectRow.swift */; };
@@ -64,6 +66,8 @@
 		391C060823F4414200935BBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		391C061323F4414200935BBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		392AA7CD2409AFAB00A64981 /* UserHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHeader.swift; sourceTree = "<group>"; };
+		393DE74B2446068700EE97B4 /* RaterSelectRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaterSelectRow.swift; sourceTree = "<group>"; };
+		393DE74D24462BA900EE97B4 /* PerformanceEvaluation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceEvaluation.swift; sourceTree = "<group>"; };
 		39424F23240D654F00FD21A3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		3942E777240D67520038011D /* StartupContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupContainerView.swift; sourceTree = "<group>"; };
 		3946F687242D2A55005AC547 /* ProcedureSelectRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcedureSelectRow.swift; sourceTree = "<group>"; };
@@ -231,10 +235,12 @@
 			isa = PBXGroup;
 			children = (
 				39B65418240962D300EEA4A2 /* EvaluateView.swift */,
+				393DE74B2446068700EE97B4 /* RaterSelectRow.swift */,
 				3960372D242CD634006B216E /* ProcedureSelect.swift */,
 				3946F687242D2A55005AC547 /* ProcedureSelectRow.swift */,
 				3946F689242D3018005AC547 /* RaterSelect.swift */,
 				3946F68B242D302A005AC547 /* ProgramSelect.swift */,
+				393DE74D24462BA900EE97B4 /* PerformanceEvaluation.swift */,
 			);
 			path = Evaluate;
 			sourceTree = "<group>";
@@ -410,7 +416,9 @@
 				39A58008242A6718004999AD /* Role.swift in Sources */,
 				3946F688242D2A55005AC547 /* ProcedureSelectRow.swift in Sources */,
 				39A58013242A6718004999AD /* Procedure.swift in Sources */,
+				393DE74E24462BA900EE97B4 /* PerformanceEvaluation.swift in Sources */,
 				39B6541724095F6100EEA4A2 /* VerifyView.swift in Sources */,
+				393DE74C2446068700EE97B4 /* RaterSelectRow.swift in Sources */,
 				39A58012242A6718004999AD /* Procedure+Schema.swift in Sources */,
 				391C05FF23F4414000935BBC /* LoginView.swift in Sources */,
 				39A58010242A6718004999AD /* Todo.swift in Sources */,

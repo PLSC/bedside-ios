@@ -28,6 +28,7 @@ struct ProcedureSelectRow: View {
     }
 }
 
+
 struct ProcedureSelectRow_Previews: PreviewProvider {
     static var previews: some View {
         Group {

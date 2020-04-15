@@ -5,10 +5,12 @@
             "Type": "String",
             "Default": "authbedside18eb32ebUserPoolId"
         },
+        
         "authbedside18eb32ebIdentityPoolId": {
             "Type": "String",
             "Default": "authbedside18eb32ebIdentityPoolId"
         },
+        
         "authbedside18eb32ebAppClientID": {
             "Type": "String",
             "Default": "authbedside18eb32ebAppClientID"
@@ -44,17 +46,20 @@
           "Properties" : {
               "GroupName" : "Sysadmins",
               "Precedence" : 1,
+              
               "RoleArn" : {
                 "Fn::GetAtt": [
                     "SysadminsGroupRole",
                     "Arn"
                 ]
               },
+              
               "UserPoolId" : {
                 "Ref": "authbedside18eb32ebUserPoolId"
               } 
             }
         },
+        
         "SysadminsGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -78,29 +83,37 @@
                             "Principal": {
                                 "Federated": "cognito-identity.amazonaws.com"
                             },
-                            "Action": "sts:AssumeRoleWithWebIdentity"
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authbedside18eb32ebIdentityPoolId"}},
+                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                            }
                         }
                     ]
                 }
             }
         },
+     
     
         "AdminsGroup": {
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
               "GroupName" : "Admins",
               "Precedence" : 2,
+              
               "RoleArn" : {
                 "Fn::GetAtt": [
                     "AdminsGroupRole",
                     "Arn"
                 ]
               },
+              
               "UserPoolId" : {
                 "Ref": "authbedside18eb32ebUserPoolId"
               } 
             }
         },
+        
         "AdminsGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -124,29 +137,37 @@
                             "Principal": {
                                 "Federated": "cognito-identity.amazonaws.com"
                             },
-                            "Action": "sts:AssumeRoleWithWebIdentity"
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authbedside18eb32ebIdentityPoolId"}},
+                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                            }
                         }
                     ]
                 }
             }
         },
+     
     
         "UsersGroup": {
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
               "GroupName" : "Users",
               "Precedence" : 3,
+              
               "RoleArn" : {
                 "Fn::GetAtt": [
                     "UsersGroupRole",
                     "Arn"
                 ]
               },
+              
               "UserPoolId" : {
                 "Ref": "authbedside18eb32ebUserPoolId"
               } 
             }
         },
+        
         "UsersGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -170,12 +191,18 @@
                             "Principal": {
                                 "Federated": "cognito-identity.amazonaws.com"
                             },
-                            "Action": "sts:AssumeRoleWithWebIdentity"
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authbedside18eb32ebIdentityPoolId"}},
+                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                            }
                         }
                     ]
                 }
             }
         },
+     
+    
     
         "LambdaExecutionRole": {
             "Type": "AWS::IAM::Role",
@@ -371,7 +398,9 @@
             },
             "DependsOn": ["RoleMapFunction"]
         }
+   
     },
+    
     "Outputs": {
       
         "SysadminsGroupRole": {
@@ -408,4 +437,5 @@
         
       
     }
+    
 }
