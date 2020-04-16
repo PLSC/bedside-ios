@@ -22,6 +22,7 @@ struct ProcedureSelect: View {
         isPresented = false
     }
     
+    //TODO: refactor into API module.
     func fetchProcedures() {
         
         let _ = Amplify.API.query(from: Procedure.self, where: nil) { event in
@@ -31,6 +32,7 @@ struct ProcedureSelect: View {
                 case .success(let procedures):
                     self.procedures = procedures
                 default:
+                    //TODO: handle errors
                     print("aww nuts")
                 }
                 

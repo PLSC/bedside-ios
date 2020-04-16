@@ -15,6 +15,7 @@ struct EvaluateView: View {
     @State var presentProcedures: Bool = false
     @State var presentRaterSelect: Bool = false
     @State var procedureDate: Date = Date()
+    @State var presentPerformanceEvaluation: Bool = false
     
     func procedureIsValid() -> Bool {
         return selectedProcedure != nil
@@ -35,7 +36,7 @@ struct EvaluateView: View {
     var body: some View {
         NavigationView {
             VStack {
-                UserBanner()
+                UserHeaderSmall().padding()
                 Form {
                     NavigationLink(
                         destination: ProcedureSelect(
@@ -53,27 +54,30 @@ struct EvaluateView: View {
                     }
                     
                     
-                    
-                    
-                    HStack {
-                        Spacer(minLength: 35)
-                        Button(action: {
-                            print("Next button clicked.")
-                        }) {
-                            HStack {
-                                Spacer()
-                                Text("Next")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                Spacer()
+                    NavigationLink(destination: PerformanceEvaluation(rater: $selectedRater, procedure: $selectedProcedure), isActive: $presentPerformanceEvaluation) {
+                        
+                        HStack {
+                            Spacer(minLength: 35)
+                            Button(action: {
+                                print("Next button clicked.")
+                            }) {
+                                HStack {
+                                    Spacer()
+                                    Text("Next")
+                                        .font(.headline)
+                                        .foregroundColor(.white)
+                                    Spacer()
+                                }
                             }
+                            .padding()
+                            .background(submitDisabled() ? Color.gray : Color.blue)
+                            .cornerRadius(10)
+                            .disabled(submitDisabled())
+                            Spacer(minLength: 35)
                         }
-                        .padding()
-                        .background(submitDisabled() ? Color.gray : Color.blue)
-                        .cornerRadius(10)
-                        .disabled(submitDisabled())
-                        Spacer(minLength: 35)
-                    }
+                    }.disabled(submitDisabled())
+                    
+                    
                 
                 }
                 

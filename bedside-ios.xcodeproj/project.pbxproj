@@ -28,6 +28,8 @@
 		39759C9C240D6E1500C1C87B /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39759C9B240D6E1500C1C87B /* ForgotPasswordView.swift */; };
 		39759C9E240D865400C1C87B /* LoggedInState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39759C9D240D865400C1C87B /* LoggedInState.swift */; };
 		39759CA0240D867200C1C87B /* AuthUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39759C9F240D867200C1C87B /* AuthUtils.swift */; };
+		398236F62447548900ED7148 /* UserHeaderSmall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398236F52447548900ED7148 /* UserHeaderSmall.swift */; };
+		398236F82447684700ED7148 /* BigButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398236F72447684700ED7148 /* BigButtonStyle.swift */; };
 		39A58006242A6718004999AD /* Todo+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A57FF8242A6718004999AD /* Todo+Schema.swift */; };
 		39A58007242A6718004999AD /* Membership.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A57FF9242A6718004999AD /* Membership.swift */; };
 		39A58008242A6718004999AD /* Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A57FFA242A6718004999AD /* Role.swift */; };
@@ -78,6 +80,8 @@
 		39759C9B240D6E1500C1C87B /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		39759C9D240D865400C1C87B /* LoggedInState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInState.swift; sourceTree = "<group>"; };
 		39759C9F240D867200C1C87B /* AuthUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUtils.swift; sourceTree = "<group>"; };
+		398236F52447548900ED7148 /* UserHeaderSmall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHeaderSmall.swift; sourceTree = "<group>"; };
+		398236F72447684700ED7148 /* BigButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigButtonStyle.swift; sourceTree = "<group>"; };
 		39A57FF8242A6718004999AD /* Todo+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Todo+Schema.swift"; sourceTree = "<group>"; };
 		39A57FF9242A6718004999AD /* Membership.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Membership.swift; sourceTree = "<group>"; };
 		39A57FFA242A6718004999AD /* Role.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Role.swift; sourceTree = "<group>"; };
@@ -241,6 +245,8 @@
 				3946F689242D3018005AC547 /* RaterSelect.swift */,
 				3946F68B242D302A005AC547 /* ProgramSelect.swift */,
 				393DE74D24462BA900EE97B4 /* PerformanceEvaluation.swift */,
+				398236F52447548900ED7148 /* UserHeaderSmall.swift */,
+				398236F72447684700ED7148 /* BigButtonStyle.swift */,
 			);
 			path = Evaluate;
 			sourceTree = "<group>";
@@ -417,6 +423,7 @@
 				3946F688242D2A55005AC547 /* ProcedureSelectRow.swift in Sources */,
 				39A58013242A6718004999AD /* Procedure.swift in Sources */,
 				393DE74E24462BA900EE97B4 /* PerformanceEvaluation.swift in Sources */,
+				398236F82447684700ED7148 /* BigButtonStyle.swift in Sources */,
 				39B6541724095F6100EEA4A2 /* VerifyView.swift in Sources */,
 				393DE74C2446068700EE97B4 /* RaterSelectRow.swift in Sources */,
 				39A58012242A6718004999AD /* Procedure+Schema.swift in Sources */,
@@ -427,6 +434,7 @@
 				39A58011242A6718004999AD /* Organization+Schema.swift in Sources */,
 				39A58009242A6718004999AD /* User+Schema.swift in Sources */,
 				39759C9E240D865400C1C87B /* LoggedInState.swift in Sources */,
+				398236F62447548900ED7148 /* UserHeaderSmall.swift in Sources */,
 				39B6541B2409632F00EEA4A2 /* SettingsView.swift in Sources */,
 				39A5800D242A6718004999AD /* Organization.swift in Sources */,
 				39A5800C242A6718004999AD /* Membership+Schema.swift in Sources */,
