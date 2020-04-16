@@ -8,31 +8,31 @@
 
 import SwiftUI
 
-struct InstrumentItem<T:Hashable> : Hashable, Identifiable {
+struct AnswerOption<T:Hashable> : Hashable, Identifiable {
     let id: Int
     let displayText : String
     let description: String
     let assocValue : T
 }
 
-struct Instrument<T:Hashable> {
-    let items: [InstrumentItem<T>]
-    let instrumentTitle: String
-    let usageDescription: String
+struct Question<T:Hashable> {
+    let answerOptions: [AnswerOption<T>]
+    let title: String
+    let questionText: String
 }
 
-let instrumentItems = [
-    InstrumentItem<Int>(id: 1, displayText: "Unprepared / Critical Deficiency", description: "Poorly prepared to perform this procedure and/or included critical performance errors that endangered the safety of the patient or the outcome of the procedure", assocValue: 1),
-    InstrumentItem<Int>(id: 2, displayText: "Inexperienced w/ Procedure", description: "Resident appears inexperienced in performing this procedure. Frequent problems regarding technique, execution, smoothness, efficiency and forward planning", assocValue: 2),
-    InstrumentItem<Int>(id: 3, displayText: "Intermediate Performance", description: "description", assocValue: 3),
-    InstrumentItem<Int>(id: 4, displayText: "Practice-Ready Performance", description: "description", assocValue: 4),
-    InstrumentItem<Int>(id: 5, displayText: "Exceptional Performance", description: "description", assocValue: 5)
+let answerOptions = [
+    AnswerOption<Int>(id: 1, displayText: "Unprepared / Critical Deficiency", description: "Poorly prepared to perform this procedure and/or included critical performance errors that endangered the safety of the patient or the outcome of the procedure", assocValue: 1),
+    AnswerOption<Int>(id: 2, displayText: "Inexperienced w/ Procedure", description: "Resident appears inexperienced in performing this procedure. Frequent problems regarding technique, execution, smoothness, efficiency and forward planning", assocValue: 2),
+    AnswerOption<Int>(id: 3, displayText: "Intermediate Performance", description: "description", assocValue: 3),
+    AnswerOption<Int>(id: 4, displayText: "Practice-Ready Performance", description: "description", assocValue: 4),
+    AnswerOption<Int>(id: 5, displayText: "Exceptional Performance", description: "description", assocValue: 5)
     ]
 
-let performanceInstrument =
-    Instrument(items: instrumentItems,
-               instrumentTitle: "Performance",
-               usageDescription: "What was this resident's performance for the majority of the critical portion of this procedure?")
+let performanceQuestion =
+    Question(answerOptions: answerOptions,
+               title: "Performance",
+               questionText: "What was this resident's performance for the majority of the critical portion of this procedure?")
 
 struct PerformanceEvaluation: View {
     
@@ -40,7 +40,7 @@ struct PerformanceEvaluation: View {
     @Binding var procedure: Procedure?
     
     func selectItem(index: Int) {
-        print("Selected index: \(index), item: \(performanceInstrument.items[index])")
+        print("Selected index: \(index), item: \(performanceQuestion.answerOptions[index])")
     }
     
     var body: some View {
@@ -50,7 +50,7 @@ struct PerformanceEvaluation: View {
                 
                 List {
                     HStack {
-                        Text(performanceInstrument.usageDescription).padding()
+                        Text(performanceQuestion.questionText).padding()
                         Image(systemName: "info.circle").padding().onTapGesture {
                             print("info item tapped")
                         }
@@ -58,12 +58,12 @@ struct PerformanceEvaluation: View {
                     
                     ProcedureSelectRow(selectedProcedure: $procedure)
                     
-                    ForEach(performanceInstrument.items.indices) {
+                    ForEach(performanceQuestion.answerOptions.indices) {
                         idx in
                         Button(action: {
                              self.selectItem(index: idx)
                          }) {
-                             Text(performanceInstrument.items[idx].displayText).frame(minWidth:0, maxWidth: .infinity)
+                             Text(performanceQuestion.answerOptions[idx].displayText).frame(minWidth:0, maxWidth: .infinity)
                         }.buttonStyle(BigButtonStyle())
                     }
                     
@@ -72,7 +72,7 @@ struct PerformanceEvaluation: View {
                 }.onDisappear {
                     UITableView.appearance().separatorStyle = .singleLine
                 }
-            }.navigationBarTitle("Select \(performanceInstrument.instrumentTitle)")
+            }.navigationBarTitle("Select \(performanceQuestion.title)")
         
     }
 }
