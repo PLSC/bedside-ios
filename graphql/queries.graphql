@@ -1,0 +1,219 @@
+# this is an auto generated file. This will be overwritten
+query GetOrganization($id: ID!) {
+  getOrganization(id: $id) {
+    id
+    title
+    description
+    programs {
+      items {
+        id
+        name
+        orgID
+        description
+      }
+      nextToken
+    }
+  }
+}
+query ListOrganizations(
+  $filter: ModelOrganizationFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listOrganizations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      title
+      description
+      programs {
+        nextToken
+      }
+    }
+    nextToken
+  }
+}
+query GetProgram($id: ID!) {
+  getProgram(id: $id) {
+    id
+    name
+    orgID
+    description
+    memberships {
+      items {
+        id
+        role
+        userId
+        programId
+      }
+      nextToken
+    }
+  }
+}
+query ListPrograms(
+  $filter: ModelProgramFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listPrograms(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      orgID
+      description
+      memberships {
+        nextToken
+      }
+    }
+    nextToken
+  }
+}
+query GetMembership($id: ID!) {
+  getMembership(id: $id) {
+    id
+    role
+    userId
+    user {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      memberships {
+        nextToken
+      }
+    }
+    programId
+    program {
+      id
+      name
+      orgID
+      description
+      memberships {
+        nextToken
+      }
+    }
+  }
+}
+query ListMemberships(
+  $filter: ModelMembershipFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listMemberships(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      role
+      userId
+      user {
+        id
+        userName
+        email
+        phone
+        firstName
+        lastName
+        npi
+      }
+      programId
+      program {
+        id
+        name
+        orgID
+        description
+      }
+    }
+    nextToken
+  }
+}
+query GetProcedure($id: ID!) {
+  getProcedure(id: $id) {
+    id
+    name
+    description
+  }
+}
+query ListProcedures(
+  $filter: ModelProcedureFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listProcedures(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      description
+    }
+    nextToken
+  }
+}
+query GetUser($id: ID!) {
+  getUser(id: $id) {
+    id
+    userName
+    email
+    phone
+    firstName
+    lastName
+    npi
+    memberships {
+      items {
+        id
+        role
+        userId
+        programId
+      }
+      nextToken
+    }
+  }
+}
+query ListUsers(
+  $filter: ModelUserFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      memberships {
+        nextToken
+      }
+    }
+    nextToken
+  }
+}
+query UsersByEmail(
+  $email: String
+  $sortDirection: ModelSortDirection
+  $filter: ModelUserFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  usersByEmail(
+    email: $email
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      memberships {
+        nextToken
+      }
+    }
+    nextToken
+  }
+}

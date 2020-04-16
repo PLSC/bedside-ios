@@ -12,7 +12,9 @@ struct UserBanner: View {
     var body: some View {
         ZStack(alignment: .center) {
             Rectangle()
+                .fill(Color.gray)
                 .frame(maxHeight:250)
+                
             Image("andy")
                 .resizable()
                 .aspectRatio(contentMode: .fit)

@@ -1,0 +1,313 @@
+# this is an auto generated file. This will be overwritten
+mutation CreateOrganization(
+  $input: CreateOrganizationInput!
+  $condition: ModelOrganizationConditionInput
+) {
+  createOrganization(input: $input, condition: $condition) {
+    id
+    title
+    description
+    programs {
+      items {
+        id
+        name
+        orgID
+        description
+      }
+      nextToken
+    }
+  }
+}
+mutation UpdateOrganization(
+  $input: UpdateOrganizationInput!
+  $condition: ModelOrganizationConditionInput
+) {
+  updateOrganization(input: $input, condition: $condition) {
+    id
+    title
+    description
+    programs {
+      items {
+        id
+        name
+        orgID
+        description
+      }
+      nextToken
+    }
+  }
+}
+mutation DeleteOrganization(
+  $input: DeleteOrganizationInput!
+  $condition: ModelOrganizationConditionInput
+) {
+  deleteOrganization(input: $input, condition: $condition) {
+    id
+    title
+    description
+    programs {
+      items {
+        id
+        name
+        orgID
+        description
+      }
+      nextToken
+    }
+  }
+}
+mutation CreateProgram(
+  $input: CreateProgramInput!
+  $condition: ModelProgramConditionInput
+) {
+  createProgram(input: $input, condition: $condition) {
+    id
+    name
+    orgID
+    description
+    memberships {
+      items {
+        id
+        role
+        userId
+        programId
+      }
+      nextToken
+    }
+  }
+}
+mutation UpdateProgram(
+  $input: UpdateProgramInput!
+  $condition: ModelProgramConditionInput
+) {
+  updateProgram(input: $input, condition: $condition) {
+    id
+    name
+    orgID
+    description
+    memberships {
+      items {
+        id
+        role
+        userId
+        programId
+      }
+      nextToken
+    }
+  }
+}
+mutation DeleteProgram(
+  $input: DeleteProgramInput!
+  $condition: ModelProgramConditionInput
+) {
+  deleteProgram(input: $input, condition: $condition) {
+    id
+    name
+    orgID
+    description
+    memberships {
+      items {
+        id
+        role
+        userId
+        programId
+      }
+      nextToken
+    }
+  }
+}
+mutation CreateMembership(
+  $input: CreateMembershipInput!
+  $condition: ModelMembershipConditionInput
+) {
+  createMembership(input: $input, condition: $condition) {
+    id
+    role
+    userId
+    user {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      memberships {
+        nextToken
+      }
+    }
+    programId
+    program {
+      id
+      name
+      orgID
+      description
+      memberships {
+        nextToken
+      }
+    }
+  }
+}
+mutation UpdateMembership(
+  $input: UpdateMembershipInput!
+  $condition: ModelMembershipConditionInput
+) {
+  updateMembership(input: $input, condition: $condition) {
+    id
+    role
+    userId
+    user {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      memberships {
+        nextToken
+      }
+    }
+    programId
+    program {
+      id
+      name
+      orgID
+      description
+      memberships {
+        nextToken
+      }
+    }
+  }
+}
+mutation DeleteMembership(
+  $input: DeleteMembershipInput!
+  $condition: ModelMembershipConditionInput
+) {
+  deleteMembership(input: $input, condition: $condition) {
+    id
+    role
+    userId
+    user {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      memberships {
+        nextToken
+      }
+    }
+    programId
+    program {
+      id
+      name
+      orgID
+      description
+      memberships {
+        nextToken
+      }
+    }
+  }
+}
+mutation CreateProcedure(
+  $input: CreateProcedureInput!
+  $condition: ModelProcedureConditionInput
+) {
+  createProcedure(input: $input, condition: $condition) {
+    id
+    name
+    description
+  }
+}
+mutation UpdateProcedure(
+  $input: UpdateProcedureInput!
+  $condition: ModelProcedureConditionInput
+) {
+  updateProcedure(input: $input, condition: $condition) {
+    id
+    name
+    description
+  }
+}
+mutation DeleteProcedure(
+  $input: DeleteProcedureInput!
+  $condition: ModelProcedureConditionInput
+) {
+  deleteProcedure(input: $input, condition: $condition) {
+    id
+    name
+    description
+  }
+}
+mutation CreateUser(
+  $input: CreateUserInput!
+  $condition: ModelUserConditionInput
+) {
+  createUser(input: $input, condition: $condition) {
+    id
+    userName
+    email
+    phone
+    firstName
+    lastName
+    npi
+    memberships {
+      items {
+        id
+        role
+        userId
+        programId
+      }
+      nextToken
+    }
+  }
+}
+mutation UpdateUser(
+  $input: UpdateUserInput!
+  $condition: ModelUserConditionInput
+) {
+  updateUser(input: $input, condition: $condition) {
+    id
+    userName
+    email
+    phone
+    firstName
+    lastName
+    npi
+    memberships {
+      items {
+        id
+        role
+        userId
+        programId
+      }
+      nextToken
+    }
+  }
+}
+mutation DeleteUser(
+  $input: DeleteUserInput!
+  $condition: ModelUserConditionInput
+) {
+  deleteUser(input: $input, condition: $condition) {
+    id
+    userName
+    email
+    phone
+    firstName
+    lastName
+    npi
+    memberships {
+      items {
+        id
+        role
+        userId
+        programId
+      }
+      nextToken
+    }
+  }
+}

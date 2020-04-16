@@ -10,28 +10,24 @@ import UIKit
 import AWSMobileClient
 import AmplifyPlugins
 import Amplify
+import AWSAppSync
+
+extension AWSMobileClient: AWSCognitoUserPoolsAuthProviderAsync {
+    public func getLatestAuthToken(_ callback: @escaping (String?, Error?) -> Void) {
+        getTokens { (tokens, error) in
+            if error != nil {
+                callback(nil, error)
+            } else {
+                callback(tokens?.idToken?.tokenString, nil)
+            }
+        }
+    }
+}
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    func apiMutate() {
-        let todo = Todo(name: "My New Todo", description: "Get GraphQL working from iOS App")
-        _ = Amplify.API.mutate(of: todo, type: .create) { (event) in
-            switch event {
-            case .completed(let result):
-                switch result {
-                case .success(let note):
-                    print("API Mutate successful, created note: \(note)")
-                case .failure(let error):
-                    print("Completed with error: \(error.errorDescription)")
-                }
-            case .failed(let error):
-                print("Failed with error \(error.errorDescription)")
-            default:
-                print("Unexpected event")
-            }
-        }
-    }
+    var appSyncClient: AWSAppSyncClient?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -40,9 +36,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         do {
             try Amplify.add(plugin: apiPlugin)
             try Amplify.configure()
+//            let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+//            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), cacheConfiguration: cacheConfiguration)
+//            appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
             print("Amplify initialized")
         } catch {
             print("Failed to configure Amplify \(error)")
+        }
+        
+        do {
+            let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), userPoolsAuthProvider: AWSMobileClient.default(), cacheConfiguration: cacheConfiguration)
+            appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+            print("Appsync configured")
+        } catch(let error) {
+            print("AppSync is a no-go: \(error)")
         }
     
         return true

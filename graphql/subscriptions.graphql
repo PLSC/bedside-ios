@@ -1,0 +1,268 @@
+# this is an auto generated file. This will be overwritten
+subscription OnCreateOrganization {
+  onCreateOrganization {
+    id
+    title
+    description
+    programs {
+      items {
+        id
+        name
+        orgID
+        description
+      }
+      nextToken
+    }
+  }
+}
+subscription OnUpdateOrganization {
+  onUpdateOrganization {
+    id
+    title
+    description
+    programs {
+      items {
+        id
+        name
+        orgID
+        description
+      }
+      nextToken
+    }
+  }
+}
+subscription OnDeleteOrganization {
+  onDeleteOrganization {
+    id
+    title
+    description
+    programs {
+      items {
+        id
+        name
+        orgID
+        description
+      }
+      nextToken
+    }
+  }
+}
+subscription OnCreateProgram {
+  onCreateProgram {
+    id
+    name
+    orgID
+    description
+    memberships {
+      items {
+        id
+        role
+        userId
+        programId
+      }
+      nextToken
+    }
+  }
+}
+subscription OnUpdateProgram {
+  onUpdateProgram {
+    id
+    name
+    orgID
+    description
+    memberships {
+      items {
+        id
+        role
+        userId
+        programId
+      }
+      nextToken
+    }
+  }
+}
+subscription OnDeleteProgram {
+  onDeleteProgram {
+    id
+    name
+    orgID
+    description
+    memberships {
+      items {
+        id
+        role
+        userId
+        programId
+      }
+      nextToken
+    }
+  }
+}
+subscription OnCreateMembership {
+  onCreateMembership {
+    id
+    role
+    userId
+    user {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      memberships {
+        nextToken
+      }
+    }
+    programId
+    program {
+      id
+      name
+      orgID
+      description
+      memberships {
+        nextToken
+      }
+    }
+  }
+}
+subscription OnUpdateMembership {
+  onUpdateMembership {
+    id
+    role
+    userId
+    user {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      memberships {
+        nextToken
+      }
+    }
+    programId
+    program {
+      id
+      name
+      orgID
+      description
+      memberships {
+        nextToken
+      }
+    }
+  }
+}
+subscription OnDeleteMembership {
+  onDeleteMembership {
+    id
+    role
+    userId
+    user {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      memberships {
+        nextToken
+      }
+    }
+    programId
+    program {
+      id
+      name
+      orgID
+      description
+      memberships {
+        nextToken
+      }
+    }
+  }
+}
+subscription OnCreateProcedure {
+  onCreateProcedure {
+    id
+    name
+    description
+  }
+}
+subscription OnUpdateProcedure {
+  onUpdateProcedure {
+    id
+    name
+    description
+  }
+}
+subscription OnDeleteProcedure {
+  onDeleteProcedure {
+    id
+    name
+    description
+  }
+}
+subscription OnCreateUser {
+  onCreateUser {
+    id
+    userName
+    email
+    phone
+    firstName
+    lastName
+    npi
+    memberships {
+      items {
+        id
+        role
+        userId
+        programId
+      }
+      nextToken
+    }
+  }
+}
+subscription OnUpdateUser {
+  onUpdateUser {
+    id
+    userName
+    email
+    phone
+    firstName
+    lastName
+    npi
+    memberships {
+      items {
+        id
+        role
+        userId
+        programId
+      }
+      nextToken
+    }
+  }
+}
+subscription OnDeleteUser {
+  onDeleteUser {
+    id
+    userName
+    email
+    phone
+    firstName
+    lastName
+    npi
+    memberships {
+      items {
+        id
+        role
+        userId
+        programId
+      }
+      nextToken
+    }
+  }
+}

@@ -1,0 +1,56 @@
+type Organization @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  title: String
+  description: String
+  programs: [Program] @connection(keyName: "byOrganization", fields: ["id"])
+}
+
+type Program
+  @model
+  @auth(rules: [{ allow: private }])
+  @key(name: "byOrganization", fields: ["orgID", "name"]) {
+  id: ID!
+  name: String!
+  orgID: ID!
+  description: String
+  memberships: [Membership] @connection(keyName: "byProgram", fields: ["id"])
+}
+
+# connection between users and programs
+type Membership
+  @model
+  @auth(rules: [{ allow: private }])
+  @key(name: "byProgram", fields: ["programId", "userId"])
+  @key(name: "byUser", fields: ["userId", "programId"]) {
+  id: ID!
+  role: Role!
+  userId: ID!
+  user: User! @connection(fields: ["userId"])
+  programId: ID!
+  program: Program! @connection(fields: ["programId"])
+}
+
+type Procedure @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type User
+  @model
+  @auth(rules: [{ allow: private }])
+  @key(name: "ByEmail", fields: ["email"], queryField: "usersByEmail") {
+  id: ID!
+  userName: String
+  email: String!
+  phone: String
+  firstName: String
+  lastName: String
+  npi: Int
+  memberships: [Membership] @connection(keyName: "byUser", fields: ["id"])
+}
+
+enum Role {
+  User
+  Admin
+}

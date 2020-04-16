@@ -8,6 +8,13 @@ PODS:
   - AmplifyPlugins/AWSDataStorePlugin (0.10.0):
     - AWSPluginsCore (= 0.10.0)
     - SQLite.swift (~> 0.12.0)
+  - AppSyncRealTimeClient (1.0.1):
+    - Starscream (~> 3.0.2)
+  - AWSAppSync (3.0.2):
+    - AppSyncRealTimeClient (~> 1.0.0)
+    - AWSCore (~> 2.12.0)
+    - ReachabilitySwift (~> 5.0.0)
+    - SQLite.swift (~> 0.12.2)
   - AWSAuthCore (2.12.7):
     - AWSCore (= 2.12.7)
   - AWSAuthUI (2.12.7):
@@ -38,6 +45,7 @@ DEPENDENCIES:
   - amplify-tools
   - AmplifyPlugins/AWSAPIPlugin
   - AmplifyPlugins/AWSDataStorePlugin
+  - AWSAppSync
   - AWSAuthUI
   - AWSMobileClient
   - AWSPluginsCore
@@ -48,6 +56,8 @@ SPEC REPOS:
     - Amplify
     - amplify-tools
     - AmplifyPlugins
+    - AppSyncRealTimeClient
+    - AWSAppSync
     - AWSAuthCore
     - AWSAuthUI
     - AWSCognitoIdentityProvider
@@ -64,6 +74,8 @@ SPEC CHECKSUMS:
   Amplify: 786ae0a91656086c74de41c8821a869095fa6a6d
   amplify-tools: 2304ea0782b61fdb15c7a1e6bf5e0410b02b4f46
   AmplifyPlugins: 5531c6c13242f40a8c057aad64cb3b915559b65e
+  AppSyncRealTimeClient: 63c44a04e7ce32e14f79836cc184cf800f71ac7a
+  AWSAppSync: 8fba81ebe3ec9423e35d4efd035cc01322cf3ebd
   AWSAuthCore: 288cb737a35ff031fbf42edaa8d0062328791d4e
   AWSAuthUI: 464fbab1841f8878e6370ec76581f9bea67e6252
   AWSCognitoIdentityProvider: 4998bdbfbafe5038dae0237a598580e102e7b6b5
@@ -76,6 +88,6 @@ SPEC CHECKSUMS:
   SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
 
-PODFILE CHECKSUM: 061deb54f2f9c01b350d0082c97664fee177e531
+PODFILE CHECKSUM: 257c9ed54b507f22f358bb2f7636880c929b4fc4
 
 COCOAPODS: 1.8.4

@@ -15,10 +15,5 @@ target 'bedside-ios' do
   pod 'AWSMobileClient'
   pod 'AWSAuthUI'
   pod 'AWSUserPoolsSignIn'
-
-  target 'bedside-iosTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
+  pod 'AWSAppSync'
 end

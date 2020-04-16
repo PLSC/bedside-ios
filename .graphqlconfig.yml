@@ -1,0 +1,18 @@
+projects:
+  bedside:
+    schemaPath: amplify/backend/api/bedside/build/schema.graphql
+    includes:
+      - graphql/**/*.graphql
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: swift
+        generatedFileName: API.swift
+        docsFilePath: graphql
+        region: us-east-1
+        apiId: null
+        maxDepth: 3
+extensions:
+  amplify:
+    version: 3

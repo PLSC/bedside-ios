@@ -8,6 +8,7 @@
 
 import Foundation
 import AWSMobileClient
+import Amplify
 
 enum SignInResult {
     case signedIn
@@ -47,6 +48,14 @@ class AuthUtils {
                 case .signedIn:
                     completion(.signedIn)
                     if let user = AWSMobileClient.default().username {
+                        AWSMobileClient.default().getUserAttributes { (attributes, error) in
+                            if let email = attributes?["email"] {
+                                //Lookup User object from graphql
+                                DispatchQueue.main.async {
+                                    self.fetchUserInfo(email: email)
+                                }
+                            }
+                        }
                         let loggedInMessage = "User is signed in: \(user)"
                         print(loggedInMessage)
                     }
@@ -59,6 +68,17 @@ class AuthUtils {
                 }
             }
         }
+    }
+    
+    func fetchUserInfo(email: String) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let appSyncClient = appDelegate.appSyncClient
+        appSyncClient?.fetch(query:  UsersByEmailQuery(email: email, limit: 1), cachePolicy: .returnCacheDataAndFetch) {
+            (result, error ) in
+            
+            result?.data?.usersByEmail?.items
+        }
+       
     }
     
     func confirmForgotPassword(username: String,

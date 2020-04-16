@@ -1,6 +1,0 @@
-framework module Pods_bedside_iosTests {
-  umbrella header "Pods-bedside-iosTests-umbrella.h"
-
-  export *
-  module * { export * }
-}

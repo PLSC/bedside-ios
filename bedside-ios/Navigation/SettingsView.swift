@@ -9,7 +9,14 @@
 import SwiftUI
 import AWSMobileClient
 
+class UserSettingsFormViewModel : ObservableObject {
+    @Published var firstName = ""
+    @Published var lastName = ""
+}
+
 struct SettingsView: View {
+    
+    @ObservedObject var viewModel = UserSettingsFormViewModel()
     
     let authUtil = AuthUtils()
         
@@ -18,7 +25,19 @@ struct SettingsView: View {
     }
     
     var body: some View {
-        VStack {
+        Form {
+            
+            Image("andy")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxHeight:150)
+                .clipShape(Circle())
+                .shadow(radius: 10)
+        
+            TextField("First Name", text: $viewModel.firstName)
+            
+            
+            
             Button(action: {self.signOut()}) {
                 Text("Sign Out")
             }

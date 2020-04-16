@@ -38,9 +38,11 @@ struct PerformanceEvaluation: View {
     
     @Binding var rater : User?
     @Binding var procedure: Procedure?
+    @State var presentReview = false
     
     func selectItem(index: Int) {
         print("Selected index: \(index), item: \(performanceQuestion.answerOptions[index])")
+        presentReview = true
     }
     
     var body: some View {
@@ -73,6 +75,9 @@ struct PerformanceEvaluation: View {
                     UITableView.appearance().separatorStyle = .singleLine
                 }
             }.navigationBarTitle("Select \(performanceQuestion.title)")
+                .sheet(isPresented: $presentReview) {
+                EvaluationReview()
+        }
         
     }
 }
