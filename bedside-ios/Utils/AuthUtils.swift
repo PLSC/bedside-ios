@@ -52,7 +52,7 @@ class AuthUtils {
                             if let email = attributes?["email"] {
                                 //Lookup User object from graphql
                                 DispatchQueue.main.async {
-                                    self.fetchUserInfo(email: email)
+                                    self.fetchUserInfo(email: email, callback: {_ in })
                                 }
                             }
                         }
@@ -70,15 +70,37 @@ class AuthUtils {
         }
     }
     
-    func fetchUserInfo(email: String) {
+    func fetchUserInfo(callback: @escaping (UsersByEmailQuery.Data.UsersByEmail.Item)->()) {
+        //get logged in user email
+        AWSMobileClient.default().getUserAttributes { (attributes, error) in
+            if let email = attributes?["email"] {
+                self.fetchUserInfo(email: email, callback: callback)
+            }
+        }
+    }
+    
+    func fetchUserInfo(email: String, callback: @escaping (UsersByEmailQuery.Data.UsersByEmail.Item)->()) {
+        DispatchQueue.main.async {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let appSyncClient = appDelegate.appSyncClient
+            appSyncClient?.fetch(query:  UsersByEmailQuery(email: email, limit: 1), cachePolicy: .returnCacheDataAndFetch) {
+                (result, error ) in
+                
+                if let userItem = result?.data?.usersByEmail?.items?.compactMap({ $0 }).first {
+                    callback(userItem)
+                }
+            }
+        }
+    }
+    
+    func updateUser(updateUserInput: UpdateUserInput) {
+        let mutation = UpdateUserMutation(input: updateUserInput)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
-        appSyncClient?.fetch(query:  UsersByEmailQuery(email: email, limit: 1), cachePolicy: .returnCacheDataAndFetch) {
-            (result, error ) in
-            
-            result?.data?.usersByEmail?.items
-        }
-       
+        appSyncClient?.perform(mutation: mutation, resultHandler: { (data, error) in
+            print(data)
+            print(error)
+        })
     }
     
     func confirmForgotPassword(username: String,
