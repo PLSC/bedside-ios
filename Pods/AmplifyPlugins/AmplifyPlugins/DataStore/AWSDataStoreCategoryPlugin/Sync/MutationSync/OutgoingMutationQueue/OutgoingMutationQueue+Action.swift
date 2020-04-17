@@ -1,5 +1,5 @@
 //
-// Copyright 2018-2019 Amazon.com,
+// Copyright 2018-2020 Amazon.com,
 // Inc. or its affiliates. All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -21,6 +21,7 @@ extension OutgoingMutationQueue {
         // Event loop
         case enqueuedEvent
         case processedEvent
+        case resumedSyncingToCloud
 
         // Terminal actions
         case receivedCancel
@@ -36,6 +37,8 @@ extension OutgoingMutationQueue {
                 return "initialized"
             case .processedEvent:
                 return "processedEvent"
+            case .resumedSyncingToCloud:
+                return "resumedSyncingToCloud"
             case .receivedCancel:
                 return "receivedCancel"
             case .receivedStart:

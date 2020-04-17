@@ -28,31 +28,47 @@ extension AWSMobileClient: AWSCognitoUserPoolsAuthProviderAsync {
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var appSyncClient: AWSAppSyncClient?
+    
+    func initAmplify() {
+        let apiPlugin = AWSAPIPlugin(modelRegistration: AmplifyModels())
+        let storagePlugin = AWSS3StoragePlugin()
+        
+        do {
+              try Amplify.add(plugin: apiPlugin)
+              try Amplify.add(plugin: storagePlugin)
+              try Amplify.configure()
+              print("Amplify initialized")
+          } catch {
+              print("Failed to configure Amplify \(error)")
+          }
+    }
+    
+    func initAppSync() {
+        do {
+                   let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+                   let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), userPoolsAuthProvider: AWSMobileClient.default(), cacheConfiguration: cacheConfiguration)
+                   appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+                   print("Appsync configured")
+               } catch(let error) {
+                   print("AppSync is a no-go: \(error)")
+               }
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        let apiPlugin = AWSAPIPlugin(modelRegistration: AmplifyModels())
-        do {
-            try Amplify.add(plugin: apiPlugin)
-            try Amplify.configure()
-//            let cacheConfiguration = try AWSAppSyncCacheConfiguration()
-//            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), cacheConfiguration: cacheConfiguration)
-//            appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
-            print("Amplify initialized")
-        } catch {
-            print("Failed to configure Amplify \(error)")
-        }
+      
         
-        do {
-            let cacheConfiguration = try AWSAppSyncCacheConfiguration()
-            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), userPoolsAuthProvider: AWSMobileClient.default(), cacheConfiguration: cacheConfiguration)
-            appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
-            print("Appsync configured")
-        } catch(let error) {
-            print("AppSync is a no-go: \(error)")
+        AWSMobileClient.default().initialize { (userState, error) in
+            guard error == nil else {
+                print("Error initializing AWSMobileClient. Error: \(error!.localizedDescription)")
+                return
+            }
+            
+            self.initAmplify()
+            self.initAppSync()
         }
-    
+
         return true
     }
 

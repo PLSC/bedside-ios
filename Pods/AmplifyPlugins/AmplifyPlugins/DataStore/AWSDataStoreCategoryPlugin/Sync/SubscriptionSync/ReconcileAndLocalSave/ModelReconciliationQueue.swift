@@ -1,5 +1,5 @@
 //
-// Copyright 2018-2019 Amazon.com,
+// Copyright 2018-2020 Amazon.com,
 // Inc. or its affiliates. All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -7,6 +7,14 @@
 
 import Amplify
 import AWSPluginsCore
+import Combine
+
+enum ModelReconciliationQueueEvent {
+    case started
+    case paused
+    case connected(String)
+    case mutationEvent(MutationEvent)
+}
 
 @available(iOS 13.0, *)
 protocol ModelReconciliationQueue {
@@ -14,5 +22,5 @@ protocol ModelReconciliationQueue {
     func pause()
     func cancel()
     func enqueue(_ remoteModel: MutationSync<AnyModel>)
-
+    var publisher: AnyPublisher<ModelReconciliationQueueEvent, DataStoreError> { get }
 }

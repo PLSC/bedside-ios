@@ -1,5 +1,5 @@
 //
-// Copyright 2018-2019 Amazon.com,
+// Copyright 2018-2020 Amazon.com,
 // Inc. or its affiliates. All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -100,6 +100,10 @@ RESTOperation {
         let finalRequest = endpointConfig.interceptors.reduce(urlRequest) { (request, interceptor) -> URLRequest in
             do {
                 return try interceptor.intercept(request)
+            } catch let error as APIError {
+                dispatch(event: .failed(error))
+                cancel()
+                return request
             } catch {
                 dispatch(event: .failed(APIError.operationError("Failed to intercept request fully.",
                                                                 "Something wrong with the interceptor",
@@ -107,6 +111,11 @@ RESTOperation {
                 cancel()
                 return request
             }
+        }
+
+        if isCancelled {
+            finish()
+            return
         }
 
         // Begin network task

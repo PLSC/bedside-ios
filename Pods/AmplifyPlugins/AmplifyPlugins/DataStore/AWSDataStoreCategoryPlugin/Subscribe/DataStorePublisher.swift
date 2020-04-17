@@ -1,5 +1,5 @@
 //
-// Copyright 2018-2019 Amazon.com,
+// Copyright 2018-2020 Amazon.com,
 // Inc. or its affiliates. All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -22,5 +22,13 @@ struct DataStorePublisher: DataStoreSubscribeBehavior {
 
     func send(input: MutationEvent) {
         subject.send(input)
+    }
+
+    func send(dataStoreError: DataStoreError) {
+        subject.send(completion: .failure(dataStoreError))
+    }
+
+    func sendFinished() {
+        subject.send(completion: .finished)
     }
 }

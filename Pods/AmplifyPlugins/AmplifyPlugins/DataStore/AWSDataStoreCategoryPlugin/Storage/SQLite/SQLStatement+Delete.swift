@@ -1,5 +1,5 @@
 //
-// Copyright 2018-2019 Amazon.com,
+// Copyright 2018-2020 Amazon.com,
 // Inc. or its affiliates. All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -14,6 +14,7 @@ struct DeleteStatement: SQLStatement {
 
     let modelType: Model.Type
     let conditionStatement: ConditionStatement?
+    let namespace = "root"
 
     init(modelType: Model.Type, predicate: QueryPredicate? = nil) {
         self.modelType = modelType
@@ -21,7 +22,8 @@ struct DeleteStatement: SQLStatement {
         var conditionStatement: ConditionStatement?
         if let predicate = predicate {
             let statement = ConditionStatement(modelType: modelType,
-                                               predicate: predicate)
+                                               predicate: predicate,
+                                               namespace: namespace[...])
             conditionStatement = statement
         }
         self.conditionStatement = conditionStatement
@@ -38,7 +40,7 @@ struct DeleteStatement: SQLStatement {
     var stringValue: String {
         let schema = modelType.schema
         let sql = """
-        delete from \(schema.name) as root
+        delete from \(schema.name) as \(namespace)
         """
 
         if let conditionStatement = conditionStatement {

@@ -1,5 +1,5 @@
 //
-// Copyright 2018-2019 Amazon.com,
+// Copyright 2018-2020 Amazon.com,
 // Inc. or its affiliates. All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -34,7 +34,7 @@ struct UserPoolURLRequestInterceptor: URLRequestInterceptor {
         let tokenResult = userPoolTokenProvider.getToken()
         guard case let .success(token) = tokenResult else {
             if case let .failure(error) = tokenResult {
-                throw APIError.operationError("Got error trying to get token", "", error)
+                throw APIError.operationError("Failed to retrieve Cognito UserPool token.", "", error)
             }
 
             return mutableRequest as URLRequest

@@ -8,6 +8,8 @@
 
 import SwiftUI
 import AWSMobileClient
+import Amplify
+import AWSS3
 
 class UserSettingsFormViewModel : ObservableObject {
     @Published var firstName = ""

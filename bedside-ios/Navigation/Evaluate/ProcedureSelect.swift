@@ -25,28 +25,21 @@ struct ProcedureSelect: View {
     //TODO: refactor into API module.
     func fetchProcedures() {
         
-        let _ = Amplify.API.query(from: Procedure.self, where: nil) { event in
-            switch event {
-            case .completed(let result):
-                switch result {
-                case .success(let procedures):
-                    self.procedures = procedures
-                default:
-                    //TODO: handle errors
-                    print("aww nuts")
+        let query = ListProceduresQuery()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let appSyncClient = appDelegate.appSyncClient
+        appSyncClient?.fetch(query: query) {
+            result, error in
+            if let procedureItems = result?.data?.listProcedures?.items {
+                self.procedures = procedureItems.compactMap {
+                    Procedure(id: ($0?.id)! , name: $0!.name, description: $0?.description)
                 }
-                
-            case .failed(let error):
-                print(error)
-            default:
-                print("unexepcted error")
-            
             }
         }
     }
     
     var body: some View {
-        return List(procedures) { procedure in
+        return List(procedures, id: \.id) { procedure in
             Button(action: { self.selectProcedure(procedure)}) {
                 Text("\(procedure.name)")
             }

@@ -63,6 +63,11 @@
 			"service": "Lambda",
 			"providerPlugin": "awscloudformation",
 			"build": true
+		},
+		"S3Trigger67e13850": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true
 		}
 	},
 	"api": {
@@ -101,6 +106,12 @@
 					}
 				}
 			}
+		}
+	},
+	"storage": {
+		"BedsideImagesBucket": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
 		}
 	}
 }

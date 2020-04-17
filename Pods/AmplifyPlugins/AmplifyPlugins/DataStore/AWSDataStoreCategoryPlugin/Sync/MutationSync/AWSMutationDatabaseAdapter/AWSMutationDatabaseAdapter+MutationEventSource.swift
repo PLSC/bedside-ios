@@ -1,5 +1,5 @@
 //
-// Copyright 2018-2019 Amazon.com,
+// Copyright 2018-2020 Amazon.com,
 // Inc. or its affiliates. All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -21,6 +21,7 @@ extension AWSMutationDatabaseAdapter: MutationEventSource {
         let fields = MutationEvent.keys
         let predicate = fields.inProcess == false || fields.inProcess == nil
 
+        // TODO remove this in favor of proper sorting/orderBy API
         let orderAndLimitClause = """
         ORDER BY \(MutationEvent.keys.createdAt.stringValue) ASC
         LIMIT 1
@@ -28,6 +29,7 @@ extension AWSMutationDatabaseAdapter: MutationEventSource {
 
         storageAdapter.query(MutationEvent.self,
                              predicate: predicate,
+                             paginationInput: nil,
                              additionalStatements: orderAndLimitClause) { result in
                                 switch result {
                                 case .failure(let dataStoreError):
@@ -50,7 +52,7 @@ extension AWSMutationDatabaseAdapter: MutationEventSource {
                        completion: @escaping DataStoreCallback<MutationEvent>) {
         var inProcessEvent = mutationEvent
         inProcessEvent.inProcess = true
-        storageAdapter.save(inProcessEvent, completion: completion)
+        storageAdapter.save(inProcessEvent, condition: nil, completion: completion)
     }
 
 }

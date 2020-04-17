@@ -1,6 +1,6 @@
 {
     "identityPoolName": "bedside18eb32eb_identitypool_18eb32eb",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "bedsid18eb32eb",
     "userPoolName": "bedside18eb32eb_userpool_18eb32eb",
     "autoVerifiedAttributes": [

@@ -1,5 +1,5 @@
 //
-// Copyright 2018-2019 Amazon.com,
+// Copyright 2018-2020 Amazon.com,
 // Inc. or its affiliates. All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -32,10 +32,10 @@ extension QueryOperator {
         }
     }
 
-    func columnFor(field: String) -> String {
+    func columnFor(field: String, namespace: Substring? = nil) -> String {
         var tokens = field.split(separator: ".")
-        if tokens.count == 1 {
-            tokens.insert("root", at: 0)
+        if tokens.count == 1, let namespace = namespace {
+            tokens.insert(namespace, at: 0)
         }
         return tokens
             .map { String($0).quoted() }

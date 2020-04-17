@@ -8,6 +8,8 @@
 
 import Foundation
 import AWSMobileClient
+import AmplifyPlugins
+import Amplify
 
 class LoggedInState: ObservableObject {
     
@@ -28,16 +30,21 @@ class LoggedInState: ObservableObject {
         }
     }
     
-    init() {
+    func initializeAWSMobileClient()  {
         AWSMobileClient.default().initialize { (userState, error) in
+            guard error == nil else {
+                print("Error initializing AWSMobileClient. Error: \(error!.localizedDescription)")
+                return
+            }
+            
             if let userState = userState {
                 self.setIsSignedIn(userState: userState)
                 self.userState = userState
-            } else if let error = error {
-                print("error: \(error.localizedDescription)")
             }
         }
-        
+    }
+    
+    func addUserStateListener()  {
         AWSMobileClient.default()
             .addUserStateListener(self) { (userState, info) in
                 print("userState change \(userState)")
@@ -45,5 +52,10 @@ class LoggedInState: ObservableObject {
                     self.setIsSignedIn(userState: userState)
                 }
         }
+    }
+    
+    init() {
+        initializeAWSMobileClient()
+        addUserStateListener()
     }
 }

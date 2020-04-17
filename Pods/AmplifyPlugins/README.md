@@ -36,11 +36,43 @@ Amplify requires Xcode 11 or higher to build.
 
 ### CocoaPods
 
-Coming soon, will be live by December 6. You can use manually in the mean time per instructions under Development Pods below.
+1. Amplify for iOS is available through [CocoaPods](http://cocoapods.org). If you have not installed CocoaPods, install CocoaPods by running the command:
+
+        $ gem install cocoapods
+        $ pod setup
+
+    Depending on your system settings, you may have to use `sudo` for installing `cocoapods` as follows:
+
+        $ sudo gem install cocoapods
+        $ pod setup
+2. In your project directory (the directory where your `*.xcodeproj` file is), type `pod init` and open the Podfile that was created. Add the `Amplify` pod and any plugins you would like to use. Below is an example of what a podfile might look like if you were going to use the Predictions plugin.
+
+        source 'https://github.com/CocoaPods/Specs.git'
+        
+        platform :ios, '13.0'
+        use_frameworks!
+        
+        target :'YourTarget' do
+            pod 'Amplify'
+            pod 'AmplifyPlugins'
+            pod 'AWSPluginsCore'
+            pod 'AWSPredictionsPlugin'
+            pod 'CoreMLPredictionsPlugin'
+            pod 'AWSMobileClient'
+        end
+        
+3. Then run the following command:
+    
+        $ pod install
+4. Open up `*.xcworkspace` with Xcode and start using Amplify.
+
+    ![image](readme-images/cocoapods-setup-02.png?raw=true)
+
+    **Note**: Do **NOT** use `*.xcodeproj`. If you open up a project file instead of a workspace, you will receive an error.
 
 ### Carthage
 
-Coming soon, will be live by December 6. You can use manually in the mean time per instructions under Development Pods below.
+Support for Carthage coming soon.
 
 ### Development Pods
 
@@ -60,3 +92,20 @@ pod install
 ```
 
 Open your project using ./YOUR-PROJECT-NAME.xcworkspace file. Remember to always use ./YOUR-PROJECT-NAME.xcworkspace to open your Xcode project from now on.
+
+## Reporting Bugs/Feature Requests
+
+We welcome you to use the GitHub issue tracker to report bugs or suggest features.
+
+When filing an issue, please check [existing open](https://github.com/aws-amplify/amplify-ios/issues), or [recently closed](https://github.com/aws-amplify/amplify-ios/issues?utf8=%E2%9C%93&q=is%3Aissue%20is%3Aclosed%20), issues to make sure somebody else hasn't already
+reported the issue. Please try to include as much information as you can. Details like these are incredibly useful:
+
+* Expected behavior and observed behavior
+* A reproducible test case or series of steps
+* The version of our code being used
+* Any modifications you've made relevant to the bug
+* Anything custom about your environment or deployment
+
+## Open Source Contributions
+
+We welcome any and all contributions from the community! Make sure you read through our contribution guide [here](./CONTRIBUTING.md) before submitting any PR's. Thanks! <3

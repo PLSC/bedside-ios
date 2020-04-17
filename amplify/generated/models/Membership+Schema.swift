@@ -19,11 +19,11 @@ extension Membership {
     
     model.pluralName = "Memberships"
     
-    model.fields(
-      .id(),
-      .field(membership.role, is: .required, ofType: .enum(Role.self)),
-      .belongsTo(membership.user, is: .required, ofType: User.self, targetName: "userId"),
-      .belongsTo(membership.program, is: .required, ofType: Program.self, targetName: "programId")
-    )
+//    model.fields(
+//      .id(),
+//      .field(membership.role, is: .required, ofType: .enum(type: Role.self)),
+//      .belongsTo(membership.user, is: .required, ofType: User.self, targetName: "userId"),
+//      .belongsTo(membership.program, is: .required, ofType: Program.self, targetName: "programId")
+//    )
     }
 }

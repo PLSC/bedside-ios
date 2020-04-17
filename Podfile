@@ -12,6 +12,8 @@ target 'bedside-ios' do
   pod 'AWSPluginsCore'
   pod 'AmplifyPlugins/AWSAPIPlugin'
   pod 'AmplifyPlugins/AWSDataStorePlugin'
+  pod 'AmplifyPlugins/AWSS3StoragePlugin'
+  pod 'AWSS3'
   pod 'AWSMobileClient'
   pod 'AWSAuthUI'
   pod 'AWSUserPoolsSignIn'

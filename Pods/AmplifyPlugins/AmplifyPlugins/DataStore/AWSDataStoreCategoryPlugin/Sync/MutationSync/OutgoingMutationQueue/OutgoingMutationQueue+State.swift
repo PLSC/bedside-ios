@@ -1,5 +1,5 @@
 //
-// Copyright 2018-2019 Amazon.com,
+// Copyright 2018-2020 Amazon.com,
 // Inc. or its affiliates. All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -21,6 +21,8 @@ extension OutgoingMutationQueue {
         // Event loop
         case requestingEvent
         case waitingForEventToProcess
+        case resumingMutationQueue
+        case resumed
 
         // Terminal states
         case finished
@@ -42,6 +44,10 @@ extension OutgoingMutationQueue {
                 return "starting"
             case .waitingForEventToProcess:
                 return "waitingForEventToProcess"
+            case .resumingMutationQueue:
+                return "resumingMutationQueue"
+            case .resumed:
+                return "resumed"
             }
         }
     }

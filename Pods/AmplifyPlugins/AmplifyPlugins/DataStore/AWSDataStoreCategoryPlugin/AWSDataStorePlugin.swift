@@ -1,11 +1,12 @@
 //
-// Copyright 2018-2019 Amazon.com,
+// Copyright 2018-2020 Amazon.com,
 // Inc. or its affiliates. All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Amplify
+import Combine
 
 final public class AWSDataStorePlugin: DataStoreCategoryPlugin {
 
@@ -15,12 +16,26 @@ final public class AWSDataStorePlugin: DataStoreCategoryPlugin {
     var isSyncEnabled: Bool
 
     /// The Publisher that sends mutation events to subscribers
-    let dataStorePublisher: DataStoreSubscribeBehavior?
+    var dataStorePublisher: DataStoreSubscribeBehavior?
 
     let modelRegistration: AmplifyModelRegistration
 
     /// The local storage provider. Resolved during configuration phase
     var storageEngine: StorageEngineBehavior!
+
+    var iStorageEngineSink: Any?
+    @available(iOS 13.0, *)
+    var storageEngineSink: AnyCancellable? {
+        get {
+            if let iStorageEngineSink = iStorageEngineSink as? AnyCancellable {
+                return iStorageEngineSink
+            }
+            return nil
+        }
+        set {
+            iStorageEngineSink = newValue
+        }
+    }
 
     /// No-argument init that uses defaults for all providers
     public init(modelRegistration: AmplifyModelRegistration) {
@@ -63,6 +78,33 @@ final public class AWSDataStorePlugin: DataStoreCategoryPlugin {
         }
     }
 
+    func reinitStorageEngineIfNeeded() {
+        if storageEngine != nil {
+            return
+        }
+        do {
+            if #available(iOS 13.0, *) {
+                self.dataStorePublisher = DataStorePublisher()
+            }
+            try resolveStorageEngine()
+            try storageEngine.setUp(models: ModelRegistry.models)
+            storageEngine.startSync()
+        } catch {
+            log.error(error: error)
+        }
+    }
+
+    func resolveStorageEngine() throws {
+        guard storageEngine == nil else {
+            return
+        }
+
+        storageEngine = try StorageEngine(isSyncEnabled: isSyncEnabled)
+        if #available(iOS 13.0, *) {
+            setupStorageSink()
+        }
+    }
+
     // MARK: Private
 
     private func resolveSyncEnabled() {
@@ -71,12 +113,36 @@ final public class AWSDataStorePlugin: DataStoreCategoryPlugin {
         }
     }
 
-    private func resolveStorageEngine() throws {
-        guard storageEngine == nil else {
+    @available(iOS 13.0, *)
+    private func setupStorageSink() {
+        storageEngineSink = storageEngine.publisher.sink(receiveCompletion: onReceiveCompletion(completed:),
+                                                         receiveValue: onRecieveValue(receiveValue:))
+    }
+
+    @available(iOS 13.0, *)
+    private func onReceiveCompletion(completed: Subscribers.Completion<DataStoreError>) {
+        guard let dataStorePublisher = self.dataStorePublisher as? DataStorePublisher else {
+            log.error("Data store publisher not initalized")
+            return
+        }
+        switch completed {
+        case .failure(let dataStoreError):
+            dataStorePublisher.send(dataStoreError: dataStoreError)
+        case .finished:
+            dataStorePublisher.sendFinished()
+        }
+    }
+
+    @available(iOS 13.0, *)
+    private func onRecieveValue(receiveValue: StorageEngineEvent) {
+        guard let dataStorePublisher = self.dataStorePublisher as? DataStorePublisher else {
+            log.error("Data store publisher not initalized")
             return
         }
 
-        storageEngine = try StorageEngine(isSyncEnabled: isSyncEnabled)
+        if case .mutationEvent(let mutationEvent) = receiveValue {
+            dataStorePublisher.send(input: mutationEvent)
+        }
     }
 
     public func reset(onComplete: @escaping (() -> Void)) {

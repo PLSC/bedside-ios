@@ -1,5 +1,5 @@
 //
-// Copyright 2018-2019 Amazon.com,
+// Copyright 2018-2020 Amazon.com,
 // Inc. or its affiliates. All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -22,7 +22,7 @@ extension Model {
             let name = field.graphQLName
             let value = self[field.name]
 
-            switch field.typeDefinition {
+            switch field.type {
             case .date, .dateTime:
                 if let date = value as? Date {
                     input[name] = date.iso8601String

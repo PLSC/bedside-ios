@@ -98,8 +98,7 @@ class AuthUtils {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
         appSyncClient?.perform(mutation: mutation, resultHandler: { (data, error) in
-            print(data)
-            print(error)
+            print("appsync update complete")
         })
     }
     

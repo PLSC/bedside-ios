@@ -1,5 +1,5 @@
 //
-// Copyright 2018-2019 Amazon.com,
+// Copyright 2018-2020 Amazon.com,
 // Inc. or its affiliates. All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -33,8 +33,9 @@ struct IAMURLRequestInterceptor: URLRequestInterceptor {
                                 forHTTPHeaderField: URLRequestConstants.Header.xAmzDate)
         mutableRequest.setValue(URLRequestConstants.ContentType.applicationJson,
                                 forHTTPHeaderField: URLRequestConstants.Header.contentType)
-        let serviceConfiguration = AmplifyAWSServiceConfiguration(region: region,
-                                                                  credentialsProvider: iamCredentialsProvider.getCredentialsProvider())
+        let serviceConfiguration = AmplifyAWSServiceConfiguration(
+            region: region,
+            credentialsProvider: iamCredentialsProvider.getCredentialsProvider())
         mutableRequest.setValue(serviceConfiguration.userAgent,
                                 forHTTPHeaderField: URLRequestConstants.Header.userAgent)
 
