@@ -27,9 +27,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
             let authUtil = LoggedInState()
             
-            let _ = contentView.environmentObject(authUtil)
+            let cv = contentView.environmentObject(authUtil)
             
-            window.rootViewController = UIHostingController(rootView: contentView)
+            window.rootViewController = UIHostingController(rootView: cv)
             self.window = window
             window.makeKeyAndVisible()
         }

@@ -24,9 +24,9 @@ struct Question<T:Hashable> {
 let answerOptions = [
     AnswerOption<Int>(id: 1, displayText: "Unprepared / Critical Deficiency", description: "Poorly prepared to perform this procedure and/or included critical performance errors that endangered the safety of the patient or the outcome of the procedure", assocValue: 1),
     AnswerOption<Int>(id: 2, displayText: "Inexperienced w/ Procedure", description: "Resident appears inexperienced in performing this procedure. Frequent problems regarding technique, execution, smoothness, efficiency and forward planning", assocValue: 2),
-    AnswerOption<Int>(id: 3, displayText: "Intermediate Performance", description: "description", assocValue: 3),
-    AnswerOption<Int>(id: 4, displayText: "Practice-Ready Performance", description: "description", assocValue: 4),
-    AnswerOption<Int>(id: 5, displayText: "Exceptional Performance", description: "description", assocValue: 5)
+    AnswerOption<Int>(id: 3, displayText: "Intermediate Performance", description: "Performance reflects an intermediate stage of development. Performance of procedural elements is variable but acceptable for the ammount of experience with this procedure. Not yet at the level expected for graduating residents.", assocValue: 3),
+    AnswerOption<Int>(id: 4, displayText: "Practice-Ready Performance", description: "Resident is ready to perform this operation safely, effectively and independently assuming resident consistently performs procedure in this manner.", assocValue: 4),
+    AnswerOption<Int>(id: 5, displayText: "Exceptional Performance", description: "One of the best performances I have ever seen. Above the level expected of graduating residents", assocValue: 5)
     ]
 
 let performanceQuestion =
@@ -39,6 +39,7 @@ struct PerformanceEvaluation: View {
     @Binding var rater : User?
     @Binding var procedure: Procedure?
     @State var presentReview = false
+    @State var showQuestionInfo = false
     
     func selectItem(index: Int) {
         print("Selected index: \(index), item: \(performanceQuestion.answerOptions[index])")
@@ -55,6 +56,7 @@ struct PerformanceEvaluation: View {
                         Text(performanceQuestion.questionText).padding()
                         Image(systemName: "info.circle").padding().onTapGesture {
                             print("info item tapped")
+                            self.showQuestionInfo = true
                         }
                     }
                     
@@ -77,7 +79,9 @@ struct PerformanceEvaluation: View {
             }.navigationBarTitle("Select \(performanceQuestion.title)")
                 .sheet(isPresented: $presentReview) {
                 EvaluationReview()
-        }
+            }.sheet(
+                isPresented: self.$showQuestionInfo
+            ) { AnswerOptionInfo(question: performanceQuestion) }
         
     }
 }
