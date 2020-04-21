@@ -67,7 +67,8 @@ struct PerformanceEvaluation: View {
                         Button(action: {
                              self.selectItem(index: idx)
                          }) {
-                             Text(performanceQuestion.answerOptions[idx].displayText).frame(minWidth:0, maxWidth: .infinity)
+                             Text(performanceQuestion.answerOptions[idx].displayText)
+                                .frame(minWidth:0, maxWidth: .infinity)
                         }.buttonStyle(BigButtonStyle())
                     }
                     
@@ -76,12 +77,12 @@ struct PerformanceEvaluation: View {
                 }.onDisappear {
                     UITableView.appearance().separatorStyle = .singleLine
                 }
-            }.navigationBarTitle("Select \(performanceQuestion.title)")
-                .sheet(isPresented: $presentReview) {
+            }
+            .navigationBarTitle("Select \(performanceQuestion.title)")
+            .sheet(isPresented: $presentReview) {
                 EvaluationReview()
-            }.sheet(
-                isPresented: self.$showQuestionInfo
-            ) { AnswerOptionInfo(question: performanceQuestion) }
+            }.sheet(isPresented: self.$showQuestionInfo) { AnswerOptionInfo(question: performanceQuestion)
+            }
         
     }
 }
