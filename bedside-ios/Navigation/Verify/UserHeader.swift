@@ -9,11 +9,14 @@
 import SwiftUI
 
 struct UserHeader: View {
+    
+    @EnvironmentObject var appState : ApplicationState
+    
     var body: some View {
         VStack {
             UserBanner()
             Group {
-                Text("Dr. Lenox has been deemed competent to perform the following procedures under ") + Text("Indirect Supervision").font(.headline)
+                Text("Dr. \(appState.currentUser?.lastName?.capitalized ?? "") has been deemed competent to perform the following procedures under ") + Text("Indirect Supervision").font(.headline)
             }.padding()
         }
     }

@@ -13,6 +13,15 @@ mutation CreateOrganization(
         name
         orgID
         description
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+          }
+          nextToken
+        }
       }
       nextToken
     }
@@ -32,6 +41,15 @@ mutation UpdateOrganization(
         name
         orgID
         description
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+          }
+          nextToken
+        }
       }
       nextToken
     }
@@ -51,6 +69,15 @@ mutation DeleteOrganization(
         name
         orgID
         description
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+          }
+          nextToken
+        }
       }
       nextToken
     }
@@ -70,7 +97,29 @@ mutation CreateProgram(
         id
         role
         userId
+        user {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
         programId
+        program {
+          id
+          name
+          orgID
+          description
+          memberships {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -90,7 +139,29 @@ mutation UpdateProgram(
         id
         role
         userId
+        user {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
         programId
+        program {
+          id
+          name
+          orgID
+          description
+          memberships {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -110,7 +181,29 @@ mutation DeleteProgram(
         id
         role
         userId
+        user {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
         programId
+        program {
+          id
+          name
+          orgID
+          description
+          memberships {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -132,7 +225,30 @@ mutation CreateMembership(
       firstName
       lastName
       npi
+      isRater
       memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
         nextToken
       }
     }
@@ -143,6 +259,28 @@ mutation CreateMembership(
       orgID
       description
       memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
         nextToken
       }
     }
@@ -164,7 +302,30 @@ mutation UpdateMembership(
       firstName
       lastName
       npi
+      isRater
       memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
         nextToken
       }
     }
@@ -175,6 +336,28 @@ mutation UpdateMembership(
       orgID
       description
       memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
         nextToken
       }
     }
@@ -196,7 +379,30 @@ mutation DeleteMembership(
       firstName
       lastName
       npi
+      isRater
       memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
         nextToken
       }
     }
@@ -207,6 +413,28 @@ mutation DeleteMembership(
       orgID
       description
       memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
         nextToken
       }
     }
@@ -254,12 +482,35 @@ mutation CreateUser(
     firstName
     lastName
     npi
+    isRater
     memberships {
       items {
         id
         role
         userId
+        user {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
         programId
+        program {
+          id
+          name
+          orgID
+          description
+          memberships {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -277,12 +528,35 @@ mutation UpdateUser(
     firstName
     lastName
     npi
+    isRater
     memberships {
       items {
         id
         role
         userId
+        user {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
         programId
+        program {
+          id
+          name
+          orgID
+          description
+          memberships {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -300,14 +574,301 @@ mutation DeleteUser(
     firstName
     lastName
     npi
+    isRater
     memberships {
       items {
         id
         role
         userId
+        user {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
         programId
+        program {
+          id
+          name
+          orgID
+          description
+          memberships {
+            nextToken
+          }
+        }
       }
       nextToken
     }
+  }
+}
+mutation CreateEvaluation(
+  $input: CreateEvaluationInput!
+  $condition: ModelEvaluationConditionInput
+) {
+  createEvaluation(input: $input, condition: $condition) {
+    id
+    subject {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      isRater
+      memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
+        nextToken
+      }
+    }
+    subjectId
+    rater {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      isRater
+      memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
+        nextToken
+      }
+    }
+    raterId
+    procedure {
+      id
+      name
+      description
+    }
+    procedureId
+    evauluationDate
+    ratingLevel
+  }
+}
+mutation UpdateEvaluation(
+  $input: UpdateEvaluationInput!
+  $condition: ModelEvaluationConditionInput
+) {
+  updateEvaluation(input: $input, condition: $condition) {
+    id
+    subject {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      isRater
+      memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
+        nextToken
+      }
+    }
+    subjectId
+    rater {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      isRater
+      memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
+        nextToken
+      }
+    }
+    raterId
+    procedure {
+      id
+      name
+      description
+    }
+    procedureId
+    evauluationDate
+    ratingLevel
+  }
+}
+mutation DeleteEvaluation(
+  $input: DeleteEvaluationInput!
+  $condition: ModelEvaluationConditionInput
+) {
+  deleteEvaluation(input: $input, condition: $condition) {
+    id
+    subject {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      isRater
+      memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
+        nextToken
+      }
+    }
+    subjectId
+    rater {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      isRater
+      memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
+        nextToken
+      }
+    }
+    raterId
+    procedure {
+      id
+      name
+      description
+    }
+    procedureId
+    evauluationDate
+    ratingLevel
   }
 }

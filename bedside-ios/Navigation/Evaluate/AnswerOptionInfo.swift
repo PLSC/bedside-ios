@@ -12,6 +12,8 @@ struct AnswerOptionInfo<T:Hashable>: View {
     
     var question : Question<T>
     
+    @Environment(\.presentationMode) var presentationMode
+    
     var body: some View {
         NavigationView {
             List {
@@ -21,7 +23,14 @@ struct AnswerOptionInfo<T:Hashable>: View {
                         Text(option.displayText).bold() + Text(" - ") + Text(option.description)
                     }.padding()
                 }
-            }.navigationBarTitle(question.title)
+            }
+            .navigationBarTitle(question.title)
+            .navigationBarItems(trailing:
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                   Image(systemName: "xmark")
+                })
         }
     }
 }

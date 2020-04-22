@@ -10,6 +10,15 @@ query GetOrganization($id: ID!) {
         name
         orgID
         description
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+          }
+          nextToken
+        }
       }
       nextToken
     }
@@ -26,6 +35,15 @@ query ListOrganizations(
       title
       description
       programs {
+        items {
+          id
+          name
+          orgID
+          description
+          memberships {
+            nextToken
+          }
+        }
         nextToken
       }
     }
@@ -43,7 +61,29 @@ query GetProgram($id: ID!) {
         id
         role
         userId
+        user {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
         programId
+        program {
+          id
+          name
+          orgID
+          description
+          memberships {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -61,6 +101,28 @@ query ListPrograms(
       orgID
       description
       memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
         nextToken
       }
     }
@@ -80,7 +142,30 @@ query GetMembership($id: ID!) {
       firstName
       lastName
       npi
+      isRater
       memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
         nextToken
       }
     }
@@ -91,6 +176,28 @@ query GetMembership($id: ID!) {
       orgID
       description
       memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
         nextToken
       }
     }
@@ -114,6 +221,16 @@ query ListMemberships(
         firstName
         lastName
         npi
+        isRater
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+          }
+          nextToken
+        }
       }
       programId
       program {
@@ -121,6 +238,15 @@ query ListMemberships(
         name
         orgID
         description
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+          }
+          nextToken
+        }
       }
     }
     nextToken
@@ -156,12 +282,35 @@ query GetUser($id: ID!) {
     firstName
     lastName
     npi
+    isRater
     memberships {
       items {
         id
         role
         userId
+        user {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
         programId
+        program {
+          id
+          name
+          orgID
+          description
+          memberships {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -181,9 +330,177 @@ query ListUsers(
       firstName
       lastName
       npi
+      isRater
       memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
         nextToken
       }
+    }
+    nextToken
+  }
+}
+query GetEvaluation($id: ID!) {
+  getEvaluation(id: $id) {
+    id
+    subject {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      isRater
+      memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
+        nextToken
+      }
+    }
+    subjectId
+    rater {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      isRater
+      memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
+        nextToken
+      }
+    }
+    raterId
+    procedure {
+      id
+      name
+      description
+    }
+    procedureId
+    evauluationDate
+    ratingLevel
+  }
+}
+query ListEvaluations(
+  $filter: ModelEvaluationFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listEvaluations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      subject {
+        id
+        userName
+        email
+        phone
+        firstName
+        lastName
+        npi
+        isRater
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+          }
+          nextToken
+        }
+      }
+      subjectId
+      rater {
+        id
+        userName
+        email
+        phone
+        firstName
+        lastName
+        npi
+        isRater
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+          }
+          nextToken
+        }
+      }
+      raterId
+      procedure {
+        id
+        name
+        description
+      }
+      procedureId
+      evauluationDate
+      ratingLevel
     }
     nextToken
   }
@@ -210,7 +527,30 @@ query UsersByEmail(
       firstName
       lastName
       npi
+      isRater
       memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
         nextToken
       }
     }

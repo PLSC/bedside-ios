@@ -10,6 +10,15 @@ subscription OnCreateOrganization {
         name
         orgID
         description
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+          }
+          nextToken
+        }
       }
       nextToken
     }
@@ -26,6 +35,15 @@ subscription OnUpdateOrganization {
         name
         orgID
         description
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+          }
+          nextToken
+        }
       }
       nextToken
     }
@@ -42,6 +60,15 @@ subscription OnDeleteOrganization {
         name
         orgID
         description
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+          }
+          nextToken
+        }
       }
       nextToken
     }
@@ -58,7 +85,29 @@ subscription OnCreateProgram {
         id
         role
         userId
+        user {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
         programId
+        program {
+          id
+          name
+          orgID
+          description
+          memberships {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -75,7 +124,29 @@ subscription OnUpdateProgram {
         id
         role
         userId
+        user {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
         programId
+        program {
+          id
+          name
+          orgID
+          description
+          memberships {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -92,7 +163,29 @@ subscription OnDeleteProgram {
         id
         role
         userId
+        user {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
         programId
+        program {
+          id
+          name
+          orgID
+          description
+          memberships {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -111,7 +204,30 @@ subscription OnCreateMembership {
       firstName
       lastName
       npi
+      isRater
       memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
         nextToken
       }
     }
@@ -122,6 +238,28 @@ subscription OnCreateMembership {
       orgID
       description
       memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
         nextToken
       }
     }
@@ -140,7 +278,30 @@ subscription OnUpdateMembership {
       firstName
       lastName
       npi
+      isRater
       memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
         nextToken
       }
     }
@@ -151,6 +312,28 @@ subscription OnUpdateMembership {
       orgID
       description
       memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
         nextToken
       }
     }
@@ -169,7 +352,30 @@ subscription OnDeleteMembership {
       firstName
       lastName
       npi
+      isRater
       memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
         nextToken
       }
     }
@@ -180,6 +386,28 @@ subscription OnDeleteMembership {
       orgID
       description
       memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
         nextToken
       }
     }
@@ -215,12 +443,35 @@ subscription OnCreateUser {
     firstName
     lastName
     npi
+    isRater
     memberships {
       items {
         id
         role
         userId
+        user {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
         programId
+        program {
+          id
+          name
+          orgID
+          description
+          memberships {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -235,12 +486,35 @@ subscription OnUpdateUser {
     firstName
     lastName
     npi
+    isRater
     memberships {
       items {
         id
         role
         userId
+        user {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
         programId
+        program {
+          id
+          name
+          orgID
+          description
+          memberships {
+            nextToken
+          }
+        }
       }
       nextToken
     }
@@ -255,14 +529,292 @@ subscription OnDeleteUser {
     firstName
     lastName
     npi
+    isRater
     memberships {
       items {
         id
         role
         userId
+        user {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
         programId
+        program {
+          id
+          name
+          orgID
+          description
+          memberships {
+            nextToken
+          }
+        }
       }
       nextToken
     }
+  }
+}
+subscription OnCreateEvaluation {
+  onCreateEvaluation {
+    id
+    subject {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      isRater
+      memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
+        nextToken
+      }
+    }
+    subjectId
+    rater {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      isRater
+      memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
+        nextToken
+      }
+    }
+    raterId
+    procedure {
+      id
+      name
+      description
+    }
+    procedureId
+    evauluationDate
+    ratingLevel
+  }
+}
+subscription OnUpdateEvaluation {
+  onUpdateEvaluation {
+    id
+    subject {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      isRater
+      memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
+        nextToken
+      }
+    }
+    subjectId
+    rater {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      isRater
+      memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
+        nextToken
+      }
+    }
+    raterId
+    procedure {
+      id
+      name
+      description
+    }
+    procedureId
+    evauluationDate
+    ratingLevel
+  }
+}
+subscription OnDeleteEvaluation {
+  onDeleteEvaluation {
+    id
+    subject {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      isRater
+      memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
+        nextToken
+      }
+    }
+    subjectId
+    rater {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      isRater
+      memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
+        nextToken
+      }
+    }
+    raterId
+    procedure {
+      id
+      name
+      description
+    }
+    procedureId
+    evauluationDate
+    ratingLevel
   }
 }

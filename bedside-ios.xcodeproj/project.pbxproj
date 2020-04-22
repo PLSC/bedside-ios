@@ -44,6 +44,7 @@
 		3982375B2448CECB00ED7148 /* User+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3982374F2448CECB00ED7148 /* User+Schema.swift */; };
 		3982375C2448CECB00ED7148 /* Organization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398237502448CECB00ED7148 /* Organization.swift */; };
 		3982375D2448CECB00ED7148 /* Membership.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398237512448CECB00ED7148 /* Membership.swift */; };
+		39883F62244F746500ACE76F /* ApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39883F61244F746500ACE76F /* ApplicationState.swift */; };
 		39A58015242A6C1A004999AD /* EmailCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A58014242A6C1A004999AD /* EmailCodeView.swift */; };
 		39B43BC52449FB3300667651 /* AnswerOptionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B43BC42449FB3300667651 /* AnswerOptionInfo.swift */; };
 		39B6541724095F6100EEA4A2 /* VerifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B6541624095F6100EEA4A2 /* VerifyView.swift */; };
@@ -97,6 +98,7 @@
 		3982374F2448CECB00ED7148 /* User+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "User+Schema.swift"; path = "amplify/generated/models/User+Schema.swift"; sourceTree = SOURCE_ROOT; };
 		398237502448CECB00ED7148 /* Organization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Organization.swift; path = amplify/generated/models/Organization.swift; sourceTree = SOURCE_ROOT; };
 		398237512448CECB00ED7148 /* Membership.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Membership.swift; path = amplify/generated/models/Membership.swift; sourceTree = SOURCE_ROOT; };
+		39883F61244F746500ACE76F /* ApplicationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationState.swift; sourceTree = "<group>"; };
 		39A58014242A6C1A004999AD /* EmailCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailCodeView.swift; sourceTree = "<group>"; };
 		39B43BC42449FB3300667651 /* AnswerOptionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerOptionInfo.swift; sourceTree = "<group>"; };
 		39B6541624095F6100EEA4A2 /* VerifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyView.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 			children = (
 				39759C9D240D865400C1C87B /* LoggedInState.swift */,
 				39759C9F240D867200C1C87B /* AuthUtils.swift */,
+				39883F61244F746500ACE76F /* ApplicationState.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 				3946F68A242D3018005AC547 /* RaterSelect.swift in Sources */,
 				398237582448CECB00ED7148 /* AmplifyModels.swift in Sources */,
 				3982375D2448CECB00ED7148 /* Membership.swift in Sources */,
+				39883F62244F746500ACE76F /* ApplicationState.swift in Sources */,
 				3982375A2448CECB00ED7148 /* Procedure+Schema.swift in Sources */,
 				3960372E242CD634006B216E /* ProcedureSelect.swift in Sources */,
 				39BFFF7C2409BC7300F3769D /* ProcedureDetailView.swift in Sources */,

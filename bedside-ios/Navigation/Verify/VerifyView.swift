@@ -9,12 +9,16 @@
 import SwiftUI
 
 struct VerifyView: View {
+    
+    @EnvironmentObject var appState : ApplicationState
+    
     var body: some View {
         NavigationView {
             VStack {
                 UserHeader()
                 ProcedureListView()
-            }.navigationBarTitle(Text("Dr. Lenox"))
+            }
+            .navigationBarTitle(Text("Dr. \(appState.currentUser?.lastName ?? "")"))
         }
     }
 }

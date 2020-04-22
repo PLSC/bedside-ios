@@ -88,6 +88,12 @@ class AuthUtils {
                 
                 if let userItem = result?.data?.usersByEmail?.items?.compactMap({ $0 }).first {
                     callback(userItem)
+                    if let orgId = userItem.memberships?.items?[0]?.program.orgId {
+                        appSyncClient?.fetch(query: GetOrganizationQuery(id: orgId), cachePolicy: .returnCacheDataAndFetch) {
+                            (result, error) in
+                            print(result)
+                        }
+                    }
                 }
             }
         }

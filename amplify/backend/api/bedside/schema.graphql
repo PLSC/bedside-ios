@@ -47,7 +47,20 @@ type User
   firstName: String
   lastName: String
   npi: Int
+  isRater: Boolean
   memberships: [Membership] @connection(keyName: "byUser", fields: ["id"])
+}
+
+type Evaluation @model {
+  id: ID!
+  subject: User! @connection(fields: ["subjectId"])
+  subjectId: ID!
+  rater: User! @connection(fields: ["raterId"])
+  raterId: ID!
+  procedure: Procedure @connection(fields: ["procedureId"])
+  procedureId: ID!
+  evauluationDate: AWSDateTime!
+  ratingLevel: Int
 }
 
 enum Role {
