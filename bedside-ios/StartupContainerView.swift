@@ -10,7 +10,7 @@ import SwiftUI
 
 struct StartupContainerView: View {
     
-    @EnvironmentObject var authUtil : LoggedInState
+    @EnvironmentObject var authUtil : UserLoginState
     
     @ViewBuilder
     var body: some View {
@@ -26,9 +26,9 @@ struct StartupContainerView_Previews: PreviewProvider {
     
     static var previews: some View {
         
-        let loggedIn = LoggedInState()
+        let loggedIn = UserLoginState()
         loggedIn.isSignedIn = true
-        let loggedOut = LoggedInState()
+        let loggedOut = UserLoginState()
         loggedOut.isSignedIn = false
         
         return Group {

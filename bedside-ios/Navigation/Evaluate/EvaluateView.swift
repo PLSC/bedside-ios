@@ -12,10 +12,13 @@ struct EvaluateView: View {
     
     @State var selectedProcedure : Procedure?
     @State var selectedRater : User?
+    @State var procedureDate: Date = Date()
+    
+    
     @State var presentProcedures: Bool = false
     @State var presentRaterSelect: Bool = false
-    @State var procedureDate: Date = Date()
     @State var presentPerformanceEvaluation: Bool = false
+    @State var presentEvalOverview: Bool = false
     
     func procedureIsValid() -> Bool {
         return selectedProcedure != nil
@@ -76,12 +79,9 @@ struct EvaluateView: View {
                             Spacer(minLength: 35)
                         }
                     }.disabled(submitDisabled())
-                    
-                    
-                
                 }
-                
-            }.navigationBarTitle("New Evaluation")
+            }
+            .navigationBarTitle("New Evaluation")
         }
     }
 }

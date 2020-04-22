@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct UserHeaderSmall: View {
-    @EnvironmentObject var appState : ApplicationState
+    @EnvironmentObject var userLoginState : UserLoginState
     
     var body: some View {
         HStack{
@@ -21,7 +21,7 @@ struct UserHeaderSmall: View {
                 .shadow(radius: 10)
             Spacer()
             VStack {
-                Text("Dr. \(appState.currentUser?.firstName?.capitalized ?? "") \(appState.currentUser?.lastName?.capitalized ?? "")")
+                Text("Dr. \(userLoginState.currentUser?.firstName?.capitalized ?? "") \(userLoginState.currentUser?.lastName?.capitalized ?? "")")
                 Text("Surgical Trainee, U of M")
             }
         }

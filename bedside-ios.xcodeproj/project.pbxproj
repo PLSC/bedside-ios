@@ -26,7 +26,7 @@
 		3960372C242CD489006B216E /* UserBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3960372B242CD489006B216E /* UserBanner.swift */; };
 		3960372E242CD634006B216E /* ProcedureSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3960372D242CD634006B216E /* ProcedureSelect.swift */; };
 		39759C9C240D6E1500C1C87B /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39759C9B240D6E1500C1C87B /* ForgotPasswordView.swift */; };
-		39759C9E240D865400C1C87B /* LoggedInState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39759C9D240D865400C1C87B /* LoggedInState.swift */; };
+		39759C9E240D865400C1C87B /* UserLoginState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39759C9D240D865400C1C87B /* UserLoginState.swift */; };
 		39759CA0240D867200C1C87B /* AuthUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39759C9F240D867200C1C87B /* AuthUtils.swift */; };
 		398236F62447548900ED7148 /* UserHeaderSmall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398236F52447548900ED7148 /* UserHeaderSmall.swift */; };
 		398236F82447684700ED7148 /* BigButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398236F72447684700ED7148 /* BigButtonStyle.swift */; };
@@ -80,7 +80,7 @@
 		3960372B242CD489006B216E /* UserBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBanner.swift; sourceTree = "<group>"; };
 		3960372D242CD634006B216E /* ProcedureSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcedureSelect.swift; sourceTree = "<group>"; };
 		39759C9B240D6E1500C1C87B /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
-		39759C9D240D865400C1C87B /* LoggedInState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInState.swift; sourceTree = "<group>"; };
+		39759C9D240D865400C1C87B /* UserLoginState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLoginState.swift; sourceTree = "<group>"; };
 		39759C9F240D867200C1C87B /* AuthUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUtils.swift; sourceTree = "<group>"; };
 		398236F52447548900ED7148 /* UserHeaderSmall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHeaderSmall.swift; sourceTree = "<group>"; };
 		398236F72447684700ED7148 /* BigButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigButtonStyle.swift; sourceTree = "<group>"; };
@@ -210,7 +210,7 @@
 		392AA7CB24099FB300A64981 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				39759C9D240D865400C1C87B /* LoggedInState.swift */,
+				39759C9D240D865400C1C87B /* UserLoginState.swift */,
 				39759C9F240D867200C1C87B /* AuthUtils.swift */,
 				39883F61244F746500ACE76F /* ApplicationState.swift */,
 			);
@@ -437,7 +437,7 @@
 				391C05FF23F4414000935BBC /* LoginView.swift in Sources */,
 				39BFFF7A2409BB8600F3769D /* ProcedureListView.swift in Sources */,
 				398236FC2448C17600ED7148 /* API.swift in Sources */,
-				39759C9E240D865400C1C87B /* LoggedInState.swift in Sources */,
+				39759C9E240D865400C1C87B /* UserLoginState.swift in Sources */,
 				39B43BC52449FB3300667651 /* AnswerOptionInfo.swift in Sources */,
 				398236F62447548900ED7148 /* UserHeaderSmall.swift in Sources */,
 				39B6541B2409632F00EEA4A2 /* SettingsView.swift in Sources */,

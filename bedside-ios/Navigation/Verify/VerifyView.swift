@@ -10,7 +10,7 @@ import SwiftUI
 
 struct VerifyView: View {
     
-    @EnvironmentObject var appState : ApplicationState
+    @EnvironmentObject var userLoginState : UserLoginState
     
     var body: some View {
         NavigationView {
@@ -18,7 +18,7 @@ struct VerifyView: View {
                 UserHeader()
                 ProcedureListView()
             }
-            .navigationBarTitle(Text("Dr. \(appState.currentUser?.lastName ?? "")"))
+            .navigationBarTitle(Text("Dr. \(userLoginState.currentUser?.lastName ?? "")"))
         }
     }
 }

@@ -47,7 +47,7 @@ class ForgotPasswordViewModel : ObservableObject {
 
 struct ForgotPasswordView: View {
     
-    @EnvironmentObject var authUtil : LoggedInState
+    @EnvironmentObject var authUtil : UserLoginState
     @ObservedObject var viewModel = ForgotPasswordViewModel()
     @Binding var showSelf : Bool
     

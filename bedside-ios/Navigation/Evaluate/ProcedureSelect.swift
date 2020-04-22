@@ -40,10 +40,15 @@ struct ProcedureSelect: View {
     
     var body: some View {
         return List(procedures, id: \.id) { procedure in
-            Button(action: { self.selectProcedure(procedure)}) {
+            HStack {
                 Text("\(procedure.name)")
+                    .frame(alignment: .leading)
+                Spacer()
             }
-            
+            .contentShape(Rectangle())
+            .onTapGesture {
+                self.selectProcedure(procedure)
+            }
         }.onAppear {
             self.fetchProcedures()
         }

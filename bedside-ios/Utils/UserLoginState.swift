@@ -11,10 +11,11 @@ import AWSMobileClient
 import AmplifyPlugins
 import Amplify
 
-class LoggedInState: ObservableObject {
+class UserLoginState: ObservableObject {
     
     @Published var isSignedIn : Bool = false
     @Published var userState : UserState = .unknown
+    @Published var currentUser : User?
     
     
     func setIsSignedIn(userState: UserState) {
@@ -54,8 +55,32 @@ class LoggedInState: ObservableObject {
         }
     }
     
+    func fetchUserInfo() {
+        //get logged in user email
+        AWSMobileClient.default().getUserAttributes { (attributes, error) in
+            if let email = attributes?["email"] {
+                self.fetchUserInfo(email: email)
+            }
+        }
+    }
+    
+    func fetchUserInfo(email: String) {
+        DispatchQueue.main.async {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let appSyncClient = appDelegate.appSyncClient
+            appSyncClient?.fetch(query:  UsersByEmailQuery(email: email, limit: 1), cachePolicy: .returnCacheDataAndFetch) {
+                (result, error ) in
+                
+                if let userItem = result?.data?.usersByEmail?.items?.compactMap({ $0 }).first {
+                    self.currentUser = User(id: userItem.id, userName: userItem.userName, email: userItem.email, phone: userItem.phone, firstName: userItem.firstName, lastName: userItem.lastName, npi: userItem.npi)
+                }
+            }
+        }
+    }
+    
     init() {
         initializeAWSMobileClient()
         addUserStateListener()
+        fetchUserInfo()
     }
 }

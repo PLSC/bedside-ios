@@ -26,11 +26,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             
-            let authUtil = LoggedInState()
-            let appState = ApplicationState()
+            let userLoginState = UserLoginState()
             
-            let cv = contentView.environmentObject(authUtil)
-                .environmentObject(appState)
+            let cv = contentView
+                .environmentObject(userLoginState)
+                
             
             window.rootViewController = UIHostingController(rootView: cv)
             self.window = window

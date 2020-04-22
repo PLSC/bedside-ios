@@ -83,7 +83,7 @@ struct LoginView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        let authUtil = LoggedInState()
+        let authUtil = UserLoginState()
         authUtil.isSignedIn = false
         return LoginView().environmentObject(authUtil)
     }
