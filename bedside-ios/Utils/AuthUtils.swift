@@ -47,18 +47,6 @@ class AuthUtils {
                 switch (signInResult.signInState) {
                 case .signedIn:
                     completion(.signedIn)
-                    if let user = AWSMobileClient.default().username {
-                        AWSMobileClient.default().getUserAttributes { (attributes, error) in
-                            if let email = attributes?["email"] {
-                                //Lookup User object from graphql
-                                DispatchQueue.main.async {
-                                    self.fetchUserInfo(email: email, callback: {_ in })
-                                }
-                            }
-                        }
-                        let loggedInMessage = "User is signed in: \(user)"
-                        print(loggedInMessage)
-                    }
                 case .smsMFA:
                     print("SMS message sent to \(signInResult.codeDetails!.destination!)")
                 case .newPasswordRequired:

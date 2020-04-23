@@ -30,22 +30,22 @@ class UserSettingsFormViewModel : ObservableObject {
 struct SettingsView: View {
     
     @ObservedObject var viewModel = UserSettingsFormViewModel()
+    @EnvironmentObject var userLoginState : UserLoginState
     
     let authUtil = AuthUtils()
     
     //TODO: Put this into the environment with a bindable object.
     func getUser() {
-        authUtil.fetchUserInfo { (userItem) in
-            self.viewModel.firstName = userItem.firstName ?? ""
-            self.viewModel.lastName = userItem.lastName ?? ""
-            self.viewModel.npi = ""
-            self.viewModel.username = userItem.userName ?? ""
-            self.viewModel.id = userItem.id
-            self.viewModel.email = userItem.email
-            if let npi = userItem.npi {
-                self.viewModel.npi = String(describing: npi)
-            }
+        self.viewModel.firstName = self.userLoginState.currentUser?.firstName ?? ""
+        self.viewModel.lastName = self.userLoginState.currentUser?.lastName ?? ""
+        self.viewModel.npi = ""
+        self.viewModel.username = self.userLoginState.currentUser?.userName ?? ""
+        self.viewModel.id = self.userLoginState.currentUser?.id ?? ""
+        self.viewModel.email = self.userLoginState.currentUser?.email ?? ""
+        if let npi = self.userLoginState.currentUser?.npi {
+            self.viewModel.npi = String(describing: npi)
         }
+        
     }
         
     func signOut() {
@@ -55,8 +55,8 @@ struct SettingsView: View {
     func submit() {
         UIApplication.shared.endEditing()
         let npi = Int(viewModel.npi)
-        let updateUserInput = UpdateUserInput(id: viewModel.id, firstName: viewModel.firstName, lastName: viewModel.lastName, npi: npi)
-        self.authUtil.updateUser(updateUserInput: updateUserInput)
+        let user = User(id: viewModel.id, email: viewModel.email, firstName: viewModel.firstName, lastName: viewModel.lastName, npi: npi)
+        self.userLoginState.updateUser(user: user)
     }
     
     var body: some View {

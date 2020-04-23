@@ -23,6 +23,7 @@ class UserLoginState: ObservableObject {
         case .guest: fallthrough
         case .signedIn:
             self.isSignedIn = true
+            self.fetchUserInfo()
         case .signedOut: fallthrough
         case .signedOutFederatedTokensInvalid: fallthrough
         case .signedOutUserPoolsTokenInvalid: fallthrough
@@ -76,6 +77,21 @@ class UserLoginState: ObservableObject {
                 }
             }
         }
+    }
+    
+    func updateUser(user: User) {
+        self.currentUser = user
+        let updateUserInput = UpdateUserInput(id: user.id, phone: user.phone, firstName: user.firstName, lastName: user.lastName, npi: user.npi)
+        updateUser(updateUserInput)
+    }
+    
+    func updateUser(_ updateUserInput: UpdateUserInput) {
+        let mutation = UpdateUserMutation(input: updateUserInput)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let appSyncClient = appDelegate.appSyncClient
+        appSyncClient?.perform(mutation: mutation, resultHandler: { (data, error) in
+            print("appsync update complete")
+        })
     }
     
     init() {
