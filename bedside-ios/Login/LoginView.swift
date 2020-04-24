@@ -23,7 +23,6 @@ struct LoginView: View {
             result in
             switch result {
             case .signedIn:
-                print("Cool, signed in")
                 self.username = ""
                 self.password = ""
             case .needsConfirmation:

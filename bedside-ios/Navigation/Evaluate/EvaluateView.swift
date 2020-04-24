@@ -29,7 +29,7 @@ struct EvaluateView: View {
     }
     
     func raterIsValid() -> Bool {
-        return true
+        return selectedRater != nil
     }
     
     func submitDisabled() -> Bool {
@@ -48,11 +48,15 @@ struct EvaluateView: View {
                         isActive: $presentProcedures) {
                         ProcedureSelectRow(selectedProcedure: $selectedProcedure)
                     }
+                    
                     DatePicker(selection: $procedureDate, in: ...Date()) {
                         Text("Date")
                     }.padding()
                     
-                    NavigationLink(destination: RaterSelect(), isActive:$presentRaterSelect) {
+                    NavigationLink(destination:
+                        RaterSelect(users: previewRaters,
+                                    selectedRater: $selectedRater,
+                                    isPresented: $presentRaterSelect), isActive:$presentRaterSelect) {
                         RaterSelectRow(selectedRater: $selectedRater).padding()
                     }
                     

@@ -10,7 +10,7 @@ public struct User: Model {
   public var firstName: String?
   public var lastName: String?
   public var npi: Int?
-  public var memberships: List<Membership>?
+  public var memberships: [Membership]?
   
   public init(id: String = UUID().uuidString,
       userName: String? = nil,
@@ -19,7 +19,7 @@ public struct User: Model {
       firstName: String? = nil,
       lastName: String? = nil,
       npi: Int? = nil,
-      memberships: List<Membership>? = []) {
+      memberships: [Membership]? = []) {
       self.id = id
       self.userName = userName
       self.email = email

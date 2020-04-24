@@ -46,6 +46,7 @@
 		3982375D2448CECB00ED7148 /* Membership.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398237512448CECB00ED7148 /* Membership.swift */; };
 		39883F62244F746500ACE76F /* ApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39883F61244F746500ACE76F /* ApplicationState.swift */; };
 		39A58015242A6C1A004999AD /* EmailCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A58014242A6C1A004999AD /* EmailCodeView.swift */; };
+		39B084E12451C18B003CE860 /* EvaluationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B084E02451C18B003CE860 /* EvaluationAPI.swift */; };
 		39B43BC52449FB3300667651 /* AnswerOptionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B43BC42449FB3300667651 /* AnswerOptionInfo.swift */; };
 		39B6541724095F6100EEA4A2 /* VerifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B6541624095F6100EEA4A2 /* VerifyView.swift */; };
 		39B65419240962D300EEA4A2 /* EvaluateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B65418240962D300EEA4A2 /* EvaluateView.swift */; };
@@ -100,6 +101,7 @@
 		398237512448CECB00ED7148 /* Membership.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Membership.swift; path = amplify/generated/models/Membership.swift; sourceTree = SOURCE_ROOT; };
 		39883F61244F746500ACE76F /* ApplicationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationState.swift; sourceTree = "<group>"; };
 		39A58014242A6C1A004999AD /* EmailCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailCodeView.swift; sourceTree = "<group>"; };
+		39B084E02451C18B003CE860 /* EvaluationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationAPI.swift; sourceTree = "<group>"; };
 		39B43BC42449FB3300667651 /* AnswerOptionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerOptionInfo.swift; sourceTree = "<group>"; };
 		39B6541624095F6100EEA4A2 /* VerifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyView.swift; sourceTree = "<group>"; };
 		39B65418240962D300EEA4A2 /* EvaluateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluateView.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 				39759C9D240D865400C1C87B /* UserLoginState.swift */,
 				39759C9F240D867200C1C87B /* AuthUtils.swift */,
 				39883F61244F746500ACE76F /* ApplicationState.swift */,
+				39B084E02451C18B003CE860 /* EvaluationAPI.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -432,6 +435,7 @@
 				398237592448CECB00ED7148 /* User.swift in Sources */,
 				39B6541724095F6100EEA4A2 /* VerifyView.swift in Sources */,
 				393DE74C2446068700EE97B4 /* RaterSelectRow.swift in Sources */,
+				39B084E12451C18B003CE860 /* EvaluationAPI.swift in Sources */,
 				3982375C2448CECB00ED7148 /* Organization.swift in Sources */,
 				3982375B2448CECB00ED7148 /* User+Schema.swift in Sources */,
 				391C05FF23F4414000935BBC /* LoginView.swift in Sources */,

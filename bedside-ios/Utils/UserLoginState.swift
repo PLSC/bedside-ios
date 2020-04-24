@@ -74,9 +74,24 @@ class UserLoginState: ObservableObject {
                 
                 if let userItem = result?.data?.usersByEmail?.items?.compactMap({ $0 }).first {
                     self.currentUser = User(id: userItem.id, userName: userItem.userName, email: userItem.email, phone: userItem.phone, firstName: userItem.firstName, lastName: userItem.lastName, npi: userItem.npi)
+                    self.updateUserPrograms(userItem: userItem)
                 }
             }
         }
+    }
+    
+    func updateUserPrograms(userItem: UsersByEmailQuery.Data.UsersByEmail.Item) {
+        guard let membershipItems = userItem.memberships?.items else {
+            print("User has no memberships")
+            return
+        }
+        
+        let memberships : [Membership] = membershipItems.compactMap {
+            let program = Program(id: ($0?.program.id)!, name: ($0?.program.name)!, orgID: ($0?.program.orgId)!, description: $0?.program.description, memberships: nil)
+            return Membership(id: $0!.id, role: RoleModel(rawValue:($0?.role.rawValue)!)!, user: self.currentUser!, program: program)
+        }
+        
+        currentUser?.memberships = memberships
     }
     
     func updateUser(user: User) {
