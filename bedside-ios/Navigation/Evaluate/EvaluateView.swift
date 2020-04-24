@@ -13,12 +13,15 @@ struct EvaluateView: View {
     @State var selectedProcedure : Procedure?
     @State var selectedRater : User?
     @State var procedureDate: Date = Date()
+    @State var selectedAnswer : AnswerOption<Int>?
     
     
     @State var presentProcedures: Bool = false
     @State var presentRaterSelect: Bool = false
     @State var presentPerformanceEvaluation: Bool = false
     @State var presentEvalOverview: Bool = false
+    
+    @EnvironmentObject var userLoginState : UserLoginState
     
     func procedureIsValid() -> Bool {
         return selectedProcedure != nil
@@ -32,8 +35,19 @@ struct EvaluateView: View {
         return selectedRater != nil
     }
     
-    func submitDisabled() -> Bool {
+    func selectPerformanceDisabled() -> Bool {
         return !procedureIsValid() || !dateIsValid() || !raterIsValid()
+    }
+    
+    func canSubmitEval() -> Bool {
+        return !selectPerformanceDisabled() && (selectedAnswer != nil)
+    }
+    
+    func submitEvaluation() {
+        let api = EvaluationAPI()
+        api.createEvaluation(subject: userLoginState.currentUser!, rater: selectedRater!, procedure: selectedProcedure!, evaluationDate: procedureDate, ratingLevel: selectedAnswer!.assocValue) { (error) in
+            print(error)
+        }
     }
     
     var body: some View {
@@ -61,7 +75,7 @@ struct EvaluateView: View {
                     }
                     
                     
-                    NavigationLink(destination: PerformanceEvaluation(rater: $selectedRater, procedure: $selectedProcedure), isActive: $presentPerformanceEvaluation) {
+                    NavigationLink(destination: PerformanceEvaluation(rater: $selectedRater, procedure: $selectedProcedure, selectedAnswer: $selectedAnswer, isPresented: $presentPerformanceEvaluation), isActive: $presentPerformanceEvaluation) {
                         
                         HStack {
                             Spacer(minLength: 35)
@@ -69,20 +83,33 @@ struct EvaluateView: View {
                                 print("Next button clicked.")
                             }) {
                                 HStack {
-                                    Spacer()
-                                    Text("Next")
+                                    
+                                    Text( (self.selectedAnswer != nil) ? "\(self.selectedAnswer?.displayText ?? "")" : "Select Performance" )
                                         .font(.headline)
                                         .foregroundColor(.white)
-                                    Spacer()
+                                    
                                 }
                             }
                             .padding()
-                            .background(submitDisabled() ? Color.gray : Color.blue)
+                            .background(selectPerformanceDisabled() ? Color.gray : Color.blue)
                             .cornerRadius(10)
-                            .disabled(submitDisabled())
+                            .disabled(selectPerformanceDisabled())
                             Spacer(minLength: 35)
                         }
-                    }.disabled(submitDisabled())
+                    }.disabled(selectPerformanceDisabled())
+                    
+                    HStack {
+                        Spacer(minLength: 35)
+                        Button(action:{
+                            self.submitEvaluation()
+                        }) {
+                            Text("Submit")
+                        }.disabled(!canSubmitEval())
+                        .padding()
+                        .background(selectPerformanceDisabled() ? Color.gray : Color.blue)
+                        .cornerRadius(10)
+                        Spacer(minLength: 35)
+                    }
                 }
             }
             .navigationBarTitle("New Evaluation")

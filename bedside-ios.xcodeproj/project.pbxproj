@@ -28,6 +28,7 @@
 		39759C9C240D6E1500C1C87B /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39759C9B240D6E1500C1C87B /* ForgotPasswordView.swift */; };
 		39759C9E240D865400C1C87B /* UserLoginState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39759C9D240D865400C1C87B /* UserLoginState.swift */; };
 		39759CA0240D867200C1C87B /* AuthUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39759C9F240D867200C1C87B /* AuthUtils.swift */; };
+		39773EA2245338CF0088B960 /* RatersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39773EA1245338CF0088B960 /* RatersViewModel.swift */; };
 		398236F62447548900ED7148 /* UserHeaderSmall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398236F52447548900ED7148 /* UserHeaderSmall.swift */; };
 		398236F82447684700ED7148 /* BigButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398236F72447684700ED7148 /* BigButtonStyle.swift */; };
 		398236FA2448B09600ED7148 /* EvaluationReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398236F92448B09600ED7148 /* EvaluationReview.swift */; };
@@ -83,6 +84,7 @@
 		39759C9B240D6E1500C1C87B /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		39759C9D240D865400C1C87B /* UserLoginState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLoginState.swift; sourceTree = "<group>"; };
 		39759C9F240D867200C1C87B /* AuthUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUtils.swift; sourceTree = "<group>"; };
+		39773EA1245338CF0088B960 /* RatersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatersViewModel.swift; sourceTree = "<group>"; };
 		398236F52447548900ED7148 /* UserHeaderSmall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHeaderSmall.swift; sourceTree = "<group>"; };
 		398236F72447684700ED7148 /* BigButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigButtonStyle.swift; sourceTree = "<group>"; };
 		398236F92448B09600ED7148 /* EvaluationReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationReview.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				39759C9F240D867200C1C87B /* AuthUtils.swift */,
 				39883F61244F746500ACE76F /* ApplicationState.swift */,
 				39B084E02451C18B003CE860 /* EvaluationAPI.swift */,
+				39773EA1245338CF0088B960 /* RatersViewModel.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 			files = (
 				391C05FB23F4414000935BBC /* AppDelegate.swift in Sources */,
 				39759C9C240D6E1500C1C87B /* ForgotPasswordView.swift in Sources */,
+				39773EA2245338CF0088B960 /* RatersViewModel.swift in Sources */,
 				398237552448CECB00ED7148 /* Membership+Schema.swift in Sources */,
 				398237562448CECB00ED7148 /* Program+Schema.swift in Sources */,
 				39BFFF782409B7DA00F3769D /* ProcedureRowView.swift in Sources */,

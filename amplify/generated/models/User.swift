@@ -2,7 +2,7 @@
 import Amplify
 import Foundation
 
-public struct User: Model {
+public struct User: Model, Identifiable {    
   public let id: String
   public var userName: String?
   public var email: String
@@ -29,4 +29,10 @@ public struct User: Model {
       self.npi = npi
       self.memberships = memberships
   }
+}
+
+extension User : Hashable {
+    public static func == (lhs: User, rhs: User) -> Bool {
+        return lhs.id == rhs.id
+    }
 }

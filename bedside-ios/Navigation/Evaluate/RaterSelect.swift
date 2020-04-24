@@ -14,6 +14,10 @@ struct RaterSelect: View {
     @Binding var selectedRater : User?
     @Binding var isPresented : Bool
     
+    @EnvironmentObject var userLoginState : UserLoginState
+    
+    @ObservedObject private var ratersViewModel : RatersViewModel = RatersViewModel()
+    
     func substring(_ substring: String, inString: String?) -> Bool {
         var substringInString = false
         if let sub = inString {
@@ -53,11 +57,15 @@ struct RaterSelect: View {
         self.isPresented = false
     }
     
+    func fetchRaters() {
+        ratersViewModel.fetchRaters(organization: userLoginState.organizations.first!)
+    }
+    
     var body: some View {
         VStack {
             SearchBar(text: $searchText, placeholder: "Search Raters")
             List {
-                ForEach(users.filter(userSearchFilter), id: \.id) { user in
+                ForEach(ratersViewModel.raters.filter(userSearchFilter), id: \.id) { user in
                     HStack {
                         Image(systemName: "person.crop.circle")
                             .resizable().aspectRatio(contentMode: .fit)
@@ -78,6 +86,8 @@ struct RaterSelect: View {
             print("add")
         }) {
             Image(systemName: "person.badge.plus")
+        }).onAppear(perform:{
+            self.fetchRaters()
         })
     }
 }

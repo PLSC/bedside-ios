@@ -16,6 +16,7 @@ class UserLoginState: ObservableObject {
     @Published var isSignedIn : Bool = false
     @Published var userState : UserState = .unknown
     @Published var currentUser : User?
+    @Published var organizations : [Organization] = []
     
     
     func setIsSignedIn(userState: UserState) {
@@ -87,8 +88,26 @@ class UserLoginState: ObservableObject {
         }
         
         let memberships : [Membership] = membershipItems.compactMap {
-            let program = Program(id: ($0?.program.id)!, name: ($0?.program.name)!, orgID: ($0?.program.orgId)!, description: $0?.program.description, memberships: nil)
-            return Membership(id: $0!.id, role: RoleModel(rawValue:($0?.role.rawValue)!)!, user: self.currentUser!, program: program)
+            
+            var program : Program? = nil
+            
+            if let programId = $0?.program.id,
+                let name = $0?.program.name,
+                let orgID = $0?.program.orgId {
+                let organization = Organization(id: orgID)
+                self.organizations.append(organization)
+                program = Program(id: programId, name: name, orgID: orgID, description: $0?.program.description)
+            }
+            
+            if let membershipId = $0?.id,
+                let roleString = $0?.role.rawValue,
+                let roleModel = RoleModel(rawValue: roleString),
+                let prog = program,
+                let user = self.currentUser {
+                return Membership(id:membershipId, role: roleModel, user: user, program: prog)
+            }
+            
+            return nil
         }
         
         currentUser?.memberships = memberships

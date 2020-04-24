@@ -38,12 +38,16 @@ struct PerformanceEvaluation: View {
     
     @Binding var rater : User?
     @Binding var procedure: Procedure?
-    @State var presentReview = false
+    @Binding var selectedAnswer : AnswerOption<Int>?
+    @Binding var isPresented : Bool
+    
+    
     @State var showQuestionInfo = false
     
     func selectItem(index: Int) {
         print("Selected index: \(index), item: \(performanceQuestion.answerOptions[index])")
-        presentReview = true
+        selectedAnswer = performanceQuestion.answerOptions[index]
+        isPresented = false
     }
     
     var body: some View {
@@ -79,9 +83,7 @@ struct PerformanceEvaluation: View {
                 }
             }
             .navigationBarTitle("Select \(performanceQuestion.title)")
-            .sheet(isPresented: $presentReview) {
-                EvaluationReview()
-            }.sheet(isPresented: self.$showQuestionInfo) { AnswerOptionInfo(question: performanceQuestion)
+            .sheet(isPresented: self.$showQuestionInfo) { AnswerOptionInfo(question: performanceQuestion)
             }
         
     }
@@ -89,6 +91,8 @@ struct PerformanceEvaluation: View {
 
 struct PerformanceEvaluation_Previews: PreviewProvider {
     static var previews: some View {
-        PerformanceEvaluation(rater: .constant(nil), procedure: .constant(nil))
+        PerformanceEvaluation(rater: .constant(nil),
+                              procedure: .constant(nil), selectedAnswer: .constant(AnswerOption(id: 1, displayText: "", description: "", assocValue: 1)),
+                              isPresented: .constant(true))
     }
 }

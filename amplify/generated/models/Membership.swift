@@ -2,7 +2,7 @@
 import Amplify
 import Foundation
 
-public struct Membership: Model, Codable {
+public struct Membership: Model, Codable, Identifiable {
   public let id: String
   public var role: RoleModel
   public var user: User
@@ -17,4 +17,10 @@ public struct Membership: Model, Codable {
       self.user = user
       self.program = program
   }
+}
+
+extension Membership: Hashable {
+    public static func == (lhs: Membership, rhs: Membership) -> Bool {
+        return lhs.id == rhs.id
+    }
 }

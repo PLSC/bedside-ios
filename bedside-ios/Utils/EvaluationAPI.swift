@@ -12,28 +12,29 @@ import UIKit
 class EvaluationAPI {
     
     func dateString(date: Date) -> String {
-        return ""
+        return date.iso8601String
     }
     
     func createEvaluation(subject: User,
                           rater: User,
                           procedure: Procedure,
                           evaluationDate: Date,
-                          errorHandler: @escaping (Error) -> ()) {
+                          ratingLevel: Int,
+                          errorHandler: @escaping (Error?) -> ()) {
         let evalDateString = dateString(date: evaluationDate)
-        let input = CreateEvaluationInput(subjectId: subject.id, raterId: rater.id, procedureId: procedure.id, evauluationDate: evalDateString)
+        let input = CreateEvaluationInput(subjectId: subject.id, raterId: rater.id, procedureId: procedure.id, evauluationDate: evalDateString, ratingLevel: ratingLevel)
         createEvaluation(createEvaluationInput: input, callback: errorHandler)
     }
     
-    private func createEvaluation(createEvaluationInput: CreateEvaluationInput, callback: @escaping (Error) -> ()) {
+    private func createEvaluation(createEvaluationInput: CreateEvaluationInput, callback: @escaping (Error?) -> ()) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
         let mutation  = CreateEvaluationMutation(input: createEvaluationInput)
         appSyncClient?.perform(mutation: mutation, resultHandler: { (result, error) in
             if let e = error {
                 print("Error creating evaluation: \(e)")
-                callback(e)
             }
+            callback(error)
         })
     }
 }
