@@ -1,4 +1,9 @@
 # this is an auto generated file. This will be overwritten
+query NewEvaluationResponse(
+  $evaluationResponse: CreateEvaluationResponseInput
+) {
+  newEvaluationResponse(evaluationResponse: $evaluationResponse)
+}
 query GetOrganization($id: ID!) {
   getOrganization(id: $id) {
     id
@@ -360,8 +365,8 @@ query ListUsers(
     nextToken
   }
 }
-query GetEvaluation($id: ID!) {
-  getEvaluation(id: $id) {
+query GetEvaluationResponse($id: ID!) {
+  getEvaluationResponse(id: $id) {
     id
     subject {
       id
@@ -443,14 +448,19 @@ query GetEvaluation($id: ID!) {
     procedureId
     evauluationDate
     ratingLevel
+    certificationRecordId
   }
 }
-query ListEvaluations(
-  $filter: ModelEvaluationFilterInput
+query ListEvaluationResponses(
+  $filter: ModelEvaluationResponseFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listEvaluations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listEvaluationResponses(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
     items {
       id
       subject {
@@ -501,6 +511,182 @@ query ListEvaluations(
       procedureId
       evauluationDate
       ratingLevel
+      certificationRecordId
+    }
+    nextToken
+  }
+}
+query GetCertificationRecord($id: ID!) {
+  getCertificationRecord(id: $id) {
+    id
+    procedureId
+    procedure {
+      id
+      name
+      description
+    }
+    isCertified
+    certificationMethod
+    subjectId
+    subject {
+      id
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      isRater
+      memberships {
+        items {
+          id
+          role
+          userId
+          user {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          programId
+          program {
+            id
+            name
+            orgID
+            description
+          }
+        }
+        nextToken
+      }
+    }
+    certificationLog {
+      items {
+        id
+        subject {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
+        subjectId
+        rater {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
+        raterId
+        procedure {
+          id
+          name
+          description
+        }
+        procedureId
+        evauluationDate
+        ratingLevel
+        certificationRecordId
+      }
+      nextToken
+    }
+    totalProcedureEvals
+  }
+}
+query ListCertificationRecords(
+  $filter: ModelCertificationRecordFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listCertificationRecords(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      procedureId
+      procedure {
+        id
+        name
+        description
+      }
+      isCertified
+      certificationMethod
+      subjectId
+      subject {
+        id
+        userName
+        email
+        phone
+        firstName
+        lastName
+        npi
+        isRater
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+          }
+          nextToken
+        }
+      }
+      certificationLog {
+        items {
+          id
+          subject {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          subjectId
+          rater {
+            id
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            isRater
+          }
+          raterId
+          procedure {
+            id
+            name
+            description
+          }
+          procedureId
+          evauluationDate
+          ratingLevel
+          certificationRecordId
+        }
+        nextToken
+      }
+      totalProcedureEvals
     }
     nextToken
   }

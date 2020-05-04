@@ -9,11 +9,7 @@
 import SwiftUI
 
 struct EvaluateView: View {
-    
-    @State var selectedProcedure : Procedure?
-    @State var selectedRater : User?
-    @State var procedureDate: Date = Date()
-    @State var selectedAnswer : AnswerOption<Int>?
+    @ObservedObject var evaluation : Evaluation = Evaluation()
     
     
     @State var presentProcedures: Bool = false
@@ -23,30 +19,27 @@ struct EvaluateView: View {
     
     @EnvironmentObject var userLoginState : UserLoginState
     
-    func procedureIsValid() -> Bool {
-        return selectedProcedure != nil
-    }
-    
-    func dateIsValid() -> Bool {
-        return procedureDate < Date()
-    }
-    
-    func raterIsValid() -> Bool {
-        return selectedRater != nil
-    }
-    
-    func selectPerformanceDisabled() -> Bool {
-        return !procedureIsValid() || !dateIsValid() || !raterIsValid()
-    }
-    
     func canSubmitEval() -> Bool {
-        return !selectPerformanceDisabled() && (selectedAnswer != nil)
+        return self.evaluation.isValid()
+    }
+    
+    func oldestValidEvalDate() -> Date {
+        var dateComponents = DateComponents()
+        dateComponents.hour = -72
+        return Calendar.current.date(byAdding: dateComponents, to: Date())!
     }
     
     func submitEvaluation() {
         let api = EvaluationAPI()
-        api.createEvaluation(subject: userLoginState.currentUser!, rater: selectedRater!, procedure: selectedProcedure!, evaluationDate: procedureDate, ratingLevel: selectedAnswer!.assocValue) { (error) in
+        api.createEvaluation(subject: userLoginState.currentUser!,
+                             rater: evaluation.rater!,
+                             procedure: evaluation.procedure!,
+                             procedureDate: evaluation.procedureDate,
+                             ratingLevel: evaluation.answer!.assocValue) { (error) in
             print(error)
+            if error == nil {
+                self.evaluation.reset()
+            }
         }
     }
     
@@ -57,25 +50,25 @@ struct EvaluateView: View {
                 Form {
                     NavigationLink(
                         destination: ProcedureSelect(
-                            selectedProcedure: $selectedProcedure,
+                            selectedProcedure: $evaluation.procedure,
                             isPresented: $presentProcedures),
                         isActive: $presentProcedures) {
-                        ProcedureSelectRow(selectedProcedure: $selectedProcedure)
+                            ProcedureSelectRow(selectedProcedure: $evaluation.procedure)
                     }
                     
-                    DatePicker(selection: $procedureDate, in: ...Date()) {
+                    DatePicker(selection: $evaluation.procedureDate, in: self.oldestValidEvalDate()...Date()) {
                         Text("Date")
                     }.padding()
                     
                     NavigationLink(destination:
                         RaterSelect(users: previewRaters,
-                                    selectedRater: $selectedRater,
+                                    selectedRater: $evaluation.rater,
                                     isPresented: $presentRaterSelect), isActive:$presentRaterSelect) {
-                        RaterSelectRow(selectedRater: $selectedRater).padding()
+                                        RaterSelectRow(selectedRater: $evaluation.rater).padding()
                     }
                     
                     
-                    NavigationLink(destination: PerformanceEvaluation(rater: $selectedRater, procedure: $selectedProcedure, selectedAnswer: $selectedAnswer, isPresented: $presentPerformanceEvaluation), isActive: $presentPerformanceEvaluation) {
+                    NavigationLink(destination: PerformanceEvaluation(rater: $evaluation.rater, procedure: $evaluation.procedure, selectedAnswer: $evaluation.answer, isPresented: $presentPerformanceEvaluation), isActive: $presentPerformanceEvaluation) {
                         
                         HStack {
                             Spacer(minLength: 35)
@@ -84,19 +77,18 @@ struct EvaluateView: View {
                             }) {
                                 HStack {
                                     
-                                    Text( (self.selectedAnswer != nil) ? "\(self.selectedAnswer?.displayText ?? "")" : "Select Performance" )
+                                    Text( (self.evaluation.answer != nil) ? "\(self.evaluation.answer?.displayText ?? "")" : "Select Performance" )
                                         .font(.headline)
                                         .foregroundColor(.white)
                                     
                                 }
                             }
                             .padding()
-                            .background(selectPerformanceDisabled() ? Color.gray : Color.blue)
+                            .background(Color.blue)
                             .cornerRadius(10)
-                            .disabled(selectPerformanceDisabled())
                             Spacer(minLength: 35)
                         }
-                    }.disabled(selectPerformanceDisabled())
+                    }
                     
                     HStack {
                         Spacer(minLength: 35)
@@ -104,9 +96,11 @@ struct EvaluateView: View {
                             self.submitEvaluation()
                         }) {
                             Text("Submit")
-                        }.disabled(!canSubmitEval())
+                                .font(.headline)
+                                .foregroundColor(.white)
+                        }
                         .padding()
-                        .background(selectPerformanceDisabled() ? Color.gray : Color.blue)
+                        .background(Color.blue)
                         .cornerRadius(10)
                         Spacer(minLength: 35)
                     }

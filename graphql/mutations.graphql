@@ -608,12 +608,21 @@ mutation DeleteUser(
     }
   }
 }
-mutation CreateEvaluation(
-  $input: CreateEvaluationInput!
-  $condition: ModelEvaluationConditionInput
+mutation CreateCertificationRecord(
+  $input: CreateCertificationRecordInput!
+  $condition: ModelCertificationRecordConditionInput
 ) {
-  createEvaluation(input: $input, condition: $condition) {
+  createCertificationRecord(input: $input, condition: $condition) {
     id
+    procedureId
+    procedure {
+      id
+      name
+      description
+    }
+    isCertified
+    certificationMethod
+    subjectId
     subject {
       id
       userName
@@ -649,59 +658,67 @@ mutation CreateEvaluation(
         nextToken
       }
     }
-    subjectId
-    rater {
-      id
-      userName
-      email
-      phone
-      firstName
-      lastName
-      npi
-      isRater
-      memberships {
-        items {
+    certificationLog {
+      items {
+        id
+        subject {
           id
-          role
-          userId
-          user {
-            id
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            isRater
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
           }
         }
-        nextToken
+        subjectId
+        rater {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
+        raterId
+        procedure {
+          id
+          name
+          description
+        }
+        procedureId
+        evauluationDate
+        ratingLevel
+        certificationRecordId
       }
+      nextToken
     }
-    raterId
-    procedure {
-      id
-      name
-      description
-    }
-    procedureId
-    evauluationDate
-    ratingLevel
+    totalProcedureEvals
   }
 }
-mutation UpdateEvaluation(
-  $input: UpdateEvaluationInput!
-  $condition: ModelEvaluationConditionInput
+mutation UpdateCertificationRecord(
+  $input: UpdateCertificationRecordInput!
+  $condition: ModelCertificationRecordConditionInput
 ) {
-  updateEvaluation(input: $input, condition: $condition) {
+  updateCertificationRecord(input: $input, condition: $condition) {
     id
+    procedureId
+    procedure {
+      id
+      name
+      description
+    }
+    isCertified
+    certificationMethod
+    subjectId
     subject {
       id
       userName
@@ -737,59 +754,67 @@ mutation UpdateEvaluation(
         nextToken
       }
     }
-    subjectId
-    rater {
-      id
-      userName
-      email
-      phone
-      firstName
-      lastName
-      npi
-      isRater
-      memberships {
-        items {
+    certificationLog {
+      items {
+        id
+        subject {
           id
-          role
-          userId
-          user {
-            id
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            isRater
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
           }
         }
-        nextToken
+        subjectId
+        rater {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
+        raterId
+        procedure {
+          id
+          name
+          description
+        }
+        procedureId
+        evauluationDate
+        ratingLevel
+        certificationRecordId
       }
+      nextToken
     }
-    raterId
-    procedure {
-      id
-      name
-      description
-    }
-    procedureId
-    evauluationDate
-    ratingLevel
+    totalProcedureEvals
   }
 }
-mutation DeleteEvaluation(
-  $input: DeleteEvaluationInput!
-  $condition: ModelEvaluationConditionInput
+mutation DeleteCertificationRecord(
+  $input: DeleteCertificationRecordInput!
+  $condition: ModelCertificationRecordConditionInput
 ) {
-  deleteEvaluation(input: $input, condition: $condition) {
+  deleteCertificationRecord(input: $input, condition: $condition) {
     id
+    procedureId
+    procedure {
+      id
+      name
+      description
+    }
+    isCertified
+    certificationMethod
+    subjectId
     subject {
       id
       userName
@@ -825,50 +850,49 @@ mutation DeleteEvaluation(
         nextToken
       }
     }
-    subjectId
-    rater {
-      id
-      userName
-      email
-      phone
-      firstName
-      lastName
-      npi
-      isRater
-      memberships {
-        items {
+    certificationLog {
+      items {
+        id
+        subject {
           id
-          role
-          userId
-          user {
-            id
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            isRater
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
           }
         }
-        nextToken
+        subjectId
+        rater {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
+        raterId
+        procedure {
+          id
+          name
+          description
+        }
+        procedureId
+        evauluationDate
+        ratingLevel
+        certificationRecordId
       }
+      nextToken
     }
-    raterId
-    procedure {
-      id
-      name
-      description
-    }
-    procedureId
-    evauluationDate
-    ratingLevel
+    totalProcedureEvals
   }
 }

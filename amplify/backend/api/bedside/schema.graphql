@@ -51,7 +51,10 @@ type User
   memberships: [Membership] @connection(keyName: "byUser", fields: ["id"])
 }
 
-type Evaluation @model {
+# TODO: Change to EvaluationResponse
+type EvaluationResponse
+  @model(mutations: null)
+  @key(name: "byCertificationRecord", fields: ["certificationRecordId"]) {
   id: ID!
   subject: User! @connection(fields: ["subjectId"])
   subjectId: ID!
@@ -61,9 +64,55 @@ type Evaluation @model {
   procedureId: ID!
   evauluationDate: AWSDateTime!
   ratingLevel: Int
+  certificationRecordId: ID
+}
+
+type CertificationRecord
+  @model
+  @key(name: "bySubjectProcedure", fields: ["subjectId", "procedureId"]) {
+  id: ID!
+  procedureId: ID!
+  procedure: Procedure! @connection(fields: ["procedureId"])
+  isCertified: Boolean
+  certificationMethod: CertificationMethod
+  subjectId: ID!
+  subject: User! @connection(fields: ["subjectId"])
+  certificationLog: [EvaluationResponse]
+    @connection(keyName: "byCertificationRecord", fields: ["id"])
+  totalProcedureEvals: Int
+}
+
+enum CertificationMethod {
+  Manual
+  RollingS
+}
+
+type CertificationRule {
+  id: ID!
+  organization: Organization
+  program: Program
+  numOfEvals: Int
+  atLevel: Int
+  procedure: Procedure
 }
 
 enum Role {
   User
   Admin
+}
+
+input CreateEvaluationResponseInput {
+  id: ID
+  subjectId: ID!
+  raterId: ID!
+  procedureId: ID!
+  evauluationDate: AWSDateTime!
+  ratingLevel: Int
+  certificationRecordId: ID
+}
+
+type Query {
+  newEvaluationResponse(
+    evaluationResponse: CreateEvaluationResponseInput
+  ): String
 }

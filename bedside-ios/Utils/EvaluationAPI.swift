@@ -9,28 +9,47 @@
 import Foundation
 import UIKit
 
+enum EvaluationAPIError : Error {
+    case InvalidEvaluationData
+}
+
 class EvaluationAPI {
     
     func dateString(date: Date) -> String {
         return date.iso8601String
     }
     
+    func submitEvaluation(evaluation: Evaluation, callback: @escaping (Error?)-> ()) {
+        guard evaluation.isValid() else {
+            callback(EvaluationAPIError.InvalidEvaluationData)
+            return
+        }
+        
+        if let subject = evaluation.subject,
+            let rater = evaluation.rater,
+            let procedure = evaluation.procedure,
+            let rating = evaluation.answer?.assocValue {
+            createEvaluation(subject: subject, rater: rater, procedure: procedure, procedureDate: evaluation.procedureDate, ratingLevel: rating, errorHandler: callback)
+        }
+    }
+    
     func createEvaluation(subject: User,
                           rater: User,
                           procedure: Procedure,
-                          evaluationDate: Date,
+                          procedureDate: Date,
                           ratingLevel: Int,
                           errorHandler: @escaping (Error?) -> ()) {
-        let evalDateString = dateString(date: evaluationDate)
-        let input = CreateEvaluationInput(subjectId: subject.id, raterId: rater.id, procedureId: procedure.id, evauluationDate: evalDateString, ratingLevel: ratingLevel)
+        let evalDateString = dateString(date: procedureDate)
+        let input = CreateEvaluationResponseInput(subjectId: subject.id, raterId: rater.id, procedureId: procedure.id, evauluationDate: evalDateString, ratingLevel: ratingLevel)
         createEvaluation(createEvaluationInput: input, callback: errorHandler)
     }
     
-    private func createEvaluation(createEvaluationInput: CreateEvaluationInput, callback: @escaping (Error?) -> ()) {
+    private func createEvaluation(createEvaluationInput: CreateEvaluationResponseInput, callback: @escaping (Error?) -> ()) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
-        let mutation  = CreateEvaluationMutation(input: createEvaluationInput)
-        appSyncClient?.perform(mutation: mutation, resultHandler: { (result, error) in
+        let mutation  = NewEvaluationResponseQuery(evaluationResponse: createEvaluationInput)
+        
+        appSyncClient?.fetch(query: mutation, resultHandler: {(result, error) in
             if let e = error {
                 print("Error creating evaluation: \(e)")
             }

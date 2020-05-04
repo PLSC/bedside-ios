@@ -563,9 +563,18 @@ subscription OnDeleteUser {
     }
   }
 }
-subscription OnCreateEvaluation {
-  onCreateEvaluation {
+subscription OnCreateCertificationRecord {
+  onCreateCertificationRecord {
     id
+    procedureId
+    procedure {
+      id
+      name
+      description
+    }
+    isCertified
+    certificationMethod
+    subjectId
     subject {
       id
       userName
@@ -601,56 +610,64 @@ subscription OnCreateEvaluation {
         nextToken
       }
     }
-    subjectId
-    rater {
-      id
-      userName
-      email
-      phone
-      firstName
-      lastName
-      npi
-      isRater
-      memberships {
-        items {
+    certificationLog {
+      items {
+        id
+        subject {
           id
-          role
-          userId
-          user {
-            id
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            isRater
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
           }
         }
-        nextToken
+        subjectId
+        rater {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
+        raterId
+        procedure {
+          id
+          name
+          description
+        }
+        procedureId
+        evauluationDate
+        ratingLevel
+        certificationRecordId
       }
+      nextToken
     }
-    raterId
-    procedure {
-      id
-      name
-      description
-    }
-    procedureId
-    evauluationDate
-    ratingLevel
+    totalProcedureEvals
   }
 }
-subscription OnUpdateEvaluation {
-  onUpdateEvaluation {
+subscription OnUpdateCertificationRecord {
+  onUpdateCertificationRecord {
     id
+    procedureId
+    procedure {
+      id
+      name
+      description
+    }
+    isCertified
+    certificationMethod
+    subjectId
     subject {
       id
       userName
@@ -686,56 +703,64 @@ subscription OnUpdateEvaluation {
         nextToken
       }
     }
-    subjectId
-    rater {
-      id
-      userName
-      email
-      phone
-      firstName
-      lastName
-      npi
-      isRater
-      memberships {
-        items {
+    certificationLog {
+      items {
+        id
+        subject {
           id
-          role
-          userId
-          user {
-            id
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            isRater
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
           }
         }
-        nextToken
+        subjectId
+        rater {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
+        raterId
+        procedure {
+          id
+          name
+          description
+        }
+        procedureId
+        evauluationDate
+        ratingLevel
+        certificationRecordId
       }
+      nextToken
     }
-    raterId
-    procedure {
-      id
-      name
-      description
-    }
-    procedureId
-    evauluationDate
-    ratingLevel
+    totalProcedureEvals
   }
 }
-subscription OnDeleteEvaluation {
-  onDeleteEvaluation {
+subscription OnDeleteCertificationRecord {
+  onDeleteCertificationRecord {
     id
+    procedureId
+    procedure {
+      id
+      name
+      description
+    }
+    isCertified
+    certificationMethod
+    subjectId
     subject {
       id
       userName
@@ -771,50 +796,49 @@ subscription OnDeleteEvaluation {
         nextToken
       }
     }
-    subjectId
-    rater {
-      id
-      userName
-      email
-      phone
-      firstName
-      lastName
-      npi
-      isRater
-      memberships {
-        items {
+    certificationLog {
+      items {
+        id
+        subject {
           id
-          role
-          userId
-          user {
-            id
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            isRater
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
           }
         }
-        nextToken
+        subjectId
+        rater {
+          id
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          isRater
+          memberships {
+            nextToken
+          }
+        }
+        raterId
+        procedure {
+          id
+          name
+          description
+        }
+        procedureId
+        evauluationDate
+        ratingLevel
+        certificationRecordId
       }
+      nextToken
     }
-    raterId
-    procedure {
-      id
-      name
-      description
-    }
-    procedureId
-    evauluationDate
-    ratingLevel
+    totalProcedureEvals
   }
 }

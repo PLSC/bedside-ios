@@ -8,14 +8,26 @@ var AWS = require("aws-sdk");
 var dynamodb = new AWS.DynamoDB();
 var crypto = require("crypto");
 
-exports.handler = async (event, context, callback) => {
-  var tableName;
-  if (process.env.ENV === "prod") {
-    tableName = "User-up7cnctj6bbstiz5vgnuzmeywe-prod";
-  } else {
-    tableName = "User-sard6swytbdvzoj4plcaxpdj4i-dev";
+async function getTableName(name) {
+  let params = { Limit: 100 };
+  let data = await dynamodb.listTables(params).promise();
+
+  let tableNames = data.TableNames.filter(
+    (tableName) =>
+      tableName.startsWith(name + "-") && tableName.endsWith(process.env.ENV)
+  );
+  if (tableNames.length > 1) {
+    throw "Ambiguous table names";
+  }
+  if (tableNames.length === 0) {
+    throw "Table not found";
   }
 
+  return tableNames[0];
+}
+
+exports.handler = async (event, context, callback) => {
+  var tableName = await getTableName("User");
   console.log(event);
   var userName = event.userName;
   var email = event.request.userAttributes.email;
@@ -36,8 +48,8 @@ exports.handler = async (event, context, callback) => {
       Item: {
         id: { S: userId },
         email: { S: email },
-        userName: { S: userName }
-      }
+        userName: { S: userName },
+      },
     };
     var data = null;
     try {
