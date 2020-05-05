@@ -25,12 +25,15 @@ class EvaluationAPI {
             return
         }
         
-        if let subject = evaluation.subject,
+        guard let subject = evaluation.subject,
             let rater = evaluation.rater,
             let procedure = evaluation.procedure,
-            let rating = evaluation.answer?.assocValue {
-            createEvaluation(subject: subject, rater: rater, procedure: procedure, procedureDate: evaluation.procedureDate, ratingLevel: rating, errorHandler: callback)
+            let rating = evaluation.answer?.assocValue else {
+                callback(EvaluationAPIError.InvalidEvaluationData)
+                return
         }
+        
+        createEvaluation(subject: subject, rater: rater, procedure: procedure, procedureDate: evaluation.procedureDate, ratingLevel: rating, errorHandler: callback)
     }
     
     func createEvaluation(subject: User,

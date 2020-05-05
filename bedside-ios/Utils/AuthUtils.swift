@@ -61,6 +61,9 @@ class AuthUtils {
     func fetchUserInfo(callback: @escaping (UsersByEmailQuery.Data.UsersByEmail.Item)->()) {
         //get logged in user email
         AWSMobileClient.default().getUserAttributes { (attributes, error) in
+            if let e = error {
+                print("Error getting user attributes: \(e.localizedDescription)")
+            }
             if let email = attributes?["email"] {
                 self.fetchUserInfo(email: email, callback: callback)
             }
@@ -73,13 +76,15 @@ class AuthUtils {
             let appSyncClient = appDelegate.appSyncClient
             appSyncClient?.fetch(query:  UsersByEmailQuery(email: email, limit: 1), cachePolicy: .returnCacheDataAndFetch) {
                 (result, error ) in
-                
+                if let e = error {
+                    print("error with UsersByEmailQuery: \(e.localizedDescription)")
+                }
                 if let userItem = result?.data?.usersByEmail?.items?.compactMap({ $0 }).first {
                     callback(userItem)
                     if let orgId = userItem.memberships?.items?[0]?.program.orgId {
                         appSyncClient?.fetch(query: GetOrganizationQuery(id: orgId), cachePolicy: .returnCacheDataAndFetch) {
                             (result, error) in
-                            print(result)
+                            print(result ?? "")
                         }
                     }
                 }

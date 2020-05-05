@@ -36,7 +36,6 @@ struct EvaluateView: View {
                              procedure: evaluation.procedure!,
                              procedureDate: evaluation.procedureDate,
                              ratingLevel: evaluation.answer!.assocValue) { (error) in
-            print(error)
             if error == nil {
                 self.evaluation.reset()
             }

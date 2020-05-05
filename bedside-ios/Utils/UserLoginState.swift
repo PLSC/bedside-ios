@@ -17,6 +17,7 @@ class UserLoginState: ObservableObject {
     @Published var userState : UserState = .unknown
     @Published var currentUser : User?
     @Published var organizations : [Organization] = []
+    @Published var certificationRecords: [CertificationRecord] = []
     
     
     func setIsSignedIn(userState: UserState) {
@@ -60,6 +61,9 @@ class UserLoginState: ObservableObject {
     func fetchUserInfo() {
         //get logged in user email
         AWSMobileClient.default().getUserAttributes { (attributes, error) in
+            if let e = error {
+                print("error in getUserAttributes: \(e.localizedDescription)")
+            }
             if let email = attributes?["email"] {
                 self.fetchUserInfo(email: email)
             }
@@ -76,8 +80,18 @@ class UserLoginState: ObservableObject {
                 if let userItem = result?.data?.usersByEmail?.items?.compactMap({ $0 }).first {
                     self.currentUser = User(id: userItem.id, userName: userItem.userName, email: userItem.email, phone: userItem.phone, firstName: userItem.firstName, lastName: userItem.lastName, npi: userItem.npi)
                     self.updateUserPrograms(userItem: userItem)
+                    self.fetchCertRecords(user: self.currentUser!)
+                    
                 }
             }
+        }
+    }
+    
+    func fetchCertRecords(user: User) {
+        let api = CertRecordAPI()
+        api.getCertRecords(subjectId:user.id) {
+            certRecords in
+            self.certificationRecords = certRecords
         }
     }
     

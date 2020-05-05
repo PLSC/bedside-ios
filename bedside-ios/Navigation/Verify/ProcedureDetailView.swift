@@ -9,6 +9,9 @@
 import SwiftUI
 
 struct ProcedureDetailView: View {
+    
+    var certRecord: CertificationRecord
+    
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
@@ -16,6 +19,6 @@ struct ProcedureDetailView: View {
 
 struct ProcedureDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ProcedureDetailView()
+        ProcedureDetailView(certRecord: certRecordTestData[0])
     }
 }

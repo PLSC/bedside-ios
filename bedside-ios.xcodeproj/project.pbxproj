@@ -16,6 +16,8 @@
 		391C060423F4414200935BBC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 391C060323F4414200935BBC /* Preview Assets.xcassets */; };
 		391C060723F4414200935BBC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 391C060523F4414200935BBC /* LaunchScreen.storyboard */; };
 		392AA7CE2409AFAB00A64981 /* UserHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392AA7CD2409AFAB00A64981 /* UserHeader.swift */; };
+		393CF2AD2461AB9B007BB281 /* CertRecordAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393CF2AC2461AB9B007BB281 /* CertRecordAPI.swift */; };
+		393CF2AF2461B201007BB281 /* CertificationRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393CF2AE2461B201007BB281 /* CertificationRecord.swift */; };
 		393DE74C2446068700EE97B4 /* RaterSelectRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393DE74B2446068700EE97B4 /* RaterSelectRow.swift */; };
 		393DE74E24462BA900EE97B4 /* PerformanceEvaluation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393DE74D24462BA900EE97B4 /* PerformanceEvaluation.swift */; };
 		39424F24240D654F00FD21A3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 39424F23240D654F00FD21A3 /* README.md */; };
@@ -54,7 +56,7 @@
 		39B65419240962D300EEA4A2 /* EvaluateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B65418240962D300EEA4A2 /* EvaluateView.swift */; };
 		39B6541B2409632F00EEA4A2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B6541A2409632F00EEA4A2 /* SettingsView.swift */; };
 		39B6541E240968C000EEA4A2 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B6541D240968C000EEA4A2 /* BaseView.swift */; };
-		39BFFF782409B7DA00F3769D /* ProcedureRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BFFF772409B7DA00F3769D /* ProcedureRowView.swift */; };
+		39BFFF782409B7DA00F3769D /* CertRecordRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BFFF772409B7DA00F3769D /* CertRecordRowView.swift */; };
 		39BFFF7A2409BB8600F3769D /* ProcedureListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BFFF792409BB8600F3769D /* ProcedureListView.swift */; };
 		39BFFF7C2409BC7300F3769D /* ProcedureDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BFFF7B2409BC7300F3769D /* ProcedureDetailView.swift */; };
 		4F8A576514EF455AAEE00886 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 029F21FE67194E7595C74426 /* awsconfiguration.json */; };
@@ -73,6 +75,8 @@
 		391C060823F4414200935BBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		391C061323F4414200935BBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		392AA7CD2409AFAB00A64981 /* UserHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHeader.swift; sourceTree = "<group>"; };
+		393CF2AC2461AB9B007BB281 /* CertRecordAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertRecordAPI.swift; sourceTree = "<group>"; };
+		393CF2AE2461B201007BB281 /* CertificationRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificationRecord.swift; sourceTree = "<group>"; };
 		393DE74B2446068700EE97B4 /* RaterSelectRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaterSelectRow.swift; sourceTree = "<group>"; };
 		393DE74D24462BA900EE97B4 /* PerformanceEvaluation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceEvaluation.swift; sourceTree = "<group>"; };
 		39424F23240D654F00FD21A3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -111,7 +115,7 @@
 		39B65418240962D300EEA4A2 /* EvaluateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluateView.swift; sourceTree = "<group>"; };
 		39B6541A2409632F00EEA4A2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		39B6541D240968C000EEA4A2 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
-		39BFFF772409B7DA00F3769D /* ProcedureRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcedureRowView.swift; sourceTree = "<group>"; };
+		39BFFF772409B7DA00F3769D /* CertRecordRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertRecordRowView.swift; sourceTree = "<group>"; };
 		39BFFF792409BB8600F3769D /* ProcedureListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcedureListView.swift; sourceTree = "<group>"; };
 		39BFFF7B2409BC7300F3769D /* ProcedureDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcedureDetailView.swift; sourceTree = "<group>"; };
 		590B078A065B544C4A6E0021 /* Pods-bedside-iosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bedside-iosTests.debug.xcconfig"; path = "Target Support Files/Pods-bedside-iosTests/Pods-bedside-iosTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 		3918A53823F461E1007AAF67 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				393CF2B02461CEC7007BB281 /* Model Extensions */,
 				3982374C2448CECB00ED7148 /* AmplifyModels.swift */,
 				398237512448CECB00ED7148 /* Membership.swift */,
 				398237492448CECB00ED7148 /* Membership+Schema.swift */,
@@ -152,6 +157,7 @@
 				3982374D2448CECB00ED7148 /* User.swift */,
 				3982374F2448CECB00ED7148 /* User+Schema.swift */,
 				39918C732457516D001797F1 /* Evaluation.swift */,
+				393CF2AE2461B201007BB281 /* CertificationRecord.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -222,6 +228,7 @@
 				39883F61244F746500ACE76F /* ApplicationState.swift */,
 				39B084E02451C18B003CE860 /* EvaluationAPI.swift */,
 				39773EA1245338CF0088B960 /* RatersViewModel.swift */,
+				393CF2AC2461AB9B007BB281 /* CertRecordAPI.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -231,11 +238,18 @@
 			children = (
 				39B6541624095F6100EEA4A2 /* VerifyView.swift */,
 				392AA7CD2409AFAB00A64981 /* UserHeader.swift */,
-				39BFFF772409B7DA00F3769D /* ProcedureRowView.swift */,
+				39BFFF772409B7DA00F3769D /* CertRecordRowView.swift */,
 				39BFFF792409BB8600F3769D /* ProcedureListView.swift */,
 				39BFFF7B2409BC7300F3769D /* ProcedureDetailView.swift */,
 			);
 			path = Verify;
+			sourceTree = "<group>";
+		};
+		393CF2B02461CEC7007BB281 /* Model Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Model Extensions";
 			sourceTree = "<group>";
 		};
 		3942E779240D6C900038011D /* Login */ = {
@@ -430,7 +444,8 @@
 				39773EA2245338CF0088B960 /* RatersViewModel.swift in Sources */,
 				398237552448CECB00ED7148 /* Membership+Schema.swift in Sources */,
 				398237562448CECB00ED7148 /* Program+Schema.swift in Sources */,
-				39BFFF782409B7DA00F3769D /* ProcedureRowView.swift in Sources */,
+				393CF2AF2461B201007BB281 /* CertificationRecord.swift in Sources */,
+				39BFFF782409B7DA00F3769D /* CertRecordRowView.swift in Sources */,
 				39A58015242A6C1A004999AD /* EmailCodeView.swift in Sources */,
 				39759CA0240D867200C1C87B /* AuthUtils.swift in Sources */,
 				391C05FD23F4414000935BBC /* SceneDelegate.swift in Sources */,
@@ -464,6 +479,7 @@
 				3982375D2448CECB00ED7148 /* Membership.swift in Sources */,
 				39883F62244F746500ACE76F /* ApplicationState.swift in Sources */,
 				3982375A2448CECB00ED7148 /* Procedure+Schema.swift in Sources */,
+				393CF2AD2461AB9B007BB281 /* CertRecordAPI.swift in Sources */,
 				3960372E242CD634006B216E /* ProcedureSelect.swift in Sources */,
 				39BFFF7C2409BC7300F3769D /* ProcedureDetailView.swift in Sources */,
 				39B65419240962D300EEA4A2 /* EvaluateView.swift in Sources */,

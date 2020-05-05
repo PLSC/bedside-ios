@@ -9,20 +9,14 @@
 import SwiftUI
 
 struct ProcedureListView: View {
+    @EnvironmentObject var userLoginState : UserLoginState
+    
     var body: some View {
         List {
-            NavigationLink(destination: ProcedureDetailView()) {
-                ProcedureRowView(completed: true)
-            }
-            
-            NavigationLink(destination: ProcedureDetailView()) {
-                ProcedureRowView(completed: true)
-            }
-            NavigationLink(destination: ProcedureDetailView()) {
-                ProcedureRowView(completed: true)
-            }
-            NavigationLink(destination: ProcedureDetailView()) {
-                ProcedureRowView(completed: false)
+            ForEach(userLoginState.certificationRecords) { certRecord in
+                NavigationLink(destination: ProcedureDetailView(certRecord: certRecord)) {
+                    CertRecordRowView(certificationRecord: certRecord)
+                }
             }
         }
     }
