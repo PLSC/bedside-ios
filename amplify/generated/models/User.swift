@@ -2,7 +2,18 @@
 import Amplify
 import Foundation
 
-public struct User: Model, Identifiable {    
+protocol UserRepresentible {
+    var id: String { get }
+    var userName: String? { get }
+    var email: String { get }
+    var phone: String? { get }
+    var firstName: String? { get }
+    var lastName: String? { get }
+    var npi: Int? { get }
+    var memberships: [Membership]? { get }
+}
+
+public struct User: Model, Identifiable, UserRepresentible {    
   public let id: String
   public var userName: String?
   public var email: String

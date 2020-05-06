@@ -16,7 +16,7 @@ struct VerifyView: View {
         NavigationView {
             VStack {
                 UserHeader()
-                ProcedureListView()
+                CertRecordListView()
             }
             .navigationBarTitle(Text("Dr. \(userLoginState.currentUser?.lastName ?? "")"))
         }

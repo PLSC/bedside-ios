@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Evaluation : ObservableObject {
+class EvaluationFormData : ObservableObject {
     @Published var procedure: Procedure?
     @Published var rater: User?
     @Published var subject: User?

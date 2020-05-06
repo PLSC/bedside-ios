@@ -19,7 +19,7 @@ class EvaluationAPI {
         return date.iso8601String
     }
     
-    func submitEvaluation(evaluation: Evaluation, callback: @escaping (Error?)-> ()) {
+    func submitEvaluation(evaluation: EvaluationFormData, callback: @escaping (Error?)-> ()) {
         guard evaluation.isValid() else {
             callback(EvaluationAPIError.InvalidEvaluationData)
             return

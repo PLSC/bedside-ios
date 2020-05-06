@@ -8,13 +8,13 @@
 
 import SwiftUI
 
-struct ProcedureListView: View {
+struct CertRecordListView: View {
     @EnvironmentObject var userLoginState : UserLoginState
     
     var body: some View {
         List {
             ForEach(userLoginState.certificationRecords) { certRecord in
-                NavigationLink(destination: ProcedureDetailView(certRecord: certRecord)) {
+                NavigationLink(destination: CertRecordDetailView(certRecord: certRecord)) {
                     CertRecordRowView(certificationRecord: certRecord)
                 }
             }
@@ -25,7 +25,7 @@ struct ProcedureListView: View {
 struct ProcedureListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            ProcedureListView()
+            CertRecordListView()
         }
     }
 }

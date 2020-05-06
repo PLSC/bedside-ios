@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct EvaluateView: View {
-    @ObservedObject var evaluation : Evaluation = Evaluation()
+    @ObservedObject var evaluation : EvaluationFormData = EvaluationFormData()
     
     
     @State var presentProcedures: Bool = false

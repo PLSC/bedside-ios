@@ -30,11 +30,11 @@ struct CertRecordRowView: View {
     }
 }
 
-let proceduresTestData = Procedure(id: "1", name: "Central Line", description: "Central Line")
+let proceduresTestData = Procedure(id: "1", name: "Central Line", description: "A line that goes into your center")
 
 let certRecordTestData = [
-    CertificationRecord(id: "1", procedure: proceduresTestData, isCertified: true, certificationMethod: nil, totalProcedureEvals: 2),
-    CertificationRecord(id: "2", procedure: proceduresTestData, isCertified: false, certificationMethod: nil, totalProcedureEvals: 3)
+    CertificationRecord(id: "1", procedure: proceduresTestData, isCertified: true, certificationMethod: nil, totalProcedureEvals: 2, certificationLog: nil),
+    CertificationRecord(id: "2", procedure: proceduresTestData, isCertified: false, certificationMethod: nil, totalProcedureEvals: 3, certificationLog: nil)
 ]
 
 struct ProcedureRowView_Previews: PreviewProvider {

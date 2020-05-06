@@ -24,7 +24,6 @@ class CertRecordAPI  {
             }
                                 
             if let certRecordItems = result?.data?.listCertificationRecords?.items {
-                print("certRecordItems:\(certRecordItems)")
                 let certRecords : [CertificationRecord] = certRecordItems.compactMap(self.mapCertRecord)
                 callback(certRecords)
             }
