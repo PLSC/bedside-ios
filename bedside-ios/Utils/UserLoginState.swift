@@ -87,6 +87,11 @@ class UserLoginState: ObservableObject {
         }
     }
     
+    func fetchCurrentUserCertRecords() {
+        guard let currentUser = self.currentUser else { return }
+        fetchCertRecords(user: currentUser)
+    }
+    
     func fetchCertRecords(user: User) {
         let api = CertRecordAPI()
         api.getCertRecords(subjectId:user.id) {

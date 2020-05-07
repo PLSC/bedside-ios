@@ -17,6 +17,8 @@ struct EvaluateView: View {
     @State var presentPerformanceEvaluation: Bool = false
     @State var presentEvalOverview: Bool = false
     
+    @State var isLoading: Bool = false
+    
     @EnvironmentObject var userLoginState : UserLoginState
     
     func canSubmitEval() -> Bool {
@@ -31,6 +33,7 @@ struct EvaluateView: View {
     
     func submitEvaluation() {
         let api = EvaluationAPI()
+        self.isLoading = true
         api.createEvaluation(subject: userLoginState.currentUser!,
                              rater: evaluation.rater!,
                              procedure: evaluation.procedure!,
@@ -38,49 +41,68 @@ struct EvaluateView: View {
                              ratingLevel: evaluation.answer!.assocValue) { (error) in
             if error == nil {
                 self.evaluation.reset()
+                self.userLoginState.fetchCurrentUserCertRecords()
             }
+            self.isLoading = false
         }
     }
     
     var body: some View {
-        NavigationView {
-            VStack {
-                UserHeaderSmall().padding()
-                Form {
-                    NavigationLink(
-                        destination: ProcedureSelect(
-                            selectedProcedure: $evaluation.procedure,
-                            isPresented: $presentProcedures),
-                        isActive: $presentProcedures) {
-                            ProcedureSelectRow(selectedProcedure: $evaluation.procedure)
-                    }
-                    
-                    DatePicker(selection: $evaluation.procedureDate, in: self.oldestValidEvalDate()...Date()) {
-                        Text("Date")
-                    }.padding()
-                    
-                    NavigationLink(destination:
-                        RaterSelect(users: previewRaters,
-                                    selectedRater: $evaluation.rater,
-                                    isPresented: $presentRaterSelect), isActive:$presentRaterSelect) {
-                                        RaterSelectRow(selectedRater: $evaluation.rater).padding()
-                    }
-                    
-                    
-                    NavigationLink(destination: PerformanceEvaluation(rater: $evaluation.rater, procedure: $evaluation.procedure, selectedAnswer: $evaluation.answer, isPresented: $presentPerformanceEvaluation), isActive: $presentPerformanceEvaluation) {
+        LoadingView(isShowing: $isLoading) {
+            NavigationView {
+                VStack {
+                    UserHeaderSmall().padding()
+                    Form {
+                        NavigationLink(
+                            destination: ProcedureSelect(
+                                selectedProcedure: self.$evaluation.procedure,
+                                isPresented: self.$presentProcedures),
+                            isActive: self.$presentProcedures) {
+                                ProcedureSelectRow(selectedProcedure: self.$evaluation.procedure)
+                        }
+                        
+                        DatePicker(selection: self.$evaluation.procedureDate, in: self.oldestValidEvalDate()...Date()) {
+                            Text("Date")
+                        }.padding()
+                        
+                        NavigationLink(destination:
+                            RaterSelect(users: previewRaters,
+                                        selectedRater: self.$evaluation.rater,
+                                        isPresented: self.$presentRaterSelect), isActive:self.$presentRaterSelect) {
+                                            RaterSelectRow(selectedRater: self.$evaluation.rater).padding()
+                        }
+                        
+                        
+                        NavigationLink(destination: PerformanceEvaluation(rater: self.$evaluation.rater, procedure: self.$evaluation.procedure, selectedAnswer: self.$evaluation.answer, isPresented: self.$presentPerformanceEvaluation), isActive: self.$presentPerformanceEvaluation) {
+                            
+                            HStack {
+                                Spacer(minLength: 35)
+                                Button(action: {
+                                    print("Next button clicked.")
+                                }) {
+                                    HStack {
+                                        
+                                        Text( (self.evaluation.answer != nil) ? "\(self.evaluation.answer?.displayText ?? "")" : "Select Performance" )
+                                            .font(.headline)
+                                            .foregroundColor(.white)
+                                        
+                                    }
+                                }
+                                .padding()
+                                .background(Color.blue)
+                                .cornerRadius(10)
+                                Spacer(minLength: 35)
+                            }
+                        }
                         
                         HStack {
                             Spacer(minLength: 35)
-                            Button(action: {
-                                print("Next button clicked.")
+                            Button(action:{
+                                self.submitEvaluation()
                             }) {
-                                HStack {
-                                    
-                                    Text( (self.evaluation.answer != nil) ? "\(self.evaluation.answer?.displayText ?? "")" : "Select Performance" )
-                                        .font(.headline)
-                                        .foregroundColor(.white)
-                                    
-                                }
+                                Text("Submit")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
                             }
                             .padding()
                             .background(Color.blue)
@@ -88,25 +110,11 @@ struct EvaluateView: View {
                             Spacer(minLength: 35)
                         }
                     }
-                    
-                    HStack {
-                        Spacer(minLength: 35)
-                        Button(action:{
-                            self.submitEvaluation()
-                        }) {
-                            Text("Submit")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                        }
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(10)
-                        Spacer(minLength: 35)
-                    }
                 }
+                .navigationBarTitle("New Evaluation")
             }
-            .navigationBarTitle("New Evaluation")
         }
+        
     }
 }
 

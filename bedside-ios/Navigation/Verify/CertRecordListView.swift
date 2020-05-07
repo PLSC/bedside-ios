@@ -13,7 +13,10 @@ struct CertRecordListView: View {
     
     var body: some View {
         List {
-            ForEach(userLoginState.certificationRecords) { certRecord in
+            ForEach(userLoginState.certificationRecords.sorted(by: {
+                (cert1, cert2) -> Bool in
+                return cert1.procedure.name < cert2.procedure.name
+            })) { certRecord in
                 NavigationLink(destination: CertRecordDetailView(certRecord: certRecord)) {
                     CertRecordRowView(certificationRecord: certRecord)
                 }

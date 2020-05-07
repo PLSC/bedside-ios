@@ -19,13 +19,8 @@ struct RaterSelect: View {
     @ObservedObject private var ratersViewModel : RatersViewModel = RatersViewModel()
     
     func substring(_ substring: String, inString: String?) -> Bool {
-        var substringInString = false
-        if let sub = inString {
-            substringInString = sub
-                .lowercased()
-                .contains(substring.lowercased())
-        }
-        return substringInString
+        guard let string = inString else { return false }
+        return string.lowercased().contains(substring.lowercased())
     }
     
     //TODO: allow the filter search to create a filtered API request
