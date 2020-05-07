@@ -28,10 +28,24 @@ struct RaterSelect: View {
         return substringInString
     }
     
+    //TODO: allow the filter search to create a filtered API request
     func userSearchFilter(_ user: User) -> Bool {
+        guard let currentUserId = userLoginState.currentUser?.id else {
+            print("No current user")
+            return true
+        }
+        
+        //Don't sure the current user.
+        if user.id == currentUserId {
+            return false
+        }
+        
+        //Show all users if there is no search text.
         if searchText.isEmpty {
             return true
         }
+        
+        //Show users with substrings of names.
         let substringInFirst = substring(searchText, inString: user.firstName)
         let substringInLast = substring(searchText, inString: user.lastName)
                 

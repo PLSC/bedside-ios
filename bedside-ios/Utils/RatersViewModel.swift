@@ -30,6 +30,7 @@ class RatersViewModel : ObservableObject {
         
         let orgId = ModelIDInput(eq: organization.id)
         let filter = ModelProgramFilterInput(orgId: orgId)
+        //TODO: allow next tokens and pagination if necessary.
         let query = ListProgramsQuery(filter: filter, limit: 1000)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient

@@ -16,7 +16,7 @@ enum EvaluationAPIError : Error {
 class EvaluationAPI {
     
     func dateString(date: Date) -> String {
-        return date.iso8601String
+        return date.awsDateTimeString
     }
     
     func submitEvaluation(evaluation: EvaluationFormData, callback: @escaping (Error?)-> ()) {
