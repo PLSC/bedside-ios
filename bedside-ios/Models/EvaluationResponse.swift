@@ -17,4 +17,13 @@ public struct EvaluationResponse: Identifiable, Codable {
     public let ratingLevel : Int
 }
 
-
+extension EvaluationResponse {
+    var ratingDisplayText : String? {
+        get {
+            return answerOptions.filter { (answerOption) -> Bool in
+                answerOption.assocValue == self.ratingLevel
+            }
+            .first?.displayText
+        }
+    }
+}

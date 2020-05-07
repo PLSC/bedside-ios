@@ -30,18 +30,11 @@ struct CertRecordRowView: View {
     }
 }
 
-let proceduresTestData = Procedure(id: "1", name: "Central Line", description: "A line that goes into your center")
-
-let certRecordTestData = [
-    CertificationRecord(id: "1", procedure: proceduresTestData, isCertified: true, certificationMethod: nil, totalProcedureEvals: 2, certificationLog: nil),
-    CertificationRecord(id: "2", procedure: proceduresTestData, isCertified: false, certificationMethod: nil, totalProcedureEvals: 3, certificationLog: nil)
-]
-
 struct ProcedureRowView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            CertRecordRowView(certificationRecord: certRecordTestData[0])
-            CertRecordRowView(certificationRecord: certRecordTestData[1])
+            CertRecordRowView(certificationRecord: UITestModels.certRecordTestData[0])
+            CertRecordRowView(certificationRecord: UITestModels.certRecordTestData[1])
             
         }.previewLayout(.fixed(width: 300, height: 50))
     }

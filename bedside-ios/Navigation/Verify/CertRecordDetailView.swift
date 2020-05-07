@@ -24,6 +24,6 @@ struct CertRecordDetailView: View {
 
 struct ProcedureDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        CertRecordDetailView(certRecord: certRecordTestData[0])
+        CertRecordDetailView(certRecord: UITestModels.certRecordTestData[0])
     }
 }

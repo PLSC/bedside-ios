@@ -25,6 +25,6 @@ struct ProcedureDetailRowView: View {
 
 struct ProcedureDetailRowView_Previews: PreviewProvider {
     static var previews: some View {
-        ProcedureDetailRowView(procedure: proceduresTestData)
+        ProcedureDetailRowView(procedure: UITestModels.proceduresTestData[0])
     }
 }

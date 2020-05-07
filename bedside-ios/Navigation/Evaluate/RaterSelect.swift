@@ -81,7 +81,7 @@ struct RaterSelect: View {
                             .frame(maxHeight:60)
                             .foregroundColor(.gray)
                             .font(Font.callout.weight(.thin))
-                        Text(self.displayName(user: user))
+                        Text(user.displayName)
                     }
                     .contentShape(Rectangle())
                     .onTapGesture {

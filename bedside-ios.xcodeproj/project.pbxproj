@@ -36,6 +36,8 @@
 		39773EA2245338CF0088B960 /* RatersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39773EA1245338CF0088B960 /* RatersViewModel.swift */; };
 		397F0879246468E700A14513 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397F0878246468E700A14513 /* ActivityIndicator.swift */; };
 		397F087B2464695D00A14513 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397F087A2464695D00A14513 /* LoadingView.swift */; };
+		397F087D24646C3F00A14513 /* EvalResponseListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397F087C24646C3F00A14513 /* EvalResponseListItem.swift */; };
+		397F087F24646CB600A14513 /* UITestModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397F087E24646CB600A14513 /* UITestModels.swift */; };
 		398236F62447548900ED7148 /* UserHeaderSmall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398236F52447548900ED7148 /* UserHeaderSmall.swift */; };
 		398236F82447684700ED7148 /* BigButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398236F72447684700ED7148 /* BigButtonStyle.swift */; };
 		398236FA2448B09600ED7148 /* EvaluationReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398236F92448B09600ED7148 /* EvaluationReview.swift */; };
@@ -100,6 +102,8 @@
 		39773EA1245338CF0088B960 /* RatersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatersViewModel.swift; sourceTree = "<group>"; };
 		397F0878246468E700A14513 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		397F087A2464695D00A14513 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		397F087C24646C3F00A14513 /* EvalResponseListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvalResponseListItem.swift; sourceTree = "<group>"; };
+		397F087E24646CB600A14513 /* UITestModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestModels.swift; sourceTree = "<group>"; };
 		398236F52447548900ED7148 /* UserHeaderSmall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHeaderSmall.swift; sourceTree = "<group>"; };
 		398236F72447684700ED7148 /* BigButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigButtonStyle.swift; sourceTree = "<group>"; };
 		398236F92448B09600ED7148 /* EvaluationReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationReview.swift; sourceTree = "<group>"; };
@@ -169,6 +173,7 @@
 				39918C732457516D001797F1 /* EvaluationFormData.swift */,
 				393CF2AE2461B201007BB281 /* CertificationRecord.swift */,
 				393CF2B32461F146007BB281 /* EvaluationResponse.swift */,
+				397F087E24646CB600A14513 /* UITestModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -254,6 +259,7 @@
 				39BFFF7B2409BC7300F3769D /* CertRecordDetailView.swift */,
 				393CF2B12461EC37007BB281 /* ProcedureDetailRowView.swift */,
 				393CF2B72461F9F2007BB281 /* CertLogListView.swift */,
+				397F087C24646C3F00A14513 /* EvalResponseListItem.swift */,
 			);
 			path = Verify;
 			sourceTree = "<group>";
@@ -489,6 +495,8 @@
 				398237542448CECB00ED7148 /* Program.swift in Sources */,
 				398237572448CECB00ED7148 /* Role.swift in Sources */,
 				39B6541E240968C000EEA4A2 /* BaseView.swift in Sources */,
+				397F087F24646CB600A14513 /* UITestModels.swift in Sources */,
+				397F087D24646C3F00A14513 /* EvalResponseListItem.swift in Sources */,
 				39918C742457516D001797F1 /* EvaluationFormData.swift in Sources */,
 				3960372C242CD489006B216E /* UserBanner.swift in Sources */,
 				398237522448CECB00ED7148 /* Organization+Schema.swift in Sources */,
@@ -642,7 +650,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"bedside-ios/Preview Content\"";
 				DEVELOPMENT_TEAM = EUY77Y4C9L;
 				ENABLE_PREVIEWS = YES;
@@ -665,7 +673,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"bedside-ios/Preview Content\"";
 				DEVELOPMENT_TEAM = EUY77Y4C9L;
 				ENABLE_PREVIEWS = YES;

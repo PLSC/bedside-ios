@@ -42,6 +42,23 @@ public struct User: Model, Identifiable, UserRepresentible {
   }
 }
 
+extension User {
+    var displayName : String {
+        get {
+            switch (self.firstName, self.lastName, self.email) {
+            case let (firstName?, lastName?, _):
+                return "Dr. \(firstName) \(lastName)"
+            case let (nil, lastName?, _):
+                return "Dr. \(lastName)"
+            case let (nil, nil, email):
+                return email
+            default:
+                return ""
+            }
+        }
+    }
+}
+
 extension User : Hashable {
     public static func == (lhs: User, rhs: User) -> Bool {
         return lhs.id == rhs.id
