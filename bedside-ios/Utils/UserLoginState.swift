@@ -100,21 +100,53 @@ class UserLoginState: ObservableObject {
         }
     }
     
+    //TODO: This is getting called multiple times.
+    func fetchOrganizationInfo(orgId: String) {
+
+        for org in self.organizations {
+            if (org.id == orgId) {
+                return
+            }
+        }
+        
+        let getOrgQuery = GetOrganizationQuery(id: orgId)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let appSyncClient = appDelegate.appSyncClient
+        appSyncClient?.fetch(query: getOrgQuery, cachePolicy: .returnCacheDataAndFetch, resultHandler: { (data, err) in
+            guard let results = data?.data?.getOrganization else {
+                print("error fetching organzation info: \(String(describing: err))")
+                return
+            }
+            
+            let programs = results.programs?.items?.compactMap({ (programItem) -> Program? in
+                guard let item = programItem else { return nil }
+                return Program(id: item.id, name: item.name, orgID: item.orgId, description: item.description)
+            })
+            
+            let org = Organization(id: results.id, title: results.title, description: results.description, programs: programs)
+            
+            self.organizations.removeAll()
+            self.organizations.append(org)
+        })
+    }
+    
     func updateUserPrograms(userItem: UsersByEmailQuery.Data.UsersByEmail.Item) {
         guard let membershipItems = userItem.memberships?.items else {
             print("User has no memberships")
             return
         }
         
+        var orgIds : Set<String> = []
+        
         let memberships : [Membership] = membershipItems.compactMap {
             
             var program : Program? = nil
             
+            //TODO: Pull more org info.
             if let programId = $0?.program.id,
                 let name = $0?.program.name,
                 let orgID = $0?.program.orgId {
-                let organization = Organization(id: orgID)
-                self.organizations.append(organization)
+                orgIds.insert(orgID)
                 program = Program(id: programId, name: name, orgID: orgID, description: $0?.program.description)
             }
             
@@ -127,6 +159,10 @@ class UserLoginState: ObservableObject {
             }
             
             return nil
+        }
+        
+        let _ = orgIds.map { (orgId) in
+            fetchOrganizationInfo(orgId: orgId)
         }
         
         currentUser?.memberships = memberships
@@ -143,7 +179,7 @@ class UserLoginState: ObservableObject {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
         appSyncClient?.perform(mutation: mutation, resultHandler: { (data, error) in
-            print("appsync update complete")
+            print("Current user update complete")
         })
     }
     

@@ -47,6 +47,8 @@ struct EvaluateView: View {
         }
     }
     
+    
+    
     var body: some View {
         LoadingView(isShowing: $isLoading) {
             NavigationView {

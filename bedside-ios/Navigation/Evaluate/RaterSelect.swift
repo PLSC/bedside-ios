@@ -11,6 +11,7 @@ import SwiftUI
 struct RaterSelect: View {
     @State private var searchText = ""
     @State var users : [User]
+    @State var presentNewRaterScreen : Bool = false
     @Binding var selectedRater : User?
     @Binding var isPresented : Bool
     
@@ -47,27 +48,18 @@ struct RaterSelect: View {
         return substringInFirst || substringInLast
     }
     
-    //TODO: Put this in User
-    func displayName(user: User) -> String {
-        switch (user.firstName, user.lastName, user.email) {
-        case let (firstName?, lastName?, _):
-            return "\(firstName) \(lastName)"
-        case let (nil, lastName?, _):
-            return "Dr. \(lastName)"
-        case let (nil, nil, email):
-            return email
-        default:
-            return ""
-        }
-    }
-    
     func selectRater(rater: User) {
         self.selectedRater = rater
         self.isPresented = false
     }
     
     func fetchRaters() {
-        ratersViewModel.fetchRaters(organization: userLoginState.organizations.first!)
+        guard let org = userLoginState.organizations.first else {
+            print("org not found for user: \(userLoginState.currentUser?.displayName ?? "No user")")
+            return
+        }
+        
+        ratersViewModel.fetchRaters(organization: org)
     }
     
     var body: some View {
@@ -82,22 +74,38 @@ struct RaterSelect: View {
                             .foregroundColor(.gray)
                             .font(Font.callout.weight(.thin))
                         Text(user.displayName)
+                        Spacer()
                     }
                     .contentShape(Rectangle())
                     .onTapGesture {
                         self.selectRater(rater: user)
                     }
                 }
+                
+                HStack(alignment: .center) {
+                    Image(systemName: "person.badge.plus").foregroundColor(.blue)
+                    Text("Add a Rater")
+                    Spacer()
+                }
+                .contentShape(Rectangle())
+                .padding()
+                .onTapGesture {
+                    self.presentNewRaterScreen = true
+                }
             }
         }
         .navigationBarTitle("Select Rater")
         .navigationBarItems(trailing: Button(action: {
-            print("add")
+            self.presentNewRaterScreen = true
         }) {
             Image(systemName: "person.badge.plus")
         }).onAppear(perform:{
             self.fetchRaters()
-        })
+        }).sheet(isPresented: self.$presentNewRaterScreen) {
+            NewRater(userSelectedCallback:{user in
+                self.selectRater(rater: user)
+            }, programs: self.userLoginState.organizations[0].programs!)
+        }
     }
 }
 
