@@ -67,6 +67,8 @@
 		39BFFF782409B7DA00F3769D /* CertRecordRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BFFF772409B7DA00F3769D /* CertRecordRowView.swift */; };
 		39BFFF7A2409BB8600F3769D /* CertRecordListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BFFF792409BB8600F3769D /* CertRecordListView.swift */; };
 		39BFFF7C2409BC7300F3769D /* CertRecordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BFFF7B2409BC7300F3769D /* CertRecordDetailView.swift */; };
+		39E5C775246B012000618F66 /* NewRaterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E5C774246B012000618F66 /* NewRaterViewModel.swift */; };
+		39E5C777246B113A00618F66 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E5C776246B113A00618F66 /* SearchBar.swift */; };
 		4F8A576514EF455AAEE00886 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 029F21FE67194E7595C74426 /* awsconfiguration.json */; };
 /* End PBXBuildFile section */
 
@@ -134,6 +136,8 @@
 		39BFFF772409B7DA00F3769D /* CertRecordRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertRecordRowView.swift; sourceTree = "<group>"; };
 		39BFFF792409BB8600F3769D /* CertRecordListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertRecordListView.swift; sourceTree = "<group>"; };
 		39BFFF7B2409BC7300F3769D /* CertRecordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertRecordDetailView.swift; sourceTree = "<group>"; };
+		39E5C774246B012000618F66 /* NewRaterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRaterViewModel.swift; sourceTree = "<group>"; };
+		39E5C776246B113A00618F66 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		590B078A065B544C4A6E0021 /* Pods-bedside-iosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bedside-iosTests.debug.xcconfig"; path = "Target Support Files/Pods-bedside-iosTests/Pods-bedside-iosTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6926CE226003A7E6F88934F6 /* Pods-bedside-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bedside-ios.release.xcconfig"; path = "Target Support Files/Pods-bedside-ios/Pods-bedside-ios.release.xcconfig"; sourceTree = "<group>"; };
 		A3EAE1DE4BC6299EFC5F4DE2 /* Pods-bedside-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bedside-ios.debug.xcconfig"; path = "Target Support Files/Pods-bedside-ios/Pods-bedside-ios.debug.xcconfig"; sourceTree = "<group>"; };
@@ -247,6 +251,7 @@
 				39B084E02451C18B003CE860 /* EvaluationAPI.swift */,
 				39773EA1245338CF0088B960 /* RatersViewModel.swift */,
 				393CF2AC2461AB9B007BB281 /* CertRecordAPI.swift */,
+				39E5C774246B012000618F66 /* NewRaterViewModel.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -308,6 +313,7 @@
 				3960372B242CD489006B216E /* UserBanner.swift */,
 				397F0878246468E700A14513 /* ActivityIndicator.swift */,
 				397F087A2464695D00A14513 /* LoadingView.swift */,
+				39E5C776246B113A00618F66 /* SearchBar.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -484,6 +490,7 @@
 				398237592448CECB00ED7148 /* User.swift in Sources */,
 				39B6541724095F6100EEA4A2 /* VerifyView.swift in Sources */,
 				393DE74C2446068700EE97B4 /* RaterSelectRow.swift in Sources */,
+				39E5C777246B113A00618F66 /* SearchBar.swift in Sources */,
 				39B084E12451C18B003CE860 /* EvaluationAPI.swift in Sources */,
 				3982375C2448CECB00ED7148 /* Organization.swift in Sources */,
 				3982375B2448CECB00ED7148 /* User+Schema.swift in Sources */,
@@ -510,6 +517,7 @@
 				3982375D2448CECB00ED7148 /* Membership.swift in Sources */,
 				39883F62244F746500ACE76F /* ApplicationState.swift in Sources */,
 				3982375A2448CECB00ED7148 /* Procedure+Schema.swift in Sources */,
+				39E5C775246B012000618F66 /* NewRaterViewModel.swift in Sources */,
 				393CF2AD2461AB9B007BB281 /* CertRecordAPI.swift in Sources */,
 				3960372E242CD634006B216E /* ProcedureSelect.swift in Sources */,
 				39BFFF7C2409BC7300F3769D /* CertRecordDetailView.swift in Sources */,

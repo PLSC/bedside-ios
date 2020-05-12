@@ -23,8 +23,44 @@ extension Array where Element: Hashable {
     }
 }
 
+
 class RatersViewModel : ObservableObject {
+    //TODO: learn how to filter this with a search term.
     @Published var raters : [User] = []
+    @Published var filterText : String = ""
+    var filterIds : [String] = []
+    
+    var filteredUsers : [User] {
+        return raters.filter(userSearchFilter(_:))
+    }
+    
+    init(filterIds: [String]) {
+        self.filterIds = filterIds
+    }
+    
+    func substring(_ substring: String, inString: String?) -> Bool {
+       guard let string = inString else { return false }
+       return string.lowercased().contains(substring.lowercased())
+    }
+    
+    
+    private func userSearchFilter(_ user: User) -> Bool {
+        
+        if filterIds.contains(user.id) {
+            return false
+        }
+        
+        //Show all users if there is no search text.
+        if filterText.isEmpty {
+            return true
+        }
+        
+        //Show users with substrings of names.
+        let substringInFirst = substring(filterText, inString: user.firstName)
+        let substringInLast = substring(filterText, inString: user.lastName)
+                
+        return substringInFirst || substringInLast
+    }
     
     func fetchRaters(organization: Organization) {
         
@@ -54,9 +90,5 @@ class RatersViewModel : ObservableObject {
                 
             }
         })
-    }
-
-    init() {
-        
     }
 }

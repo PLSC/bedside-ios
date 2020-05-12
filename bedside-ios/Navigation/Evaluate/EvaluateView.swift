@@ -68,8 +68,7 @@ struct EvaluateView: View {
                         }.padding()
                         
                         NavigationLink(destination:
-                            RaterSelect(users: previewRaters,
-                                        selectedRater: self.$evaluation.rater,
+                            RaterSelect(selectedRater: self.$evaluation.rater,
                                         isPresented: self.$presentRaterSelect), isActive:self.$presentRaterSelect) {
                                             RaterSelectRow(selectedRater: self.$evaluation.rater).padding()
                         }
