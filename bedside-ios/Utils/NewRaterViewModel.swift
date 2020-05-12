@@ -8,6 +8,11 @@
 
 import Foundation
 import UIKit
+import Combine
+
+enum NewRaterError: Error {
+    case InvalidData
+}
 
 class NewRaterViewModel: ObservableObject {
     @Published var firstName : String = ""
@@ -15,6 +20,41 @@ class NewRaterViewModel: ObservableObject {
     @Published var email : String = ""
     @Published var selectedProgram : Int = 0
     @Published var programs: [Program]
+    
+    var emailAvailable : AnyPublisher<Bool, Never> {
+        return $email
+            .debounce(for: 0.5, scheduler: RunLoop.main)
+            .removeDuplicates()
+            .flatMap { email in
+                return Future { promise in
+                    self.emailAvailable(email) { available in
+                        promise(.success(available))
+                    }
+                }
+        }.eraseToAnyPublisher()
+    }
+    
+    var emailValid : AnyPublisher<Bool, Never> {
+        return $email
+            .filter { email in
+                return email.count > 5
+            }
+            .map { email in
+                return email.validateEmail()
+            }.eraseToAnyPublisher()
+    }
+    
+    var emailError : AnyPublisher<String?, Never> {
+        return Publishers.CombineLatest(emailAvailable, emailValid)
+            .debounce(for: 0.2, scheduler: RunLoop.main)
+            .map {available, valid in
+                if !valid {return "Email not valid"}
+                if !available {return "Email not available"}
+                return nil
+            }
+            .eraseToAnyPublisher()
+    }
+    
     var userCreatedCallback : (User) -> ()
     
     init(programs:[Program],
@@ -24,16 +64,23 @@ class NewRaterViewModel: ObservableObject {
     }
     
     var isValid : Bool {
-        return !firstName.isEmpty && !lastName.isEmpty && !email.isEmpty
+        return !firstName.isEmpty && !lastName.isEmpty && !email.isEmpty && email.validateEmail()
     }
     
-    func submit() {
-        guard isValid else {
-            return
-        }
+    func emailAvailable(_ email: String, completion: @escaping (Bool) -> ()) {
+        let usersByEmailQuery = UsersByEmailQuery(email: email)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let appSyncClient = appDelegate.appSyncClient
+        appSyncClient?.fetch(query: usersByEmailQuery, cachePolicy:.fetchIgnoringCacheData, resultHandler: { (result, error) in
+            guard let items = result?.data?.usersByEmail?.items else {
+                completion(false)
+                return
+            }
+            completion(items.count == 0)
+        })
     }
     
-    func createMembership(user: User, programId: String, callback: @escaping ()->()) {
+    func createMembership(user: User, programId: String, callback: @escaping (Error?)->()) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
         
@@ -41,13 +88,22 @@ class NewRaterViewModel: ObservableObject {
         let createMembershipMutation = CreateMembershipMutation(input: createMembershipInput)
         
         appSyncClient?.perform(mutation: createMembershipMutation, resultHandler: { (result, err) in
-            print("Success")
+            guard err == nil else {
+                callback(err)
+                return
+            }
+            
             self.userCreatedCallback(user)
-            callback()
+            callback(err)
         })
     }
     
-    func submitNewRater(callback: @escaping () -> ()) {
+    func submitNewRater(callback: @escaping (Error?) -> ()) {
+        
+        guard isValid else {
+            callback(NewRaterError.InvalidData)
+            return
+        }
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient

@@ -25,13 +25,14 @@ extension Array where Element: Hashable {
 
 
 class RatersViewModel : ObservableObject {
-    //TODO: learn how to filter this with a search term.
     @Published var raters : [User] = []
     @Published var filterText : String = ""
     var filterIds : [String] = []
     
     var filteredUsers : [User] {
-        return raters.filter(userSearchFilter(_:))
+        return raters.filter(userSearchFilter(_:)).sorted { (user1, user2) -> Bool in
+            return user1.sortName < user2.sortName
+        }
     }
     
     init(filterIds: [String]) {

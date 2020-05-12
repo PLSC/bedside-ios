@@ -43,6 +43,20 @@ public struct User: Model, Identifiable, UserRepresentible {
 }
 
 extension User {
+    
+    var sortName : String {
+        get {
+            switch (self.firstName, self.lastName, self.email) {
+            case let (nil, nil, email):
+                return email
+            case let (firstName, lastName?, _):
+                return "\(lastName) \(firstName ?? "")"
+            default:
+                return ""
+            }
+        }
+    }
+    
     var displayName : String {
         get {
             switch (self.firstName, self.lastName, self.email) {

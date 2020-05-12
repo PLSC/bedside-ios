@@ -12,14 +12,34 @@ struct NewRater: View {
     
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var newRaterViewModel : NewRaterViewModel
+    @State var emailErrorString : String?
+    
+    func displayError(error: Error) {
+        //TODO: Map errors to ui.
+    }
+    
+    func submitCompletionCallback(error: Error?) {
+        guard error != nil else {
+            displayError(error: error!)
+            return
+        }
+        self.presentationMode.wrappedValue.dismiss()
+    }
     
     var body: some View {
         NavigationView {
             Group {
                 Form {
-                    TextField("Email Address", text: $newRaterViewModel.email)
+                    VStack(alignment: .leading) {
+                        TextField("Email Address", text: $newRaterViewModel.email)
                         .keyboardType(.emailAddress)
                         .autocapitalization(.none)
+                        Text(self.emailErrorString ?? "")
+                            .onReceive(newRaterViewModel.emailError) { errorString in
+                                self.emailErrorString = errorString
+                        }
+                    }
+                    
                     TextField("First Name", text: $newRaterViewModel.firstName)
                     TextField("Last Name", text: $newRaterViewModel.lastName)
                     
@@ -35,10 +55,8 @@ struct NewRater: View {
                     
                     Section {
                         Button(action: {
-                            self.newRaterViewModel.submitNewRater(callback: {
-                                self.presentationMode.wrappedValue.dismiss()
-                            })
-                        }) { Text("Submit") }
+                            self.newRaterViewModel.submitNewRater(callback: self.submitCompletionCallback(error:))
+                        }) { Text("Submit") }.disabled(!self.newRaterViewModel.isValid)
                     }
                     
                     //TODO: Search users and find existing.
