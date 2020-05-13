@@ -2,7 +2,7 @@
 import Amplify
 import Foundation
 
-public struct Program: Model, Codable, Identifiable {
+public struct Program: Identifiable {
   public let id: String
   public var name: String
   public var orgID: String

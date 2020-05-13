@@ -16,11 +16,12 @@ struct NewRater: View {
     
     func displayError(error: Error) {
         //TODO: Map errors to ui.
+        print("Display this error")
     }
     
     func submitCompletionCallback(error: Error?) {
-        guard error != nil else {
-            displayError(error: error!)
+        if let e = error {
+            displayError(error: e)
             return
         }
         self.presentationMode.wrappedValue.dismiss()
@@ -80,6 +81,6 @@ struct NewRater: View {
 
 struct NewRater_Previews: PreviewProvider {
     static var previews: some View {
-        NewRater(newRaterViewModel: NewRaterViewModel(programs: []) {_ in })
+        NewRater(newRaterViewModel: NewRaterViewModel(programs: [], orgId: "test") {_ in })
     }
 }

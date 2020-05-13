@@ -78,10 +78,9 @@ class UserLoginState: ObservableObject {
                 (result, error ) in
                 
                 if let userItem = result?.data?.usersByEmail?.items?.compactMap({ $0 }).first {
-                    self.currentUser = User(id: userItem.id, userName: userItem.userName, email: userItem.email, phone: userItem.phone, firstName: userItem.firstName, lastName: userItem.lastName, npi: userItem.npi)
+                    self.currentUser = userItem.mapToUser()
                     self.updateUserPrograms(userItem: userItem)
                     self.fetchCertRecords(user: self.currentUser!)
-                    
                 }
             }
         }

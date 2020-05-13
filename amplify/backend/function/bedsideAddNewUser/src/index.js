@@ -8,26 +8,52 @@ var AWS = require("aws-sdk");
 var dynamodb = new AWS.DynamoDB();
 var crypto = require("crypto");
 
-async function getTableName(name) {
-  let params = { Limit: 100 };
-  let data = await dynamodb.listTables(params).promise();
+async function readAllTables() {
+  var params = {};
+  var tables = [];
 
-  let tableNames = data.TableNames.filter(
-    (tableName) =>
-      tableName.startsWith(name + "-") && tableName.endsWith(process.env.ENV)
-  );
-  if (tableNames.length > 1) {
-    throw "Ambiguous table names";
-  }
-  if (tableNames.length === 0) {
-    throw "Table not found";
+  while (true) {
+    var response = await dynamodb.listTables(params).promise();
+    tables = tables.concat(response.TableNames);
+
+    if (undefined === response.LastEvaluatedTableName) {
+      break;
+    } else {
+      params.ExclusiveStartTableName = response.LastEvaluatedTableName;
+    }
   }
 
-  return tableNames[0];
+  return tables;
+}
+
+async function getTableNameFn() {
+  let data = await readAllTables();
+  console.log("all tables:", data);
+
+  return function getTableName(name) {
+    let tableNames = data.filter(
+      (tableName) =>
+        tableName.startsWith(name + "-") && tableName.endsWith(process.env.ENV)
+    );
+    if (tableNames.length > 1) {
+      throw (
+        "Ambiguous table names: " +
+        tableNames.reduce((prev, curr, index) => {
+          prev + ", " + curr;
+        })
+      );
+    }
+    if (tableNames.length === 0) {
+      throw "Table not found";
+    }
+
+    return tableNames[0];
+  };
 }
 
 exports.handler = async (event, context, callback) => {
-  var tableName = await getTableName("User");
+  var getTableName = await getTableNameFn();
+  var tableName = getTableName("User");
   console.log(event);
   var userName = event.userName;
   var email = event.request.userAttributes.email;
@@ -42,6 +68,7 @@ exports.handler = async (event, context, callback) => {
     console.log("Adding to DB: username: " + userName);
     console.log("Adding to DB: email: " + email);
     console.log("Adding to DB: id: " + userId);
+    let creationDateString = new Date().toISOString();
 
     let tableInsert = {
       TableName: tableName,
@@ -49,9 +76,10 @@ exports.handler = async (event, context, callback) => {
         id: { S: userId },
         email: { S: email },
         userName: { S: userName },
+        createdAt: { S: creationDateString },
       },
     };
-    var data = null;
+
     try {
       let dataReq = dynamodb.putItem(tableInsert);
       data = await dataReq.promise();

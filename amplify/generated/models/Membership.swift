@@ -2,7 +2,7 @@
 import Amplify
 import Foundation
 
-public struct Membership: Model, Codable, Identifiable {
+public struct Membership: Identifiable {
   public let id: String
   public var role: RoleModel
   public var user: User

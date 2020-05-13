@@ -20,6 +20,7 @@ class NewRaterViewModel: ObservableObject {
     @Published var email : String = ""
     @Published var selectedProgram : Int = 0
     @Published var programs: [Program]
+    var orgId : String
     
     var emailAvailable : AnyPublisher<Bool, Never> {
         return $email
@@ -58,9 +59,11 @@ class NewRaterViewModel: ObservableObject {
     var userCreatedCallback : (User) -> ()
     
     init(programs:[Program],
+         orgId: String,
          userCreatedCallback: @escaping (User) -> ()) {
         self.programs = programs
         self.userCreatedCallback = userCreatedCallback
+        self.orgId = orgId
     }
     
     var isValid : Bool {
@@ -107,7 +110,7 @@ class NewRaterViewModel: ObservableObject {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
-        let createUserInput = CreateUserInput(email: self.email, firstName: self.firstName, lastName: self.lastName, isRater: true)
+        let createUserInput = CreateUserInput(orgId: self.orgId, email: self.email, firstName: self.firstName, lastName: self.lastName, isRater: true)
         let createUserMutation = CreateUserMutation(input: createUserInput)
         appSyncClient?.perform(mutation: createUserMutation, resultHandler: { (data, error) in
             guard let result = data?.data?.createUser else {
@@ -119,7 +122,8 @@ class NewRaterViewModel: ObservableObject {
             let rater = User(id: result.id,
                              email: result.email,
                              firstName: result.firstName,
-                             lastName: result.lastName)
+                             lastName: result.lastName,
+                             orgId: self.orgId )
             self.createMembership(user: rater,
                                   programId: self.programs[self.selectedProgram].id,
                                   callback: callback)

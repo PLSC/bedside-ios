@@ -39,8 +39,10 @@ type Procedure @model @auth(rules: [{ allow: private }]) {
 type User
   @model
   @auth(rules: [{ allow: private }])
-  @key(name: "ByEmail", fields: ["email"], queryField: "usersByEmail") {
+  @key(name: "ByEmail", fields: ["email"], queryField: "usersByEmail")
+  @key(name: "ByOrg", fields: ["orgID"]) {
   id: ID!
+  orgID: ID
   userName: String
   email: String!
   phone: String

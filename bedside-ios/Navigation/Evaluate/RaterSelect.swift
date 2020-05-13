@@ -82,6 +82,7 @@ struct RaterSelect: View {
             NewRater(newRaterViewModel:
                 NewRaterViewModel(
                     programs:self.userLoginState.organizations[0].programs!,
+                    orgId: self.userLoginState.currentUser?.orgId ?? "",
                     userCreatedCallback: {user in self.selectRater(rater: user)}))
         }
     }

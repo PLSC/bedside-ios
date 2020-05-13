@@ -63,7 +63,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-bedside-dev-102822-deployment",
-					"S3Key": "amplify-builds/bedsideAddNewUser-517859474c3064742b42-build.zip"
+					"S3Key": "amplify-builds/bedsideAddNewUser-793863494a55534a4677-build.zip"
 				}
 			}
 		},
@@ -148,7 +148,7 @@
 						{
 							"Effect": "Allow",
 							"Action": [
-								"dynamodb:PutItem"
+								"dynamodb:*"
 							],
 							"Resource": {
 								"Fn::Sub": [

@@ -10,11 +10,12 @@ protocol UserRepresentible {
     var firstName: String? { get }
     var lastName: String? { get }
     var npi: Int? { get }
-    var memberships: [Membership]? { get }
+    var orgId: String? {get}
 }
 
-public struct User: Model, Identifiable, UserRepresentible {    
+public struct User: Identifiable, UserRepresentible {    
   public let id: String
+  public let orgId: String?
   public var userName: String?
   public var email: String
   public var phone: String?
@@ -30,7 +31,8 @@ public struct User: Model, Identifiable, UserRepresentible {
       firstName: String? = nil,
       lastName: String? = nil,
       npi: Int? = nil,
-      memberships: [Membership]? = []) {
+      memberships: [Membership]? = [],
+      orgId: String? = nil) {
       self.id = id
       self.userName = userName
       self.email = email
@@ -39,6 +41,7 @@ public struct User: Model, Identifiable, UserRepresentible {
       self.lastName = lastName
       self.npi = npi
       self.memberships = memberships
+      self.orgId = orgId
   }
 }
 

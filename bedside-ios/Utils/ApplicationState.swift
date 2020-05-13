@@ -31,7 +31,7 @@ class ApplicationState: ObservableObject {
                 (result, error ) in
                 
                 if let userItem = result?.data?.usersByEmail?.items?.compactMap({ $0 }).first {
-                    self.currentUser = User(id: userItem.id, userName: userItem.userName, email: userItem.email, phone: userItem.phone, firstName: userItem.firstName, lastName: userItem.lastName, npi: userItem.npi)
+                    self.currentUser = userItem.mapToUser()
                     if let orgId = userItem.memberships?.items?[0]?.program.orgId {
                         appSyncClient?.fetch(query: GetOrganizationQuery(id: orgId), cachePolicy: .returnCacheDataAndFetch) {
                             (result, error) in

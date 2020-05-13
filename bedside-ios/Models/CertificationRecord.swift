@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct CertificationRecord : Codable, Identifiable {
+public struct CertificationRecord : Identifiable {
     public let id : String
     //public let subject : User
     
@@ -20,14 +20,14 @@ public struct CertificationRecord : Codable, Identifiable {
 }
 
 extension ListCertificationRecordsQuery.Data.ListCertificationRecord.Item.CertificationLog.Item.Subject: UserRepresentible {
-    var memberships: [Membership]? {
-        return nil
-    }
+    
 }
 extension ListCertificationRecordsQuery.Data.ListCertificationRecord.Item.CertificationLog.Item.Rater: UserRepresentible {
-    var memberships: [Membership]? {
-        return nil
-    }
+    
+}
+
+extension UsersByEmailQuery.Data.UsersByEmail.Item: UserRepresentible {
+    
 }
 
 extension DateFormatter {
@@ -54,13 +54,19 @@ extension String {
     }
 }
 
+extension UserRepresentible {
+    func mapToUser() -> User {
+        return User(id: self.id, userName: self.userName, email: self.email, phone: self.phone, firstName: self.firstName, lastName: self.lastName, npi: self.npi, orgId: self.orgId)
+    }
+}
+
 
 
 extension CertificationRecord {
     
     func map(userListItem: UserRepresentible?) -> User? {
         guard let user = userListItem else { return nil }
-        return User(id: user.id, userName: user.userName, email: user.email, phone: user.phone, firstName: user.firstName, lastName: user.lastName, npi: user.npi, memberships: nil)
+        return user.mapToUser()
     }
     
     func mapCertLogItem(_ certLogItem: ListCertificationRecordsQuery.Data.ListCertificationRecord.Item.CertificationLog.Item?) -> EvaluationResponse? {

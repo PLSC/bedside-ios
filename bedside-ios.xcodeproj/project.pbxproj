@@ -43,16 +43,11 @@
 		398236F82447684700ED7148 /* BigButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398236F72447684700ED7148 /* BigButtonStyle.swift */; };
 		398236FA2448B09600ED7148 /* EvaluationReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398236F92448B09600ED7148 /* EvaluationReview.swift */; };
 		398236FC2448C17600ED7148 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398236FB2448C17600ED7148 /* API.swift */; };
-		398237522448CECB00ED7148 /* Organization+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398237462448CECB00ED7148 /* Organization+Schema.swift */; };
 		398237532448CECB00ED7148 /* Procedure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398237472448CECB00ED7148 /* Procedure.swift */; };
 		398237542448CECB00ED7148 /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398237482448CECB00ED7148 /* Program.swift */; };
-		398237552448CECB00ED7148 /* Membership+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398237492448CECB00ED7148 /* Membership+Schema.swift */; };
-		398237562448CECB00ED7148 /* Program+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3982374A2448CECB00ED7148 /* Program+Schema.swift */; };
 		398237572448CECB00ED7148 /* Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3982374B2448CECB00ED7148 /* Role.swift */; };
 		398237582448CECB00ED7148 /* AmplifyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3982374C2448CECB00ED7148 /* AmplifyModels.swift */; };
 		398237592448CECB00ED7148 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3982374D2448CECB00ED7148 /* User.swift */; };
-		3982375A2448CECB00ED7148 /* Procedure+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3982374E2448CECB00ED7148 /* Procedure+Schema.swift */; };
-		3982375B2448CECB00ED7148 /* User+Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3982374F2448CECB00ED7148 /* User+Schema.swift */; };
 		3982375C2448CECB00ED7148 /* Organization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398237502448CECB00ED7148 /* Organization.swift */; };
 		3982375D2448CECB00ED7148 /* Membership.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398237512448CECB00ED7148 /* Membership.swift */; };
 		39883F62244F746500ACE76F /* ApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39883F61244F746500ACE76F /* ApplicationState.swift */; };
@@ -113,16 +108,11 @@
 		398236F72447684700ED7148 /* BigButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigButtonStyle.swift; sourceTree = "<group>"; };
 		398236F92448B09600ED7148 /* EvaluationReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationReview.swift; sourceTree = "<group>"; };
 		398236FB2448C17600ED7148 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = SOURCE_ROOT; };
-		398237462448CECB00ED7148 /* Organization+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Organization+Schema.swift"; path = "amplify/generated/models/Organization+Schema.swift"; sourceTree = SOURCE_ROOT; };
 		398237472448CECB00ED7148 /* Procedure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Procedure.swift; path = amplify/generated/models/Procedure.swift; sourceTree = SOURCE_ROOT; };
 		398237482448CECB00ED7148 /* Program.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Program.swift; path = amplify/generated/models/Program.swift; sourceTree = SOURCE_ROOT; };
-		398237492448CECB00ED7148 /* Membership+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Membership+Schema.swift"; path = "amplify/generated/models/Membership+Schema.swift"; sourceTree = SOURCE_ROOT; };
-		3982374A2448CECB00ED7148 /* Program+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Program+Schema.swift"; path = "amplify/generated/models/Program+Schema.swift"; sourceTree = SOURCE_ROOT; };
 		3982374B2448CECB00ED7148 /* Role.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Role.swift; path = amplify/generated/models/Role.swift; sourceTree = SOURCE_ROOT; };
 		3982374C2448CECB00ED7148 /* AmplifyModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AmplifyModels.swift; path = amplify/generated/models/AmplifyModels.swift; sourceTree = SOURCE_ROOT; };
 		3982374D2448CECB00ED7148 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = amplify/generated/models/User.swift; sourceTree = SOURCE_ROOT; };
-		3982374E2448CECB00ED7148 /* Procedure+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Procedure+Schema.swift"; path = "amplify/generated/models/Procedure+Schema.swift"; sourceTree = SOURCE_ROOT; };
-		3982374F2448CECB00ED7148 /* User+Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "User+Schema.swift"; path = "amplify/generated/models/User+Schema.swift"; sourceTree = SOURCE_ROOT; };
 		398237502448CECB00ED7148 /* Organization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Organization.swift; path = amplify/generated/models/Organization.swift; sourceTree = SOURCE_ROOT; };
 		398237512448CECB00ED7148 /* Membership.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Membership.swift; path = amplify/generated/models/Membership.swift; sourceTree = SOURCE_ROOT; };
 		39883F61244F746500ACE76F /* ApplicationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationState.swift; sourceTree = "<group>"; };
@@ -168,16 +158,11 @@
 				393CF2B02461CEC7007BB281 /* Model Extensions */,
 				3982374C2448CECB00ED7148 /* AmplifyModels.swift */,
 				398237512448CECB00ED7148 /* Membership.swift */,
-				398237492448CECB00ED7148 /* Membership+Schema.swift */,
 				398237502448CECB00ED7148 /* Organization.swift */,
-				398237462448CECB00ED7148 /* Organization+Schema.swift */,
 				398237472448CECB00ED7148 /* Procedure.swift */,
-				3982374E2448CECB00ED7148 /* Procedure+Schema.swift */,
 				398237482448CECB00ED7148 /* Program.swift */,
-				3982374A2448CECB00ED7148 /* Program+Schema.swift */,
 				3982374B2448CECB00ED7148 /* Role.swift */,
 				3982374D2448CECB00ED7148 /* User.swift */,
-				3982374F2448CECB00ED7148 /* User+Schema.swift */,
 				39918C732457516D001797F1 /* EvaluationFormData.swift */,
 				393CF2AE2461B201007BB281 /* CertificationRecord.swift */,
 				393CF2B32461F146007BB281 /* EvaluationResponse.swift */,
@@ -475,8 +460,6 @@
 				391C05FB23F4414000935BBC /* AppDelegate.swift in Sources */,
 				39759C9C240D6E1500C1C87B /* ForgotPasswordView.swift in Sources */,
 				39773EA2245338CF0088B960 /* RatersViewModel.swift in Sources */,
-				398237552448CECB00ED7148 /* Membership+Schema.swift in Sources */,
-				398237562448CECB00ED7148 /* Program+Schema.swift in Sources */,
 				393CF2AF2461B201007BB281 /* CertificationRecord.swift in Sources */,
 				39BFFF782409B7DA00F3769D /* CertRecordRowView.swift in Sources */,
 				39A58015242A6C1A004999AD /* EmailCodeView.swift in Sources */,
@@ -497,7 +480,6 @@
 				39E5C777246B113A00618F66 /* SearchBar.swift in Sources */,
 				39B084E12451C18B003CE860 /* EvaluationAPI.swift in Sources */,
 				3982375C2448CECB00ED7148 /* Organization.swift in Sources */,
-				3982375B2448CECB00ED7148 /* User+Schema.swift in Sources */,
 				391C05FF23F4414000935BBC /* LoginView.swift in Sources */,
 				39BFFF7A2409BB8600F3769D /* CertRecordListView.swift in Sources */,
 				398236FC2448C17600ED7148 /* API.swift in Sources */,
@@ -513,14 +495,12 @@
 				397F087D24646C3F00A14513 /* EvalResponseListItem.swift in Sources */,
 				39918C742457516D001797F1 /* EvaluationFormData.swift in Sources */,
 				3960372C242CD489006B216E /* UserBanner.swift in Sources */,
-				398237522448CECB00ED7148 /* Organization+Schema.swift in Sources */,
 				397F087B2464695D00A14513 /* LoadingView.swift in Sources */,
 				396803AE246989FE005094F4 /* NewRater.swift in Sources */,
 				3946F68A242D3018005AC547 /* RaterSelect.swift in Sources */,
 				398237582448CECB00ED7148 /* AmplifyModels.swift in Sources */,
 				3982375D2448CECB00ED7148 /* Membership.swift in Sources */,
 				39883F62244F746500ACE76F /* ApplicationState.swift in Sources */,
-				3982375A2448CECB00ED7148 /* Procedure+Schema.swift in Sources */,
 				39E5C775246B012000618F66 /* NewRaterViewModel.swift in Sources */,
 				393CF2AD2461AB9B007BB281 /* CertRecordAPI.swift in Sources */,
 				3960372E242CD634006B216E /* ProcedureSelect.swift in Sources */,

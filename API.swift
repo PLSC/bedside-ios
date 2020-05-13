@@ -1064,8 +1064,8 @@ public struct DeleteProcedureInput: GraphQLMapConvertible {
 public struct CreateUserInput: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(id: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-    graphQLMap = ["id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater]
+  public init(id: GraphQLID? = nil, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+    graphQLMap = ["id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater]
   }
 
   public var id: GraphQLID? {
@@ -1074,6 +1074,15 @@ public struct CreateUserInput: GraphQLMapConvertible {
     }
     set {
       graphQLMap.updateValue(newValue, forKey: "id")
+    }
+  }
+
+  public var orgId: GraphQLID? {
+    get {
+      return graphQLMap["orgID"] as! GraphQLID?
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "orgID")
     }
   }
 
@@ -1144,8 +1153,17 @@ public struct CreateUserInput: GraphQLMapConvertible {
 public struct ModelUserConditionInput: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(userName: ModelStringInput? = nil, email: ModelStringInput? = nil, phone: ModelStringInput? = nil, firstName: ModelStringInput? = nil, lastName: ModelStringInput? = nil, npi: ModelIntInput? = nil, isRater: ModelBooleanInput? = nil, and: [ModelUserConditionInput?]? = nil, or: [ModelUserConditionInput?]? = nil, not: ModelUserConditionInput? = nil) {
-    graphQLMap = ["userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "and": and, "or": or, "not": not]
+  public init(orgId: ModelIDInput? = nil, userName: ModelStringInput? = nil, email: ModelStringInput? = nil, phone: ModelStringInput? = nil, firstName: ModelStringInput? = nil, lastName: ModelStringInput? = nil, npi: ModelIntInput? = nil, isRater: ModelBooleanInput? = nil, and: [ModelUserConditionInput?]? = nil, or: [ModelUserConditionInput?]? = nil, not: ModelUserConditionInput? = nil) {
+    graphQLMap = ["orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "and": and, "or": or, "not": not]
+  }
+
+  public var orgId: ModelIDInput? {
+    get {
+      return graphQLMap["orgID"] as! ModelIDInput?
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "orgID")
+    }
   }
 
   public var userName: ModelStringInput? {
@@ -1375,8 +1393,8 @@ public struct ModelBooleanInput: GraphQLMapConvertible {
 public struct UpdateUserInput: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(id: GraphQLID, userName: String? = nil, email: String? = nil, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-    graphQLMap = ["id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater]
+  public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String? = nil, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+    graphQLMap = ["id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater]
   }
 
   public var id: GraphQLID {
@@ -1385,6 +1403,15 @@ public struct UpdateUserInput: GraphQLMapConvertible {
     }
     set {
       graphQLMap.updateValue(newValue, forKey: "id")
+    }
+  }
+
+  public var orgId: GraphQLID? {
+    get {
+      return graphQLMap["orgID"] as! GraphQLID?
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "orgID")
     }
   }
 
@@ -2089,8 +2116,8 @@ public struct ModelProcedureFilterInput: GraphQLMapConvertible {
 public struct ModelUserFilterInput: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(id: ModelIDInput? = nil, userName: ModelStringInput? = nil, email: ModelStringInput? = nil, phone: ModelStringInput? = nil, firstName: ModelStringInput? = nil, lastName: ModelStringInput? = nil, npi: ModelIntInput? = nil, isRater: ModelBooleanInput? = nil, and: [ModelUserFilterInput?]? = nil, or: [ModelUserFilterInput?]? = nil, not: ModelUserFilterInput? = nil) {
-    graphQLMap = ["id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "and": and, "or": or, "not": not]
+  public init(id: ModelIDInput? = nil, orgId: ModelIDInput? = nil, userName: ModelStringInput? = nil, email: ModelStringInput? = nil, phone: ModelStringInput? = nil, firstName: ModelStringInput? = nil, lastName: ModelStringInput? = nil, npi: ModelIntInput? = nil, isRater: ModelBooleanInput? = nil, and: [ModelUserFilterInput?]? = nil, or: [ModelUserFilterInput?]? = nil, not: ModelUserFilterInput? = nil) {
+    graphQLMap = ["id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "and": and, "or": or, "not": not]
   }
 
   public var id: ModelIDInput? {
@@ -2099,6 +2126,15 @@ public struct ModelUserFilterInput: GraphQLMapConvertible {
     }
     set {
       graphQLMap.updateValue(newValue, forKey: "id")
+    }
+  }
+
+  public var orgId: ModelIDInput? {
+    get {
+      return graphQLMap["orgID"] as! ModelIDInput?
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "orgID")
     }
   }
 
@@ -3462,7 +3498,7 @@ public final class DeleteOrganizationMutation: GraphQLMutation {
 
 public final class CreateProgramMutation: GraphQLMutation {
   public static let operationString =
-    "mutation CreateProgram($input: CreateProgramInput!, $condition: ModelProgramConditionInput) {\n  createProgram(input: $input, condition: $condition) {\n    __typename\n    id\n    name\n    orgID\n    description\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
+    "mutation CreateProgram($input: CreateProgramInput!, $condition: ModelProgramConditionInput) {\n  createProgram(input: $input, condition: $condition) {\n    __typename\n    id\n    name\n    orgID\n    description\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
 
   public var input: CreateProgramInput
   public var condition: ModelProgramConditionInput?
@@ -3716,6 +3752,7 @@ public final class CreateProgramMutation: GraphQLMutation {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -3732,8 +3769,8 @@ public final class CreateProgramMutation: GraphQLMutation {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -3751,6 +3788,15 @@ public final class CreateProgramMutation: GraphQLMutation {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -3985,7 +4031,7 @@ public final class CreateProgramMutation: GraphQLMutation {
 
 public final class UpdateProgramMutation: GraphQLMutation {
   public static let operationString =
-    "mutation UpdateProgram($input: UpdateProgramInput!, $condition: ModelProgramConditionInput) {\n  updateProgram(input: $input, condition: $condition) {\n    __typename\n    id\n    name\n    orgID\n    description\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
+    "mutation UpdateProgram($input: UpdateProgramInput!, $condition: ModelProgramConditionInput) {\n  updateProgram(input: $input, condition: $condition) {\n    __typename\n    id\n    name\n    orgID\n    description\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
 
   public var input: UpdateProgramInput
   public var condition: ModelProgramConditionInput?
@@ -4239,6 +4285,7 @@ public final class UpdateProgramMutation: GraphQLMutation {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -4255,8 +4302,8 @@ public final class UpdateProgramMutation: GraphQLMutation {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -4274,6 +4321,15 @@ public final class UpdateProgramMutation: GraphQLMutation {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -4508,7 +4564,7 @@ public final class UpdateProgramMutation: GraphQLMutation {
 
 public final class DeleteProgramMutation: GraphQLMutation {
   public static let operationString =
-    "mutation DeleteProgram($input: DeleteProgramInput!, $condition: ModelProgramConditionInput) {\n  deleteProgram(input: $input, condition: $condition) {\n    __typename\n    id\n    name\n    orgID\n    description\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
+    "mutation DeleteProgram($input: DeleteProgramInput!, $condition: ModelProgramConditionInput) {\n  deleteProgram(input: $input, condition: $condition) {\n    __typename\n    id\n    name\n    orgID\n    description\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
 
   public var input: DeleteProgramInput
   public var condition: ModelProgramConditionInput?
@@ -4762,6 +4818,7 @@ public final class DeleteProgramMutation: GraphQLMutation {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -4778,8 +4835,8 @@ public final class DeleteProgramMutation: GraphQLMutation {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -4797,6 +4854,15 @@ public final class DeleteProgramMutation: GraphQLMutation {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -5031,7 +5097,7 @@ public final class DeleteProgramMutation: GraphQLMutation {
 
 public final class CreateMembershipMutation: GraphQLMutation {
   public static let operationString =
-    "mutation CreateMembership($input: CreateMembershipInput!, $condition: ModelMembershipConditionInput) {\n  createMembership(input: $input, condition: $condition) {\n    __typename\n    id\n    role\n    userId\n    user {\n      __typename\n      id\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    programId\n    program {\n      __typename\n      id\n      name\n      orgID\n      description\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n  }\n}"
+    "mutation CreateMembership($input: CreateMembershipInput!, $condition: ModelMembershipConditionInput) {\n  createMembership(input: $input, condition: $condition) {\n    __typename\n    id\n    role\n    userId\n    user {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    programId\n    program {\n      __typename\n      id\n      name\n      orgID\n      description\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n  }\n}"
 
   public var input: CreateMembershipInput
   public var condition: ModelMembershipConditionInput?
@@ -5163,6 +5229,7 @@ public final class CreateMembershipMutation: GraphQLMutation {
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("orgID", type: .scalar(GraphQLID.self)),
           GraphQLField("userName", type: .scalar(String.self)),
           GraphQLField("email", type: .nonNull(.scalar(String.self))),
           GraphQLField("phone", type: .scalar(String.self)),
@@ -5179,8 +5246,8 @@ public final class CreateMembershipMutation: GraphQLMutation {
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-          self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+        public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -5198,6 +5265,15 @@ public final class CreateMembershipMutation: GraphQLMutation {
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var orgId: GraphQLID? {
+          get {
+            return snapshot["orgID"] as? GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "orgID")
           }
         }
 
@@ -5411,6 +5487,7 @@ public final class CreateMembershipMutation: GraphQLMutation {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -5426,8 +5503,8 @@ public final class CreateMembershipMutation: GraphQLMutation {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -5445,6 +5522,15 @@ public final class CreateMembershipMutation: GraphQLMutation {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -5796,6 +5882,7 @@ public final class CreateMembershipMutation: GraphQLMutation {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -5811,8 +5898,8 @@ public final class CreateMembershipMutation: GraphQLMutation {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -5830,6 +5917,15 @@ public final class CreateMembershipMutation: GraphQLMutation {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -5972,7 +6068,7 @@ public final class CreateMembershipMutation: GraphQLMutation {
 
 public final class UpdateMembershipMutation: GraphQLMutation {
   public static let operationString =
-    "mutation UpdateMembership($input: UpdateMembershipInput!, $condition: ModelMembershipConditionInput) {\n  updateMembership(input: $input, condition: $condition) {\n    __typename\n    id\n    role\n    userId\n    user {\n      __typename\n      id\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    programId\n    program {\n      __typename\n      id\n      name\n      orgID\n      description\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n  }\n}"
+    "mutation UpdateMembership($input: UpdateMembershipInput!, $condition: ModelMembershipConditionInput) {\n  updateMembership(input: $input, condition: $condition) {\n    __typename\n    id\n    role\n    userId\n    user {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    programId\n    program {\n      __typename\n      id\n      name\n      orgID\n      description\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n  }\n}"
 
   public var input: UpdateMembershipInput
   public var condition: ModelMembershipConditionInput?
@@ -6104,6 +6200,7 @@ public final class UpdateMembershipMutation: GraphQLMutation {
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("orgID", type: .scalar(GraphQLID.self)),
           GraphQLField("userName", type: .scalar(String.self)),
           GraphQLField("email", type: .nonNull(.scalar(String.self))),
           GraphQLField("phone", type: .scalar(String.self)),
@@ -6120,8 +6217,8 @@ public final class UpdateMembershipMutation: GraphQLMutation {
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-          self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+        public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -6139,6 +6236,15 @@ public final class UpdateMembershipMutation: GraphQLMutation {
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var orgId: GraphQLID? {
+          get {
+            return snapshot["orgID"] as? GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "orgID")
           }
         }
 
@@ -6352,6 +6458,7 @@ public final class UpdateMembershipMutation: GraphQLMutation {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -6367,8 +6474,8 @@ public final class UpdateMembershipMutation: GraphQLMutation {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -6386,6 +6493,15 @@ public final class UpdateMembershipMutation: GraphQLMutation {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -6737,6 +6853,7 @@ public final class UpdateMembershipMutation: GraphQLMutation {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -6752,8 +6869,8 @@ public final class UpdateMembershipMutation: GraphQLMutation {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -6771,6 +6888,15 @@ public final class UpdateMembershipMutation: GraphQLMutation {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -6913,7 +7039,7 @@ public final class UpdateMembershipMutation: GraphQLMutation {
 
 public final class DeleteMembershipMutation: GraphQLMutation {
   public static let operationString =
-    "mutation DeleteMembership($input: DeleteMembershipInput!, $condition: ModelMembershipConditionInput) {\n  deleteMembership(input: $input, condition: $condition) {\n    __typename\n    id\n    role\n    userId\n    user {\n      __typename\n      id\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    programId\n    program {\n      __typename\n      id\n      name\n      orgID\n      description\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n  }\n}"
+    "mutation DeleteMembership($input: DeleteMembershipInput!, $condition: ModelMembershipConditionInput) {\n  deleteMembership(input: $input, condition: $condition) {\n    __typename\n    id\n    role\n    userId\n    user {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    programId\n    program {\n      __typename\n      id\n      name\n      orgID\n      description\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n  }\n}"
 
   public var input: DeleteMembershipInput
   public var condition: ModelMembershipConditionInput?
@@ -7045,6 +7171,7 @@ public final class DeleteMembershipMutation: GraphQLMutation {
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("orgID", type: .scalar(GraphQLID.self)),
           GraphQLField("userName", type: .scalar(String.self)),
           GraphQLField("email", type: .nonNull(.scalar(String.self))),
           GraphQLField("phone", type: .scalar(String.self)),
@@ -7061,8 +7188,8 @@ public final class DeleteMembershipMutation: GraphQLMutation {
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-          self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+        public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -7080,6 +7207,15 @@ public final class DeleteMembershipMutation: GraphQLMutation {
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var orgId: GraphQLID? {
+          get {
+            return snapshot["orgID"] as? GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "orgID")
           }
         }
 
@@ -7293,6 +7429,7 @@ public final class DeleteMembershipMutation: GraphQLMutation {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -7308,8 +7445,8 @@ public final class DeleteMembershipMutation: GraphQLMutation {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -7327,6 +7464,15 @@ public final class DeleteMembershipMutation: GraphQLMutation {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -7678,6 +7824,7 @@ public final class DeleteMembershipMutation: GraphQLMutation {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -7693,8 +7840,8 @@ public final class DeleteMembershipMutation: GraphQLMutation {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -7712,6 +7859,15 @@ public final class DeleteMembershipMutation: GraphQLMutation {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -8157,7 +8313,7 @@ public final class DeleteProcedureMutation: GraphQLMutation {
 
 public final class CreateUserMutation: GraphQLMutation {
   public static let operationString =
-    "mutation CreateUser($input: CreateUserInput!, $condition: ModelUserConditionInput) {\n  createUser(input: $input, condition: $condition) {\n    __typename\n    id\n    userName\n    email\n    phone\n    firstName\n    lastName\n    npi\n    isRater\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
+    "mutation CreateUser($input: CreateUserInput!, $condition: ModelUserConditionInput) {\n  createUser(input: $input, condition: $condition) {\n    __typename\n    id\n    orgID\n    userName\n    email\n    phone\n    firstName\n    lastName\n    npi\n    isRater\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
 
   public var input: CreateUserInput
   public var condition: ModelUserConditionInput?
@@ -8203,6 +8359,7 @@ public final class CreateUserMutation: GraphQLMutation {
       public static let selections: [GraphQLSelection] = [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+        GraphQLField("orgID", type: .scalar(GraphQLID.self)),
         GraphQLField("userName", type: .scalar(String.self)),
         GraphQLField("email", type: .nonNull(.scalar(String.self))),
         GraphQLField("phone", type: .scalar(String.self)),
@@ -8219,8 +8376,8 @@ public final class CreateUserMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-        self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+      public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+        self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
       }
 
       public var __typename: String {
@@ -8238,6 +8395,15 @@ public final class CreateUserMutation: GraphQLMutation {
         }
         set {
           snapshot.updateValue(newValue, forKey: "id")
+        }
+      }
+
+      public var orgId: GraphQLID? {
+        get {
+          return snapshot["orgID"] as? GraphQLID
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "orgID")
         }
       }
 
@@ -8451,6 +8617,7 @@ public final class CreateUserMutation: GraphQLMutation {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -8467,8 +8634,8 @@ public final class CreateUserMutation: GraphQLMutation {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -8486,6 +8653,15 @@ public final class CreateUserMutation: GraphQLMutation {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -8720,7 +8896,7 @@ public final class CreateUserMutation: GraphQLMutation {
 
 public final class UpdateUserMutation: GraphQLMutation {
   public static let operationString =
-    "mutation UpdateUser($input: UpdateUserInput!, $condition: ModelUserConditionInput) {\n  updateUser(input: $input, condition: $condition) {\n    __typename\n    id\n    userName\n    email\n    phone\n    firstName\n    lastName\n    npi\n    isRater\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
+    "mutation UpdateUser($input: UpdateUserInput!, $condition: ModelUserConditionInput) {\n  updateUser(input: $input, condition: $condition) {\n    __typename\n    id\n    orgID\n    userName\n    email\n    phone\n    firstName\n    lastName\n    npi\n    isRater\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
 
   public var input: UpdateUserInput
   public var condition: ModelUserConditionInput?
@@ -8766,6 +8942,7 @@ public final class UpdateUserMutation: GraphQLMutation {
       public static let selections: [GraphQLSelection] = [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+        GraphQLField("orgID", type: .scalar(GraphQLID.self)),
         GraphQLField("userName", type: .scalar(String.self)),
         GraphQLField("email", type: .nonNull(.scalar(String.self))),
         GraphQLField("phone", type: .scalar(String.self)),
@@ -8782,8 +8959,8 @@ public final class UpdateUserMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-        self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+      public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+        self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
       }
 
       public var __typename: String {
@@ -8801,6 +8978,15 @@ public final class UpdateUserMutation: GraphQLMutation {
         }
         set {
           snapshot.updateValue(newValue, forKey: "id")
+        }
+      }
+
+      public var orgId: GraphQLID? {
+        get {
+          return snapshot["orgID"] as? GraphQLID
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "orgID")
         }
       }
 
@@ -9014,6 +9200,7 @@ public final class UpdateUserMutation: GraphQLMutation {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -9030,8 +9217,8 @@ public final class UpdateUserMutation: GraphQLMutation {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -9049,6 +9236,15 @@ public final class UpdateUserMutation: GraphQLMutation {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -9283,7 +9479,7 @@ public final class UpdateUserMutation: GraphQLMutation {
 
 public final class DeleteUserMutation: GraphQLMutation {
   public static let operationString =
-    "mutation DeleteUser($input: DeleteUserInput!, $condition: ModelUserConditionInput) {\n  deleteUser(input: $input, condition: $condition) {\n    __typename\n    id\n    userName\n    email\n    phone\n    firstName\n    lastName\n    npi\n    isRater\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
+    "mutation DeleteUser($input: DeleteUserInput!, $condition: ModelUserConditionInput) {\n  deleteUser(input: $input, condition: $condition) {\n    __typename\n    id\n    orgID\n    userName\n    email\n    phone\n    firstName\n    lastName\n    npi\n    isRater\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
 
   public var input: DeleteUserInput
   public var condition: ModelUserConditionInput?
@@ -9329,6 +9525,7 @@ public final class DeleteUserMutation: GraphQLMutation {
       public static let selections: [GraphQLSelection] = [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+        GraphQLField("orgID", type: .scalar(GraphQLID.self)),
         GraphQLField("userName", type: .scalar(String.self)),
         GraphQLField("email", type: .nonNull(.scalar(String.self))),
         GraphQLField("phone", type: .scalar(String.self)),
@@ -9345,8 +9542,8 @@ public final class DeleteUserMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-        self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+      public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+        self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
       }
 
       public var __typename: String {
@@ -9364,6 +9561,15 @@ public final class DeleteUserMutation: GraphQLMutation {
         }
         set {
           snapshot.updateValue(newValue, forKey: "id")
+        }
+      }
+
+      public var orgId: GraphQLID? {
+        get {
+          return snapshot["orgID"] as? GraphQLID
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "orgID")
         }
       }
 
@@ -9577,6 +9783,7 @@ public final class DeleteUserMutation: GraphQLMutation {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -9593,8 +9800,8 @@ public final class DeleteUserMutation: GraphQLMutation {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -9612,6 +9819,15 @@ public final class DeleteUserMutation: GraphQLMutation {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -9846,7 +10062,7 @@ public final class DeleteUserMutation: GraphQLMutation {
 
 public final class CreateCertificationRecordMutation: GraphQLMutation {
   public static let operationString =
-    "mutation CreateCertificationRecord($input: CreateCertificationRecordInput!, $condition: ModelCertificationRecordConditionInput) {\n  createCertificationRecord(input: $input, condition: $condition) {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
+    "mutation CreateCertificationRecord($input: CreateCertificationRecordInput!, $condition: ModelCertificationRecordConditionInput) {\n  createCertificationRecord(input: $input, condition: $condition) {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
 
   public var input: CreateCertificationRecordInput
   public var condition: ModelCertificationRecordConditionInput?
@@ -10065,6 +10281,7 @@ public final class CreateCertificationRecordMutation: GraphQLMutation {
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("orgID", type: .scalar(GraphQLID.self)),
           GraphQLField("userName", type: .scalar(String.self)),
           GraphQLField("email", type: .nonNull(.scalar(String.self))),
           GraphQLField("phone", type: .scalar(String.self)),
@@ -10081,8 +10298,8 @@ public final class CreateCertificationRecordMutation: GraphQLMutation {
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-          self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+        public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -10100,6 +10317,15 @@ public final class CreateCertificationRecordMutation: GraphQLMutation {
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var orgId: GraphQLID? {
+          get {
+            return snapshot["orgID"] as? GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "orgID")
           }
         }
 
@@ -10313,6 +10539,7 @@ public final class CreateCertificationRecordMutation: GraphQLMutation {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -10328,8 +10555,8 @@ public final class CreateCertificationRecordMutation: GraphQLMutation {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -10347,6 +10574,15 @@ public final class CreateCertificationRecordMutation: GraphQLMutation {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -10662,6 +10898,7 @@ public final class CreateCertificationRecordMutation: GraphQLMutation {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -10678,8 +10915,8 @@ public final class CreateCertificationRecordMutation: GraphQLMutation {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -10697,6 +10934,15 @@ public final class CreateCertificationRecordMutation: GraphQLMutation {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -10816,6 +11062,7 @@ public final class CreateCertificationRecordMutation: GraphQLMutation {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -10832,8 +11079,8 @@ public final class CreateCertificationRecordMutation: GraphQLMutation {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -10851,6 +11098,15 @@ public final class CreateCertificationRecordMutation: GraphQLMutation {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -11028,7 +11284,7 @@ public final class CreateCertificationRecordMutation: GraphQLMutation {
 
 public final class UpdateCertificationRecordMutation: GraphQLMutation {
   public static let operationString =
-    "mutation UpdateCertificationRecord($input: UpdateCertificationRecordInput!, $condition: ModelCertificationRecordConditionInput) {\n  updateCertificationRecord(input: $input, condition: $condition) {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
+    "mutation UpdateCertificationRecord($input: UpdateCertificationRecordInput!, $condition: ModelCertificationRecordConditionInput) {\n  updateCertificationRecord(input: $input, condition: $condition) {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
 
   public var input: UpdateCertificationRecordInput
   public var condition: ModelCertificationRecordConditionInput?
@@ -11247,6 +11503,7 @@ public final class UpdateCertificationRecordMutation: GraphQLMutation {
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("orgID", type: .scalar(GraphQLID.self)),
           GraphQLField("userName", type: .scalar(String.self)),
           GraphQLField("email", type: .nonNull(.scalar(String.self))),
           GraphQLField("phone", type: .scalar(String.self)),
@@ -11263,8 +11520,8 @@ public final class UpdateCertificationRecordMutation: GraphQLMutation {
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-          self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+        public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -11282,6 +11539,15 @@ public final class UpdateCertificationRecordMutation: GraphQLMutation {
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var orgId: GraphQLID? {
+          get {
+            return snapshot["orgID"] as? GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "orgID")
           }
         }
 
@@ -11495,6 +11761,7 @@ public final class UpdateCertificationRecordMutation: GraphQLMutation {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -11510,8 +11777,8 @@ public final class UpdateCertificationRecordMutation: GraphQLMutation {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -11529,6 +11796,15 @@ public final class UpdateCertificationRecordMutation: GraphQLMutation {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -11844,6 +12120,7 @@ public final class UpdateCertificationRecordMutation: GraphQLMutation {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -11860,8 +12137,8 @@ public final class UpdateCertificationRecordMutation: GraphQLMutation {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -11879,6 +12156,15 @@ public final class UpdateCertificationRecordMutation: GraphQLMutation {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -11998,6 +12284,7 @@ public final class UpdateCertificationRecordMutation: GraphQLMutation {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -12014,8 +12301,8 @@ public final class UpdateCertificationRecordMutation: GraphQLMutation {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -12033,6 +12320,15 @@ public final class UpdateCertificationRecordMutation: GraphQLMutation {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -12210,7 +12506,7 @@ public final class UpdateCertificationRecordMutation: GraphQLMutation {
 
 public final class DeleteCertificationRecordMutation: GraphQLMutation {
   public static let operationString =
-    "mutation DeleteCertificationRecord($input: DeleteCertificationRecordInput!, $condition: ModelCertificationRecordConditionInput) {\n  deleteCertificationRecord(input: $input, condition: $condition) {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
+    "mutation DeleteCertificationRecord($input: DeleteCertificationRecordInput!, $condition: ModelCertificationRecordConditionInput) {\n  deleteCertificationRecord(input: $input, condition: $condition) {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
 
   public var input: DeleteCertificationRecordInput
   public var condition: ModelCertificationRecordConditionInput?
@@ -12429,6 +12725,7 @@ public final class DeleteCertificationRecordMutation: GraphQLMutation {
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("orgID", type: .scalar(GraphQLID.self)),
           GraphQLField("userName", type: .scalar(String.self)),
           GraphQLField("email", type: .nonNull(.scalar(String.self))),
           GraphQLField("phone", type: .scalar(String.self)),
@@ -12445,8 +12742,8 @@ public final class DeleteCertificationRecordMutation: GraphQLMutation {
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-          self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+        public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -12464,6 +12761,15 @@ public final class DeleteCertificationRecordMutation: GraphQLMutation {
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var orgId: GraphQLID? {
+          get {
+            return snapshot["orgID"] as? GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "orgID")
           }
         }
 
@@ -12677,6 +12983,7 @@ public final class DeleteCertificationRecordMutation: GraphQLMutation {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -12692,8 +12999,8 @@ public final class DeleteCertificationRecordMutation: GraphQLMutation {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -12711,6 +13018,15 @@ public final class DeleteCertificationRecordMutation: GraphQLMutation {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -13026,6 +13342,7 @@ public final class DeleteCertificationRecordMutation: GraphQLMutation {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -13042,8 +13359,8 @@ public final class DeleteCertificationRecordMutation: GraphQLMutation {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -13061,6 +13378,15 @@ public final class DeleteCertificationRecordMutation: GraphQLMutation {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -13180,6 +13506,7 @@ public final class DeleteCertificationRecordMutation: GraphQLMutation {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -13196,8 +13523,8 @@ public final class DeleteCertificationRecordMutation: GraphQLMutation {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -13215,6 +13542,15 @@ public final class DeleteCertificationRecordMutation: GraphQLMutation {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -14102,7 +14438,7 @@ public final class ListOrganizationsQuery: GraphQLQuery {
 
 public final class GetProgramQuery: GraphQLQuery {
   public static let operationString =
-    "query GetProgram($id: ID!) {\n  getProgram(id: $id) {\n    __typename\n    id\n    name\n    orgID\n    description\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
+    "query GetProgram($id: ID!) {\n  getProgram(id: $id) {\n    __typename\n    id\n    name\n    orgID\n    description\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
 
   public var id: GraphQLID
 
@@ -14354,6 +14690,7 @@ public final class GetProgramQuery: GraphQLQuery {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -14370,8 +14707,8 @@ public final class GetProgramQuery: GraphQLQuery {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -14389,6 +14726,15 @@ public final class GetProgramQuery: GraphQLQuery {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -14623,7 +14969,7 @@ public final class GetProgramQuery: GraphQLQuery {
 
 public final class ListProgramsQuery: GraphQLQuery {
   public static let operationString =
-    "query ListPrograms($filter: ModelProgramFilterInput, $limit: Int, $nextToken: String) {\n  listPrograms(filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      name\n      orgID\n      description\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    nextToken\n  }\n}"
+    "query ListPrograms($filter: ModelProgramFilterInput, $limit: Int, $nextToken: String) {\n  listPrograms(filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      name\n      orgID\n      description\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    nextToken\n  }\n}"
 
   public var filter: ModelProgramFilterInput?
   public var limit: Int?
@@ -14925,6 +15271,7 @@ public final class ListProgramsQuery: GraphQLQuery {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -14940,8 +15287,8 @@ public final class ListProgramsQuery: GraphQLQuery {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -14959,6 +15306,15 @@ public final class ListProgramsQuery: GraphQLQuery {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -15101,7 +15457,7 @@ public final class ListProgramsQuery: GraphQLQuery {
 
 public final class GetMembershipQuery: GraphQLQuery {
   public static let operationString =
-    "query GetMembership($id: ID!) {\n  getMembership(id: $id) {\n    __typename\n    id\n    role\n    userId\n    user {\n      __typename\n      id\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    programId\n    program {\n      __typename\n      id\n      name\n      orgID\n      description\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n  }\n}"
+    "query GetMembership($id: ID!) {\n  getMembership(id: $id) {\n    __typename\n    id\n    role\n    userId\n    user {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    programId\n    program {\n      __typename\n      id\n      name\n      orgID\n      description\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n  }\n}"
 
   public var id: GraphQLID
 
@@ -15231,6 +15587,7 @@ public final class GetMembershipQuery: GraphQLQuery {
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("orgID", type: .scalar(GraphQLID.self)),
           GraphQLField("userName", type: .scalar(String.self)),
           GraphQLField("email", type: .nonNull(.scalar(String.self))),
           GraphQLField("phone", type: .scalar(String.self)),
@@ -15247,8 +15604,8 @@ public final class GetMembershipQuery: GraphQLQuery {
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-          self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+        public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -15266,6 +15623,15 @@ public final class GetMembershipQuery: GraphQLQuery {
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var orgId: GraphQLID? {
+          get {
+            return snapshot["orgID"] as? GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "orgID")
           }
         }
 
@@ -15479,6 +15845,7 @@ public final class GetMembershipQuery: GraphQLQuery {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -15494,8 +15861,8 @@ public final class GetMembershipQuery: GraphQLQuery {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -15513,6 +15880,15 @@ public final class GetMembershipQuery: GraphQLQuery {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -15864,6 +16240,7 @@ public final class GetMembershipQuery: GraphQLQuery {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -15879,8 +16256,8 @@ public final class GetMembershipQuery: GraphQLQuery {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -15898,6 +16275,15 @@ public final class GetMembershipQuery: GraphQLQuery {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -16040,7 +16426,7 @@ public final class GetMembershipQuery: GraphQLQuery {
 
 public final class ListMembershipsQuery: GraphQLQuery {
   public static let operationString =
-    "query ListMemberships($filter: ModelMembershipFilterInput, $limit: Int, $nextToken: String) {\n  listMemberships(filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      role\n      userId\n      user {\n        __typename\n        id\n        userName\n        email\n        phone\n        firstName\n        lastName\n        npi\n        isRater\n        memberships {\n          __typename\n          items {\n            __typename\n            id\n            role\n            userId\n            programId\n          }\n          nextToken\n        }\n      }\n      programId\n      program {\n        __typename\n        id\n        name\n        orgID\n        description\n        memberships {\n          __typename\n          items {\n            __typename\n            id\n            role\n            userId\n            programId\n          }\n          nextToken\n        }\n      }\n    }\n    nextToken\n  }\n}"
+    "query ListMemberships($filter: ModelMembershipFilterInput, $limit: Int, $nextToken: String) {\n  listMemberships(filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      role\n      userId\n      user {\n        __typename\n        id\n        orgID\n        userName\n        email\n        phone\n        firstName\n        lastName\n        npi\n        isRater\n        memberships {\n          __typename\n          items {\n            __typename\n            id\n            role\n            userId\n            programId\n          }\n          nextToken\n        }\n      }\n      programId\n      program {\n        __typename\n        id\n        name\n        orgID\n        description\n        memberships {\n          __typename\n          items {\n            __typename\n            id\n            role\n            userId\n            programId\n          }\n          nextToken\n        }\n      }\n    }\n    nextToken\n  }\n}"
 
   public var filter: ModelMembershipFilterInput?
   public var limit: Int?
@@ -16220,6 +16606,7 @@ public final class ListMembershipsQuery: GraphQLQuery {
           public static let selections: [GraphQLSelection] = [
             GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
             GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+            GraphQLField("orgID", type: .scalar(GraphQLID.self)),
             GraphQLField("userName", type: .scalar(String.self)),
             GraphQLField("email", type: .nonNull(.scalar(String.self))),
             GraphQLField("phone", type: .scalar(String.self)),
@@ -16236,8 +16623,8 @@ public final class ListMembershipsQuery: GraphQLQuery {
             self.snapshot = snapshot
           }
 
-          public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-            self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+          public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+            self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
           }
 
           public var __typename: String {
@@ -16255,6 +16642,15 @@ public final class ListMembershipsQuery: GraphQLQuery {
             }
             set {
               snapshot.updateValue(newValue, forKey: "id")
+            }
+          }
+
+          public var orgId: GraphQLID? {
+            get {
+              return snapshot["orgID"] as? GraphQLID
+            }
+            set {
+              snapshot.updateValue(newValue, forKey: "orgID")
             }
           }
 
@@ -16891,7 +17287,7 @@ public final class ListProceduresQuery: GraphQLQuery {
 
 public final class GetUserQuery: GraphQLQuery {
   public static let operationString =
-    "query GetUser($id: ID!) {\n  getUser(id: $id) {\n    __typename\n    id\n    userName\n    email\n    phone\n    firstName\n    lastName\n    npi\n    isRater\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
+    "query GetUser($id: ID!) {\n  getUser(id: $id) {\n    __typename\n    id\n    orgID\n    userName\n    email\n    phone\n    firstName\n    lastName\n    npi\n    isRater\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
 
   public var id: GraphQLID
 
@@ -16935,6 +17331,7 @@ public final class GetUserQuery: GraphQLQuery {
       public static let selections: [GraphQLSelection] = [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+        GraphQLField("orgID", type: .scalar(GraphQLID.self)),
         GraphQLField("userName", type: .scalar(String.self)),
         GraphQLField("email", type: .nonNull(.scalar(String.self))),
         GraphQLField("phone", type: .scalar(String.self)),
@@ -16951,8 +17348,8 @@ public final class GetUserQuery: GraphQLQuery {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-        self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+      public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+        self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
       }
 
       public var __typename: String {
@@ -16970,6 +17367,15 @@ public final class GetUserQuery: GraphQLQuery {
         }
         set {
           snapshot.updateValue(newValue, forKey: "id")
+        }
+      }
+
+      public var orgId: GraphQLID? {
+        get {
+          return snapshot["orgID"] as? GraphQLID
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "orgID")
         }
       }
 
@@ -17183,6 +17589,7 @@ public final class GetUserQuery: GraphQLQuery {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -17199,8 +17606,8 @@ public final class GetUserQuery: GraphQLQuery {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -17218,6 +17625,15 @@ public final class GetUserQuery: GraphQLQuery {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -17452,7 +17868,7 @@ public final class GetUserQuery: GraphQLQuery {
 
 public final class ListUsersQuery: GraphQLQuery {
   public static let operationString =
-    "query ListUsers($filter: ModelUserFilterInput, $limit: Int, $nextToken: String) {\n  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    nextToken\n  }\n}"
+    "query ListUsers($filter: ModelUserFilterInput, $limit: Int, $nextToken: String) {\n  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    nextToken\n  }\n}"
 
   public var filter: ModelUserFilterInput?
   public var limit: Int?
@@ -17546,6 +17962,7 @@ public final class ListUsersQuery: GraphQLQuery {
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("orgID", type: .scalar(GraphQLID.self)),
           GraphQLField("userName", type: .scalar(String.self)),
           GraphQLField("email", type: .nonNull(.scalar(String.self))),
           GraphQLField("phone", type: .scalar(String.self)),
@@ -17562,8 +17979,8 @@ public final class ListUsersQuery: GraphQLQuery {
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-          self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+        public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -17581,6 +17998,15 @@ public final class ListUsersQuery: GraphQLQuery {
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var orgId: GraphQLID? {
+          get {
+            return snapshot["orgID"] as? GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "orgID")
           }
         }
 
@@ -17794,6 +18220,7 @@ public final class ListUsersQuery: GraphQLQuery {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -17809,8 +18236,8 @@ public final class ListUsersQuery: GraphQLQuery {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -17828,6 +18255,15 @@ public final class ListUsersQuery: GraphQLQuery {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -17970,7 +18406,7 @@ public final class ListUsersQuery: GraphQLQuery {
 
 public final class GetEvaluationResponseQuery: GraphQLQuery {
   public static let operationString =
-    "query GetEvaluationResponse($id: ID!) {\n  getEvaluationResponse(id: $id) {\n    __typename\n    id\n    subject {\n      __typename\n      id\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    subjectId\n    rater {\n      __typename\n      id\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    raterId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    procedureId\n    evauluationDate\n    ratingLevel\n    certificationRecordId\n  }\n}"
+    "query GetEvaluationResponse($id: ID!) {\n  getEvaluationResponse(id: $id) {\n    __typename\n    id\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    subjectId\n    rater {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    raterId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    procedureId\n    evauluationDate\n    ratingLevel\n    certificationRecordId\n  }\n}"
 
   public var id: GraphQLID
 
@@ -18140,6 +18576,7 @@ public final class GetEvaluationResponseQuery: GraphQLQuery {
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("orgID", type: .scalar(GraphQLID.self)),
           GraphQLField("userName", type: .scalar(String.self)),
           GraphQLField("email", type: .nonNull(.scalar(String.self))),
           GraphQLField("phone", type: .scalar(String.self)),
@@ -18156,8 +18593,8 @@ public final class GetEvaluationResponseQuery: GraphQLQuery {
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-          self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+        public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -18175,6 +18612,15 @@ public final class GetEvaluationResponseQuery: GraphQLQuery {
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var orgId: GraphQLID? {
+          get {
+            return snapshot["orgID"] as? GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "orgID")
           }
         }
 
@@ -18388,6 +18834,7 @@ public final class GetEvaluationResponseQuery: GraphQLQuery {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -18403,8 +18850,8 @@ public final class GetEvaluationResponseQuery: GraphQLQuery {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -18422,6 +18869,15 @@ public final class GetEvaluationResponseQuery: GraphQLQuery {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -18565,6 +19021,7 @@ public final class GetEvaluationResponseQuery: GraphQLQuery {
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("orgID", type: .scalar(GraphQLID.self)),
           GraphQLField("userName", type: .scalar(String.self)),
           GraphQLField("email", type: .nonNull(.scalar(String.self))),
           GraphQLField("phone", type: .scalar(String.self)),
@@ -18581,8 +19038,8 @@ public final class GetEvaluationResponseQuery: GraphQLQuery {
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-          self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+        public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -18600,6 +19057,15 @@ public final class GetEvaluationResponseQuery: GraphQLQuery {
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var orgId: GraphQLID? {
+          get {
+            return snapshot["orgID"] as? GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "orgID")
           }
         }
 
@@ -18813,6 +19279,7 @@ public final class GetEvaluationResponseQuery: GraphQLQuery {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -18828,8 +19295,8 @@ public final class GetEvaluationResponseQuery: GraphQLQuery {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -18847,6 +19314,15 @@ public final class GetEvaluationResponseQuery: GraphQLQuery {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -19046,7 +19522,7 @@ public final class GetEvaluationResponseQuery: GraphQLQuery {
 
 public final class ListEvaluationResponsesQuery: GraphQLQuery {
   public static let operationString =
-    "query ListEvaluationResponses($filter: ModelEvaluationResponseFilterInput, $limit: Int, $nextToken: String) {\n  listEvaluationResponses(filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      subject {\n        __typename\n        id\n        userName\n        email\n        phone\n        firstName\n        lastName\n        npi\n        isRater\n        memberships {\n          __typename\n          items {\n            __typename\n            id\n            role\n            userId\n            programId\n          }\n          nextToken\n        }\n      }\n      subjectId\n      rater {\n        __typename\n        id\n        userName\n        email\n        phone\n        firstName\n        lastName\n        npi\n        isRater\n        memberships {\n          __typename\n          items {\n            __typename\n            id\n            role\n            userId\n            programId\n          }\n          nextToken\n        }\n      }\n      raterId\n      procedure {\n        __typename\n        id\n        name\n        description\n      }\n      procedureId\n      evauluationDate\n      ratingLevel\n      certificationRecordId\n    }\n    nextToken\n  }\n}"
+    "query ListEvaluationResponses($filter: ModelEvaluationResponseFilterInput, $limit: Int, $nextToken: String) {\n  listEvaluationResponses(filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      subject {\n        __typename\n        id\n        orgID\n        userName\n        email\n        phone\n        firstName\n        lastName\n        npi\n        isRater\n        memberships {\n          __typename\n          items {\n            __typename\n            id\n            role\n            userId\n            programId\n          }\n          nextToken\n        }\n      }\n      subjectId\n      rater {\n        __typename\n        id\n        orgID\n        userName\n        email\n        phone\n        firstName\n        lastName\n        npi\n        isRater\n        memberships {\n          __typename\n          items {\n            __typename\n            id\n            role\n            userId\n            programId\n          }\n          nextToken\n        }\n      }\n      raterId\n      procedure {\n        __typename\n        id\n        name\n        description\n      }\n      procedureId\n      evauluationDate\n      ratingLevel\n      certificationRecordId\n    }\n    nextToken\n  }\n}"
 
   public var filter: ModelEvaluationResponseFilterInput?
   public var limit: Int?
@@ -19266,6 +19742,7 @@ public final class ListEvaluationResponsesQuery: GraphQLQuery {
           public static let selections: [GraphQLSelection] = [
             GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
             GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+            GraphQLField("orgID", type: .scalar(GraphQLID.self)),
             GraphQLField("userName", type: .scalar(String.self)),
             GraphQLField("email", type: .nonNull(.scalar(String.self))),
             GraphQLField("phone", type: .scalar(String.self)),
@@ -19282,8 +19759,8 @@ public final class ListEvaluationResponsesQuery: GraphQLQuery {
             self.snapshot = snapshot
           }
 
-          public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-            self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+          public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+            self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
           }
 
           public var __typename: String {
@@ -19301,6 +19778,15 @@ public final class ListEvaluationResponsesQuery: GraphQLQuery {
             }
             set {
               snapshot.updateValue(newValue, forKey: "id")
+            }
+          }
+
+          public var orgId: GraphQLID? {
+            get {
+              return snapshot["orgID"] as? GraphQLID
+            }
+            set {
+              snapshot.updateValue(newValue, forKey: "orgID")
             }
           }
 
@@ -19497,6 +19983,7 @@ public final class ListEvaluationResponsesQuery: GraphQLQuery {
           public static let selections: [GraphQLSelection] = [
             GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
             GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+            GraphQLField("orgID", type: .scalar(GraphQLID.self)),
             GraphQLField("userName", type: .scalar(String.self)),
             GraphQLField("email", type: .nonNull(.scalar(String.self))),
             GraphQLField("phone", type: .scalar(String.self)),
@@ -19513,8 +20000,8 @@ public final class ListEvaluationResponsesQuery: GraphQLQuery {
             self.snapshot = snapshot
           }
 
-          public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-            self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+          public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+            self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
           }
 
           public var __typename: String {
@@ -19532,6 +20019,15 @@ public final class ListEvaluationResponsesQuery: GraphQLQuery {
             }
             set {
               snapshot.updateValue(newValue, forKey: "id")
+            }
+          }
+
+          public var orgId: GraphQLID? {
+            get {
+              return snapshot["orgID"] as? GraphQLID
+            }
+            set {
+              snapshot.updateValue(newValue, forKey: "orgID")
             }
           }
 
@@ -19785,7 +20281,7 @@ public final class ListEvaluationResponsesQuery: GraphQLQuery {
 
 public final class GetCertificationRecordQuery: GraphQLQuery {
   public static let operationString =
-    "query GetCertificationRecord($id: ID!) {\n  getCertificationRecord(id: $id) {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
+    "query GetCertificationRecord($id: ID!) {\n  getCertificationRecord(id: $id) {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
 
   public var id: GraphQLID
 
@@ -20002,6 +20498,7 @@ public final class GetCertificationRecordQuery: GraphQLQuery {
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("orgID", type: .scalar(GraphQLID.self)),
           GraphQLField("userName", type: .scalar(String.self)),
           GraphQLField("email", type: .nonNull(.scalar(String.self))),
           GraphQLField("phone", type: .scalar(String.self)),
@@ -20018,8 +20515,8 @@ public final class GetCertificationRecordQuery: GraphQLQuery {
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-          self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+        public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -20037,6 +20534,15 @@ public final class GetCertificationRecordQuery: GraphQLQuery {
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var orgId: GraphQLID? {
+          get {
+            return snapshot["orgID"] as? GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "orgID")
           }
         }
 
@@ -20250,6 +20756,7 @@ public final class GetCertificationRecordQuery: GraphQLQuery {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -20265,8 +20772,8 @@ public final class GetCertificationRecordQuery: GraphQLQuery {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -20284,6 +20791,15 @@ public final class GetCertificationRecordQuery: GraphQLQuery {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -20599,6 +21115,7 @@ public final class GetCertificationRecordQuery: GraphQLQuery {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -20615,8 +21132,8 @@ public final class GetCertificationRecordQuery: GraphQLQuery {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -20634,6 +21151,15 @@ public final class GetCertificationRecordQuery: GraphQLQuery {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -20753,6 +21279,7 @@ public final class GetCertificationRecordQuery: GraphQLQuery {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -20769,8 +21296,8 @@ public final class GetCertificationRecordQuery: GraphQLQuery {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -20788,6 +21315,15 @@ public final class GetCertificationRecordQuery: GraphQLQuery {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -20965,7 +21501,7 @@ public final class GetCertificationRecordQuery: GraphQLQuery {
 
 public final class ListCertificationRecordsQuery: GraphQLQuery {
   public static let operationString =
-    "query ListCertificationRecords($filter: ModelCertificationRecordFilterInput, $limit: Int, $nextToken: String) {\n  listCertificationRecords(filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      procedureId\n      procedure {\n        __typename\n        id\n        name\n        description\n      }\n      isCertified\n      certificationMethod\n      subjectId\n      subject {\n        __typename\n        id\n        userName\n        email\n        phone\n        firstName\n        lastName\n        npi\n        isRater\n        memberships {\n          __typename\n          items {\n            __typename\n            id\n            role\n            userId\n            programId\n          }\n          nextToken\n        }\n      }\n      certificationLog {\n        __typename\n        items {\n          __typename\n          id\n          subject {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          subjectId\n          rater {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          raterId\n          procedure {\n            __typename\n            id\n            name\n            description\n          }\n          procedureId\n          evauluationDate\n          ratingLevel\n          certificationRecordId\n        }\n        nextToken\n      }\n      totalProcedureEvals\n    }\n    nextToken\n  }\n}"
+    "query ListCertificationRecords($filter: ModelCertificationRecordFilterInput, $limit: Int, $nextToken: String) {\n  listCertificationRecords(filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      procedureId\n      procedure {\n        __typename\n        id\n        name\n        description\n      }\n     isCertified\n      certificationMethod\n      subjectId\n      subject {\n        __typename\n        id\n        orgID\n        userName\n        email\n        phone\n        firstName\n        lastName\n        npi\n        isRater\n        memberships {\n          __typename\n          items {\n            __typename\n            id\n            role\n            userId\n            programId\n          }\n          nextToken\n        }\n      }\n      certificationLog {\n        __typename\n        items {\n          __typename\n          id\n          subject {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          subjectId\n          rater {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          raterId\n          procedure {\n            __typename\n            id\n            name\n            description\n          }\n          procedureId\n          evauluationDate\n          ratingLevel\n          certificationRecordId\n        }\n        nextToken\n      }\n      totalProcedureEvals\n    }\n    nextToken\n  }\n}"
 
   public var filter: ModelCertificationRecordFilterInput?
   public var limit: Int?
@@ -21232,6 +21768,7 @@ public final class ListCertificationRecordsQuery: GraphQLQuery {
           public static let selections: [GraphQLSelection] = [
             GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
             GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+            GraphQLField("orgID", type: .scalar(GraphQLID.self)),
             GraphQLField("userName", type: .scalar(String.self)),
             GraphQLField("email", type: .nonNull(.scalar(String.self))),
             GraphQLField("phone", type: .scalar(String.self)),
@@ -21248,8 +21785,8 @@ public final class ListCertificationRecordsQuery: GraphQLQuery {
             self.snapshot = snapshot
           }
 
-          public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-            self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+          public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+            self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
           }
 
           public var __typename: String {
@@ -21267,6 +21804,15 @@ public final class ListCertificationRecordsQuery: GraphQLQuery {
             }
             set {
               snapshot.updateValue(newValue, forKey: "id")
+            }
+          }
+
+          public var orgId: GraphQLID? {
+            get {
+              return snapshot["orgID"] as? GraphQLID
+            }
+            set {
+              snapshot.updateValue(newValue, forKey: "orgID")
             }
           }
 
@@ -21635,6 +22181,7 @@ public final class ListCertificationRecordsQuery: GraphQLQuery {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -21650,8 +22197,8 @@ public final class ListCertificationRecordsQuery: GraphQLQuery {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -21669,6 +22216,15 @@ public final class ListCertificationRecordsQuery: GraphQLQuery {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -21742,6 +22298,7 @@ public final class ListCertificationRecordsQuery: GraphQLQuery {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -21757,8 +22314,8 @@ public final class ListCertificationRecordsQuery: GraphQLQuery {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -21776,6 +22333,15 @@ public final class ListCertificationRecordsQuery: GraphQLQuery {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -21908,7 +22474,7 @@ public final class ListCertificationRecordsQuery: GraphQLQuery {
 
 public final class UsersByEmailQuery: GraphQLQuery {
   public static let operationString =
-    "query UsersByEmail($email: String, $sortDirection: ModelSortDirection, $filter: ModelUserFilterInput, $limit: Int, $nextToken: String) {\n  usersByEmail(email: $email, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    nextToken\n  }\n}"
+    "query UsersByEmail($email: String, $sortDirection: ModelSortDirection, $filter: ModelUserFilterInput, $limit: Int, $nextToken: String) {\n  usersByEmail(email: $email, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    nextToken\n  }\n}"
 
   public var email: String?
   public var sortDirection: ModelSortDirection?
@@ -22006,6 +22572,7 @@ public final class UsersByEmailQuery: GraphQLQuery {
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("orgID", type: .scalar(GraphQLID.self)),
           GraphQLField("userName", type: .scalar(String.self)),
           GraphQLField("email", type: .nonNull(.scalar(String.self))),
           GraphQLField("phone", type: .scalar(String.self)),
@@ -22022,8 +22589,8 @@ public final class UsersByEmailQuery: GraphQLQuery {
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-          self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+        public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -22041,6 +22608,15 @@ public final class UsersByEmailQuery: GraphQLQuery {
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var orgId: GraphQLID? {
+          get {
+            return snapshot["orgID"] as? GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "orgID")
           }
         }
 
@@ -22254,6 +22830,7 @@ public final class UsersByEmailQuery: GraphQLQuery {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -22269,8 +22846,8 @@ public final class UsersByEmailQuery: GraphQLQuery {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -22288,6 +22865,15 @@ public final class UsersByEmailQuery: GraphQLQuery {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -23450,7 +24036,7 @@ public final class OnDeleteOrganizationSubscription: GraphQLSubscription {
 
 public final class OnCreateProgramSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnCreateProgram {\n  onCreateProgram {\n    __typename\n    id\n    name\n    orgID\n    description\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
+    "subscription OnCreateProgram {\n  onCreateProgram {\n    __typename\n    id\n    name\n    orgID\n    description\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
 
   public init() {
   }
@@ -23695,6 +24281,7 @@ public final class OnCreateProgramSubscription: GraphQLSubscription {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -23711,8 +24298,8 @@ public final class OnCreateProgramSubscription: GraphQLSubscription {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -23730,6 +24317,15 @@ public final class OnCreateProgramSubscription: GraphQLSubscription {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -23964,7 +24560,7 @@ public final class OnCreateProgramSubscription: GraphQLSubscription {
 
 public final class OnUpdateProgramSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnUpdateProgram {\n  onUpdateProgram {\n    __typename\n    id\n    name\n    orgID\n    description\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
+    "subscription OnUpdateProgram {\n  onUpdateProgram {\n    __typename\n    id\n    name\n    orgID\n    description\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
 
   public init() {
   }
@@ -24209,6 +24805,7 @@ public final class OnUpdateProgramSubscription: GraphQLSubscription {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -24225,8 +24822,8 @@ public final class OnUpdateProgramSubscription: GraphQLSubscription {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -24244,6 +24841,15 @@ public final class OnUpdateProgramSubscription: GraphQLSubscription {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -24478,7 +25084,7 @@ public final class OnUpdateProgramSubscription: GraphQLSubscription {
 
 public final class OnDeleteProgramSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnDeleteProgram {\n  onDeleteProgram {\n    __typename\n    id\n    name\n    orgID\n    description\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
+    "subscription OnDeleteProgram {\n  onDeleteProgram {\n    __typename\n    id\n    name\n    orgID\n    description\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
 
   public init() {
   }
@@ -24723,6 +25329,7 @@ public final class OnDeleteProgramSubscription: GraphQLSubscription {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -24739,8 +25346,8 @@ public final class OnDeleteProgramSubscription: GraphQLSubscription {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -24758,6 +25365,15 @@ public final class OnDeleteProgramSubscription: GraphQLSubscription {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -24992,7 +25608,7 @@ public final class OnDeleteProgramSubscription: GraphQLSubscription {
 
 public final class OnCreateMembershipSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnCreateMembership {\n  onCreateMembership {\n    __typename\n    id\n    role\n    userId\n    user {\n      __typename\n      id\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    programId\n    program {\n      __typename\n      id\n      name\n      orgID\n      description\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n  }\n}"
+    "subscription OnCreateMembership {\n  onCreateMembership {\n    __typename\n    id\n    role\n    userId\n    user {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    programId\n    program {\n      __typename\n      id\n      name\n      orgID\n      description\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n  }\n}"
 
   public init() {
   }
@@ -25115,6 +25731,7 @@ public final class OnCreateMembershipSubscription: GraphQLSubscription {
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("orgID", type: .scalar(GraphQLID.self)),
           GraphQLField("userName", type: .scalar(String.self)),
           GraphQLField("email", type: .nonNull(.scalar(String.self))),
           GraphQLField("phone", type: .scalar(String.self)),
@@ -25131,8 +25748,8 @@ public final class OnCreateMembershipSubscription: GraphQLSubscription {
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-          self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+        public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -25150,6 +25767,15 @@ public final class OnCreateMembershipSubscription: GraphQLSubscription {
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var orgId: GraphQLID? {
+          get {
+            return snapshot["orgID"] as? GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "orgID")
           }
         }
 
@@ -25363,6 +25989,7 @@ public final class OnCreateMembershipSubscription: GraphQLSubscription {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -25378,8 +26005,8 @@ public final class OnCreateMembershipSubscription: GraphQLSubscription {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -25397,6 +26024,15 @@ public final class OnCreateMembershipSubscription: GraphQLSubscription {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -25748,6 +26384,7 @@ public final class OnCreateMembershipSubscription: GraphQLSubscription {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -25763,8 +26400,8 @@ public final class OnCreateMembershipSubscription: GraphQLSubscription {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -25782,6 +26419,15 @@ public final class OnCreateMembershipSubscription: GraphQLSubscription {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -25924,7 +26570,7 @@ public final class OnCreateMembershipSubscription: GraphQLSubscription {
 
 public final class OnUpdateMembershipSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnUpdateMembership {\n  onUpdateMembership {\n    __typename\n    id\n    role\n    userId\n    user {\n      __typename\n      id\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    programId\n    program {\n      __typename\n      id\n      name\n      orgID\n      description\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n  }\n}"
+    "subscription OnUpdateMembership {\n  onUpdateMembership {\n    __typename\n    id\n    role\n    userId\n    user {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    programId\n    program {\n      __typename\n      id\n      name\n      orgID\n      description\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n  }\n}"
 
   public init() {
   }
@@ -26047,6 +26693,7 @@ public final class OnUpdateMembershipSubscription: GraphQLSubscription {
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("orgID", type: .scalar(GraphQLID.self)),
           GraphQLField("userName", type: .scalar(String.self)),
           GraphQLField("email", type: .nonNull(.scalar(String.self))),
           GraphQLField("phone", type: .scalar(String.self)),
@@ -26063,8 +26710,8 @@ public final class OnUpdateMembershipSubscription: GraphQLSubscription {
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-          self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+        public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -26082,6 +26729,15 @@ public final class OnUpdateMembershipSubscription: GraphQLSubscription {
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var orgId: GraphQLID? {
+          get {
+            return snapshot["orgID"] as? GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "orgID")
           }
         }
 
@@ -26295,6 +26951,7 @@ public final class OnUpdateMembershipSubscription: GraphQLSubscription {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -26310,8 +26967,8 @@ public final class OnUpdateMembershipSubscription: GraphQLSubscription {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -26329,6 +26986,15 @@ public final class OnUpdateMembershipSubscription: GraphQLSubscription {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -26680,6 +27346,7 @@ public final class OnUpdateMembershipSubscription: GraphQLSubscription {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -26695,8 +27362,8 @@ public final class OnUpdateMembershipSubscription: GraphQLSubscription {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -26714,6 +27381,15 @@ public final class OnUpdateMembershipSubscription: GraphQLSubscription {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -26856,7 +27532,7 @@ public final class OnUpdateMembershipSubscription: GraphQLSubscription {
 
 public final class OnDeleteMembershipSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnDeleteMembership {\n  onDeleteMembership {\n    __typename\n    id\n    role\n    userId\n    user {\n      __typename\n      id\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    programId\n    program {\n      __typename\n      id\n      name\n      orgID\n      description\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n  }\n}"
+    "subscription OnDeleteMembership {\n  onDeleteMembership {\n    __typename\n    id\n    role\n    userId\n    user {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    programId\n    program {\n      __typename\n      id\n      name\n      orgID\n      description\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n  }\n}"
 
   public init() {
   }
@@ -26979,6 +27655,7 @@ public final class OnDeleteMembershipSubscription: GraphQLSubscription {
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("orgID", type: .scalar(GraphQLID.self)),
           GraphQLField("userName", type: .scalar(String.self)),
           GraphQLField("email", type: .nonNull(.scalar(String.self))),
           GraphQLField("phone", type: .scalar(String.self)),
@@ -26995,8 +27672,8 @@ public final class OnDeleteMembershipSubscription: GraphQLSubscription {
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-          self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+        public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -27014,6 +27691,15 @@ public final class OnDeleteMembershipSubscription: GraphQLSubscription {
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var orgId: GraphQLID? {
+          get {
+            return snapshot["orgID"] as? GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "orgID")
           }
         }
 
@@ -27227,6 +27913,7 @@ public final class OnDeleteMembershipSubscription: GraphQLSubscription {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -27242,8 +27929,8 @@ public final class OnDeleteMembershipSubscription: GraphQLSubscription {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -27261,6 +27948,15 @@ public final class OnDeleteMembershipSubscription: GraphQLSubscription {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -27612,6 +28308,7 @@ public final class OnDeleteMembershipSubscription: GraphQLSubscription {
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -27627,8 +28324,8 @@ public final class OnDeleteMembershipSubscription: GraphQLSubscription {
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -27646,6 +28343,15 @@ public final class OnDeleteMembershipSubscription: GraphQLSubscription {
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -28064,7 +28770,7 @@ public final class OnDeleteProcedureSubscription: GraphQLSubscription {
 
 public final class OnCreateUserSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnCreateUser {\n  onCreateUser {\n    __typename\n    id\n    userName\n    email\n    phone\n    firstName\n    lastName\n    npi\n    isRater\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
+    "subscription OnCreateUser {\n  onCreateUser {\n    __typename\n    id\n    orgID\n    userName\n    email\n    phone\n    firstName\n    lastName\n    npi\n    isRater\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
 
   public init() {
   }
@@ -28101,6 +28807,7 @@ public final class OnCreateUserSubscription: GraphQLSubscription {
       public static let selections: [GraphQLSelection] = [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+        GraphQLField("orgID", type: .scalar(GraphQLID.self)),
         GraphQLField("userName", type: .scalar(String.self)),
         GraphQLField("email", type: .nonNull(.scalar(String.self))),
         GraphQLField("phone", type: .scalar(String.self)),
@@ -28117,8 +28824,8 @@ public final class OnCreateUserSubscription: GraphQLSubscription {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-        self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+      public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+        self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
       }
 
       public var __typename: String {
@@ -28136,6 +28843,15 @@ public final class OnCreateUserSubscription: GraphQLSubscription {
         }
         set {
           snapshot.updateValue(newValue, forKey: "id")
+        }
+      }
+
+      public var orgId: GraphQLID? {
+        get {
+          return snapshot["orgID"] as? GraphQLID
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "orgID")
         }
       }
 
@@ -28349,6 +29065,7 @@ public final class OnCreateUserSubscription: GraphQLSubscription {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -28365,8 +29082,8 @@ public final class OnCreateUserSubscription: GraphQLSubscription {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -28384,6 +29101,15 @@ public final class OnCreateUserSubscription: GraphQLSubscription {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -28618,7 +29344,7 @@ public final class OnCreateUserSubscription: GraphQLSubscription {
 
 public final class OnUpdateUserSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnUpdateUser {\n  onUpdateUser {\n    __typename\n    id\n    userName\n    email\n    phone\n    firstName\n    lastName\n    npi\n    isRater\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
+    "subscription OnUpdateUser {\n  onUpdateUser {\n    __typename\n    id\n    orgID\n    userName\n    email\n    phone\n    firstName\n    lastName\n    npi\n    isRater\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
 
   public init() {
   }
@@ -28655,6 +29381,7 @@ public final class OnUpdateUserSubscription: GraphQLSubscription {
       public static let selections: [GraphQLSelection] = [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+        GraphQLField("orgID", type: .scalar(GraphQLID.self)),
         GraphQLField("userName", type: .scalar(String.self)),
         GraphQLField("email", type: .nonNull(.scalar(String.self))),
         GraphQLField("phone", type: .scalar(String.self)),
@@ -28671,8 +29398,8 @@ public final class OnUpdateUserSubscription: GraphQLSubscription {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-        self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+      public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+        self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
       }
 
       public var __typename: String {
@@ -28690,6 +29417,15 @@ public final class OnUpdateUserSubscription: GraphQLSubscription {
         }
         set {
           snapshot.updateValue(newValue, forKey: "id")
+        }
+      }
+
+      public var orgId: GraphQLID? {
+        get {
+          return snapshot["orgID"] as? GraphQLID
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "orgID")
         }
       }
 
@@ -28903,6 +29639,7 @@ public final class OnUpdateUserSubscription: GraphQLSubscription {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -28919,8 +29656,8 @@ public final class OnUpdateUserSubscription: GraphQLSubscription {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -28938,6 +29675,15 @@ public final class OnUpdateUserSubscription: GraphQLSubscription {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -29172,7 +29918,7 @@ public final class OnUpdateUserSubscription: GraphQLSubscription {
 
 public final class OnDeleteUserSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnDeleteUser {\n  onDeleteUser {\n    __typename\n    id\n    userName\n    email\n    phone\n    firstName\n    lastName\n    npi\n    isRater\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
+    "subscription OnDeleteUser {\n  onDeleteUser {\n    __typename\n    id\n    orgID\n    userName\n    email\n    phone\n    firstName\n    lastName\n    npi\n    isRater\n    memberships {\n      __typename\n      items {\n        __typename\n        id\n        role\n        userId\n        user {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        programId\n        program {\n          __typename\n          id\n          name\n          orgID\n          description\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n      }\n      nextToken\n    }\n  }\n}"
 
   public init() {
   }
@@ -29209,6 +29955,7 @@ public final class OnDeleteUserSubscription: GraphQLSubscription {
       public static let selections: [GraphQLSelection] = [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+        GraphQLField("orgID", type: .scalar(GraphQLID.self)),
         GraphQLField("userName", type: .scalar(String.self)),
         GraphQLField("email", type: .nonNull(.scalar(String.self))),
         GraphQLField("phone", type: .scalar(String.self)),
@@ -29225,8 +29972,8 @@ public final class OnDeleteUserSubscription: GraphQLSubscription {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-        self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+      public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+        self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
       }
 
       public var __typename: String {
@@ -29244,6 +29991,15 @@ public final class OnDeleteUserSubscription: GraphQLSubscription {
         }
         set {
           snapshot.updateValue(newValue, forKey: "id")
+        }
+      }
+
+      public var orgId: GraphQLID? {
+        get {
+          return snapshot["orgID"] as? GraphQLID
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "orgID")
         }
       }
 
@@ -29457,6 +30213,7 @@ public final class OnDeleteUserSubscription: GraphQLSubscription {
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -29473,8 +30230,8 @@ public final class OnDeleteUserSubscription: GraphQLSubscription {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -29492,6 +30249,15 @@ public final class OnDeleteUserSubscription: GraphQLSubscription {
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -29726,7 +30492,7 @@ public final class OnDeleteUserSubscription: GraphQLSubscription {
 
 public final class OnCreateCertificationRecordSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnCreateCertificationRecord {\n  onCreateCertificationRecord {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
+    "subscription OnCreateCertificationRecord {\n  onCreateCertificationRecord {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
 
   public init() {
   }
@@ -29936,6 +30702,7 @@ public final class OnCreateCertificationRecordSubscription: GraphQLSubscription 
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("orgID", type: .scalar(GraphQLID.self)),
           GraphQLField("userName", type: .scalar(String.self)),
           GraphQLField("email", type: .nonNull(.scalar(String.self))),
           GraphQLField("phone", type: .scalar(String.self)),
@@ -29952,8 +30719,8 @@ public final class OnCreateCertificationRecordSubscription: GraphQLSubscription 
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-          self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+        public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -29971,6 +30738,15 @@ public final class OnCreateCertificationRecordSubscription: GraphQLSubscription 
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var orgId: GraphQLID? {
+          get {
+            return snapshot["orgID"] as? GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "orgID")
           }
         }
 
@@ -30184,6 +30960,7 @@ public final class OnCreateCertificationRecordSubscription: GraphQLSubscription 
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -30199,8 +30976,8 @@ public final class OnCreateCertificationRecordSubscription: GraphQLSubscription 
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -30218,6 +30995,15 @@ public final class OnCreateCertificationRecordSubscription: GraphQLSubscription 
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -30533,6 +31319,7 @@ public final class OnCreateCertificationRecordSubscription: GraphQLSubscription 
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -30549,8 +31336,8 @@ public final class OnCreateCertificationRecordSubscription: GraphQLSubscription 
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -30568,6 +31355,15 @@ public final class OnCreateCertificationRecordSubscription: GraphQLSubscription 
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -30687,6 +31483,7 @@ public final class OnCreateCertificationRecordSubscription: GraphQLSubscription 
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -30703,8 +31500,8 @@ public final class OnCreateCertificationRecordSubscription: GraphQLSubscription 
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -30722,6 +31519,15 @@ public final class OnCreateCertificationRecordSubscription: GraphQLSubscription 
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -30899,7 +31705,7 @@ public final class OnCreateCertificationRecordSubscription: GraphQLSubscription 
 
 public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnUpdateCertificationRecord {\n  onUpdateCertificationRecord {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
+    "subscription OnUpdateCertificationRecord {\n  onUpdateCertificationRecord {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
 
   public init() {
   }
@@ -31109,6 +31915,7 @@ public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription 
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("orgID", type: .scalar(GraphQLID.self)),
           GraphQLField("userName", type: .scalar(String.self)),
           GraphQLField("email", type: .nonNull(.scalar(String.self))),
           GraphQLField("phone", type: .scalar(String.self)),
@@ -31125,8 +31932,8 @@ public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription 
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-          self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+        public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -31144,6 +31951,15 @@ public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription 
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var orgId: GraphQLID? {
+          get {
+            return snapshot["orgID"] as? GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "orgID")
           }
         }
 
@@ -31357,6 +32173,7 @@ public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription 
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -31372,8 +32189,8 @@ public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription 
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -31391,6 +32208,15 @@ public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription 
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -31706,6 +32532,7 @@ public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription 
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -31722,8 +32549,8 @@ public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription 
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -31741,6 +32568,15 @@ public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription 
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -31860,6 +32696,7 @@ public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription 
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -31876,8 +32713,8 @@ public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription 
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -31895,6 +32732,15 @@ public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription 
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -32072,7 +32918,7 @@ public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription 
 
 public final class OnDeleteCertificationRecordSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnDeleteCertificationRecord {\n  onDeleteCertificationRecord {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
+    "subscription OnDeleteCertificationRecord {\n  onDeleteCertificationRecord {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
 
   public init() {
   }
@@ -32282,6 +33128,7 @@ public final class OnDeleteCertificationRecordSubscription: GraphQLSubscription 
         public static let selections: [GraphQLSelection] = [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("orgID", type: .scalar(GraphQLID.self)),
           GraphQLField("userName", type: .scalar(String.self)),
           GraphQLField("email", type: .nonNull(.scalar(String.self))),
           GraphQLField("phone", type: .scalar(String.self)),
@@ -32298,8 +33145,8 @@ public final class OnDeleteCertificationRecordSubscription: GraphQLSubscription 
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-          self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+        public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+          self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -32317,6 +33164,15 @@ public final class OnDeleteCertificationRecordSubscription: GraphQLSubscription 
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var orgId: GraphQLID? {
+          get {
+            return snapshot["orgID"] as? GraphQLID
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "orgID")
           }
         }
 
@@ -32530,6 +33386,7 @@ public final class OnDeleteCertificationRecordSubscription: GraphQLSubscription 
               public static let selections: [GraphQLSelection] = [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("orgID", type: .scalar(GraphQLID.self)),
                 GraphQLField("userName", type: .scalar(String.self)),
                 GraphQLField("email", type: .nonNull(.scalar(String.self))),
                 GraphQLField("phone", type: .scalar(String.self)),
@@ -32545,8 +33402,8 @@ public final class OnDeleteCertificationRecordSubscription: GraphQLSubscription 
                 self.snapshot = snapshot
               }
 
-              public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
-                self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
+              public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil) {
+                self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater])
               }
 
               public var __typename: String {
@@ -32564,6 +33421,15 @@ public final class OnDeleteCertificationRecordSubscription: GraphQLSubscription 
                 }
                 set {
                   snapshot.updateValue(newValue, forKey: "id")
+                }
+              }
+
+              public var orgId: GraphQLID? {
+                get {
+                  return snapshot["orgID"] as? GraphQLID
+                }
+                set {
+                  snapshot.updateValue(newValue, forKey: "orgID")
                 }
               }
 
@@ -32879,6 +33745,7 @@ public final class OnDeleteCertificationRecordSubscription: GraphQLSubscription 
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -32895,8 +33762,8 @@ public final class OnDeleteCertificationRecordSubscription: GraphQLSubscription 
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -32914,6 +33781,15 @@ public final class OnDeleteCertificationRecordSubscription: GraphQLSubscription 
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 
@@ -33033,6 +33909,7 @@ public final class OnDeleteCertificationRecordSubscription: GraphQLSubscription 
             public static let selections: [GraphQLSelection] = [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("orgID", type: .scalar(GraphQLID.self)),
               GraphQLField("userName", type: .scalar(String.self)),
               GraphQLField("email", type: .nonNull(.scalar(String.self))),
               GraphQLField("phone", type: .scalar(String.self)),
@@ -33049,8 +33926,8 @@ public final class OnDeleteCertificationRecordSubscription: GraphQLSubscription 
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
-              self.init(snapshot: ["__typename": "User", "id": id, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
+            public init(id: GraphQLID, orgId: GraphQLID? = nil, userName: String? = nil, email: String, phone: String? = nil, firstName: String? = nil, lastName: String? = nil, npi: Int? = nil, isRater: Bool? = nil, memberships: Membership? = nil) {
+              self.init(snapshot: ["__typename": "User", "id": id, "orgID": orgId, "userName": userName, "email": email, "phone": phone, "firstName": firstName, "lastName": lastName, "npi": npi, "isRater": isRater, "memberships": memberships.flatMap { $0.snapshot }])
             }
 
             public var __typename: String {
@@ -33068,6 +33945,15 @@ public final class OnDeleteCertificationRecordSubscription: GraphQLSubscription 
               }
               set {
                 snapshot.updateValue(newValue, forKey: "id")
+              }
+            }
+
+            public var orgId: GraphQLID? {
+              get {
+                return snapshot["orgID"] as? GraphQLID
+              }
+              set {
+                snapshot.updateValue(newValue, forKey: "orgID")
               }
             }
 

@@ -2,7 +2,7 @@
 import Amplify
 import Foundation
 
-public struct Organization: Model {
+public struct Organization {
   public let id: String
   public var title: String?
   public var description: String?

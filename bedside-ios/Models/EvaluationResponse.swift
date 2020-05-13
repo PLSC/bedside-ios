@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct EvaluationResponse: Identifiable, Codable {
+public struct EvaluationResponse: Identifiable {
     public let id : String
     public let subject : User
     public let rater : User

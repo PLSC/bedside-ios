@@ -68,6 +68,7 @@ query GetProgram($id: ID!) {
         userId
         user {
           id
+          orgID
           userName
           email
           phone
@@ -112,6 +113,7 @@ query ListPrograms(
           userId
           user {
             id
+            orgID
             userName
             email
             phone
@@ -141,6 +143,7 @@ query GetMembership($id: ID!) {
     userId
     user {
       id
+      orgID
       userName
       email
       phone
@@ -155,6 +158,7 @@ query GetMembership($id: ID!) {
           userId
           user {
             id
+            orgID
             userName
             email
             phone
@@ -187,6 +191,7 @@ query GetMembership($id: ID!) {
           userId
           user {
             id
+            orgID
             userName
             email
             phone
@@ -220,6 +225,7 @@ query ListMemberships(
       userId
       user {
         id
+        orgID
         userName
         email
         phone
@@ -281,6 +287,7 @@ query ListProcedures(
 query GetUser($id: ID!) {
   getUser(id: $id) {
     id
+    orgID
     userName
     email
     phone
@@ -295,6 +302,7 @@ query GetUser($id: ID!) {
         userId
         user {
           id
+          orgID
           userName
           email
           phone
@@ -329,6 +337,7 @@ query ListUsers(
   listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
+      orgID
       userName
       email
       phone
@@ -343,6 +352,7 @@ query ListUsers(
           userId
           user {
             id
+            orgID
             userName
             email
             phone
@@ -370,6 +380,7 @@ query GetEvaluationResponse($id: ID!) {
     id
     subject {
       id
+      orgID
       userName
       email
       phone
@@ -384,6 +395,7 @@ query GetEvaluationResponse($id: ID!) {
           userId
           user {
             id
+            orgID
             userName
             email
             phone
@@ -406,6 +418,7 @@ query GetEvaluationResponse($id: ID!) {
     subjectId
     rater {
       id
+      orgID
       userName
       email
       phone
@@ -420,6 +433,7 @@ query GetEvaluationResponse($id: ID!) {
           userId
           user {
             id
+            orgID
             userName
             email
             phone
@@ -465,6 +479,7 @@ query ListEvaluationResponses(
       id
       subject {
         id
+        orgID
         userName
         email
         phone
@@ -485,6 +500,7 @@ query ListEvaluationResponses(
       subjectId
       rater {
         id
+        orgID
         userName
         email
         phone
@@ -530,6 +546,7 @@ query GetCertificationRecord($id: ID!) {
     subjectId
     subject {
       id
+      orgID
       userName
       email
       phone
@@ -544,6 +561,7 @@ query GetCertificationRecord($id: ID!) {
           userId
           user {
             id
+            orgID
             userName
             email
             phone
@@ -568,6 +586,7 @@ query GetCertificationRecord($id: ID!) {
         id
         subject {
           id
+          orgID
           userName
           email
           phone
@@ -582,6 +601,7 @@ query GetCertificationRecord($id: ID!) {
         subjectId
         rater {
           id
+          orgID
           userName
           email
           phone
@@ -632,6 +652,7 @@ query ListCertificationRecords(
       subjectId
       subject {
         id
+        orgID
         userName
         email
         phone
@@ -654,6 +675,7 @@ query ListCertificationRecords(
           id
           subject {
             id
+            orgID
             userName
             email
             phone
@@ -665,6 +687,7 @@ query ListCertificationRecords(
           subjectId
           rater {
             id
+            orgID
             userName
             email
             phone
@@ -707,6 +730,7 @@ query UsersByEmail(
   ) {
     items {
       id
+      orgID
       userName
       email
       phone
@@ -721,6 +745,7 @@ query UsersByEmail(
           userId
           user {
             id
+            orgID
             userName
             email
             phone
