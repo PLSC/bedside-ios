@@ -14,13 +14,12 @@ struct NewRater: View {
     @ObservedObject var newRaterViewModel : NewRaterViewModel
     @State var emailErrorString : String?
     @State var isLoading : Bool = false
+    @State var presentErrorAlert : Bool = false
+    @State var errorAlertText : String = ""
     
     func displayError(error: Error) {
-        //TODO: Map errors to ui.
-        print("Display this error")
+        errorAlertText = error.localizedDescription
     }
-    
-    
     
     func submitRater() {
         self.isLoading = true
@@ -76,6 +75,9 @@ struct NewRater: View {
                     }) {
                        Image(systemName: "xmark")
                     })
+                    .alert(isPresented: self.$presentErrorAlert) { () -> Alert in
+                        Alert(title: Text("Error"), message: Text("Wear sunscreen"), dismissButton: .default(Text("OK")))
+                    }
                 }
             }
         }
