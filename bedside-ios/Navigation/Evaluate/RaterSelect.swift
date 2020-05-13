@@ -23,13 +23,14 @@ struct RaterSelect: View {
         self.isPresented = false
     }
     
+    //TODO: Fetch org id from user.
     func fetchRaters() {
-        guard let org = userLoginState.organizations.first else {
+        guard let org = userLoginState.currentUser?.orgId else {
             print("org not found for user: \(userLoginState.currentUser?.displayName ?? "No user")")
             return
         }
         
-        ratersViewModel.fetchRaters(organization: org)
+        ratersViewModel.fetchRaters(orgId: org)
     }
     
     func filterCurrentUser() {
@@ -83,7 +84,10 @@ struct RaterSelect: View {
                 NewRaterViewModel(
                     programs:self.userLoginState.organizations[0].programs!,
                     orgId: self.userLoginState.currentUser?.orgId ?? "",
-                    userCreatedCallback: {user in self.selectRater(rater: user)}))
+                    userCreatedCallback: {
+                        user in
+                        self.selectRater(rater: user)
+                }))
         }
     }
 }

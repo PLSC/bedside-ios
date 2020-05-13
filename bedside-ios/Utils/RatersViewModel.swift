@@ -9,20 +9,10 @@
 import Foundation
 import UIKit
 
-extension Array where Element: Hashable {
-    var uniques: Array {
-        var buffer = Array()
-        var added = Set<Element>()
-        for elem in self {
-            if !added.contains(elem) {
-                buffer.append(elem)
-                added.insert(elem)
-            }
-        }
-        return buffer
-    }
-}
 
+
+
+extension ListUsersQuery.Data.ListUser.Item : UserRepresentible {}
 
 class RatersViewModel : ObservableObject {
     @Published var raters : [User] = []
@@ -63,32 +53,17 @@ class RatersViewModel : ObservableObject {
         return substringInFirst || substringInLast
     }
     
-    func fetchRaters(organization: Organization) {
-        
-        let orgId = ModelIDInput(eq: organization.id)
-        let filter = ModelProgramFilterInput(orgId: orgId)
-        //TODO: allow next tokens and pagination if necessary.
-        let query = ListProgramsQuery(filter: filter, limit: 1000)
+    func fetchRaters(orgId: String)  {
+        let modelIDInput = ModelIDInput(eq: orgId)
+        let userFilter = ModelUserFilterInput(orgId: modelIDInput)
+        //TODO: Next token!
+        let listUsersQuery = ListUsersQuery(filter: userFilter, limit: 1000)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
-        appSyncClient?.fetch(query: query, cachePolicy: .returnCacheDataAndFetch, resultHandler: { (result, error) in
-            if let programItems = result?.data?.listPrograms?.items {
-                let userItems = programItems.compactMap { programItem in
-                    programItem?.memberships
-                }.flatMap {
-                    $0.items!
-                }.map {
-                    $0?.user
-                }
-                
-                let users = userItems.compactMap { userItem -> User? in
-                    guard let u = userItem else { return nil }
-                    return User(id: u.id, userName: u.userName, email: u.email, phone: u.phone, firstName: u.firstName, lastName: u.lastName, npi: u.npi)
-                }
-                
-                self.raters = users.uniques
-                
-                
+        appSyncClient?.fetch(query: listUsersQuery, cachePolicy: .returnCacheDataAndFetch, resultHandler: { (result, error) in
+            if let userItems = result?.data?.listUsers?.items {
+                let users = userItems.compactMap { $0?.mapToUser() }
+                self.raters = users
             }
         })
     }
