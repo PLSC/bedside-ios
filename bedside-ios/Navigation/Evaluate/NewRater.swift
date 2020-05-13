@@ -13,13 +13,22 @@ struct NewRater: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var newRaterViewModel : NewRaterViewModel
     @State var emailErrorString : String?
+    @State var isLoading : Bool = false
     
     func displayError(error: Error) {
         //TODO: Map errors to ui.
         print("Display this error")
     }
     
+    
+    
+    func submitRater() {
+        self.isLoading = true
+        self.newRaterViewModel.submitNewRater(callback: self.submitCompletionCallback(error:))
+    }
+    
     func submitCompletionCallback(error: Error?) {
+        self.isLoading = false
         if let e = error {
             displayError(error: e)
             return
@@ -28,53 +37,47 @@ struct NewRater: View {
     }
     
     var body: some View {
-        NavigationView {
-            Group {
-                Form {
-                    VStack(alignment: .leading) {
-                        TextField("Email Address", text: $newRaterViewModel.email)
-                        .keyboardType(.emailAddress)
-                        .autocapitalization(.none)
-                        Text(self.emailErrorString ?? "")
-                            .onReceive(newRaterViewModel.emailError) { errorString in
-                                self.emailErrorString = errorString
-                        }
-                    }
-                    
-                    TextField("First Name", text: $newRaterViewModel.firstName)
-                    TextField("Last Name", text: $newRaterViewModel.lastName)
-                    
-                    Section(header: Text("Program")) {
-                        
-                        Picker("Program", selection: $newRaterViewModel.selectedProgram) {
-                            ForEach(0..<newRaterViewModel.programs.count) { program in
-                                Text(self.newRaterViewModel.programs[program].name)
+        LoadingView(isShowing: $isLoading) {
+            NavigationView {
+                Group {
+                    Form {
+                        VStack(alignment: .leading) {
+                            TextField("Email Address", text: self.$newRaterViewModel.email)
+                            .keyboardType(.emailAddress)
+                            .autocapitalization(.none)
+                            Text(self.emailErrorString ?? "")
+                                .onReceive(self.newRaterViewModel.emailError) { errorString in
+                                    self.emailErrorString = errorString
                             }
                         }
+                        
+                        TextField("First Name", text: self.$newRaterViewModel.firstName)
+                        TextField("Last Name", text: self.$newRaterViewModel.lastName)
+                        
+                        Section(header: Text("Program")) {
+                            
+                            Picker("Program", selection: self.$newRaterViewModel.selectedProgram) {
+                                ForEach(0..<self.newRaterViewModel.programs.count) { program in
+                                    Text(self.newRaterViewModel.programs[program].name)
+                                }
+                            }
+                        }
+                        
+                        
+                        Section {
+                            Button(action: {
+                                self.submitRater()
+                            }) { Text("Submit") }.disabled(!self.newRaterViewModel.isValid)
+                        }
                     }
-                    
-                    
-                    Section {
-                        Button(action: {
-                            self.newRaterViewModel.submitNewRater(callback: self.submitCompletionCallback(error:))
-                        }) { Text("Submit") }.disabled(!self.newRaterViewModel.isValid)
-                    }
-                    
-                    //TODO: Search users and find existing.
-//                    Section(header: Text("Existing Users")) {
-//                        Text("Test")
-//                        Text("Test")
-//                        Text("Test")
-//                    }
+                    .navigationBarTitle("New Rater")
+                    .navigationBarItems(trailing: Button(action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }) {
+                       Image(systemName: "xmark")
+                    })
                 }
-                .navigationBarTitle("New Rater")
-                .navigationBarItems(trailing: Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
-                }) {
-                   Image(systemName: "xmark")
-                })
             }
-            
         }
     }
 }
