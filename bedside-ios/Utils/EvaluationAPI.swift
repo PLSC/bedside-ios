@@ -43,7 +43,7 @@ class EvaluationAPI {
                           ratingLevel: Int,
                           errorHandler: @escaping (Error?) -> ()) {
         let evalDateString = dateString(date: procedureDate)
-        let input = CreateEvaluationResponseInput(subjectId: subject.id, raterId: rater.id, procedureId: procedure.id, evauluationDate: evalDateString, ratingLevel: ratingLevel)
+        let input = CreateEvaluationResponseInput(subjectId: subject.id, raterId: rater.id, procedureId: procedure.id, evaluationDate: evalDateString, ratingLevel: ratingLevel)
         createEvaluation(createEvaluationInput: input, callback: errorHandler)
     }
     

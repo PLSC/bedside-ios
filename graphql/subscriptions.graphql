@@ -669,7 +669,7 @@ subscription OnCreateCertificationRecord {
           description
         }
         procedureId
-        evauluationDate
+        evaluationDate
         ratingLevel
         certificationRecordId
       }
@@ -766,7 +766,7 @@ subscription OnUpdateCertificationRecord {
           description
         }
         procedureId
-        evauluationDate
+        evaluationDate
         ratingLevel
         certificationRecordId
       }
@@ -863,7 +863,7 @@ subscription OnDeleteCertificationRecord {
           description
         }
         procedureId
-        evauluationDate
+        evaluationDate
         ratingLevel
         certificationRecordId
       }

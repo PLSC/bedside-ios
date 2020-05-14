@@ -64,7 +64,7 @@ type EvaluationResponse
   raterId: ID!
   procedure: Procedure @connection(fields: ["procedureId"])
   procedureId: ID!
-  evauluationDate: AWSDateTime!
+  evaluationDate: AWSDateTime!
   ratingLevel: Int
   certificationRecordId: ID
 }
@@ -108,7 +108,7 @@ input CreateEvaluationResponseInput {
   subjectId: ID!
   raterId: ID!
   procedureId: ID!
-  evauluationDate: AWSDateTime!
+  evaluationDate: AWSDateTime!
   ratingLevel: Int
   certificationRecordId: ID
 }

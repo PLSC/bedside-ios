@@ -73,14 +73,8 @@ class EvaluationFormData : ObservableObject {
                              rater: rater!,
                              procedure: procedure!,
                              procedureDate: procedureDate,
-                             ratingLevel: answer!.assocValue) { (error) in
-//            if error == nil {
-//                self.evaluation.reset()
-//                self.userLoginState.fetchCurrentUserCertRecords()
-//            }
-//            self.isLoading = false
-                                completion(error)
-        }
+                             ratingLevel: answer!.assocValue,
+                             errorHandler: completion)
     }
     
     func reset() {

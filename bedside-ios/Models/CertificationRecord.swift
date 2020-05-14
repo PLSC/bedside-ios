@@ -31,15 +31,13 @@ extension UsersByEmailQuery.Data.UsersByEmail.Item: UserRepresentible {
 }
 
 extension DateFormatter {
-    static let AWS_DATE_TIME_STRING_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+    static let AWS_DATE_TIME_STRING_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
 }
 
 extension Date {
     var awsDateTimeString : String {
         get {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = DateFormatter.AWS_DATE_TIME_STRING_FORMAT
-            return dateFormatter.string(from: self)
+            return self.iso8601withFractionalSeconds
         }
     }
 }
@@ -47,9 +45,7 @@ extension Date {
 extension String {
     var awsDateTime : Date? {
         get {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = DateFormatter.AWS_DATE_TIME_STRING_FORMAT
-            return dateFormatter.date(from: self)
+            return self.iso8601withFractionalSeconds
         }
     }
 }
@@ -75,7 +71,7 @@ extension CertificationRecord {
             let subject = self.map(userListItem: eval.subject),
             let rater = self.map(userListItem: eval.rater),
             let ratingLevel = eval.ratingLevel,
-            let evalDate = eval.evauluationDate.awsDateTime
+            let evalDate = eval.evaluationDate.awsDateTime
             else { return nil }
                    
         let p = eval.procedure!

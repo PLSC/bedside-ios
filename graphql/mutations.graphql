@@ -717,7 +717,7 @@ mutation CreateCertificationRecord(
           description
         }
         procedureId
-        evauluationDate
+        evaluationDate
         ratingLevel
         certificationRecordId
       }
@@ -817,7 +817,7 @@ mutation UpdateCertificationRecord(
           description
         }
         procedureId
-        evauluationDate
+        evaluationDate
         ratingLevel
         certificationRecordId
       }
@@ -917,7 +917,7 @@ mutation DeleteCertificationRecord(
           description
         }
         procedureId
-        evauluationDate
+        evaluationDate
         ratingLevel
         certificationRecordId
       }

@@ -9,6 +9,6 @@ Do not change code in the amplify/ folder. This should only be changed in the we
 `amplify pull`
 
 # Codegen
-
-`amplify codegen types`
 `amplify codegen statements`
+`amplify codegen types`
+

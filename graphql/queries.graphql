@@ -460,7 +460,7 @@ query GetEvaluationResponse($id: ID!) {
       description
     }
     procedureId
-    evauluationDate
+    evaluationDate
     ratingLevel
     certificationRecordId
   }
@@ -525,7 +525,7 @@ query ListEvaluationResponses(
         description
       }
       procedureId
-      evauluationDate
+      evaluationDate
       ratingLevel
       certificationRecordId
     }
@@ -620,7 +620,7 @@ query GetCertificationRecord($id: ID!) {
           description
         }
         procedureId
-        evauluationDate
+        evaluationDate
         ratingLevel
         certificationRecordId
       }
@@ -703,7 +703,7 @@ query ListCertificationRecords(
             description
           }
           procedureId
-          evauluationDate
+          evaluationDate
           ratingLevel
           certificationRecordId
         }

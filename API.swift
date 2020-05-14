@@ -1779,8 +1779,8 @@ public struct DeleteCertificationRecordInput: GraphQLMapConvertible {
 public struct CreateEvaluationResponseInput: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(id: GraphQLID? = nil, subjectId: GraphQLID, raterId: GraphQLID, procedureId: GraphQLID, evauluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
-    graphQLMap = ["id": id, "subjectId": subjectId, "raterId": raterId, "procedureId": procedureId, "evauluationDate": evauluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId]
+  public init(id: GraphQLID? = nil, subjectId: GraphQLID, raterId: GraphQLID, procedureId: GraphQLID, evaluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
+    graphQLMap = ["id": id, "subjectId": subjectId, "raterId": raterId, "procedureId": procedureId, "evaluationDate": evaluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId]
   }
 
   public var id: GraphQLID? {
@@ -1819,12 +1819,12 @@ public struct CreateEvaluationResponseInput: GraphQLMapConvertible {
     }
   }
 
-  public var evauluationDate: String {
+  public var evaluationDate: String {
     get {
-      return graphQLMap["evauluationDate"] as! String
+      return graphQLMap["evaluationDate"] as! String
     }
     set {
-      graphQLMap.updateValue(newValue, forKey: "evauluationDate")
+      graphQLMap.updateValue(newValue, forKey: "evaluationDate")
     }
   }
 
@@ -2232,8 +2232,8 @@ public struct ModelUserFilterInput: GraphQLMapConvertible {
 public struct ModelEvaluationResponseFilterInput: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(id: ModelIDInput? = nil, subjectId: ModelIDInput? = nil, raterId: ModelIDInput? = nil, procedureId: ModelIDInput? = nil, evauluationDate: ModelStringInput? = nil, ratingLevel: ModelIntInput? = nil, certificationRecordId: ModelIDInput? = nil, and: [ModelEvaluationResponseFilterInput?]? = nil, or: [ModelEvaluationResponseFilterInput?]? = nil, not: ModelEvaluationResponseFilterInput? = nil) {
-    graphQLMap = ["id": id, "subjectId": subjectId, "raterId": raterId, "procedureId": procedureId, "evauluationDate": evauluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId, "and": and, "or": or, "not": not]
+  public init(id: ModelIDInput? = nil, subjectId: ModelIDInput? = nil, raterId: ModelIDInput? = nil, procedureId: ModelIDInput? = nil, evaluationDate: ModelStringInput? = nil, ratingLevel: ModelIntInput? = nil, certificationRecordId: ModelIDInput? = nil, and: [ModelEvaluationResponseFilterInput?]? = nil, or: [ModelEvaluationResponseFilterInput?]? = nil, not: ModelEvaluationResponseFilterInput? = nil) {
+    graphQLMap = ["id": id, "subjectId": subjectId, "raterId": raterId, "procedureId": procedureId, "evaluationDate": evaluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId, "and": and, "or": or, "not": not]
   }
 
   public var id: ModelIDInput? {
@@ -2272,12 +2272,12 @@ public struct ModelEvaluationResponseFilterInput: GraphQLMapConvertible {
     }
   }
 
-  public var evauluationDate: ModelStringInput? {
+  public var evaluationDate: ModelStringInput? {
     get {
-      return graphQLMap["evauluationDate"] as! ModelStringInput?
+      return graphQLMap["evaluationDate"] as! ModelStringInput?
     }
     set {
-      graphQLMap.updateValue(newValue, forKey: "evauluationDate")
+      graphQLMap.updateValue(newValue, forKey: "evaluationDate")
     }
   }
 
@@ -10062,7 +10062,7 @@ public final class DeleteUserMutation: GraphQLMutation {
 
 public final class CreateCertificationRecordMutation: GraphQLMutation {
   public static let operationString =
-    "mutation CreateCertificationRecord($input: CreateCertificationRecordInput!, $condition: ModelCertificationRecordConditionInput) {\n  createCertificationRecord(input: $input, condition: $condition) {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
+    "mutation CreateCertificationRecord($input: CreateCertificationRecordInput!, $condition: ModelCertificationRecordConditionInput) {\n  createCertificationRecord(input: $input, condition: $condition) {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evaluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
 
   public var input: CreateCertificationRecordInput
   public var condition: ModelCertificationRecordConditionInput?
@@ -10778,7 +10778,7 @@ public final class CreateCertificationRecordMutation: GraphQLMutation {
             GraphQLField("raterId", type: .nonNull(.scalar(GraphQLID.self))),
             GraphQLField("procedure", type: .object(Procedure.selections)),
             GraphQLField("procedureId", type: .nonNull(.scalar(GraphQLID.self))),
-            GraphQLField("evauluationDate", type: .nonNull(.scalar(String.self))),
+            GraphQLField("evaluationDate", type: .nonNull(.scalar(String.self))),
             GraphQLField("ratingLevel", type: .scalar(Int.self)),
             GraphQLField("certificationRecordId", type: .scalar(GraphQLID.self)),
           ]
@@ -10789,8 +10789,8 @@ public final class CreateCertificationRecordMutation: GraphQLMutation {
             self.snapshot = snapshot
           }
 
-          public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evauluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
-            self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evauluationDate": evauluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
+          public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evaluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
+            self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evaluationDate": evaluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
           }
 
           public var __typename: String {
@@ -10865,12 +10865,12 @@ public final class CreateCertificationRecordMutation: GraphQLMutation {
             }
           }
 
-          public var evauluationDate: String {
+          public var evaluationDate: String {
             get {
-              return snapshot["evauluationDate"]! as! String
+              return snapshot["evaluationDate"]! as! String
             }
             set {
-              snapshot.updateValue(newValue, forKey: "evauluationDate")
+              snapshot.updateValue(newValue, forKey: "evaluationDate")
             }
           }
 
@@ -11284,7 +11284,7 @@ public final class CreateCertificationRecordMutation: GraphQLMutation {
 
 public final class UpdateCertificationRecordMutation: GraphQLMutation {
   public static let operationString =
-    "mutation UpdateCertificationRecord($input: UpdateCertificationRecordInput!, $condition: ModelCertificationRecordConditionInput) {\n  updateCertificationRecord(input: $input, condition: $condition) {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
+    "mutation UpdateCertificationRecord($input: UpdateCertificationRecordInput!, $condition: ModelCertificationRecordConditionInput) {\n  updateCertificationRecord(input: $input, condition: $condition) {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evaluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
 
   public var input: UpdateCertificationRecordInput
   public var condition: ModelCertificationRecordConditionInput?
@@ -12000,7 +12000,7 @@ public final class UpdateCertificationRecordMutation: GraphQLMutation {
             GraphQLField("raterId", type: .nonNull(.scalar(GraphQLID.self))),
             GraphQLField("procedure", type: .object(Procedure.selections)),
             GraphQLField("procedureId", type: .nonNull(.scalar(GraphQLID.self))),
-            GraphQLField("evauluationDate", type: .nonNull(.scalar(String.self))),
+            GraphQLField("evaluationDate", type: .nonNull(.scalar(String.self))),
             GraphQLField("ratingLevel", type: .scalar(Int.self)),
             GraphQLField("certificationRecordId", type: .scalar(GraphQLID.self)),
           ]
@@ -12011,8 +12011,8 @@ public final class UpdateCertificationRecordMutation: GraphQLMutation {
             self.snapshot = snapshot
           }
 
-          public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evauluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
-            self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evauluationDate": evauluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
+          public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evaluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
+            self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evaluationDate": evaluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
           }
 
           public var __typename: String {
@@ -12087,12 +12087,12 @@ public final class UpdateCertificationRecordMutation: GraphQLMutation {
             }
           }
 
-          public var evauluationDate: String {
+          public var evaluationDate: String {
             get {
-              return snapshot["evauluationDate"]! as! String
+              return snapshot["evaluationDate"]! as! String
             }
             set {
-              snapshot.updateValue(newValue, forKey: "evauluationDate")
+              snapshot.updateValue(newValue, forKey: "evaluationDate")
             }
           }
 
@@ -12506,7 +12506,7 @@ public final class UpdateCertificationRecordMutation: GraphQLMutation {
 
 public final class DeleteCertificationRecordMutation: GraphQLMutation {
   public static let operationString =
-    "mutation DeleteCertificationRecord($input: DeleteCertificationRecordInput!, $condition: ModelCertificationRecordConditionInput) {\n  deleteCertificationRecord(input: $input, condition: $condition) {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
+    "mutation DeleteCertificationRecord($input: DeleteCertificationRecordInput!, $condition: ModelCertificationRecordConditionInput) {\n  deleteCertificationRecord(input: $input, condition: $condition) {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evaluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
 
   public var input: DeleteCertificationRecordInput
   public var condition: ModelCertificationRecordConditionInput?
@@ -13222,7 +13222,7 @@ public final class DeleteCertificationRecordMutation: GraphQLMutation {
             GraphQLField("raterId", type: .nonNull(.scalar(GraphQLID.self))),
             GraphQLField("procedure", type: .object(Procedure.selections)),
             GraphQLField("procedureId", type: .nonNull(.scalar(GraphQLID.self))),
-            GraphQLField("evauluationDate", type: .nonNull(.scalar(String.self))),
+            GraphQLField("evaluationDate", type: .nonNull(.scalar(String.self))),
             GraphQLField("ratingLevel", type: .scalar(Int.self)),
             GraphQLField("certificationRecordId", type: .scalar(GraphQLID.self)),
           ]
@@ -13233,8 +13233,8 @@ public final class DeleteCertificationRecordMutation: GraphQLMutation {
             self.snapshot = snapshot
           }
 
-          public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evauluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
-            self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evauluationDate": evauluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
+          public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evaluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
+            self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evaluationDate": evaluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
           }
 
           public var __typename: String {
@@ -13309,12 +13309,12 @@ public final class DeleteCertificationRecordMutation: GraphQLMutation {
             }
           }
 
-          public var evauluationDate: String {
+          public var evaluationDate: String {
             get {
-              return snapshot["evauluationDate"]! as! String
+              return snapshot["evaluationDate"]! as! String
             }
             set {
-              snapshot.updateValue(newValue, forKey: "evauluationDate")
+              snapshot.updateValue(newValue, forKey: "evaluationDate")
             }
           }
 
@@ -18406,7 +18406,7 @@ public final class ListUsersQuery: GraphQLQuery {
 
 public final class GetEvaluationResponseQuery: GraphQLQuery {
   public static let operationString =
-    "query GetEvaluationResponse($id: ID!) {\n  getEvaluationResponse(id: $id) {\n    __typename\n    id\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    subjectId\n    rater {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    raterId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    procedureId\n    evauluationDate\n    ratingLevel\n    certificationRecordId\n  }\n}"
+    "query GetEvaluationResponse($id: ID!) {\n  getEvaluationResponse(id: $id) {\n    __typename\n    id\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    subjectId\n    rater {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    raterId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    procedureId\n    evaluationDate\n    ratingLevel\n    certificationRecordId\n  }\n}"
 
   public var id: GraphQLID
 
@@ -18456,7 +18456,7 @@ public final class GetEvaluationResponseQuery: GraphQLQuery {
         GraphQLField("raterId", type: .nonNull(.scalar(GraphQLID.self))),
         GraphQLField("procedure", type: .object(Procedure.selections)),
         GraphQLField("procedureId", type: .nonNull(.scalar(GraphQLID.self))),
-        GraphQLField("evauluationDate", type: .nonNull(.scalar(String.self))),
+        GraphQLField("evaluationDate", type: .nonNull(.scalar(String.self))),
         GraphQLField("ratingLevel", type: .scalar(Int.self)),
         GraphQLField("certificationRecordId", type: .scalar(GraphQLID.self)),
       ]
@@ -18467,8 +18467,8 @@ public final class GetEvaluationResponseQuery: GraphQLQuery {
         self.snapshot = snapshot
       }
 
-      public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evauluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
-        self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evauluationDate": evauluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
+      public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evaluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
+        self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evaluationDate": evaluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
       }
 
       public var __typename: String {
@@ -18543,12 +18543,12 @@ public final class GetEvaluationResponseQuery: GraphQLQuery {
         }
       }
 
-      public var evauluationDate: String {
+      public var evaluationDate: String {
         get {
-          return snapshot["evauluationDate"]! as! String
+          return snapshot["evaluationDate"]! as! String
         }
         set {
-          snapshot.updateValue(newValue, forKey: "evauluationDate")
+          snapshot.updateValue(newValue, forKey: "evaluationDate")
         }
       }
 
@@ -19522,7 +19522,7 @@ public final class GetEvaluationResponseQuery: GraphQLQuery {
 
 public final class ListEvaluationResponsesQuery: GraphQLQuery {
   public static let operationString =
-    "query ListEvaluationResponses($filter: ModelEvaluationResponseFilterInput, $limit: Int, $nextToken: String) {\n  listEvaluationResponses(filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      subject {\n        __typename\n        id\n        orgID\n        userName\n        email\n        phone\n        firstName\n        lastName\n        npi\n        isRater\n        memberships {\n          __typename\n          items {\n            __typename\n            id\n            role\n            userId\n            programId\n          }\n          nextToken\n        }\n      }\n      subjectId\n      rater {\n        __typename\n        id\n        orgID\n        userName\n        email\n        phone\n        firstName\n        lastName\n        npi\n        isRater\n        memberships {\n          __typename\n          items {\n            __typename\n            id\n            role\n            userId\n            programId\n          }\n          nextToken\n        }\n      }\n      raterId\n      procedure {\n        __typename\n        id\n        name\n        description\n      }\n      procedureId\n      evauluationDate\n      ratingLevel\n      certificationRecordId\n    }\n    nextToken\n  }\n}"
+    "query ListEvaluationResponses($filter: ModelEvaluationResponseFilterInput, $limit: Int, $nextToken: String) {\n  listEvaluationResponses(filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      subject {\n        __typename\n        id\n        orgID\n        userName\n        email\n        phone\n        firstName\n        lastName\n        npi\n        isRater\n        memberships {\n          __typename\n          items {\n            __typename\n            id\n            role\n            userId\n            programId\n          }\n          nextToken\n        }\n      }\n      subjectId\n      rater {\n        __typename\n        id\n        orgID\n        userName\n        email\n        phone\n        firstName\n        lastName\n        npi\n        isRater\n        memberships {\n          __typename\n          items {\n            __typename\n            id\n            role\n            userId\n            programId\n          }\n          nextToken\n        }\n      }\n      raterId\n      procedure {\n        __typename\n        id\n        name\n        description\n      }\n      procedureId\n      evaluationDate\n      ratingLevel\n      certificationRecordId\n    }\n    nextToken\n  }\n}"
 
   public var filter: ModelEvaluationResponseFilterInput?
   public var limit: Int?
@@ -19622,7 +19622,7 @@ public final class ListEvaluationResponsesQuery: GraphQLQuery {
           GraphQLField("raterId", type: .nonNull(.scalar(GraphQLID.self))),
           GraphQLField("procedure", type: .object(Procedure.selections)),
           GraphQLField("procedureId", type: .nonNull(.scalar(GraphQLID.self))),
-          GraphQLField("evauluationDate", type: .nonNull(.scalar(String.self))),
+          GraphQLField("evaluationDate", type: .nonNull(.scalar(String.self))),
           GraphQLField("ratingLevel", type: .scalar(Int.self)),
           GraphQLField("certificationRecordId", type: .scalar(GraphQLID.self)),
         ]
@@ -19633,8 +19633,8 @@ public final class ListEvaluationResponsesQuery: GraphQLQuery {
           self.snapshot = snapshot
         }
 
-        public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evauluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
-          self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evauluationDate": evauluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
+        public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evaluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
+          self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evaluationDate": evaluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
         }
 
         public var __typename: String {
@@ -19709,12 +19709,12 @@ public final class ListEvaluationResponsesQuery: GraphQLQuery {
           }
         }
 
-        public var evauluationDate: String {
+        public var evaluationDate: String {
           get {
-            return snapshot["evauluationDate"]! as! String
+            return snapshot["evaluationDate"]! as! String
           }
           set {
-            snapshot.updateValue(newValue, forKey: "evauluationDate")
+            snapshot.updateValue(newValue, forKey: "evaluationDate")
           }
         }
 
@@ -20281,7 +20281,7 @@ public final class ListEvaluationResponsesQuery: GraphQLQuery {
 
 public final class GetCertificationRecordQuery: GraphQLQuery {
   public static let operationString =
-    "query GetCertificationRecord($id: ID!) {\n  getCertificationRecord(id: $id) {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
+    "query GetCertificationRecord($id: ID!) {\n  getCertificationRecord(id: $id) {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evaluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
 
   public var id: GraphQLID
 
@@ -20995,7 +20995,7 @@ public final class GetCertificationRecordQuery: GraphQLQuery {
             GraphQLField("raterId", type: .nonNull(.scalar(GraphQLID.self))),
             GraphQLField("procedure", type: .object(Procedure.selections)),
             GraphQLField("procedureId", type: .nonNull(.scalar(GraphQLID.self))),
-            GraphQLField("evauluationDate", type: .nonNull(.scalar(String.self))),
+            GraphQLField("evaluationDate", type: .nonNull(.scalar(String.self))),
             GraphQLField("ratingLevel", type: .scalar(Int.self)),
             GraphQLField("certificationRecordId", type: .scalar(GraphQLID.self)),
           ]
@@ -21006,8 +21006,8 @@ public final class GetCertificationRecordQuery: GraphQLQuery {
             self.snapshot = snapshot
           }
 
-          public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evauluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
-            self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evauluationDate": evauluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
+          public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evaluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
+            self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evaluationDate": evaluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
           }
 
           public var __typename: String {
@@ -21082,12 +21082,12 @@ public final class GetCertificationRecordQuery: GraphQLQuery {
             }
           }
 
-          public var evauluationDate: String {
+          public var evaluationDate: String {
             get {
-              return snapshot["evauluationDate"]! as! String
+              return snapshot["evaluationDate"]! as! String
             }
             set {
-              snapshot.updateValue(newValue, forKey: "evauluationDate")
+              snapshot.updateValue(newValue, forKey: "evaluationDate")
             }
           }
 
@@ -21501,7 +21501,7 @@ public final class GetCertificationRecordQuery: GraphQLQuery {
 
 public final class ListCertificationRecordsQuery: GraphQLQuery {
   public static let operationString =
-    "query ListCertificationRecords($filter: ModelCertificationRecordFilterInput, $limit: Int, $nextToken: String) {\n  listCertificationRecords(filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      procedureId\n      procedure {\n        __typename\n        id\n        name\n        description\n      }\n     isCertified\n      certificationMethod\n      subjectId\n      subject {\n        __typename\n        id\n        orgID\n        userName\n        email\n        phone\n        firstName\n        lastName\n        npi\n        isRater\n        memberships {\n          __typename\n          items {\n            __typename\n            id\n            role\n            userId\n            programId\n          }\n          nextToken\n        }\n      }\n      certificationLog {\n        __typename\n        items {\n          __typename\n          id\n          subject {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          subjectId\n          rater {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          raterId\n          procedure {\n            __typename\n            id\n            name\n            description\n          }\n          procedureId\n          evauluationDate\n          ratingLevel\n          certificationRecordId\n        }\n        nextToken\n      }\n      totalProcedureEvals\n    }\n    nextToken\n  }\n}"
+    "query ListCertificationRecords($filter: ModelCertificationRecordFilterInput, $limit: Int, $nextToken: String) {\n  listCertificationRecords(filter: $filter, limit: $limit, nextToken: $nextToken) {\n    __typename\n    items {\n      __typename\n      id\n      procedureId\n      procedure {\n        __typename\n        id\n        name\n        description\n      }\n      isCertified\n      certificationMethod\n      subjectId\n      subject {\n        __typename\n        id\n        orgID\n        userName\n        email\n        phone\n        firstName\n        lastName\n        npi\n        isRater\n        memberships {\n          __typename\n          items {\n            __typename\n            id\n            role\n            userId\n            programId\n          }\n          nextToken\n        }\n      }\n      certificationLog {\n        __typename\n        items {\n          __typename\n          id\n          subject {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          subjectId\n          rater {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          raterId\n          procedure {\n            __typename\n            id\n            name\n            description\n          }\n          procedureId\n          evaluationDate\n          ratingLevel\n          certificationRecordId\n        }\n        nextToken\n      }\n      totalProcedureEvals\n    }\n    nextToken\n  }\n}"
 
   public var filter: ModelCertificationRecordFilterInput?
   public var limit: Int?
@@ -22061,7 +22061,7 @@ public final class ListCertificationRecordsQuery: GraphQLQuery {
               GraphQLField("raterId", type: .nonNull(.scalar(GraphQLID.self))),
               GraphQLField("procedure", type: .object(Procedure.selections)),
               GraphQLField("procedureId", type: .nonNull(.scalar(GraphQLID.self))),
-              GraphQLField("evauluationDate", type: .nonNull(.scalar(String.self))),
+              GraphQLField("evaluationDate", type: .nonNull(.scalar(String.self))),
               GraphQLField("ratingLevel", type: .scalar(Int.self)),
               GraphQLField("certificationRecordId", type: .scalar(GraphQLID.self)),
             ]
@@ -22072,8 +22072,8 @@ public final class ListCertificationRecordsQuery: GraphQLQuery {
               self.snapshot = snapshot
             }
 
-            public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evauluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
-              self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evauluationDate": evauluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
+            public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evaluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
+              self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evaluationDate": evaluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
             }
 
             public var __typename: String {
@@ -22148,12 +22148,12 @@ public final class ListCertificationRecordsQuery: GraphQLQuery {
               }
             }
 
-            public var evauluationDate: String {
+            public var evaluationDate: String {
               get {
-                return snapshot["evauluationDate"]! as! String
+                return snapshot["evaluationDate"]! as! String
               }
               set {
-                snapshot.updateValue(newValue, forKey: "evauluationDate")
+                snapshot.updateValue(newValue, forKey: "evaluationDate")
               }
             }
 
@@ -30492,7 +30492,7 @@ public final class OnDeleteUserSubscription: GraphQLSubscription {
 
 public final class OnCreateCertificationRecordSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnCreateCertificationRecord {\n  onCreateCertificationRecord {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
+    "subscription OnCreateCertificationRecord {\n  onCreateCertificationRecord {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evaluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
 
   public init() {
   }
@@ -31199,7 +31199,7 @@ public final class OnCreateCertificationRecordSubscription: GraphQLSubscription 
             GraphQLField("raterId", type: .nonNull(.scalar(GraphQLID.self))),
             GraphQLField("procedure", type: .object(Procedure.selections)),
             GraphQLField("procedureId", type: .nonNull(.scalar(GraphQLID.self))),
-            GraphQLField("evauluationDate", type: .nonNull(.scalar(String.self))),
+            GraphQLField("evaluationDate", type: .nonNull(.scalar(String.self))),
             GraphQLField("ratingLevel", type: .scalar(Int.self)),
             GraphQLField("certificationRecordId", type: .scalar(GraphQLID.self)),
           ]
@@ -31210,8 +31210,8 @@ public final class OnCreateCertificationRecordSubscription: GraphQLSubscription 
             self.snapshot = snapshot
           }
 
-          public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evauluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
-            self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evauluationDate": evauluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
+          public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evaluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
+            self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evaluationDate": evaluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
           }
 
           public var __typename: String {
@@ -31286,12 +31286,12 @@ public final class OnCreateCertificationRecordSubscription: GraphQLSubscription 
             }
           }
 
-          public var evauluationDate: String {
+          public var evaluationDate: String {
             get {
-              return snapshot["evauluationDate"]! as! String
+              return snapshot["evaluationDate"]! as! String
             }
             set {
-              snapshot.updateValue(newValue, forKey: "evauluationDate")
+              snapshot.updateValue(newValue, forKey: "evaluationDate")
             }
           }
 
@@ -31705,7 +31705,7 @@ public final class OnCreateCertificationRecordSubscription: GraphQLSubscription 
 
 public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnUpdateCertificationRecord {\n  onUpdateCertificationRecord {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
+    "subscription OnUpdateCertificationRecord {\n  onUpdateCertificationRecord {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evaluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
 
   public init() {
   }
@@ -32412,7 +32412,7 @@ public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription 
             GraphQLField("raterId", type: .nonNull(.scalar(GraphQLID.self))),
             GraphQLField("procedure", type: .object(Procedure.selections)),
             GraphQLField("procedureId", type: .nonNull(.scalar(GraphQLID.self))),
-            GraphQLField("evauluationDate", type: .nonNull(.scalar(String.self))),
+            GraphQLField("evaluationDate", type: .nonNull(.scalar(String.self))),
             GraphQLField("ratingLevel", type: .scalar(Int.self)),
             GraphQLField("certificationRecordId", type: .scalar(GraphQLID.self)),
           ]
@@ -32423,8 +32423,8 @@ public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription 
             self.snapshot = snapshot
           }
 
-          public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evauluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
-            self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evauluationDate": evauluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
+          public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evaluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
+            self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evaluationDate": evaluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
           }
 
           public var __typename: String {
@@ -32499,12 +32499,12 @@ public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription 
             }
           }
 
-          public var evauluationDate: String {
+          public var evaluationDate: String {
             get {
-              return snapshot["evauluationDate"]! as! String
+              return snapshot["evaluationDate"]! as! String
             }
             set {
-              snapshot.updateValue(newValue, forKey: "evauluationDate")
+              snapshot.updateValue(newValue, forKey: "evaluationDate")
             }
           }
 
@@ -32918,7 +32918,7 @@ public final class OnUpdateCertificationRecordSubscription: GraphQLSubscription 
 
 public final class OnDeleteCertificationRecordSubscription: GraphQLSubscription {
   public static let operationString =
-    "subscription OnDeleteCertificationRecord {\n  onDeleteCertificationRecord {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evauluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
+    "subscription OnDeleteCertificationRecord {\n  onDeleteCertificationRecord {\n    __typename\n    id\n    procedureId\n    procedure {\n      __typename\n      id\n      name\n      description\n    }\n    isCertified\n    certificationMethod\n    subjectId\n    subject {\n      __typename\n      id\n      orgID\n      userName\n      email\n      phone\n      firstName\n      lastName\n      npi\n      isRater\n      memberships {\n        __typename\n        items {\n          __typename\n          id\n          role\n          userId\n          user {\n            __typename\n            id\n            orgID\n            userName\n            email\n            phone\n            firstName\n            lastName\n            npi\n            isRater\n          }\n          programId\n          program {\n            __typename\n            id\n            name\n            orgID\n            description\n          }\n        }\n        nextToken\n      }\n    }\n    certificationLog {\n      __typename\n      items {\n        __typename\n        id\n        subject {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        subjectId\n        rater {\n          __typename\n          id\n          orgID\n          userName\n          email\n          phone\n          firstName\n          lastName\n          npi\n          isRater\n          memberships {\n            __typename\n            nextToken\n          }\n        }\n        raterId\n        procedure {\n          __typename\n          id\n          name\n          description\n        }\n        procedureId\n        evaluationDate\n        ratingLevel\n        certificationRecordId\n      }\n      nextToken\n    }\n    totalProcedureEvals\n  }\n}"
 
   public init() {
   }
@@ -33625,7 +33625,7 @@ public final class OnDeleteCertificationRecordSubscription: GraphQLSubscription 
             GraphQLField("raterId", type: .nonNull(.scalar(GraphQLID.self))),
             GraphQLField("procedure", type: .object(Procedure.selections)),
             GraphQLField("procedureId", type: .nonNull(.scalar(GraphQLID.self))),
-            GraphQLField("evauluationDate", type: .nonNull(.scalar(String.self))),
+            GraphQLField("evaluationDate", type: .nonNull(.scalar(String.self))),
             GraphQLField("ratingLevel", type: .scalar(Int.self)),
             GraphQLField("certificationRecordId", type: .scalar(GraphQLID.self)),
           ]
@@ -33636,8 +33636,8 @@ public final class OnDeleteCertificationRecordSubscription: GraphQLSubscription 
             self.snapshot = snapshot
           }
 
-          public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evauluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
-            self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evauluationDate": evauluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
+          public init(id: GraphQLID, subject: Subject, subjectId: GraphQLID, rater: Rater, raterId: GraphQLID, procedure: Procedure? = nil, procedureId: GraphQLID, evaluationDate: String, ratingLevel: Int? = nil, certificationRecordId: GraphQLID? = nil) {
+            self.init(snapshot: ["__typename": "EvaluationResponse", "id": id, "subject": subject.snapshot, "subjectId": subjectId, "rater": rater.snapshot, "raterId": raterId, "procedure": procedure.flatMap { $0.snapshot }, "procedureId": procedureId, "evaluationDate": evaluationDate, "ratingLevel": ratingLevel, "certificationRecordId": certificationRecordId])
           }
 
           public var __typename: String {
@@ -33712,12 +33712,12 @@ public final class OnDeleteCertificationRecordSubscription: GraphQLSubscription 
             }
           }
 
-          public var evauluationDate: String {
+          public var evaluationDate: String {
             get {
-              return snapshot["evauluationDate"]! as! String
+              return snapshot["evaluationDate"]! as! String
             }
             set {
-              snapshot.updateValue(newValue, forKey: "evauluationDate")
+              snapshot.updateValue(newValue, forKey: "evaluationDate")
             }
           }
 
