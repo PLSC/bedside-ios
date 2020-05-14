@@ -20,10 +20,10 @@ class EvaluationAPI {
     }
     
     func submitEvaluation(evaluation: EvaluationFormData, callback: @escaping (Error?)-> ()) {
-        guard evaluation.isValid() else {
-            callback(EvaluationAPIError.InvalidEvaluationData)
-            return
-        }
+//        guard evaluation.isValid else {
+//            callback(EvaluationAPIError.InvalidEvaluationData)
+//            return
+//        }
         
         guard let subject = evaluation.subject,
             let rater = evaluation.rater,

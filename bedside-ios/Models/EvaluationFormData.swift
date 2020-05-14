@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Combine
 
 class EvaluationFormData : ObservableObject {
     @Published var procedure: Procedure?
@@ -14,6 +15,45 @@ class EvaluationFormData : ObservableObject {
     @Published var subject: User?
     @Published var procedureDate: Date
     @Published var answer: AnswerOption<Int>?
+    
+    var cancelable : AnyCancellable? = nil
+    
+    var usersAreValid: AnyPublisher<Bool, Never> {
+        Publishers.CombineLatest($rater, $subject)
+            .receive(on: RunLoop.main)
+            .map {
+                rater, subject in
+                guard let _ = rater, let _ = subject else { return false }
+                return true
+            }.eraseToAnyPublisher()
+    }
+    
+    var procedureIsValid: AnyPublisher<Bool, Never> {
+        Publishers.CombineLatest($procedure, $procedureDate)
+            .receive(on: RunLoop.main)
+            .map {
+                procedure, procedureDate in
+                guard let _ = procedure else { return false }
+                //TODO: validate date
+                return true
+            }.eraseToAnyPublisher()
+    }
+    
+    var evaluationIsValid: AnyPublisher<Bool, Never> {
+        Publishers.CombineLatest3(usersAreValid, procedureIsValid, $answer)
+            .receive(on: RunLoop.main)
+            .map {
+                usersValid, proceduresValid, answer in
+                return usersValid && proceduresValid && answer != nil
+                
+        }.eraseToAnyPublisher()
+    }
+    
+    func oldestValidEvalDate() -> Date {
+           var dateComponents = DateComponents()
+           dateComponents.hour = -72
+           return Calendar.current.date(byAdding: dateComponents, to: Date())!
+    }
     
     init(rater: User?  = nil,
          subject: User? = nil,
@@ -27,39 +67,26 @@ class EvaluationFormData : ObservableObject {
         self.answer = answer
     }
     
-    func procedureIsValid() -> Bool {
-        return procedure != nil
-    }
-       
-    func dateIsValid() -> Bool {
-        return procedureDate < Date()
-    }
-       
-    func raterIsValid() -> Bool {
-        return rater != nil
-    }
-    
-    func subjectIsValid() -> Bool {
-        return subject != nil
-    }
-    
-    func answerIsValid() -> Bool {
-        return answer != nil
+    func submitEvaluation(completion: @escaping (Error?)->()) {
+        let api = EvaluationAPI()
+        api.createEvaluation(subject: subject!,
+                             rater: rater!,
+                             procedure: procedure!,
+                             procedureDate: procedureDate,
+                             ratingLevel: answer!.assocValue) { (error) in
+//            if error == nil {
+//                self.evaluation.reset()
+//                self.userLoginState.fetchCurrentUserCertRecords()
+//            }
+//            self.isLoading = false
+                                completion(error)
+        }
     }
     
     func reset() {
         rater = nil
-        subject = nil
         procedureDate = Date()
         answer = nil
         procedure = nil
-    }
-    
-    func isValid() -> Bool {
-        return raterIsValid() &&
-            subjectIsValid() &&
-            dateIsValid() &&
-            procedureIsValid() &&
-            answerIsValid()
     }
 }
