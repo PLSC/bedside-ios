@@ -11,7 +11,13 @@ import SwiftUI
 struct LoadingView<Content>: View where Content: View {
 
     @Binding var isShowing: Bool
+    var progress: Binding<Float>?
+    
     var content: () -> Content
+    
+    var progressView : some View {
+        return Text("\(String(format: "%.2f", progress?.wrappedValue ?? 0.0))")
+    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -23,6 +29,9 @@ struct LoadingView<Content>: View where Content: View {
                 VStack {
                     Text("Loading...")
                     ActivityIndicator(isAnimating: .constant(true), style: .large)
+                    if self.progress != nil {
+                        self.progressView
+                    }
                 }
                 .frame(width: geometry.size.width / 2,
                        height: geometry.size.height / 5)

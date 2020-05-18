@@ -61,7 +61,9 @@ class UserSettingsFormViewModel : ObservableObject {
         
         self.isUploadingImage = true
         
-        let progressFn : (Progress) -> () = { progress in print("\(progress.fractionCompleted)") }
+        let progressFn : (Progress) -> () = { progress in
+            self.uploadProgress = Float(progress.fractionCompleted)
+        }
         
         let completionFn : (Error?) -> () = { error in
             self.isUploadingImage = false
@@ -138,61 +140,64 @@ struct SettingsView: View {
     }
     
     var body: some View {
-        NavigationView {
-            Form {
-                HStack {
-                    if viewModel.image != nil {
-                        profileImage
-                    } else {
-                        placeHolderImage
+        LoadingView(isShowing: $viewModel.isUploadingImage, progress: $viewModel.uploadProgress) {
+            NavigationView {
+                Form {
+                    HStack {
+                        if self.viewModel.image != nil {
+                            self.profileImage
+                        } else {
+                            self.placeHolderImage
+                        }
+                        VStack(alignment: .leading) {
+                            (Text("Username: ").bold() + Text(self.viewModel.username)).padding()
+                            (Text("Email: ").bold() + Text(self.viewModel.email)).padding()
+                        }
                     }
-                    VStack(alignment: .leading) {
-                        (Text("Username: ").bold() + Text(viewModel.username)).padding()
-                        (Text("Email: ").bold() + Text(viewModel.email)).padding()
+                    
+                    HStack {
+                        Text("First Name:").font(.callout).bold()
+                        TextField("First Name", text: self.$viewModel.firstName, onEditingChanged: { didChange in
+                            print("editingChanged: \(didChange)")
+                        }, onCommit: {
+                            print("committed")
+                        }).textFieldStyle(RoundedBorderTextFieldStyle())
+                    }
+                    
+                    HStack {
+                        Text("Last Name:").font(.callout).bold()
+                        TextField("Last Name", text: self.$viewModel.lastName)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                    }
+                    
+                    HStack {
+                        Text("NPI: ").font(.callout).bold()
+                        TextField("NPI", text:self.$viewModel.npi)
+                            .keyboardType(.numberPad)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                    }
+                    
+                    Section {
+                        Button(action: {self.submit()}) {
+                            Text("Submit Changes")
+                        }
+                    }
+                    
+                    Section {
+                        Button(action: {self.signOut()}) {
+                            Text("Sign Out").foregroundColor(Color.red)
+                        }
                     }
                 }
-                
-                HStack {
-                    Text("First Name:").font(.callout).bold()
-                    TextField("First Name", text: $viewModel.firstName, onEditingChanged: { didChange in
-                        print("editingChanged: \(didChange)")
-                    }, onCommit: {
-                        print("committed")
-                    }).textFieldStyle(RoundedBorderTextFieldStyle())
+                .onAppear { self.populateUserInfo() }
+                //.modifier(DismissingKeyboard())
+                .navigationBarTitle("Settings")
+                    .sheet(isPresented: self.$showImagePicker) {
+                        PhotoCaptureView(showImagePicker: self.$showImagePicker, image: self.$viewModel.image, imageUrl: self.$viewModel.imageUrl)
                 }
-                
-                HStack {
-                    Text("Last Name:").font(.callout).bold()
-                    TextField("Last Name", text: $viewModel.lastName)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-                
-                HStack {
-                    Text("NPI: ").font(.callout).bold()
-                    TextField("NPI", text:$viewModel.npi)
-                        .keyboardType(.numberPad)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-                
-                Section {
-                    Button(action: {self.submit()}) {
-                        Text("Submit Changes")
-                    }
-                }
-                
-                Section {
-                    Button(action: {self.signOut()}) {
-                        Text("Sign Out").foregroundColor(Color.red)
-                    }
-                }
-            }
-            .onAppear { self.populateUserInfo() }
-            //.modifier(DismissingKeyboard())
-            .navigationBarTitle("Settings")
-                .sheet(isPresented: $showImagePicker) {
-                    PhotoCaptureView(showImagePicker: self.$showImagePicker, image: self.$viewModel.image, imageUrl: self.$viewModel.imageUrl)
             }
         }
+        
         
     }
 }

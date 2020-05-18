@@ -35,20 +35,24 @@ struct NewRater: View {
         self.presentationMode.wrappedValue.dismiss()
     }
     
+    var emailField : some View {
+        VStack(alignment: .leading) {
+            TextField("Email Address", text: self.$newRaterViewModel.email)
+            .keyboardType(.emailAddress)
+            .autocapitalization(.none)
+            Text(self.emailErrorString ?? "")
+                .onReceive(self.newRaterViewModel.emailError) { errorString in
+                    self.emailErrorString = errorString
+            }
+        }
+    }
+    
     var body: some View {
-        LoadingView(isShowing: $isLoading) {
+        LoadingView(isShowing: $isLoading, progress: nil) {
             NavigationView {
                 Group {
                     Form {
-                        VStack(alignment: .leading) {
-                            TextField("Email Address", text: self.$newRaterViewModel.email)
-                            .keyboardType(.emailAddress)
-                            .autocapitalization(.none)
-                            Text(self.emailErrorString ?? "")
-                                .onReceive(self.newRaterViewModel.emailError) { errorString in
-                                    self.emailErrorString = errorString
-                            }
-                        }
+                        self.emailField
                         
                         TextField("First Name", text: self.$newRaterViewModel.firstName)
                         TextField("Last Name", text: self.$newRaterViewModel.lastName)
