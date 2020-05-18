@@ -11,6 +11,7 @@ import AWSMobileClient
 import AmplifyPlugins
 import Amplify
 import AWSAppSync
+import AWSS3
 
 extension AWSMobileClient: AWSCognitoUserPoolsAuthProviderAsync {
     public func getLatestAuthToken(_ callback: @escaping (String?, Error?) -> Void) {
@@ -31,11 +32,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func initAmplify() {
         let apiPlugin = AWSAPIPlugin(modelRegistration: AmplifyModels())
-        let storagePlugin = AWSS3StoragePlugin()
         
         do {
               try Amplify.add(plugin: apiPlugin)
-              try Amplify.add(plugin: storagePlugin)
+              try Amplify.add(plugin: AWSS3StoragePlugin())
               try Amplify.configure()
               print("Amplify initialized")
           } catch {
@@ -45,13 +45,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func initAppSync() {
         do {
-                   let cacheConfiguration = try AWSAppSyncCacheConfiguration()
-                   let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), userPoolsAuthProvider: AWSMobileClient.default(), cacheConfiguration: cacheConfiguration)
-                   appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
-                   print("Appsync configured")
-               } catch(let error) {
-                   print("AppSync is a no-go: \(error)")
-               }
+           let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+           let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
+                                                                 userPoolsAuthProvider: AWSMobileClient.default(),
+                                                                 cacheConfiguration: cacheConfiguration)
+           appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+           print("Appsync configured")
+        } catch(let error) {
+           print("AppSync is a no-go: \(error)")
+        }
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -65,10 +67,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return
             }
             
-            self.initAmplify()
-            self.initAppSync()
+            
         }
-
+        
+        self.initAmplify()
+        self.initAppSync()
+        
+        //init image upload utility
+        let _ = ImageLoadingUtility.sharedInstance
         return true
     }
 

@@ -8,6 +8,8 @@
 
 import SwiftUI
 import AWSMobileClient
+
+
 import Amplify
 import AWSS3
 
@@ -24,28 +26,104 @@ class UserSettingsFormViewModel : ObservableObject {
     @Published var lastName = ""
     @Published var npi = ""
     @Published var email = ""
-    var id = ""
+    @Published var id = ""
+    @Published var isUploadingImage : Bool = false
+    @Published var uploadProgress: Float = 0.0
+    @Published var imageUrl : URL? = nil
+    @Published var image : Image? = nil
+    
+    var allUserValues : User {
+        return User(id: id,
+                    email: email,
+                    firstName: firstName,
+                    lastName: lastName,
+                    npi: Int(npi))
+    }
+    
+    
+    func setUserValues(user: User?) {
+        guard let user = user else { return }
+        self.username = user.userName ?? ""
+        self.firstName = user.firstName ?? ""
+        self.lastName = user.lastName ?? ""
+        self.id = user.id
+        self.email = user.email
+        if let npi = user.npi {
+            self.npi = String(describing: npi)
+        }
+    }
+    
+    func uploadUserImage() {
+        guard let url = imageUrl else {
+            print("Select an image to upload")
+            return
+        }
+        
+        self.isUploadingImage = true
+        
+        let progressFn : (Progress) -> () = { progress in print("\(progress.fractionCompleted)") }
+        
+        let completionFn : (Error?) -> () = { error in
+            self.isUploadingImage = false
+            if let error = error {
+                print(error)
+            }
+        }
+        
+        ImageLoadingUtility
+            .sharedInstance
+            .uploadProfileImage(withUrl: url,
+                                userId: id,
+                                progressFn:progressFn,
+                                completion: completionFn)
+    }
+    
+    func dowloadUserImage() {
+        guard !id.isEmpty else { return }
+        ImageLoadingUtility.sharedInstance.downloadProfileImage(userId: id) {
+            image, error in
+            guard let image = image else {
+                print("\(error?.localizedDescription ?? "")")
+                return
+            }
+            self.image = Image(uiImage:image)
+        }
+    }
 }
 
 struct SettingsView: View {
     
     @ObservedObject var viewModel = UserSettingsFormViewModel()
     @EnvironmentObject var userLoginState : UserLoginState
-    
+    @State var showImagePicker : Bool = false
+
     let authUtil = AuthUtils()
     
-    //TODO: Put this into the environment with a bindable object.
-    func getUser() {
-        self.viewModel.firstName = self.userLoginState.currentUser?.firstName ?? ""
-        self.viewModel.lastName = self.userLoginState.currentUser?.lastName ?? ""
-        self.viewModel.npi = ""
-        self.viewModel.username = self.userLoginState.currentUser?.userName ?? ""
-        self.viewModel.id = self.userLoginState.currentUser?.id ?? ""
-        self.viewModel.email = self.userLoginState.currentUser?.email ?? ""
-        if let npi = self.userLoginState.currentUser?.npi {
-            self.viewModel.npi = String(describing: npi)
-        }
-        
+    
+    var placeHolderImage : some View {
+        return Image(systemName: "person.crop.circle.badge.plus")
+            .resizable()
+            .foregroundColor(.gray)
+            .aspectRatio(contentMode: .fit)
+            .frame(maxHeight:75)
+            .onTapGesture {
+                self.showImagePicker = true
+            }
+    }
+    var profileImage : some View {
+        return viewModel.image?.resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(maxHeight:75)
+            .clipShape(Circle())
+            .shadow(radius: 10)
+            .onTapGesture {
+                self.showImagePicker = true
+            }
+    }
+    
+    func populateUserInfo() {
+        self.viewModel.setUserValues(user: self.userLoginState.currentUser)
+        self.viewModel.dowloadUserImage()
     }
         
     func signOut() {
@@ -54,21 +132,20 @@ struct SettingsView: View {
     
     func submit() {
         UIApplication.shared.endEditing()
-        let npi = Int(viewModel.npi)
-        let user = User(id: viewModel.id, email: viewModel.email, firstName: viewModel.firstName, lastName: viewModel.lastName, npi: npi)
+        let user = viewModel.allUserValues
         self.userLoginState.updateUser(user: user)
+        self.viewModel.uploadUserImage()
     }
     
     var body: some View {
         NavigationView {
             Form {
                 HStack {
-                    Image("andy")
-                       .resizable()
-                       .aspectRatio(contentMode: .fit)
-                       .frame(maxHeight:75)
-                       .clipShape(Circle())
-                       .shadow(radius: 10)
+                    if viewModel.image != nil {
+                        profileImage
+                    } else {
+                        placeHolderImage
+                    }
                     VStack(alignment: .leading) {
                         (Text("Username: ").bold() + Text(viewModel.username)).padding()
                         (Text("Email: ").bold() + Text(viewModel.email)).padding()
@@ -109,9 +186,12 @@ struct SettingsView: View {
                     }
                 }
             }
-            .onAppear { self.getUser() }
+            .onAppear { self.populateUserInfo() }
             //.modifier(DismissingKeyboard())
             .navigationBarTitle("Settings")
+                .sheet(isPresented: $showImagePicker) {
+                    PhotoCaptureView(showImagePicker: self.$showImagePicker, image: self.$viewModel.image, imageUrl: self.$viewModel.imageUrl)
+            }
         }
         
     }

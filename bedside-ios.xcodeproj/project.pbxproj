@@ -8,13 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		022EB93DC2C24E58F1ADFE43 /* Pods_bedside_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35CD085736C73D131D30010D /* Pods_bedside_ios.framework */; };
-		235DB0924F2543CB8CD3B84C /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = D7E4AE6C6C8A41EDB2467A80 /* amplifyconfiguration.json */; };
 		391C05FB23F4414000935BBC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C05FA23F4414000935BBC /* AppDelegate.swift */; };
 		391C05FD23F4414000935BBC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C05FC23F4414000935BBC /* SceneDelegate.swift */; };
 		391C05FF23F4414000935BBC /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391C05FE23F4414000935BBC /* LoginView.swift */; };
 		391C060123F4414200935BBC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 391C060023F4414200935BBC /* Assets.xcassets */; };
 		391C060423F4414200935BBC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 391C060323F4414200935BBC /* Preview Assets.xcassets */; };
 		391C060723F4414200935BBC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 391C060523F4414200935BBC /* LaunchScreen.storyboard */; };
+		3929938A2472C56000D31FC2 /* ImageLoadingUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392993892472C56000D31FC2 /* ImageLoadingUtility.swift */; };
 		392AA7CE2409AFAB00A64981 /* UserHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392AA7CD2409AFAB00A64981 /* UserHeader.swift */; };
 		393CF2AD2461AB9B007BB281 /* CertRecordAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393CF2AC2461AB9B007BB281 /* CertRecordAPI.swift */; };
 		393CF2AF2461B201007BB281 /* CertificationRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393CF2AE2461B201007BB281 /* CertificationRecord.swift */; };
@@ -64,11 +64,12 @@
 		39E5C775246B012000618F66 /* NewRaterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E5C774246B012000618F66 /* NewRaterViewModel.swift */; };
 		39E5C777246B113A00618F66 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E5C776246B113A00618F66 /* SearchBar.swift */; };
 		39E5C779246B169000618F66 /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E5C778246B169000618F66 /* FoundationExtensions.swift */; };
-		4F8A576514EF455AAEE00886 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 029F21FE67194E7595C74426 /* awsconfiguration.json */; };
+		39FC6A59246EEFA7001BF08B /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39FC6A57246EEFA6001BF08B /* amplifyconfiguration.json */; };
+		39FC6A5A246EEFA7001BF08B /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39FC6A58246EEFA6001BF08B /* awsconfiguration.json */; };
+		39FC6A5C246F094C001BF08B /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39FC6A5B246F094C001BF08B /* ImagePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		029F21FE67194E7595C74426 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = awsconfiguration.json; path = ./awsconfiguration.json; sourceTree = "<group>"; };
 		35CD085736C73D131D30010D /* Pods_bedside_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bedside_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		391C05F723F4414000935BBC /* bedside.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = bedside.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		391C05FA23F4414000935BBC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -79,6 +80,7 @@
 		391C060623F4414200935BBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		391C060823F4414200935BBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		391C061323F4414200935BBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		392993892472C56000D31FC2 /* ImageLoadingUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoadingUtility.swift; sourceTree = "<group>"; };
 		392AA7CD2409AFAB00A64981 /* UserHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHeader.swift; sourceTree = "<group>"; };
 		393CF2AC2461AB9B007BB281 /* CertRecordAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertRecordAPI.swift; sourceTree = "<group>"; };
 		393CF2AE2461B201007BB281 /* CertificationRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificationRecord.swift; sourceTree = "<group>"; };
@@ -128,13 +130,15 @@
 		39E5C774246B012000618F66 /* NewRaterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRaterViewModel.swift; sourceTree = "<group>"; };
 		39E5C776246B113A00618F66 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		39E5C778246B169000618F66 /* FoundationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationExtensions.swift; sourceTree = "<group>"; };
+		39FC6A57246EEFA6001BF08B /* amplifyconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
+		39FC6A58246EEFA6001BF08B /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
+		39FC6A5B246F094C001BF08B /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		590B078A065B544C4A6E0021 /* Pods-bedside-iosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bedside-iosTests.debug.xcconfig"; path = "Target Support Files/Pods-bedside-iosTests/Pods-bedside-iosTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6926CE226003A7E6F88934F6 /* Pods-bedside-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bedside-ios.release.xcconfig"; path = "Target Support Files/Pods-bedside-ios/Pods-bedside-ios.release.xcconfig"; sourceTree = "<group>"; };
 		A3EAE1DE4BC6299EFC5F4DE2 /* Pods-bedside-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bedside-ios.debug.xcconfig"; path = "Target Support Files/Pods-bedside-ios/Pods-bedside-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		BB2DCC7199BAA76235D104F9 /* Pods-bedside-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bedside-iosTests.release.xcconfig"; path = "Target Support Files/Pods-bedside-iosTests/Pods-bedside-iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		D5E61525FCC44CA4BE0177F4 /* amplifyxc.config */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = amplifyxc.config; path = ./amplifyxc.config; sourceTree = "<group>"; };
 		D68E0ADEB562A759153372F5 /* Pods_bedside_iosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bedside_iosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D7E4AE6C6C8A41EDB2467A80 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = amplifyconfiguration.json; path = ./amplifyconfiguration.json; sourceTree = "<group>"; };
 		FF47FAD8EF094FB28C1B6F12 /* amplify */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = amplify; path = ./amplify; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -178,8 +182,8 @@
 				CE116E54F5E5B3914DB0D242 /* Pods */,
 				D9E6BEDC14EE800BACCD4E1D /* Frameworks */,
 				D5E61525FCC44CA4BE0177F4 /* amplifyxc.config */,
-				029F21FE67194E7595C74426 /* awsconfiguration.json */,
-				D7E4AE6C6C8A41EDB2467A80 /* amplifyconfiguration.json */,
+				39FC6A57246EEFA6001BF08B /* amplifyconfiguration.json */,
+				39FC6A58246EEFA6001BF08B /* awsconfiguration.json */,
 				FF47FAD8EF094FB28C1B6F12 /* amplify */,
 			);
 			sourceTree = "<group>";
@@ -299,6 +303,7 @@
 				397F087A2464695D00A14513 /* LoadingView.swift */,
 				39E5C776246B113A00618F66 /* SearchBar.swift */,
 				39E5C778246B169000618F66 /* FoundationExtensions.swift */,
+				392993892472C56000D31FC2 /* ImageLoadingUtility.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -310,6 +315,7 @@
 				39603729242CD403006B216E /* Evaluate */,
 				392AA7CC2409AF8D00A64981 /* Verify */,
 				39B6541A2409632F00EEA4A2 /* SettingsView.swift */,
+				39FC6A5B246F094C001BF08B /* ImagePicker.swift */,
 				39B6541D240968C000EEA4A2 /* BaseView.swift */,
 			);
 			path = Navigation;
@@ -396,12 +402,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39FC6A5A246EEFA7001BF08B /* awsconfiguration.json in Resources */,
 				39424F24240D654F00FD21A3 /* README.md in Resources */,
 				391C060723F4414200935BBC /* LaunchScreen.storyboard in Resources */,
 				391C060423F4414200935BBC /* Preview Assets.xcassets in Resources */,
+				39FC6A59246EEFA7001BF08B /* amplifyconfiguration.json in Resources */,
 				391C060123F4414200935BBC /* Assets.xcassets in Resources */,
-				4F8A576514EF455AAEE00886 /* awsconfiguration.json in Resources */,
-				235DB0924F2543CB8CD3B84C /* amplifyconfiguration.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,7 +472,9 @@
 				3946F688242D2A55005AC547 /* ProcedureSelectRow.swift in Sources */,
 				398236FA2448B09600ED7148 /* EvaluationReview.swift in Sources */,
 				393CF2B82461F9F2007BB281 /* CertLogListView.swift in Sources */,
+				3929938A2472C56000D31FC2 /* ImageLoadingUtility.swift in Sources */,
 				393DE74E24462BA900EE97B4 /* PerformanceEvaluation.swift in Sources */,
+				39FC6A5C246F094C001BF08B /* ImagePicker.swift in Sources */,
 				398237532448CECB00ED7148 /* Procedure.swift in Sources */,
 				397F0879246468E700A14513 /* ActivityIndicator.swift in Sources */,
 				398236F82447684700ED7148 /* BigButtonStyle.swift in Sources */,

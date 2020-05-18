@@ -117,5 +117,11 @@
 				}
 			}
 		}
+	},
+	"storage": {
+		"bedsideContent": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
+		}
 	}
 }
