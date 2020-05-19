@@ -17,7 +17,7 @@ struct UserBanner: View {
     
     func downloadUserImage(user: User?) {
         guard let user = user, image == nil else { return }
-        ImageLoader.sharedInstance.loadUserImage(withID: user.id) { result in
+        CachingImageLoader.sharedInstance.loadUserImage(withID: user.id) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let image):
@@ -49,7 +49,7 @@ struct UserBanner: View {
                 .clipShape(Circle())
                 .shadow(radius: 10)
             } else {
-                image!.resizable()
+                AsyncUserImage(id: userLoginState.currentUser?.id ?? "", placeholder: Image(systemName: "person.circle.fill"))
                 .aspectRatio(contentMode: .fit)
                 .frame(maxHeight:200)
                 .clipShape(Circle())

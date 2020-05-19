@@ -41,7 +41,6 @@ class S3ImageLoadingUtility {
     let imageName = "profile.jpg"
     let contentType = "image/jpeg"
     var registrationComplete = false
-    static let serviceKey =  "transfer-utility-with-advanced-options"
     
     //TODO: Make this a user extension.
     func imageFileName(forUserId id: String) -> String {
@@ -180,7 +179,7 @@ class S3ImageLoadingUtility {
         }
     }
     
-    var uploadRegistrationComplete = false
+    
     
     func config(registrationCompletion: @escaping (Error?)->()) {
         if self.registrationComplete {
@@ -212,6 +211,8 @@ class S3ImageLoadingUtility {
             completionHandler: middleware
         )
     }
+    
+    var uploadRegistrationComplete = false
     
     func configUploads(registrationCompletion: @escaping (Error?)->()) {
         if self.uploadRegistrationComplete {

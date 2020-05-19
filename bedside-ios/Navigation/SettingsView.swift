@@ -67,30 +67,22 @@ class UserSettingsFormViewModel : ObservableObject {
             self.uploadProgress = Float(progress.fractionCompleted)
         }
         
-        let completionFn : (Error?) -> () = { error in
+        let completionFn : (Result<Bool, Error>) -> () = { result in
             self.isUploadingImage = false
-            if let error = error {
-                print(error)
+            switch result {
+            case .success:
+                print("image uploaded")
+            case .failure(let error):
+                print("error uploading image: \(error)")
             }
         }
-        S3ImageLoadingUtility.sharedInstance.configUploads { (error) in
-            if let error = error  {
-                print("error registering upload utility \(error)")
-            }
-            
-            S3ImageLoadingUtility
-                       .sharedInstance
-                       .uploadProfileImage(withUrl: url,
-                                           userId: self.id,
-                                           progressFn:progressFn,
-                                           completion: completionFn)
-        }
-       
+        
+        CachingImageLoader.sharedInstance.uploadUserImage(imageUrl: url, userId: id, progressHandler: progressFn, completionHandler: completionFn)
     }
     
     func dowloadUserImage() {
         guard !id.isEmpty else { return }
-        ImageLoader.sharedInstance.loadUserImage(withID: id) { (result) in
+        CachingImageLoader.sharedInstance.loadUserImage(withID: id) { (result) in
             switch result {
             case .success(let image):
                 self.image = Image(uiImage: image)
