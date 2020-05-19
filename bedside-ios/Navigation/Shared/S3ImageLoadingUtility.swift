@@ -10,7 +10,8 @@ import Foundation
 import AWSS3
 
 struct AWSConfigOptions {
-    let serviceKey = "transfer-utility-with-advanced-options"
+    let serviceKey : String = "transfer-utility-with-advanced-options"
+    let uploadServiceKey : String = "s3-upload-transfer-utility"
     let region = AWSRegionType.USEast1
     
     var poolId : String? {
@@ -30,33 +31,33 @@ struct AWSConfigOptions {
     }
 }
 
-class ImageLoadingUtility {
+enum S3ImageLoadingUtilityError : Error {
+    case imageDecodingError
+}
+class S3ImageLoadingUtility {
     
     let configOptions : AWSConfigOptions
     let publicKey = "public"
     let imageName = "profile.jpg"
     let contentType = "image/jpeg"
+    var registrationComplete = false
+    static let serviceKey =  "transfer-utility-with-advanced-options"
     
+    //TODO: Make this a user extension.
     func imageFileName(forUserId id: String) -> String {
         return "\(publicKey)/\(id)/\(imageName)"
     }
     
-    var registrationCompletionHandler : (Error?) -> () = { error in
-        if let error = error {
-             //Handle registration error.
-            print("register error \(error.localizedDescription)")
-         }
-        ///TODO: notify of
-        print("Image utility registered")
-    }
-    
-    var transferUtility: AWSS3TransferUtility?  {
+    var downloadUtility: AWSS3TransferUtility?  {
         AWSS3TransferUtility.s3TransferUtility(forKey: configOptions.serviceKey)
     }
+    
+    var uploadUtility: AWSS3TransferUtility? {
+        AWSS3TransferUtility.s3TransferUtility(forKey: configOptions.uploadServiceKey)
+    }
         
-    static let sharedInstance: ImageLoadingUtility = {
-        let instance = ImageLoadingUtility(awsConfigOptions: AWSConfigOptions())
-        instance.config()
+    static let sharedInstance: S3ImageLoadingUtility = {
+        let instance = S3ImageLoadingUtility(awsConfigOptions: AWSConfigOptions())
         return instance
     }()
     
@@ -64,8 +65,13 @@ class ImageLoadingUtility {
         self.configOptions = awsConfigOptions
     }
     
-    func downloadProfileImage(userId: String,
-                              completion: @escaping (UIImage?, Error?) -> () = {_,_ in }) {
+    typealias DataCompletion = (Result<Data,Error>) -> ()
+    
+    func downloadProfileImageData(userId: User.ID, completion: @escaping DataCompletion ) {
+        guard registrationComplete else {
+            print("registration not yet complete")
+            return
+        }
         guard let bucket = configOptions.bucket else {
                    print("AWS Config Failed")
                    return
@@ -84,16 +90,15 @@ class ImageLoadingUtility {
            // Do something e.g. Alert a user for transfer completion.
            // On failed downloads, `error` contains the error object.
                 print("download complete")
-                if let data = data {
-                    let uiImage = UIImage(data: data)
-                    completion(uiImage, error)
-                } else {
-                    completion(nil, error)
+                if let error = error {
+                    completion(.failure(error))
+                } else if let data = data {
+                    completion(.success(data))
                 }
            })
         }
 
-        transferUtility!.downloadData(
+        downloadUtility!.downloadData(
               fromBucket: bucket,
               key: imageFileName(forUserId: userId),
               expression: expression,
@@ -106,10 +111,26 @@ class ImageLoadingUtility {
 
                      if let _ = task.result {
                        // Do something with downloadTask.
-
+                        
                      }
                      return nil;
              }
+    }
+    
+    func downloadProfileImage(userId: User.ID,
+                              completion: @escaping (Result<UIImage, Error>) -> () = { _ in }) {
+        downloadProfileImageData(userId: userId) { result in
+            switch result {
+            case .success(let data):
+                guard let uiImage = UIImage(data: data) else {
+                    completion(.failure(S3ImageLoadingUtilityError.imageDecodingError))
+                    break
+                }
+                completion(.success(uiImage))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
     
     func uploadProfileImage(withUrl url: URL,
@@ -129,37 +150,43 @@ class ImageLoadingUtility {
              })
         }
 
-        var completionHandler: AWSS3TransferUtilityUploadCompletionHandlerBlock?
-        completionHandler = { (task, error) -> Void in
+        let completionHandler: AWSS3TransferUtilityUploadCompletionHandlerBlock? = { (task, error) -> Void in
            DispatchQueue.main.async(execute: {
               print("completed: \(error?.localizedDescription ?? "Successful" )")
               completion(error)
            })
         }
+        
         do {
             let data = try Data(contentsOf: url)
-            transferUtility!.uploadData(data,
-                      bucket: bucket,
-                      key: imageFileName(forUserId: userId),
-                      contentType: contentType,
-                      expression: expression,
-                      completionHandler: completionHandler).continueWith {
-                         (task) -> AnyObject? in
-                             if let error = task.error {
-                                print("Error: \(error.localizedDescription)")
-                             }
+            uploadUtility?.uploadData(data,
+                             bucket: bucket,
+                             key: imageFileName(forUserId: userId),
+                             contentType: contentType,
+                             expression: expression,
+                             completionHandler: completionHandler).continueWith {
+                                (task) -> AnyObject? in
+                                    if let error = task.error {
+                                       print("Error: \(error.localizedDescription)")
+                                    }
 
-                             if let _ = task.result {
-                                // Do something with uploadTask.
-                             }
-                             return nil;
-                     }
+                                    if let _ = task.result {
+                                       // Do something with uploadTask.
+                                    }
+                                    return nil;
+                            }
         } catch(let error) {
-            print("Failure reading image data at url: \(url), error \(error)")
+            print("error uploading image \(error)")
         }
     }
     
-    func config() {
+    var uploadRegistrationComplete = false
+    
+    func config(registrationCompletion: @escaping (Error?)->()) {
+        if self.registrationComplete {
+            registrationCompletion(nil)
+        }
+        
         guard let poolId = configOptions.poolId else {
             print("cannot read awsconfig")
             return
@@ -172,13 +199,48 @@ class ImageLoadingUtility {
 
         //Setup the transfer utility configuration
         let tuConf = AWSS3TransferUtilityConfiguration()
+        let middleware : (Error?) -> () = { error in
+            self.registrationComplete = error == nil
+            registrationCompletion(error)
+        }
 
         //Register a transfer utility object asynchronously
         AWSS3TransferUtility.register(
             with: configuration!,
             transferUtilityConfiguration: tuConf,
             forKey: configOptions.serviceKey,
-            completionHandler: registrationCompletionHandler
+            completionHandler: middleware
+        )
+    }
+    
+    func configUploads(registrationCompletion: @escaping (Error?)->()) {
+        if self.uploadRegistrationComplete {
+            registrationCompletion(nil)
+        }
+        
+        guard let poolId = configOptions.poolId else {
+            print("cannot read awsconfig")
+            return
+        }
+        
+        let credentialProvider = AWSCognitoCredentialsProvider(regionType: configOptions.region,
+                                                        identityPoolId: poolId)
+        let configuration = AWSServiceConfiguration(region: configOptions.region,
+                                                    credentialsProvider: credentialProvider)
+
+        //Setup the transfer utility configuration
+        let tuConf = AWSS3TransferUtilityConfiguration()
+        let middleware : (Error?) -> () = { error in
+            self.uploadRegistrationComplete = error == nil
+            registrationCompletion(error)
+        }
+
+        //Register a transfer utility object asynchronously
+        AWSS3TransferUtility.register(
+            with: configuration!,
+            transferUtilityConfiguration: tuConf,
+            forKey: configOptions.uploadServiceKey,
+            completionHandler: middleware
         )
     }
 }

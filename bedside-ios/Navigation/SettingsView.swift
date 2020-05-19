@@ -34,10 +34,12 @@ class UserSettingsFormViewModel : ObservableObject {
     
     var allUserValues : User {
         return User(id: id,
+                    userName: username,
                     email: email,
                     firstName: firstName,
                     lastName: lastName,
                     npi: Int(npi))
+        
     }
     
     
@@ -71,24 +73,30 @@ class UserSettingsFormViewModel : ObservableObject {
                 print(error)
             }
         }
-        
-        ImageLoadingUtility
-            .sharedInstance
-            .uploadProfileImage(withUrl: url,
-                                userId: id,
-                                progressFn:progressFn,
-                                completion: completionFn)
+        S3ImageLoadingUtility.sharedInstance.configUploads { (error) in
+            if let error = error  {
+                print("error registering upload utility \(error)")
+            }
+            
+            S3ImageLoadingUtility
+                       .sharedInstance
+                       .uploadProfileImage(withUrl: url,
+                                           userId: self.id,
+                                           progressFn:progressFn,
+                                           completion: completionFn)
+        }
+       
     }
     
     func dowloadUserImage() {
         guard !id.isEmpty else { return }
-        ImageLoadingUtility.sharedInstance.downloadProfileImage(userId: id) {
-            image, error in
-            guard let image = image else {
-                print("\(error?.localizedDescription ?? "")")
-                return
+        ImageLoader.sharedInstance.loadUserImage(withID: id) { (result) in
+            switch result {
+            case .success(let image):
+                self.image = Image(uiImage: image)
+            case .failure(let error):
+                print("error downloading image: \(error.localizedDescription)")
             }
-            self.image = Image(uiImage:image)
         }
     }
 }

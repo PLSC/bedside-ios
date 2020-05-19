@@ -73,8 +73,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.initAmplify()
         self.initAppSync()
         
-        //init image upload utility
-        let _ = ImageLoadingUtility.sharedInstance
         return true
     }
 
