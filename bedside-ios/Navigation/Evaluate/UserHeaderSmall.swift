@@ -13,8 +13,8 @@ struct UserHeaderSmall: View {
     
     var body: some View {
         HStack{
-            Image("andy")
-                .resizable()
+            AsyncUserImage(id: userLoginState.currentUser?.id ?? "1", placeholder: Image(systemName: "person"))
+                //.resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(maxHeight:75)
                 .clipShape(Circle())
@@ -22,7 +22,7 @@ struct UserHeaderSmall: View {
             Spacer()
             VStack {
                 Text("Dr. \(userLoginState.currentUser?.firstName?.capitalized ?? "") \(userLoginState.currentUser?.lastName?.capitalized ?? "")")
-                Text("Surgical Trainee, U of M")
+                Text("Surgical Trainee, \(userLoginState.organizations[0].title ?? "")")
             }
         }
          
