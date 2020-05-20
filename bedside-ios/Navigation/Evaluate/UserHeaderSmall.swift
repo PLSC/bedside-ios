@@ -13,11 +13,9 @@ struct UserHeaderSmall: View {
     
     var body: some View {
         HStack{
-            AsyncUserImage(id: userLoginState.currentUser?.id ?? "1", placeholder: Image(systemName: "person"))
-                //.resizable()
+            UserImage()
                 .aspectRatio(contentMode: .fit)
                 .frame(maxHeight:75)
-                .clipShape(Circle())
                 .shadow(radius: 10)
             Spacer()
             VStack {

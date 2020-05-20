@@ -27,9 +27,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
             
             let userLoginState = UserLoginState()
+            let userImageLoader = UserImageLoader()
             
             let cv = contentView
                 .environmentObject(userLoginState)
+                .environmentObject(userImageLoader)
                 
             
             window.rootViewController = UIHostingController(rootView: cv)

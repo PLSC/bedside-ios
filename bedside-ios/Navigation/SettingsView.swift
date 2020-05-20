@@ -8,6 +8,7 @@
 
 import SwiftUI
 import AWSMobileClient
+import Combine
 
 
 import Amplify
@@ -54,50 +55,16 @@ class UserSettingsFormViewModel : ObservableObject {
             self.npi = String(describing: npi)
         }
     }
-    
-    func uploadUserImage() {
-        guard let url = imageUrl else {
-            print("Select an image to upload")
-            return
-        }
-        
-        self.isUploadingImage = true
-        
-        let progressFn : (Progress) -> () = { progress in
-            self.uploadProgress = Float(progress.fractionCompleted)
-        }
-        
-        let completionFn : (Result<Bool, Error>) -> () = { result in
-            self.isUploadingImage = false
-            switch result {
-            case .success:
-                print("image uploaded")
-            case .failure(let error):
-                print("error uploading image: \(error)")
-            }
-        }
-        
-        CachingImageLoader.sharedInstance.uploadUserImage(imageUrl: url, userId: id, progressHandler: progressFn, completionHandler: completionFn)
-    }
-    
-    func dowloadUserImage() {
-        guard !id.isEmpty else { return }
-        CachingImageLoader.sharedInstance.loadUserImage(withID: id) { (result) in
-            switch result {
-            case .success(let image):
-                self.image = Image(uiImage: image)
-            case .failure(let error):
-                print("error downloading image: \(error.localizedDescription)")
-            }
-        }
-    }
 }
 
 struct SettingsView: View {
     
     @ObservedObject var viewModel = UserSettingsFormViewModel()
+    @ObservedObject var userImageLoader = UserImageLoader()
     @EnvironmentObject var userLoginState : UserLoginState
+    @State var image: UIImage?
     @State var showImagePicker : Bool = false
+    @State var keyboardHeight : CGFloat = 0
 
     let authUtil = AuthUtils()
     
@@ -113,7 +80,7 @@ struct SettingsView: View {
             }
     }
     var profileImage : some View {
-        return viewModel.image?.resizable()
+        return Image(uiImage:self.image!).resizable()
             .aspectRatio(contentMode: .fit)
             .frame(maxHeight:75)
             .clipShape(Circle())
@@ -125,7 +92,9 @@ struct SettingsView: View {
     
     func populateUserInfo() {
         self.viewModel.setUserValues(user: self.userLoginState.currentUser)
-        self.viewModel.dowloadUserImage()
+        if let image = self.userImageLoader.image {
+            self.image = image
+        }
     }
         
     func signOut() {
@@ -136,7 +105,6 @@ struct SettingsView: View {
         UIApplication.shared.endEditing()
         let user = viewModel.allUserValues
         self.userLoginState.updateUser(user: user)
-        self.viewModel.uploadUserImage()
     }
     
     var body: some View {
@@ -144,11 +112,14 @@ struct SettingsView: View {
             NavigationView {
                 Form {
                     HStack {
-                        if self.viewModel.image != nil {
+                        
+                        if self.image != nil {
                             self.profileImage
                         } else {
                             self.placeHolderImage
                         }
+                       
+                        
                         VStack(alignment: .leading) {
                             (Text("Username: ").bold() + Text(self.viewModel.username)).padding()
                             (Text("Email: ").bold() + Text(self.viewModel.email)).padding()
@@ -188,13 +159,17 @@ struct SettingsView: View {
                             Text("Sign Out").foregroundColor(Color.red)
                         }
                     }
-                }
-                .onAppear { self.populateUserInfo() }
+                    
+                    Section(header: Text("")) {EmptyView() }.padding(.bottom, self.keyboardHeight).onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
+            
+                }.padding(.bottom, self.keyboardHeight)
+                
                 //.modifier(DismissingKeyboard())
                 .navigationBarTitle("Settings")
                     .sheet(isPresented: self.$showImagePicker) {
-                        PhotoCaptureView(showImagePicker: self.$showImagePicker, image: self.$viewModel.image, imageUrl: self.$viewModel.imageUrl)
-                }
+                        PhotoCaptureView(image: self.$image, showImagePicker: self.$showImagePicker)
+                            
+                }.onAppear { self.populateUserInfo() }
             }
         }
         

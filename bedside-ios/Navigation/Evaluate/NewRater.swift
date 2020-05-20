@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct NewRater: View {
     
@@ -16,6 +17,7 @@ struct NewRater: View {
     @State var isLoading : Bool = false
     @State var presentErrorAlert : Bool = false
     @State var errorAlertText : String = ""
+    @State var keyboardHeight : CGFloat = 0
     
     func displayError(error: Error) {
         errorAlertText = error.localizedDescription
@@ -72,6 +74,8 @@ struct NewRater: View {
                                 self.submitRater()
                             }) { Text("Submit") }.disabled(!self.newRaterViewModel.isValid)
                         }
+                        
+                        Section(header: Text("")) {EmptyView() }.padding(.bottom, self.keyboardHeight).onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
                     }
                     .navigationBarTitle("New Rater")
                     .navigationBarItems(trailing: Button(action: {
@@ -80,7 +84,7 @@ struct NewRater: View {
                        Image(systemName: "xmark")
                     })
                     .alert(isPresented: self.$presentErrorAlert) { () -> Alert in
-                        Alert(title: Text("Error"), message: Text("Wear sunscreen"), dismissButton: .default(Text("OK")))
+                        Alert(title: Text("Error"), message: Text("Error submitting new rater"), dismissButton: .default(Text("OK")))
                     }
                 }
             }

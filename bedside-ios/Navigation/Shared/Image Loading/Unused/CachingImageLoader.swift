@@ -54,27 +54,21 @@ class CachingImageLoader {
         }
         
         print("cache miss with id: \(id)")
-        S3ImageLoadingUtility.sharedInstance.config { (error) in
-            if let error = error {
-                print("error configuring S3ImageLoadingUtility \(error)")
-                return
-            }
+       
             
-            S3ImageLoadingUtility.sharedInstance.downloadProfileImageData(userId: id) {
-                [weak self] result in
-                switch result {
-                case .success(let data):
-                    guard let image = UIImage(data: data) else {
-                        handler(.failure(ImageLoaderError.imageDecode))
-                        return
-                    }
-                    self?.cache[id] = data
-                    handler(.success(image))
-                case .failure(let error):
-                    handler(.failure(error))
+        S3ImageLoadingUtility.sharedInstance.downloadProfileImageData(userId: id) {
+            [weak self] result in
+            switch result {
+            case .success(let data):
+                guard let image = UIImage(data: data) else {
+                    handler(.failure(ImageLoaderError.imageDecode))
+                    return
                 }
+                self?.cache[id] = data
+                handler(.success(image))
+            case .failure(let error):
+                handler(.failure(error))
             }
         }
-        
     }
 }

@@ -10,6 +10,72 @@
             "StackName": "amplify-bedside-dev-102822",
             "StackId": "arn:aws:cloudformation:us-east-1:597534837657:stack/amplify-bedside-dev-102822/fbb917c0-4762-11ea-bd8c-0e24761bd22a",
             "AmplifyAppId": "d2ue1vewxj068f"
+        },
+        "categories": {
+            "auth": {
+                "bedside18eb32eb": {},
+                "userPoolGroups": {}
+            },
+            "function": {
+                "bedside18eb32ebPostConfirmation": {
+                    "GROUP": "Users"
+                },
+                "AdminQueriesc8c14260": {},
+                "bedsideAddNewUser": {},
+                "newEvaluationFunction": {}
+            }
+        }
+    },
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-bedside-prod-81932-authRole",
+            "UnauthRoleArn": "arn:aws:iam::597534837657:role/amplify-bedside-prod-81932-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::597534837657:role/amplify-bedside-prod-81932-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-bedside-prod-81932-deployment",
+            "UnauthRoleName": "amplify-bedside-prod-81932-unauthRole",
+            "StackName": "amplify-bedside-prod-81932",
+            "StackId": "arn:aws:cloudformation:us-east-1:597534837657:stack/amplify-bedside-prod-81932/51732c60-48e3-11ea-9548-127e9735111e",
+            "AmplifyAppId": "d9yfct0w22sno"
+        },
+        "categories": {
+            "function": {
+                "bedside18eb32ebPostConfirmation": {
+                    "GROUP": "Users"
+                },
+                "AdminQueriesc8c14260": {},
+                "bedsideAddNewUser": {},
+                "newEvaluationFunction": {}
+            }
+        }
+    },
+    "slsandbox": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-bedside-slsandbox-113111-authRole",
+            "UnauthRoleArn": "arn:aws:iam::597534837657:role/amplify-bedside-slsandbox-113111-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::597534837657:role/amplify-bedside-slsandbox-113111-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-bedside-slsandbox-113111-deployment",
+            "UnauthRoleName": "amplify-bedside-slsandbox-113111-unauthRole",
+            "StackName": "amplify-bedside-slsandbox-113111",
+            "StackId": "arn:aws:cloudformation:us-east-1:597534837657:stack/amplify-bedside-slsandbox-113111/fa0da8d0-7e64-11ea-916e-0a54954134e7",
+            "AmplifyAppId": "d1ur6idxtcyik5"
+        },
+        "categories": {
+            "auth": {
+                "bedside18eb32eb": {},
+                "userPoolGroups": {}
+            },
+            "function": {
+                "bedside18eb32ebPostConfirmation": {
+                    "GROUP": "Users"
+                },
+                "AdminQueriesc8c14260": {},
+                "bedsideAddNewUser": {},
+                "bedside18eb32eb": {},
+                "S3Trigger67e13850": {},
+                "newEvaluationFunction": {}
+            }
         }
     }
 }

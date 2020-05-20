@@ -15,47 +15,18 @@ struct UserBanner: View {
     @State var image : Image? = nil
     @State var cancellable : AnyCancellable? = nil
     
-    func downloadUserImage(user: User?) {
-        guard let user = user, image == nil else { return }
-        CachingImageLoader.sharedInstance.loadUserImage(withID: user.id) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let image):
-                    self.image = Image(uiImage: image)
-                case .failure(let error):
-                    print("failure downloading image: \(error)")
-                }
-            }
-        }
-    }
-    
-    //TODO: this should only run once.
-    func initialize()  {
-        cancellable = userLoginState.$currentUser.sink { user in
-            self.downloadUserImage(user: user)
-        }
-    }
-    
     var body: some View {
         ZStack(alignment: .center) {
             Rectangle()
                 .fill(Color.gray)
                 .frame(maxHeight:250)
-            if image == nil {
-                Image(systemName: "person.circle.fill")
-                .resizable()
+          
+            UserImage()
                 .aspectRatio(contentMode: .fit)
                 .frame(maxHeight:200)
-                .clipShape(Circle())
                 .shadow(radius: 10)
-            } else {
-                AsyncUserImage(id: userLoginState.currentUser?.id ?? "", placeholder: Image(systemName: "person.circle.fill"))
-                .aspectRatio(contentMode: .fit)
-                .frame(maxHeight:200)
-                .clipShape(Circle())
-                .shadow(radius: 10)
-            }
-        }.onAppear(perform: initialize)
+            
+        }
     }
 }
 

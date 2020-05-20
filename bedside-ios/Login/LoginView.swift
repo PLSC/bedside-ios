@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 import AWSMobileClient
 
 struct LoginView: View {
@@ -15,6 +16,7 @@ struct LoginView: View {
     @State private var password = ""
     @State private var showForgotPassword = false
     @State private var showEmailCodeEnter = false
+    @State private var keyboardHeight : CGFloat = 0
     
     let authUtil = AuthUtils()
     
@@ -34,6 +36,7 @@ struct LoginView: View {
     
     var body: some View {
         NavigationView {
+            
             VStack(alignment: HorizontalAlignment.center, spacing: 15) {
                 Text("Bedside Procedures")
                     .font(.largeTitle)
@@ -75,7 +78,7 @@ struct LoginView: View {
                 
                 Spacer()
                 
-            }.padding()
+            }.padding().padding(.bottom, self.keyboardHeight).onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
         }
     }
 }

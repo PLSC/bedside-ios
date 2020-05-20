@@ -8,14 +8,8 @@
 
 import SwiftUI
 
-struct AsyncUserImage<Placeholder: View>: View {
-    @ObservedObject private var loader: UserImageLoader
-    private let placeholder: Placeholder?
-    
-    init(id: User.ID, placeholder: Placeholder? = nil) {
-        loader = UserImageLoader(userId: id)
-        self.placeholder = placeholder
-    }
+struct UserImage : View {
+    @EnvironmentObject private var loader: UserImageLoader
 
     var body: some View {
         image
@@ -27,9 +21,11 @@ struct AsyncUserImage<Placeholder: View>: View {
         Group {
             if loader.image != nil {
                 Image(uiImage: loader.image!)
-                    .resizable()
+                    .resizable().clipShape(Circle())
             } else {
-                placeholder
+                Image(systemName: "person.crop.circle.badge.plus")
+                    .resizable()
+                    .foregroundColor(.gray)
             }
         }
     }

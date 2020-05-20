@@ -11,24 +11,19 @@ import UIKit
 import Combine
 
 class UserImageLoader: ObservableObject {
-    @Published var image: UIImage?
-    private let id: User.ID
+    @Published var image: UIImage? 
+    private let imageLoader = UserProfileImage()
    
-
-    init(userId: User.ID) {
-        self.id = userId
+    init() {
+        image = imageLoader.profileImage
+    }
+    
+    func imageSelected(image: UIImage) {
+        imageLoader.profileImage = image
     }
     
     func load() {
-        guard !id.isEmpty else { return }
-        CachingImageLoader.sharedInstance.loadUserImage(withID: id) { result in
-            switch result {
-            case .success(let image):
-                self.image = image
-            case .failure(let error):
-                print("error loading image \(error)")
-            }
-        }
+        image = imageLoader.profileImage
     }
 
     func cancel() {}

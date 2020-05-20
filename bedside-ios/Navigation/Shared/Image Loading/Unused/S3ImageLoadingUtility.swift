@@ -8,6 +8,7 @@
 
 import Foundation
 import AWSS3
+import Amplify
 
 struct AWSConfigOptions {
     let serviceKey : String = "transfer-utility-with-advanced-options"
@@ -47,6 +48,10 @@ class S3ImageLoadingUtility {
         return "\(publicKey)/\(id)/\(imageName)"
     }
     
+    func userImageKey(forUserId id: String) -> String {
+        return "\(id)/\(imageName)"
+    }
+    
     var downloadUtility: AWSS3TransferUtility?  {
         AWSS3TransferUtility.s3TransferUtility(forKey: configOptions.serviceKey)
     }
@@ -67,53 +72,17 @@ class S3ImageLoadingUtility {
     typealias DataCompletion = (Result<Data,Error>) -> ()
     
     func downloadProfileImageData(userId: User.ID, completion: @escaping DataCompletion ) {
-        guard registrationComplete else {
-            print("registration not yet complete")
-            return
+        print("downloading with userID: \(userId)")
+        let _ = Amplify.Storage.downloadData(key: userImageKey(forUserId: userId)) { (event) in
+            switch event {
+            case .completed(let data):
+                completion(.success(data))
+            case .failed(let error):
+                completion(.failure(error))
+            default:
+                print("")
+            }
         }
-        guard let bucket = configOptions.bucket else {
-                   print("AWS Config Failed")
-                   return
-               }
-        
-        let expression = AWSS3TransferUtilityDownloadExpression()
-        expression.progressBlock = {(task, progress) in DispatchQueue.main.async(execute: {
-           // Do something e.g. Update a progress bar.
-                print("progress:\(progress)")
-           })
-        }
-
-        var completionHandler: AWSS3TransferUtilityDownloadCompletionHandlerBlock?
-        completionHandler = { (task, URL, data, error) -> Void in
-           DispatchQueue.main.async(execute: {
-           // Do something e.g. Alert a user for transfer completion.
-           // On failed downloads, `error` contains the error object.
-                print("download complete")
-                if let error = error {
-                    completion(.failure(error))
-                } else if let data = data {
-                    completion(.success(data))
-                }
-           })
-        }
-
-        downloadUtility!.downloadData(
-              fromBucket: bucket,
-              key: imageFileName(forUserId: userId),
-              expression: expression,
-              completionHandler: completionHandler
-              ).continueWith {
-                    (task) -> AnyObject? in
-                    if let error = task.error {
-                        print("Error: \(error.localizedDescription)")
-                     }
-
-                     if let _ = task.result {
-                       // Do something with downloadTask.
-                        
-                     }
-                     return nil;
-             }
     }
     
     func downloadProfileImage(userId: User.ID,
