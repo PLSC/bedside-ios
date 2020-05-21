@@ -15,20 +15,24 @@ enum SignInResult {
     case needsConfirmation
 }
 
+enum AuthUtilsError : Error {
+    case unknownError
+}
+
 class AuthUtils {
-    func sendAuthCode(username: String,  callback: @escaping (Bool, String)->()) {
+    func sendAuthCode(username: String,  callback: @escaping (Result<String, Error>)->()) {
         AWSMobileClient.default().forgotPassword(username: username) { (result, error) in
             if let forgotPasswordResult = result {
                 switch(forgotPasswordResult.forgotPasswordState) {
                 case .confirmationCodeSent:
                     let confirmationMessage = "Confirmation code sent via \(forgotPasswordResult.codeDeliveryDetails!.deliveryMedium) to: \(forgotPasswordResult.codeDeliveryDetails!.destination!)"
                     print(confirmationMessage)
-                    callback(true, confirmationMessage)
+                    callback(.success(confirmationMessage))
                 default:
-                    callback(false, "Error: Unknown Error.")
+                    callback(.failure(AuthUtilsError.unknownError))
                 }
             } else if let error = error {
-                callback(false, "Error occurred: \(error.localizedDescription)")
+                callback(.failure(error))
             }
         }
     }

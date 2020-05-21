@@ -61,8 +61,8 @@ class UserLoginState: ObservableObject {
     func fetchUserInfo() {
         //get logged in user email
         AWSMobileClient.default().getUserAttributes { (attributes, error) in
-            if let e = error {
-                print("error in getUserAttributes: \(e.localizedDescription)")
+            if error != nil {
+                print("User is not signed in, cannot fetch user attributes")
             }
             if let email = attributes?["email"] {
                 self.fetchUserInfo(email: email)

@@ -7,28 +7,57 @@
 //
 
 import SwiftUI
+import Combine
 
 
 class ForgotPasswordViewModel : ObservableObject {
     @Published var username = ""
-    @Published var password = ""
+    @Published var password : String = ""
     @Published var codeSent = false
     @Published var code = ""
     @Published var codeSentMessage = ""
     @Published var success = false
+    @Published var showError = false
+    @Published var errorMessage = ""
+    @Published var formDataIsValid = false
+    
+    private var cancellableSet: Set<AnyCancellable> = []
     
     let authUtil : AuthUtils
     
+    var passwordIsValid : AnyPublisher<Bool, Never> {
+        $password.map {
+            $0.count > 5
+        }.eraseToAnyPublisher()
+    }
+    
+    var codeIsValid : AnyPublisher<Bool, Never> {
+        $code.map { $0.count > 5 }.eraseToAnyPublisher()
+    }
+    
     init(authUtil: AuthUtils = AuthUtils()) {
         self.authUtil = authUtil
+        
+        Publishers.CombineLatest(codeIsValid, passwordIsValid)
+            .receive(on: RunLoop.main)
+            .map { (codeIsValid, passwordIsValid)  in
+                return codeIsValid && passwordIsValid
+        }.assign(to: \.formDataIsValid, on: self)
+        .store(in: &cancellableSet)
     }
     
     func sendCode() {
         authUtil.sendAuthCode(username: username) {
-            sent, message in
+            result in
             DispatchQueue.main.async {
-                self.codeSent = sent
-                self.codeSentMessage = message
+                switch result {
+                case .success(let message):
+                    self.codeSentMessage = message
+                    self.codeSent = true
+                case .failure(let error):
+                    self.showError = true
+                    self.errorMessage = "An error has occurred: \(error.localizedDescription)"
+                }
             }
        }
     }
@@ -51,6 +80,36 @@ struct ForgotPasswordView: View {
     @ObservedObject var viewModel = ForgotPasswordViewModel()
     @Binding var showSelf : Bool
     
+    var sendCodeButton: some View {
+        Button(action:{
+            self.viewModel.sendCode()
+        }) {
+            Text("Send Code")
+                .font(.headline)
+                .foregroundColor(.white)
+                .padding()
+                .frame(width: 300, height: 50)
+                .background(Color.blue)
+                .cornerRadius(15.0)
+        }
+    }
+    
+    var submitNewPasswordButton: some View {
+        Button(action:{
+            self.viewModel.confirmForgotPassword {
+                self.showSelf = false
+            }
+        }) {
+            Text("Submit")
+                .font(.headline)
+                .foregroundColor(.white)
+                .padding()
+                .frame(width: 300, height: 50)
+                .background(self.viewModel.formDataIsValid ? Color.blue : Color.gray)
+                .cornerRadius(15.0)
+                .disabled(!self.viewModel.formDataIsValid)
+        }
+    }
     var body: some View {
         
         VStack {
@@ -74,28 +133,20 @@ struct ForgotPasswordView: View {
                     .autocapitalization(.none)
             }
             
-            Button(action:{
-                if self.viewModel.codeSent {
-                    self.viewModel.confirmForgotPassword {
-                        self.showSelf = false
-                    }
-                } else {
-                    self.viewModel.sendCode()
-                }
-            }) {
-                Text(self.viewModel.codeSent ? "Submit" : "Send Code")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(width: 300, height: 50)
-                    .background(Color.blue)
-                    .cornerRadius(15.0)
+            if self.viewModel.codeSent {
+                self.submitNewPasswordButton
+            } else {
+                self.sendCodeButton
             }
+            
+            
             
             Spacer()
             
             
-        }.padding()
+        }.padding().alert(isPresented: self.$viewModel.showError) {
+            Alert(title: Text("Error"), message: Text(self.viewModel.errorMessage), dismissButton: .default(Text("OK")))
+        }
     }
 }
 
