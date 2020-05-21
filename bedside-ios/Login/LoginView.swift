@@ -10,57 +10,80 @@ import SwiftUI
 import Combine
 import AWSMobileClient
 
-struct LoginView: View {
-        
-    @State private var username = ""
-    @State private var password = ""
-    @State private var showForgotPassword = false
-    @State private var showEmailCodeEnter = false
-    @State private var keyboardHeight : CGFloat = 0
+class LoginViewModel : ObservableObject {
+    @Published var username = ""
+    @Published var password = ""
+    @Published var formIsValid = false
+    @Published var showEmailCodeEnter = false
+    @Published var loginErrorMessage : String = ""
+    @Published var isLoginError : Bool = false
     
-    let authUtil = AuthUtils()
+    var authUtils : AuthUtils
+    
+    private var cancellableSet: Set<AnyCancellable> = []
+    
+    init(authUtils: AuthUtils = AuthUtils()) {
+        self.authUtils = authUtils
+        
+        Publishers.CombineLatest($username, $password)
+            .receive(on: RunLoop.main)
+            .map { username, password in
+                return username.count > 2 && password.count > 5
+            }
+            .assign(to: \.formIsValid, on: self)
+            .store(in: &cancellableSet)
+    }
     
     func signIn() {
-        authUtil.signIn(userName: username, password: password) {
+        authUtils.signIn(userName: username, password: password) {
             result in
             switch result {
             case .signedIn:
                 self.username = ""
                 self.password = ""
             case .needsConfirmation:
-                print("Show code screen")
                 self.showEmailCodeEnter = true
+            case .signInError(let message):
+                self.loginErrorMessage = message
+                self.isLoginError = true
             }
         }
     }
+}
+
+struct LoginView: View {
+        
+    @ObservedObject var viewModel = LoginViewModel()
+    @State private var showForgotPassword = false
+    @State private var keyboardHeight : CGFloat = 0
+
     
     var body: some View {
         NavigationView {
-            
             VStack(alignment: HorizontalAlignment.center, spacing: 15) {
                 Text("Bedside Procedures")
                     .font(.largeTitle)
                     .foregroundColor(.gray)
                     .padding([.top, .bottom], 20)
                     
-                TextField("Username", text: self.$username)
+                TextField("Username", text: self.$viewModel.username)
                     .padding()
                     .keyboardType(.alphabet)
                     .autocapitalization(.none)
 
-                SecureField("Password", text: self.$password)
+                SecureField("Password", text: self.$viewModel.password)
                     .padding()
                     .cornerRadius(20)
 
-                Button(action:{self.signIn()}) {
+                Button(action:{ self.viewModel.signIn()}) {
                     Text("Sign In")
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding()
                         .frame(width: 300, height: 50)
-                        .background(Color.blue)
+                        .background(self.viewModel.formIsValid ? Color.blue : Color.gray)
                         .cornerRadius(15.0)
-                }
+                }.disabled(!self.viewModel.formIsValid)
                 
                 NavigationLink(destination: ForgotPasswordView(showSelf:$showForgotPassword), isActive:$showForgotPassword) {
                     Text("")
@@ -72,13 +95,19 @@ struct LoginView: View {
                     Text("Forgot Password")
                 }
                 
-                NavigationLink(destination: EmailCodeView(showSelf: $showEmailCodeEnter, username: $username, confirmationCode: ""), isActive: $showEmailCodeEnter) {
+                NavigationLink(destination: EmailCodeView(showSelf: $viewModel.showEmailCodeEnter, username: self.$viewModel.username, confirmationCode: ""), isActive: $viewModel.showEmailCodeEnter) {
                     Text("")
                 }
                 
                 Spacer()
                 
-            }.padding().padding(.bottom, self.keyboardHeight).onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
+            }.padding()
+                .padding(.bottom, self.keyboardHeight)
+                .onReceive(Publishers.keyboardHeight) {
+                    self.keyboardHeight = $0
+            }
+        }.alert(isPresented: $viewModel.isLoginError) {
+            Alert(title: Text("Login Error"), message: Text(self.viewModel.loginErrorMessage), dismissButton: .default(Text("OK")))
         }
     }
 }

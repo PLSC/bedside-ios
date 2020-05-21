@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct EmailCodeView: View {
     
@@ -17,6 +18,7 @@ struct EmailCodeView: View {
     @State var showError: Bool = false
     @State var errorTitle: String = "Error"
     @State var errorMessage: String = ""
+    @State var keyboardHeight: CGFloat = 0
     
     let authUtils = AuthUtils()
     
@@ -81,10 +83,15 @@ struct EmailCodeView: View {
             Spacer()
             
         }.padding()
+            .padding(.bottom, self.keyboardHeight)
+                .onReceive(Publishers.keyboardHeight) {
+                    self.keyboardHeight = $0
+            }
             .alert(isPresented: $showError) { () -> Alert in
                 Alert(title: Text(self.errorTitle),
                       message: Text(self.errorMessage),
                       dismissButton: .default(Text("OK")))
+            
         }
     }
 }

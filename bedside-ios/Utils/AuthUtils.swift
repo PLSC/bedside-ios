@@ -13,6 +13,7 @@ import Amplify
 enum SignInResult {
     case signedIn
     case needsConfirmation
+    case signInError(String)
 }
 
 enum AuthUtilsError : Error {
@@ -39,24 +40,30 @@ class AuthUtils {
     
     func signIn(userName: String, password: String,  completion: @escaping (SignInResult) -> Void) {
         AWSMobileClient.default().signIn(username: userName, password: password) { (signInResult, error) in
-            if let error = error as? AWSMobileClientError  {
-                switch error {
-                case .userNotConfirmed(let message):
-                    print(message)
-                    completion(.needsConfirmation)
-                default:
-                    print(error.localizedDescription)
-                }
-            } else if let signInResult = signInResult {
-                switch (signInResult.signInState) {
-                case .signedIn:
-                    completion(.signedIn)
-                case .smsMFA:
-                    print("SMS message sent to \(signInResult.codeDetails!.destination!)")
-                case .newPasswordRequired:
-                    print("TODO: go to new password screen")
-                default:
-                    print("Sign In needs info which is not yet supported.")
+            DispatchQueue.main.async {
+                if let error = error as? AWSMobileClientError  {
+                    switch error {
+                    case .userNotConfirmed(let message):
+                        print(message)
+                        completion(.needsConfirmation)
+                    case .notAuthorized(let message):
+                        completion(.signInError(message))
+                    case .userNotFound(_):
+                        completion(.signInError("User not found"))
+                    default:
+                        completion(.signInError("Unknown Error: \(error.localizedDescription)"))
+                    }
+                } else if let signInResult = signInResult {
+                    switch (signInResult.signInState) {
+                    case .signedIn:
+                        completion(.signedIn)
+                    case .smsMFA:
+                        print("SMS message sent to \(signInResult.codeDetails!.destination!)")
+                    case .newPasswordRequired:
+                        print("TODO: go to new password screen")
+                    default:
+                        print("Sign In needs info which is not yet supported.")
+                    }
                 }
             }
         }

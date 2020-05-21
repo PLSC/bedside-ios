@@ -79,6 +79,7 @@ struct ForgotPasswordView: View {
     @EnvironmentObject var authUtil : UserLoginState
     @ObservedObject var viewModel = ForgotPasswordViewModel()
     @Binding var showSelf : Bool
+    @State var keyboardHeight : CGFloat = 0
     
     var sendCodeButton: some View {
         Button(action:{
@@ -144,7 +145,12 @@ struct ForgotPasswordView: View {
             Spacer()
             
             
-        }.padding().alert(isPresented: self.$viewModel.showError) {
+        }.padding()
+            .padding(.bottom, self.keyboardHeight)
+                .onReceive(Publishers.keyboardHeight) {
+                    self.keyboardHeight = $0
+            }
+            .alert(isPresented: self.$viewModel.showError) {
             Alert(title: Text("Error"), message: Text(self.viewModel.errorMessage), dismissButton: .default(Text("OK")))
         }
     }
