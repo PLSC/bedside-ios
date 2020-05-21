@@ -121,21 +121,31 @@ class AuthUtils {
             }
         }
     }
-    
-    func confirmSignUp(username: String, confirmationCode: String, completion: @escaping ()->()) {
-        AWSMobileClient.default().confirmSignUp(username: username, confirmationCode: confirmationCode) { (signInResult, error) in
-            completion()
+    //TODO: Make internal type for SignInResult.
+    func confirmSignUp(username: String, confirmationCode: String, completion: @escaping (Result<SignUpResult, Error>)->()) {
+        AWSMobileClient.default().confirmSignUp(username: username, confirmationCode: confirmationCode) { (signUpResult, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else if let signUpResult = signUpResult {
+                completion(.success(signUpResult))
+            }
+            
         }
     }
     
-    func resendConfirmationCode(username: String, completion: @escaping (String, Error?)->()) {
-        AWSMobileClient.default().resendSignUpCode(username: "your_username", completionHandler: { (result, error) in
-            if let signUpResult = result {
-                let message = "A verification code has been sent via \(signUpResult.codeDeliveryDetails!.deliveryMedium) at \(signUpResult.codeDeliveryDetails!.destination!)"
-                print(message)
-                completion(message, nil)
-            } else if let error = error {
-                completion("A problem has occurred", error)
+    func resendConfirmationCode(username: String, completion: @escaping (Result<SignUpResult, Error>)->()) {
+        AWSMobileClient.default().resendSignUpCode(username: username, completionHandler: { (result, error) in
+//            if let signUpResult = result {
+//                let message = "A verification code has been sent via \(signUpResult.codeDeliveryDetails!.deliveryMedium) at \(signUpResult.codeDeliveryDetails!.destination!)"
+//                print(message)
+//                completion(message, nil)
+//            } else if let error = error {
+//                completion("A problem has occurred", error)
+//            }
+            if let error = error {
+                completion(.failure(error))
+            } else if let result = result {
+                completion(.success(result))
             }
         })
     }

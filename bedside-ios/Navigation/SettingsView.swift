@@ -21,6 +21,7 @@ extension UIApplication {
     }
 }
 
+//TODO: Clean up image downloading stuff from this.
 class UserSettingsFormViewModel : ObservableObject {
     @Published var username = ""
     @Published var firstName = ""

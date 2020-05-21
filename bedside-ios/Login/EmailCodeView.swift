@@ -14,22 +14,32 @@ struct EmailCodeView: View {
     @Binding var showSelf: Bool
     @Binding var username: String
     @State var confirmationCode: String
+    @State var showError: Bool = false
+    @State var errorTitle: String = "Error"
+    @State var errorMessage: String = ""
     
     let authUtils = AuthUtils()
     
-    //TODO: error handling, popup messages, etc.
     func submitCode() {
-        print("submit code")
-        authUtils.confirmSignUp(username: self.username, confirmationCode: self.confirmationCode) {
-            self.showSelf = false
+        authUtils.confirmSignUp(username: self.username, confirmationCode: self.confirmationCode) { (result) in
+            switch result {
+            case .success(_):
+                self.showSelf = false
+            case .failure(_):
+                self.showError = true
+                self.errorMessage = "Invalid verification code provided. Please try again."
+            }
         }
     }
     
-    //TODO: error handling, sent messages, etc.
     func resendCode() {
-        authUtils.resendConfirmationCode(username: self.username) { (message, error) in
-            if let err = error {
-                print(err.localizedDescription)
+        authUtils.resendConfirmationCode(username: self.username) { (result) in
+            switch result {
+            case .success(let signupResult):
+                print("Confirmation code sent to \(signupResult.codeDeliveryDetails!.destination!)")
+            case .failure(let error):
+                self.showError = true
+                self.errorMessage = "Failure to send confirmation code. \(error.localizedDescription)"
             }
         }
     }
@@ -71,6 +81,11 @@ struct EmailCodeView: View {
             Spacer()
             
         }.padding()
+            .alert(isPresented: $showError) { () -> Alert in
+                Alert(title: Text(self.errorTitle),
+                      message: Text(self.errorMessage),
+                      dismissButton: .default(Text("OK")))
+        }
     }
 }
 
