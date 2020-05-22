@@ -135,12 +135,13 @@ class AuthUtils {
     //TODO: Make internal type for SignInResult.
     func confirmSignUp(username: String, confirmationCode: String, completion: @escaping (Result<SignUpResult, Error>)->()) {
         AWSMobileClient.default().confirmSignUp(username: username, confirmationCode: confirmationCode) { (signUpResult, error) in
-            if let error = error {
-                completion(.failure(error))
-            } else if let signUpResult = signUpResult {
-                completion(.success(signUpResult))
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                } else if let signUpResult = signUpResult {
+                    completion(.success(signUpResult))
+                }
             }
-            
         }
     }
     
@@ -153,10 +154,12 @@ class AuthUtils {
 //            } else if let error = error {
 //                completion("A problem has occurred", error)
 //            }
-            if let error = error {
-                completion(.failure(error))
-            } else if let result = result {
-                completion(.success(result))
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                } else if let result = result {
+                    completion(.success(result))
+                }
             }
         })
     }
