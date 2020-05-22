@@ -14,22 +14,27 @@ struct EvaluateView: View {
     
     @State var presentProcedures: Bool = false
     @State var presentRaterSelect: Bool = false
-    @State var presentPerformanceEvaluation: Bool = false
-    @State var presentEvalOverview: Bool = false
+    @State var presentEvaluation: Bool = false
+    @State var presentEvalHandoffAlert: Bool = false
     
     @State var isLoading: Bool = false
     
     @EnvironmentObject var userLoginState : UserLoginState
+    @EnvironmentObject private var loader: UserImageLoader
     
-    func submitEvaluation() {
-        self.isLoading = true
+    func submit() {
+        isLoading = true
         evaluation.submitEvaluation { error in
-            if error == nil {
-               self.evaluation.reset()
-               self.userLoginState.fetchCurrentUserCertRecords()
-            }
-            self.isLoading = false
+             if error == nil {
+                      self.evaluation.reset()
+                      self.userLoginState.fetchCurrentUserCertRecords()
+                   }
+                   self.isLoading = false
         }
+    }
+    
+    func reset() {
+        evaluation.reset()
     }
     
     var procedureSelectRow: some View {
@@ -56,50 +61,20 @@ struct EvaluateView: View {
         }
     }
     
-    var performanceEvaluationRow: some View {
-        NavigationLink(destination:
-        PerformanceEvaluation(rater: self.$evaluation.rater,
-                              procedure: self.$evaluation.procedure,
-                              selectedAnswer: self.$evaluation.answer,
-                              isPresented: self.$presentPerformanceEvaluation),
-                       isActive: self.$presentPerformanceEvaluation) {
-               HStack {
-                   Spacer(minLength: 35)
-                   Button(action: {
-                       print("Next button clicked.")
-                   }) {
-                       HStack {
-                           
-                           Text( (self.evaluation.answer != nil) ? "\(self.evaluation.answer?.displayText ?? "")" : "Select Performance" )
-                               .font(.headline)
-                               .foregroundColor(.white)
-                           
-                       }
-                   }
-                   .padding()
-                   .background(Color.blue)
-                   .cornerRadius(10)
-                   Spacer(minLength: 35)
-               }
-           }
-    }
-    
-    var submitButtonRow: some View {
-        HStack {
-            Spacer(minLength: 35)
-            Button(action:{
-                self.submitEvaluation()
-            }) {
-                Text("Submit")
-                    .font(.headline)
-                    .foregroundColor(.white)
-            }
-            .padding()
-            .background(self.evaluation.evalIsValid ? Color.blue : Color.gray)
-            .cornerRadius(10)
-            .disabled(!self.evaluation.evalIsValid)
-            Spacer(minLength: 35)
-        }
+    var nextButton: some View {
+        Button(action: {
+            print("Next button clicked.")
+            self.presentEvaluation = true
+          }) {
+              HStack {
+                  Text("Next")
+                      .font(.headline)
+              }
+          }
+        .padding()
+        .foregroundColor(self.evaluation.readyForEvaluation ? Color.blue : Color.gray)
+        .frame(maxWidth: .infinity)
+        .disabled(!self.evaluation.readyForEvaluation)
     }
     
     func initialize() {
@@ -111,19 +86,35 @@ struct EvaluateView: View {
         LoadingView(isShowing: $isLoading) {
             NavigationView {
                 VStack {
-                    UserHeaderSmall().padding()
+                    UserHeaderSmall()
                     Form {
-                        self.procedureSelectRow
                         self.procedureDatePicker
+                        self.procedureSelectRow
                         self.raterSelectRow
-                        self.performanceEvaluationRow
-                        self.submitButtonRow
+                        Section {
+                            self.nextButton
+                        }
                     }
                 }
                 .navigationBarTitle("New Evaluation")
-            }.onAppear(perform: self.initialize)
+                .onAppear(perform: self.initialize)
+            }.sheet(isPresented: self.$presentEvaluation) {
+                PerformanceEvaluation(evaluation: self.evaluation) {
+                    complete in
+                    if complete {
+                        self.submit()
+                    } else {
+                        self.reset()
+                    }
+                }
+                .environmentObject(self.userLoginState)
+                .environmentObject(self.loader)
+            }.alert(isPresented: self.$presentEvalHandoffAlert) {
+                Alert(title: Text("Handoff"),
+                      message: Text("Please hand your phone to the rater you selected."),
+                      dismissButton: .default(Text("OK")))
+            }
         }
-        
     }
 }
 

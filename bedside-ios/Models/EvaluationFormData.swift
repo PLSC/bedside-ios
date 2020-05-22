@@ -16,7 +16,8 @@ class EvaluationFormData : ObservableObject {
     @Published var procedureDate: Date = Date()
     @Published var answer: AnswerOption<Int>?
     @Published var evalIsValid : Bool = false
-    @Published var readyForAttestation: Bool = false
+    @Published var readyForEvaluation: Bool = false
+
     
     var cancelableSet : Set<AnyCancellable> = []
     
@@ -34,7 +35,7 @@ class EvaluationFormData : ObservableObject {
             .receive(on: RunLoop.main)
             .map { usersAreValid, procedureIsValid in
                 return usersAreValid && procedureIsValid
-            }.assign(to: \.readyForAttestation, on: self)
+            }.assign(to: \.readyForEvaluation, on: self)
             .store(in: &cancelableSet)
     }
     

@@ -12,11 +12,25 @@ struct RaterSelectRow: View {
     @Binding var selectedRater : User?
     var body: some View {
         HStack {
+    
+    
+            if selectedRater == nil {
+                Image(systemName: "circle")
+                   .font(.system(size:30))
+                   .foregroundColor(Color.gray)
+            } else {
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.system(size: 30))
+                    .foregroundColor(Color.green)
+            }
+            
+            
+           
             VStack(alignment: .leading, spacing: 5) {
                 if (selectedRater != nil) {
                     Text("Evaluator:")
                         .font(.callout)
-                    Text("\(selectedRater?.firstName ?? "first name") \(selectedRater?.lastName ?? "last name")")
+                    Text(selectedRater?.displayName ?? "")
                 } else {
                     Text("Select a Rater")
                 }
@@ -24,21 +38,6 @@ struct RaterSelectRow: View {
             
             Spacer()
             
-            if (selectedRater != nil) {
-                Image("andy")
-                   .resizable()
-                   .aspectRatio(contentMode: .fit)
-                   .frame(maxHeight:60)
-                   .clipShape(Circle())
-                   .shadow(radius: 10)
-            } else {
-                Image(systemName: "person.crop.circle")
-                    .resizable().aspectRatio(contentMode: .fit)
-                    .frame(maxHeight:60)
-                    .foregroundColor(.gray)
-                    .font(Font.callout.weight(.thin))
-                    
-            }
         }
     }
 }

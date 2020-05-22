@@ -22,7 +22,7 @@ struct UserHeaderSmall: View {
                 Text("Dr. \(userLoginState.currentUser?.firstName?.capitalized ?? "") \(userLoginState.currentUser?.lastName?.capitalized ?? "")")
                 Text("Surgical Trainee, \(userLoginState.organizations[0].title ?? "")")
             }
-        }
+        }.padding()
          
     }
 }

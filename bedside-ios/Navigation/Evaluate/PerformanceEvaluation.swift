@@ -36,26 +36,42 @@ let performanceQuestion =
 
 struct PerformanceEvaluation: View {
     
-    @Binding var rater : User?
-    @Binding var procedure: Procedure?
-    @Binding var selectedAnswer : AnswerOption<Int>?
-    @Binding var isPresented : Bool
-    
-    
+    @ObservedObject var evaluation : EvaluationFormData
     @State var showQuestionInfo = false
+    @State var presentAttestation = false
+    @State var isLoading = false
+    
+    var completion : (Bool) -> () = { _ in }
+    
+    @Environment(\.presentationMode) var presentationMode
+    
+    init(evaluation: EvaluationFormData, completion: @escaping (Bool) -> ()) {
+        self.evaluation = evaluation
+        self.completion = completion
+    }
     
     func selectItem(index: Int) {
         print("Selected index: \(index), item: \(performanceQuestion.answerOptions[index])")
-        selectedAnswer = performanceQuestion.answerOptions[index]
-        isPresented = false
+        evaluation.answer = performanceQuestion.answerOptions[index]
+        self.presentAttestation = true
+    }
+    
+    func submitEval() {
+        self.presentationMode.wrappedValue.dismiss()
+        completion(true)
+    }
+    
+    func dismiss() {
+        self.presentationMode.wrappedValue.dismiss()
+        completion(false)
     }
     
     var body: some View {
+        NavigationView {
             VStack {
-                UserHeaderSmall()
-                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-                
                 List {
+                    UserHeaderSmall()
+                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
                     HStack {
                         Text(performanceQuestion.questionText).padding()
                         Image(systemName: "info.circle").padding().onTapGesture {
@@ -64,7 +80,7 @@ struct PerformanceEvaluation: View {
                         }
                     }
                     
-                    ProcedureSelectRow(selectedProcedure: $procedure)
+                    ProcedureSelectRow(selectedProcedure: $evaluation.procedure)
                     
                     ForEach(performanceQuestion.answerOptions.indices) {
                         idx in
@@ -76,6 +92,8 @@ struct PerformanceEvaluation: View {
                         }.buttonStyle(BigButtonStyle())
                     }
                     
+                    Spacer().padding(.bottom, 50)
+                    
                 }.onAppear {
                     UITableView.appearance().separatorStyle = .none
                 }.onDisappear {
@@ -85,14 +103,13 @@ struct PerformanceEvaluation: View {
             .navigationBarTitle("Select \(performanceQuestion.title)")
             .sheet(isPresented: self.$showQuestionInfo) { AnswerOptionInfo(question: performanceQuestion)
             }
-        
-    }
-}
-
-struct PerformanceEvaluation_Previews: PreviewProvider {
-    static var previews: some View {
-        PerformanceEvaluation(rater: .constant(nil),
-                              procedure: .constant(nil), selectedAnswer: .constant(AnswerOption(id: 1, displayText: "", description: "", assocValue: 1)),
-                              isPresented: .constant(true))
+            .alert(isPresented: self.$presentAttestation) {
+                Alert(title: Text("Confirm"), message: Text("I attest that \(self.evaluation.subject!.displayName) performed a \(self.evaluation.procedure!.name) under my direct supervision on \(self.evaluation.procedureDate). The following ratings reflect this specific observation of this trainee: \(self.evaluation.answer!.displayText)"), primaryButton: .default(Text("Agree"), action: {
+                    self.submitEval()
+                }), secondaryButton: .destructive(Text("Disagree"), action: {
+                    self.dismiss()
+                }))
+            }
+        }
     }
 }
