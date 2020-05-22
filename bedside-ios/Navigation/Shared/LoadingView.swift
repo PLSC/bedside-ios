@@ -15,6 +15,14 @@ struct LoadingView<Content>: View where Content: View {
     
     var content: () -> Content
     
+    init(isShowing: Binding<Bool>,
+         progress: Binding<Float>? = nil,
+         content: @escaping () -> Content) {
+        self._isShowing = isShowing
+        self.progress = progress
+        self.content = content
+    }
+    
     var progressView : some View {
         return Text("\(String(format: "%.2f", progress?.wrappedValue ?? 0.0))")
     }

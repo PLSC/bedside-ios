@@ -16,6 +16,7 @@ class EvaluationFormData : ObservableObject {
     @Published var procedureDate: Date = Date()
     @Published var answer: AnswerOption<Int>?
     @Published var evalIsValid : Bool = false
+    @Published var readyForAttestation: Bool = false
     
     var cancelableSet : Set<AnyCancellable> = []
     
@@ -23,11 +24,18 @@ class EvaluationFormData : ObservableObject {
         Publishers.CombineLatest3(usersAreValid, procedureIsValid, $answer)
                    .receive(on: RunLoop.main)
                    .map {
-                       usersValid, proceduresValid, answer in
-                       return usersValid && proceduresValid && answer != nil
+                       usersValid, procedureIsValid, answer in
+                       return usersValid && procedureIsValid && answer != nil
                     }
                     .assign(to: \.evalIsValid, on: self)
                     .store(in: &cancelableSet)
+        
+        Publishers.CombineLatest(usersAreValid, procedureIsValid)
+            .receive(on: RunLoop.main)
+            .map { usersAreValid, procedureIsValid in
+                return usersAreValid && procedureIsValid
+            }.assign(to: \.readyForAttestation, on: self)
+            .store(in: &cancelableSet)
     }
     
     var usersAreValid: AnyPublisher<Bool, Never> {

@@ -105,7 +105,7 @@ struct EmailCodeView: View {
     }
     
     var body: some View {
-        LoadingView(isShowing: self.$viewModel.submittingCode, progress: nil) {
+        LoadingView(isShowing: self.$viewModel.submittingCode) {
             VStack {
                 Text("Enter Confirmation Code")
                     .font(.title)

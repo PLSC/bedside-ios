@@ -50,7 +50,7 @@ struct NewRater: View {
     }
     
     var body: some View {
-        LoadingView(isShowing: $isLoading, progress: nil) {
+        LoadingView(isShowing: $isLoading) {
             NavigationView {
                 Group {
                     Form {

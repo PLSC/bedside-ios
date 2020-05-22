@@ -108,7 +108,7 @@ struct EvaluateView: View {
     
     
     var body: some View {
-        LoadingView(isShowing: $isLoading, progress: nil) {
+        LoadingView(isShowing: $isLoading) {
             NavigationView {
                 VStack {
                     UserHeaderSmall().padding()
