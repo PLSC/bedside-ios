@@ -8,18 +8,34 @@
 
 import SwiftUI
 import Amplify
+import Combine
 
-struct ProcedureSelect: View {
+class ProcedureSelectViewModel : ObservableObject {
     
-    @State var procedures : [Procedure] = []
+    @Published var procedures : [Procedure] = []
     
-    @Binding var selectedProcedure : Procedure?
+    @Published var filteredProcedures : [Procedure] = []
     
-    @Binding var isPresented : Bool
+    @Published var filterText : String = ""
     
-    func selectProcedure(_ procedure: Procedure) {
-        selectedProcedure = procedure
-        isPresented = false
+    var cancelableSet : Set<AnyCancellable> = []
+    
+    
+    init() {
+        Publishers.CombineLatest($procedures, $filterText)
+            .receive(on: RunLoop.main)
+            .map {
+                procedures, filterText in
+                if filterText.isEmpty {
+                    return procedures
+                } else {
+                    return procedures.filter { procedure in
+                        procedure.name.lowercased().contains(filterText.lowercased())
+                    }
+                }
+            }
+            .assign(to: \.filteredProcedures, on: self)
+            .store(in: &cancelableSet)
     }
     
     //TODO: refactor into API module.
@@ -37,26 +53,47 @@ struct ProcedureSelect: View {
             }
         }
     }
+}
+
+struct ProcedureSelect: View {
+    @Binding var selectedProcedure : Procedure?
+    
+    @Binding var isPresented : Bool
+    
+    @ObservedObject var viewModel = ProcedureSelectViewModel()
+    
+    func selectProcedure(_ procedure: Procedure) {
+        selectedProcedure = procedure
+        isPresented = false
+    }
+    
+    //TODO: refactor into API module.
+    func fetchProcedures() {
+        self.viewModel.fetchProcedures()
+    }
     
     var body: some View {
-        return List(procedures, id: \.id) { procedure in
-            HStack {
-                Text("\(procedure.name)")
-                    .frame(alignment: .leading)
-                Spacer()
-            }
-            .contentShape(Rectangle())
-            .onTapGesture {
-                self.selectProcedure(procedure)
+        return VStack {
+            SearchBar(text: $viewModel.filterText, placeholder: "Search Procedures")
+            List(viewModel.filteredProcedures, id: \.id) { procedure in
+                HStack {
+                    Text("\(procedure.name)")
+                        .frame(alignment: .leading)
+                    Spacer()
+                }
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    self.selectProcedure(procedure)
+                }
             }
         }.onAppear {
             self.fetchProcedures()
-        }
+        }.navigationBarTitle("Procedures")
     }
 }
 
 struct ProcedureSelect_Previews: PreviewProvider {
     static var previews: some View {
-        ProcedureSelect(procedures: [], selectedProcedure: .constant(nil), isPresented: .constant(false))
+        ProcedureSelect(selectedProcedure: .constant(nil), isPresented: .constant(false))
     }
 }

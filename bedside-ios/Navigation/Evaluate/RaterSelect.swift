@@ -8,8 +8,33 @@
 
 import SwiftUI
 
+struct RaterRow: View {
+    var user: User
+    
+    var body: some View {
+        HStack {
+            Image(systemName: "person.crop.circle")
+                .resizable().aspectRatio(contentMode: .fit)
+                .frame(maxHeight:60)
+                .foregroundColor(.gray)
+                .font(Font.callout.weight(.thin))
+            Text(user.displayName)
+            Spacer()
+        }
+    }
+}
+
+struct AddRaterRow: View {
+    var body: some View {
+        HStack(alignment: .center) {
+           Image(systemName: "person.badge.plus").foregroundColor(.blue)
+           Text("Add a Rater")
+           Spacer()
+       }
+    }
+}
+
 struct RaterSelect: View {
-    @State private var searchText = ""
     @State var presentNewRaterScreen : Bool = false
     @Binding var selectedRater : User?
     @Binding var isPresented : Bool
@@ -44,31 +69,19 @@ struct RaterSelect: View {
             SearchBar(text: $ratersViewModel.filterText, placeholder: "Search Raters")
             List {
                 ForEach(ratersViewModel.filteredUsers, id: \.id) { user in
-                    HStack {
-                        Image(systemName: "person.crop.circle")
-                            .resizable().aspectRatio(contentMode: .fit)
-                            .frame(maxHeight:60)
-                            .foregroundColor(.gray)
-                            .font(Font.callout.weight(.thin))
-                        Text(user.displayName)
-                        Spacer()
-                    }
+                    RaterRow(user: user)
                     .contentShape(Rectangle())
                     .onTapGesture {
                         self.selectRater(rater: user)
                     }
                 }
                 
-                HStack(alignment: .center) {
-                    Image(systemName: "person.badge.plus").foregroundColor(.blue)
-                    Text("Add a Rater")
-                    Spacer()
-                }
-                .contentShape(Rectangle())
-                .padding()
-                .onTapGesture {
-                    self.presentNewRaterScreen = true
-                }
+                AddRaterRow()
+                    .contentShape(Rectangle())
+                    .padding()
+                    .onTapGesture {
+                        self.presentNewRaterScreen = true
+                    }
             }
         }
         .navigationBarTitle("Select Rater")
