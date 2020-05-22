@@ -16,7 +16,6 @@ struct EvaluateView: View {
     @State var presentRaterSelect: Bool = false
     @State var presentPerformanceEvaluation: Bool = false
     @State var presentEvalOverview: Bool = false
-    @State var evalIsValid: Bool = false
     
     @State var isLoading: Bool = false
     
@@ -96,20 +95,15 @@ struct EvaluateView: View {
                     .foregroundColor(.white)
             }
             .padding()
-            .background(self.evalIsValid ? Color.blue : Color.gray)
+            .background(self.evaluation.evalIsValid ? Color.blue : Color.gray)
             .cornerRadius(10)
-            .disabled(!self.evalIsValid)
+            .disabled(!self.evaluation.evalIsValid)
             Spacer(minLength: 35)
         }
     }
     
     func initialize() {
         evaluation.subject = userLoginState.currentUser
-        self.evaluation.cancelable = evaluation.evaluationIsValid
-            .receive(on: RunLoop.main)
-            .sink(receiveValue: { valid in
-            self.evalIsValid = valid
-        })
     }
     
     

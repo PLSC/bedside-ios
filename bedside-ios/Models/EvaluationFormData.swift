@@ -13,10 +13,22 @@ class EvaluationFormData : ObservableObject {
     @Published var procedure: Procedure?
     @Published var rater: User?
     @Published var subject: User?
-    @Published var procedureDate: Date
+    @Published var procedureDate: Date = Date()
     @Published var answer: AnswerOption<Int>?
+    @Published var evalIsValid : Bool = false
     
-    var cancelable : AnyCancellable? = nil
+    var cancelableSet : Set<AnyCancellable> = []
+    
+    init() {
+        Publishers.CombineLatest3(usersAreValid, procedureIsValid, $answer)
+                   .receive(on: RunLoop.main)
+                   .map {
+                       usersValid, proceduresValid, answer in
+                       return usersValid && proceduresValid && answer != nil
+                    }
+                    .assign(to: \.evalIsValid, on: self)
+                    .store(in: &cancelableSet)
+    }
     
     var usersAreValid: AnyPublisher<Bool, Never> {
         Publishers.CombineLatest($rater, $subject)
@@ -37,16 +49,6 @@ class EvaluationFormData : ObservableObject {
                 //TODO: validate date
                 return true
             }.eraseToAnyPublisher()
-    }
-    
-    var evaluationIsValid: AnyPublisher<Bool, Never> {
-        Publishers.CombineLatest3(usersAreValid, procedureIsValid, $answer)
-            .receive(on: RunLoop.main)
-            .map {
-                usersValid, proceduresValid, answer in
-                return usersValid && proceduresValid && answer != nil
-                
-        }.eraseToAnyPublisher()
     }
     
     func oldestValidEvalDate() -> Date {
