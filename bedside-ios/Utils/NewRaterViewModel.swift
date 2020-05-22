@@ -38,7 +38,7 @@ class NewRaterViewModel: ObservableObject {
     var emailValid : AnyPublisher<Bool, Never> {
         return $email
             .filter { email in
-                return email.count > 5
+                return email.count > 3
             }
             .map { email in
                 return email.validateEmail()

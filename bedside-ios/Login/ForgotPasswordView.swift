@@ -15,7 +15,6 @@ class ForgotPasswordViewModel : ObservableObject {
     @Published var password : String = ""
     @Published var codeSent = false
     @Published var code = ""
-    @Published var codeSentMessage = ""
     @Published var success = false
     @Published var showError = false
     @Published var errorMessage = ""
@@ -46,14 +45,13 @@ class ForgotPasswordViewModel : ObservableObject {
         .store(in: &cancellableSet)
     }
     
-    func sendCode() {
+    func sendCode(callback: @escaping (Bool, String) -> ()) {
         authUtil.sendAuthCode(username: username) {
             result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let message):
-                    self.codeSentMessage = message
-                    self.codeSent = true
+                    callback(true, message)
                 case .failure(let error):
                     self.showError = true
                     self.errorMessage = "An error has occurred: \(error.localizedDescription)"
@@ -66,7 +64,6 @@ class ForgotPasswordViewModel : ObservableObject {
         authUtil.confirmForgotPassword(username: username, newPassword: password, code: code) {
             success, message in
             DispatchQueue.main.async {
-                self.codeSentMessage = message
                 self.success = true
                 action()
             }
@@ -80,10 +77,15 @@ struct ForgotPasswordView: View {
     @ObservedObject var viewModel = ForgotPasswordViewModel()
     @Binding var showSelf : Bool
     @State var keyboardHeight : CGFloat = 0
+    @State var codeSent = false
+    @State var codeSentMessage = ""
     
     var sendCodeButton: some View {
         Button(action:{
-            self.viewModel.sendCode()
+            self.viewModel.sendCode { sent, message in
+                self.codeSent = sent
+                self.codeSentMessage = message
+            }
         }) {
             Text("Send Code")
                 .font(.headline)
@@ -114,8 +116,8 @@ struct ForgotPasswordView: View {
     var body: some View {
         
         VStack {
-            if viewModel.codeSent {
-                Text(viewModel.codeSentMessage)
+            if self.codeSent {
+                Text(codeSentMessage)
                 TextField("Code", text: self.$viewModel.code)
                    .padding()
                    .keyboardType(.alphabet)
@@ -124,7 +126,7 @@ struct ForgotPasswordView: View {
                 SecureField("New Password", text: self.$viewModel.password)
                     .padding()
                     .cornerRadius(20)
-                
+                self.submitNewPasswordButton
             } else {
                 Text("Reset your password")
                                .font(.headline)
@@ -132,11 +134,6 @@ struct ForgotPasswordView: View {
                     .padding()
                     .keyboardType(.alphabet)
                     .autocapitalization(.none)
-            }
-            
-            if self.viewModel.codeSent {
-                self.submitNewPasswordButton
-            } else {
                 self.sendCodeButton
             }
             
@@ -151,7 +148,9 @@ struct ForgotPasswordView: View {
                     self.keyboardHeight = $0
             }
             .alert(isPresented: self.$viewModel.showError) {
-            Alert(title: Text("Error"), message: Text(self.viewModel.errorMessage), dismissButton: .default(Text("OK")))
+            Alert(title: Text("Error"),
+                  message: Text(self.viewModel.errorMessage),
+                  dismissButton: .default(Text("OK")))
         }
     }
 }

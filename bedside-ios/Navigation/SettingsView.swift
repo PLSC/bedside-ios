@@ -26,13 +26,37 @@ class UserSettingsFormViewModel : ObservableObject {
     @Published var username = ""
     @Published var firstName = ""
     @Published var lastName = ""
-    @Published var npi = ""
+    @Published var npi = "" {
+        didSet {
+            if npi.count > 10 && oldValue.count <= 10 {
+                npi = oldValue
+            }
+        }
+    }
     @Published var email = ""
     @Published var id = ""
     @Published var isUploadingImage : Bool = false
     @Published var uploadProgress: Float = 0.0
     @Published var imageUrl : URL? = nil
     @Published var image : Image? = nil
+    @Published var formIsValid = false
+    
+    var cancellableSet : Set<AnyCancellable> = []
+    
+    func npiIsValid(npi: String) -> Bool {
+        guard Int(npi) != nil else { return false }
+        return npi.count < 11
+    }
+    
+    init() {
+        Publishers.CombineLatest3($firstName, $lastName, $npi).receive(on: RunLoop.main).map {
+                firstName, lastName, npi in
+                return (firstName.count >= 2) &&
+                    (lastName.count >= 2) &&
+                    self.npiIsValid(npi: npi)
+            }.assign(to: \.formIsValid, on: self)
+            .store(in: &cancellableSet)
+    }
     
     var allUserValues : User {
         return User(id: id,
@@ -41,7 +65,6 @@ class UserSettingsFormViewModel : ObservableObject {
                     firstName: firstName,
                     lastName: lastName,
                     npi: Int(npi))
-        
     }
     
     
@@ -152,7 +175,8 @@ struct SettingsView: View {
                     Section {
                         Button(action: {self.submit()}) {
                             Text("Submit Changes")
-                        }
+                        }.disabled(!self.viewModel.formIsValid)
+                            .foregroundColor(self.viewModel.formIsValid ? Color.blue : Color.gray)
                     }
                     
                     Section {

@@ -23,17 +23,19 @@ enum AuthUtilsError : Error {
 class AuthUtils {
     func sendAuthCode(username: String,  callback: @escaping (Result<String, Error>)->()) {
         AWSMobileClient.default().forgotPassword(username: username) { (result, error) in
-            if let forgotPasswordResult = result {
-                switch(forgotPasswordResult.forgotPasswordState) {
-                case .confirmationCodeSent:
-                    let confirmationMessage = "Confirmation code sent via \(forgotPasswordResult.codeDeliveryDetails!.deliveryMedium) to: \(forgotPasswordResult.codeDeliveryDetails!.destination!)"
-                    print(confirmationMessage)
-                    callback(.success(confirmationMessage))
-                default:
-                    callback(.failure(AuthUtilsError.unknownError))
+            DispatchQueue.main.async {
+                if let forgotPasswordResult = result {
+                    switch(forgotPasswordResult.forgotPasswordState) {
+                    case .confirmationCodeSent:
+                        let confirmationMessage = "Confirmation code sent via \(forgotPasswordResult.codeDeliveryDetails!.deliveryMedium) to: \(forgotPasswordResult.codeDeliveryDetails!.destination!)"
+                        print(confirmationMessage)
+                        callback(.success(confirmationMessage))
+                    default:
+                        callback(.failure(AuthUtilsError.unknownError))
+                    }
+                } else if let error = error {
+                    callback(.failure(error))
                 }
-            } else if let error = error {
-                callback(.failure(error))
             }
         }
     }
@@ -120,17 +122,19 @@ class AuthUtils {
             .confirmForgotPassword(username: username,
                                 newPassword: newPassword,
                                 confirmationCode: code) { (result, error) in
-            if let forgotPasswordResult = result {
-                switch(forgotPasswordResult.forgotPasswordState) {
-                case .done:
-                    callback(true, "Password changed successfully")
-                default:
-                    callback(false, "Error: Could not change password.")
-                }
-            } else if let error = error {
-                callback(false, "Error occurred: \(error.localizedDescription)")
-            }
-        }
+                                    DispatchQueue.main.async {
+                                        if let forgotPasswordResult = result {
+                                            switch(forgotPasswordResult.forgotPasswordState) {
+                                            case .done:
+                                                callback(true, "Password changed successfully")
+                                            default:
+                                                callback(false, "Error: Could not change password.")
+                                            }
+                                        } else if let error = error {
+                                            callback(false, "Error occurred: \(error.localizedDescription)")
+                                        }
+                                    }
+                                }
     }
     //TODO: Make internal type for SignInResult.
     func confirmSignUp(username: String, confirmationCode: String, completion: @escaping (Result<SignUpResult, Error>)->()) {
