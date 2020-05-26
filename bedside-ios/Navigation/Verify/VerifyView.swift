@@ -13,10 +13,13 @@ struct VerifyView: View {
     @EnvironmentObject var userLoginState : UserLoginState
     @State var showImagePicker = false
     @State var image : UIImage? = nil
+    @State var showImagePickerAlert = false
+    
+    var userProfileImage = UserProfileImage()
     
     func checkUserImage() {
-        if UserProfileImage().profileImage == nil {
-            showImagePicker = true
+        if !userProfileImage.storedProfileImage {
+            showImagePickerAlert = true
         }
     }
     
@@ -28,6 +31,15 @@ struct VerifyView: View {
             }
             .navigationBarTitle(Text("Dr. \(userLoginState.currentUser?.lastName ?? "")"))
         }.sheet(isPresented: $showImagePicker, content: { PhotoCaptureView(image: self.$image, showImagePicker: self.$showImagePicker)
+        }).alert(isPresented: $showImagePickerAlert, content: {
+            Alert(title: Text("User Image"),
+                  message: Text("Please select an image of yourself."),
+                  primaryButton: .default(Text("OK")) {
+                    self.showImagePicker = true
+                  },
+                  secondaryButton: .destructive(Text("Later"), action: {
+                    self.userProfileImage.storedProfileImage = true
+                  }))
         })
         .onAppear(perform: checkUserImage)
     }

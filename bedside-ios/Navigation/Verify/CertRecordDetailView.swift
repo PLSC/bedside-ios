@@ -15,10 +15,10 @@ struct CertRecordDetailView: View {
     var body: some View {
         VStack(alignment: .leading) {
             UserHeaderSmall()
-            ProcedureDetailRowView(procedure:certRecord.procedure)
+            ProcedureDetailRowView(procedure:certRecord.procedure).padding(.leading, 20)
             CertLogListView(certLog: certRecord.certificationLog!)
-        }.padding()
-            .navigationBarTitle("Certification Record")
+        }
+        .navigationBarTitle("Certification Record")
     }
 }
 

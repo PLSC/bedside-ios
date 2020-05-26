@@ -74,10 +74,15 @@ extension CertificationRecord {
             let evalDate = eval.evaluationDate.awsDateTime
             else { return nil }
                    
-        let p = eval.procedure!
-        let procedure = Procedure(id: p.id, name: p.name, description: p.description)
-                   
-        return EvaluationResponse(id: eval.id, subject: subject, rater: rater, procedure: procedure, evaluationDate: evalDate, ratingLevel: ratingLevel)
+        if let p = eval.procedure {
+            let procedure = Procedure(id: p.id, name: p.name, description: p.description)
+                       
+            return EvaluationResponse(id: eval.id, subject: subject, rater: rater, procedure: procedure, evaluationDate: evalDate, ratingLevel: ratingLevel)
+        } else {
+            print("could not map procedure in certLogItem")
+            return nil
+        }
+        
     }
     
     init(certificationRecordItem: ListCertificationRecordsQuery.Data.ListCertificationRecord.Item) {

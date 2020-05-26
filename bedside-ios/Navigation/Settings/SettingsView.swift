@@ -104,10 +104,12 @@ struct SettingsView: View {
             }
     }
     var profileImage : some View {
-        return UserImage().frame(width: 50, height: 50)
-            .aspectRatio(contentMode: .fit).onTapGesture {
+        return UserImage()
+            .frame(width: 50, height: 50)
+            .aspectRatio(contentMode: .fit)
+            .onTapGesture {
                 self.showImagePicker = true
-        }
+            }
     }
     
     func populateUserInfo() {
@@ -133,18 +135,14 @@ struct SettingsView: View {
                 Form {
                     HStack {
                         
-                        if self.image != nil {
-                            self.profileImage
-                        } else {
-                            self.placeHolderImage
-                        }
+                        self.profileImage
                        
                         
                         VStack(alignment: .leading) {
-                            (Text("Username: ").bold() + Text(self.viewModel.username)).padding()
-                            (Text("Email: ").bold() + Text(self.viewModel.email)).padding()
+                            (Text("Username: ").bold() + Text(self.viewModel.username)).lineLimit(3)
+                            (Text("Email: ").bold() + Text(self.viewModel.email)).lineLimit(3)
                         }
-                    }
+                    }.padding()
                     
                     HStack {
                         Text("First Name:").font(.callout).bold()

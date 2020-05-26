@@ -19,7 +19,14 @@ class UserProfileImage {
         return documents.appendingPathComponent(imageName)
     }
     
-    
+    var storedProfileImage : Bool {
+        get {
+            UserDefaults.standard.bool(forKey: "storedProfileImage")
+        }
+        set(needs) {
+            UserDefaults.standard.set(needs, forKey: "storedProfileImage")
+        }
+    }
     
     var profileImage : UIImage? {
         get {
@@ -39,6 +46,7 @@ class UserProfileImage {
         }
         set(image) {
             cachedImage = nil
+
             guard let data = image?.jpegData(compressionQuality: 0.75) else {
                 print("cannot write image data")
                 return
@@ -46,6 +54,7 @@ class UserProfileImage {
 
             do {
                 try data.write(to: imageUrl)
+                storedProfileImage = true
             } catch {
                 print("Unable to Write Data to Disk (\(error))")
             }

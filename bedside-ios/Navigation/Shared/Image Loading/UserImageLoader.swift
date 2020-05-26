@@ -13,9 +13,17 @@ import Combine
 class UserImageLoader: ObservableObject {
     @Published var image: UIImage? 
     private let imageLoader = UserProfileImage()
+    
+    private var cancelSet : Set<AnyCancellable> = []
    
     init() {
         image = imageLoader.profileImage
+        
+        NotificationCenter.default.publisher(for: ImageEvents.updated)
+            .sink { _ in
+                self.load()
+            }
+            .store(in: &cancelSet)
     }
     
     func imageSelected(image: UIImage) {

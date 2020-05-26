@@ -60,10 +60,12 @@ class RatersViewModel : ObservableObject {
         let listUsersQuery = ListUsersQuery(filter: userFilter, limit: 1000)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
-        appSyncClient?.fetch(query: listUsersQuery, cachePolicy: .returnCacheDataAndFetch, resultHandler: { (result, error) in
+        appSyncClient?.fetch(query: listUsersQuery, cachePolicy: .returnCacheDataAndFetch, resultHandler: {
+            [weak self] (result, error) in
+            guard let strongSelf = self else { return }
             if let userItems = result?.data?.listUsers?.items {
                 let users = userItems.compactMap { $0?.mapToUser() }
-                self.raters = users
+                strongSelf.raters = users
             }
         })
     }

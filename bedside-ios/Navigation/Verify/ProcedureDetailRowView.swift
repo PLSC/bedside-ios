@@ -19,7 +19,7 @@ struct ProcedureDetailRowView: View {
                 Text(procedure.name).bold()
                 Text(procedure.description ?? "No description").lineLimit(nil)
             }
-        }.padding()
+        }
     }
 }
 
