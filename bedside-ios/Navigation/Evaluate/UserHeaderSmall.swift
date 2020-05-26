@@ -12,18 +12,16 @@ struct UserHeaderSmall: View {
     @EnvironmentObject var userLoginState : UserLoginState
     
     var body: some View {
-        HStack{
+        HStack {
             UserImage()
+                .frame(width: 50, height: 50)
                 .aspectRatio(contentMode: .fit)
-                .frame(maxHeight:75)
-                .shadow(radius: 10)
-            Spacer()
-            VStack {
+                .padding(.trailing, 10)
+            VStack(alignment: .leading) {
                 Text("Dr. \(userLoginState.currentUser?.firstName?.capitalized ?? "") \(userLoginState.currentUser?.lastName?.capitalized ?? "")")
                 Text("Surgical Trainee, \(userLoginState.organizations[0].title ?? "")")
             }
         }.padding()
-         
     }
 }
 

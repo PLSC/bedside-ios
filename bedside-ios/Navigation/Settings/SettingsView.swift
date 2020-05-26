@@ -104,14 +104,10 @@ struct SettingsView: View {
             }
     }
     var profileImage : some View {
-        return Image(uiImage:self.image!).resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(maxHeight:75)
-            .clipShape(Circle())
-            .shadow(radius: 10)
-            .onTapGesture {
+        return UserImage().frame(width: 50, height: 50)
+            .aspectRatio(contentMode: .fit).onTapGesture {
                 self.showImagePicker = true
-            }
+        }
     }
     
     func populateUserInfo() {

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct UserImage : View {
-    @State private var loader: UserImageLoader = UserImageLoader()
+    @ObservedObject private var loader: UserImageLoader = UserImageLoader()
 
     var body: some View {
         image
@@ -21,7 +21,8 @@ struct UserImage : View {
         Group {
             if loader.image != nil {
                 Image(uiImage: loader.image!)
-                    .resizable().clipShape(Circle())
+                    .resizable()
+                    .clipShape(Circle())
             } else {
                 Image(systemName: "person.crop.circle.badge.plus")
                     .resizable()
