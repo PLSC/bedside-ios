@@ -37,6 +37,14 @@ struct EvaluateView: View {
         evaluation.reset()
     }
     
+    func nextButtonPressed() {
+        self.presentEvalHandoffAlert = true
+    }
+    
+    func handoffAlertDismissed() {
+        self.presentEvaluation = true
+    }
+    
     var procedureSelectRow: some View {
         NavigationLink(
             destination: ProcedureSelect(
@@ -63,8 +71,7 @@ struct EvaluateView: View {
     
     var nextButton: some View {
         Button(action: {
-            print("Next button clicked.")
-            self.presentEvaluation = true
+            self.nextButtonPressed()
           }) {
               HStack {
                   Text("Next")
@@ -86,8 +93,8 @@ struct EvaluateView: View {
         LoadingView(isShowing: $isLoading) {
             NavigationView {
                 VStack {
-                    UserHeaderSmall()
                     Form {
+                        UserHeaderSmall()
                         self.procedureDatePicker
                         self.procedureSelectRow
                         self.raterSelectRow
@@ -112,7 +119,7 @@ struct EvaluateView: View {
             }.alert(isPresented: self.$presentEvalHandoffAlert) {
                 Alert(title: Text("Handoff"),
                       message: Text("Please hand your phone to the rater you selected."),
-                      dismissButton: .default(Text("OK")))
+                      dismissButton: .default(Text("OK"), action: { self.handoffAlertDismissed() }) )
             }
         }
     }

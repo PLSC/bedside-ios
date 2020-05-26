@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct UserImage : View {
-    @EnvironmentObject private var loader: UserImageLoader
+    @State private var loader: UserImageLoader = UserImageLoader()
 
     var body: some View {
         image

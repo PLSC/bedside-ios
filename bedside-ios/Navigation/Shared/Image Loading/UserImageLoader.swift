@@ -20,6 +20,7 @@ class UserImageLoader: ObservableObject {
     
     func imageSelected(image: UIImage) {
         imageLoader.profileImage = image
+        self.image = image
     }
     
     func load() {

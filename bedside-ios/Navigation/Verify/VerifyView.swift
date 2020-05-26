@@ -11,6 +11,14 @@ import SwiftUI
 struct VerifyView: View {
     
     @EnvironmentObject var userLoginState : UserLoginState
+    @State var showImagePicker = false
+    @State var image : UIImage? = nil
+    
+    func checkUserImage() {
+        if UserProfileImage().profileImage == nil {
+            showImagePicker = true
+        }
+    }
     
     var body: some View {
         NavigationView {
@@ -19,7 +27,9 @@ struct VerifyView: View {
                 CertRecordListView()
             }
             .navigationBarTitle(Text("Dr. \(userLoginState.currentUser?.lastName ?? "")"))
-        }
+        }.sheet(isPresented: $showImagePicker, content: { PhotoCaptureView(image: self.$image, showImagePicker: self.$showImagePicker)
+        })
+        .onAppear(perform: checkUserImage)
     }
 }
 

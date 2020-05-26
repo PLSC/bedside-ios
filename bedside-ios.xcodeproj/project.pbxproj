@@ -332,14 +332,22 @@
 			path = "Image Loading";
 			sourceTree = "<group>";
 		};
+		39A38E82247D566F005C61C1 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				39B6541A2409632F00EEA4A2 /* SettingsView.swift */,
+				39FC6A5B246F094C001BF08B /* ImagePicker.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		39B6541C2409633C00EEA4A2 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				39A38E82247D566F005C61C1 /* Settings */,
 				3960372A242CD46D006B216E /* Shared */,
 				39603729242CD403006B216E /* Evaluate */,
 				392AA7CC2409AF8D00A64981 /* Verify */,
-				39B6541A2409632F00EEA4A2 /* SettingsView.swift */,
-				39FC6A5B246F094C001BF08B /* ImagePicker.swift */,
 				39B6541D240968C000EEA4A2 /* BaseView.swift */,
 			);
 			path = Navigation;

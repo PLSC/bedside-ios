@@ -39,7 +39,7 @@ class UserProfileImage {
         }
         set(image) {
             cachedImage = nil
-            guard let data = image?.pngData() else {
+            guard let data = image?.jpegData(compressionQuality: 0.75) else {
                 print("cannot write image data")
                 return
             }

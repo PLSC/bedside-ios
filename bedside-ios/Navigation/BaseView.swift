@@ -10,10 +10,6 @@ import SwiftUI
 
 struct BaseView: View {
     
-    func fetchOrgInfo() {
-        
-    }
-    
     var body: some View {
         TabView {
             VerifyView()
@@ -33,10 +29,6 @@ struct BaseView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .navigationBarTitle("Dr. Lenox")
-        .onAppear {
-            self.fetchOrgInfo()
-        }
     }
 }
 

@@ -34,8 +34,8 @@ class ImagePickerCoordinator: NSObject, UINavigationControllerDelegate, UIImageP
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         self.image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
-        let profleImage = UserProfileImage()
-        profleImage.profileImage = self.image
+        let profileImage = UserProfileImage()
+        profileImage.profileImage = self.image
         isShown = false
     }
 
