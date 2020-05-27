@@ -12,8 +12,6 @@ struct RaterSelectRow: View {
     @Binding var selectedRater : User?
     var body: some View {
         HStack {
-    
-    
             if selectedRater == nil {
                 Image(systemName: "circle")
                    .font(.system(size:30))
@@ -23,8 +21,6 @@ struct RaterSelectRow: View {
                     .font(.system(size: 30))
                     .foregroundColor(Color.green)
             }
-            
-            
            
             VStack(alignment: .leading, spacing: 5) {
                 if (selectedRater != nil) {
