@@ -30,25 +30,7 @@ extension UsersByEmailQuery.Data.UsersByEmail.Item: UserRepresentible {
     
 }
 
-extension DateFormatter {
-    static let AWS_DATE_TIME_STRING_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-}
 
-extension Date {
-    var awsDateTimeString : String {
-        get {
-            return self.iso8601withFractionalSeconds
-        }
-    }
-}
-
-extension String {
-    var awsDateTime : Date? {
-        get {
-            return self.iso8601withFractionalSeconds
-        }
-    }
-}
 
 extension UserRepresentible {
     func mapToUser() -> User {

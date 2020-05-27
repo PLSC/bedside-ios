@@ -19,17 +19,23 @@ struct EvaluateView: View {
     
     @State var isLoading: Bool = false
     
+    @State var errorMessage: String = ""
+    
     @EnvironmentObject var userLoginState : UserLoginState
     @EnvironmentObject private var loader: UserImageLoader
     
     func submit() {
         isLoading = true
         evaluation.submitEvaluation { error in
-             if error == nil {
-                      self.evaluation.reset()
-                      self.userLoginState.fetchCurrentUserCertRecords()
-                   }
-                   self.isLoading = false
+            self.isLoading = false
+            self.evaluation.reset()
+            self.userLoginState.fetchCurrentUserCertRecords()
+            
+            if error != nil {
+                self.errorMessage = "There was an error submitting your evaluation. Please try again later."
+            } else {
+                self.errorMessage = ""
+            }
         }
     }
     
@@ -94,7 +100,11 @@ struct EvaluateView: View {
             NavigationView {
                 VStack {
                     Form {
+                        if !self.errorMessage.isEmpty {
+                            Text(self.errorMessage).foregroundColor(.red)
+                        }
                         UserHeaderSmall()
+                        
                         self.procedureDatePicker
                         self.procedureSelectRow
                         self.raterSelectRow

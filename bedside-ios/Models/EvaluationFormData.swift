@@ -21,6 +21,14 @@ class EvaluationFormData : ObservableObject {
     
     var cancelableSet : Set<AnyCancellable> = []
     
+    var attestation : String {
+        guard let rater = rater, let subject = subject, let procedure = procedure, let answer = answer?.displayText else {
+            return "Evaluation is incomplete."
+        }
+        
+        return "I, \(rater.displayName) attest that \(subject.displayName) performed a \(procedure.name) under my direct supervision on \(procedureDate). The following ratings reflect this specific observation of this trainee: \(answer)"
+    }
+    
     init() {
         Publishers.CombineLatest3(usersAreValid, procedureIsValid, $answer)
                    .receive(on: RunLoop.main)

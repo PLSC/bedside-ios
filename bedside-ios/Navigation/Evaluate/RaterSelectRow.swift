@@ -28,7 +28,7 @@ struct RaterSelectRow: View {
            
             VStack(alignment: .leading, spacing: 5) {
                 if (selectedRater != nil) {
-                    Text("Evaluator:")
+                    Text("Rater:")
                         .font(.callout)
                     Text(selectedRater?.displayName ?? "")
                 } else {

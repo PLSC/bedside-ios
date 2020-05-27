@@ -13,54 +13,36 @@ import Combine
 
 class EmailCodeViewModel : ObservableObject {
     @Published var confirmationCode: String = ""
-    @Published var showError: Bool = false
-    @Published var errorTitle: String = "Error"
-    @Published var errorMessage: String = ""
-    
-    @Published var codeSentMessage: String = ""
-    @Published var showCodeSentMessage : Bool = false
-    @Published var sendCodeButtonEnabled : Bool = true
-    @Published var showAlert : Bool = false
-    
-    @Published var submittingCode : Bool = false
+
     
     var cancellableSet : Set<AnyCancellable> = []
     let authUtils : AuthUtils
     
     enum EmailCodeError : Error {
         case invalidCode(String)
+        case codeNotSent(String)
     }
     
     init(authUtils : AuthUtils = AuthUtils()) {
         self.authUtils = authUtils
-        
-        Publishers.CombineLatest($showError, $showCodeSentMessage)
-            .receive(on: RunLoop.main)
-            .map { (showError, showCodeSent) in
-                return showError || showCodeSent
-            }.assign(to: \.showAlert, on: self)
-            .store(in: &cancellableSet)
     }
     
     func submitCode(username: String, completion: @escaping (Result<Bool, EmailCodeError>)->()) {
-        self.submittingCode = true
         authUtils.confirmSignUp(username: username, confirmationCode: self.confirmationCode) { (result) in
-            self.submittingCode = false
+            
             switch result {
             case .success(_):
                 completion(.success(true))
             case .failure(_):
-                self.showError = true
-                self.errorMessage = "Invalid verification code provided. Please try again."
                 completion(.failure(.invalidCode("Invalid verification code provided. Please try again.")))
             }
         }
     }
     
-    func resendCode(username: String) {
-        sendCodeButtonEnabled = false
+    func resendCode(username: String, completion: @escaping (Result<String, EmailCodeError>)->()) {
+        
         authUtils.resendConfirmationCode(username: username) { (result) in
-            self.sendCodeButtonEnabled = true
+            
             switch result {
             case .success(let signupResult):
                 print("Confirmation code sent to \(signupResult.codeDeliveryDetails!.destination!)")
@@ -68,11 +50,12 @@ class EmailCodeViewModel : ObservableObject {
                     print("no details in code delivery status")
                     return
                 }
-                self.showCodeSentMessage = true
-                self.codeSentMessage = "Confirmation code sent to \(destination)"
-            case .failure(let error):
-                self.showError = true
-                self.errorMessage = "Failure to send confirmation code. \(error.localizedDescription)"
+                
+                let codeSentMessage = "Confirmation code sent to \(destination)"
+                
+                completion(.success(codeSentMessage))
+            case .failure(_):
+                completion(.failure(.codeNotSent("Confirmation failed to send.")))
             }
         }
     }
@@ -84,28 +67,51 @@ struct EmailCodeView: View {
     @Binding var showSelf: Bool
     @Binding var username: String
     @State var keyboardHeight: CGFloat = 0
-    
+    @State var showAlert : Bool = false
+    @State var showError : Bool = false
+    @State var alertMessage: String = ""
+    @State var alertTitle: String = ""
+    @State var loading: Bool = false
     
     @ObservedObject var viewModel = EmailCodeViewModel()
     
     func submitCode()  {
-
+        self.loading = true
         self.viewModel.submitCode(username: username) { (result) in
+            self.loading = false
             switch result {
             case .success(_):
                 self.showSelf = false
             case .failure(_):
+                self.showAlert = true
+                self.showError = true
+                self.alertMessage = "Invalid verification code provided. Please try again."
                 print("submit code error")
             }
         }
     }
     
     func resendCode() {
-        self.viewModel.resendCode(username: username)
+        self.viewModel.resendCode(username: username) {
+            result in
+        
+            switch result {
+            case .success(let successMessage):
+                self.showAlert = true
+                self.showError = false
+                self.alertMessage = successMessage
+                self.alertTitle = "Code Sent"
+            case .failure(_):
+                self.showAlert = true
+                self.showError = true
+                self.alertTitle = "Error"
+                self.alertMessage = "Failed to send code."
+            }
+        }
     }
     
     var body: some View {
-        LoadingView(isShowing: self.$viewModel.submittingCode) {
+        LoadingView(isShowing: self.$loading) {
             VStack {
                 Text("Enter Confirmation Code")
                     .font(.title)
@@ -137,35 +143,26 @@ struct EmailCodeView: View {
                 }) {
                     Text("Resend Code")
                         .padding()
-                }.disabled(!self.viewModel.sendCodeButtonEnabled)
+                }.disabled(self.loading)
                 
                 Spacer()
                 
-            }.padding()
-                .padding(.bottom, self.keyboardHeight)
-                .onReceive(Publishers.keyboardHeight) {
-                        self.keyboardHeight = $0
-                }
-            .alert(isPresented: self.$viewModel.showAlert) {
-                    if self.viewModel.showError {
-                        return self.errorAlert
-                    } else {
-                        return self.codeSentAlert
-                    }
-                }
+            }
+            .padding()
+            .padding(.bottom, self.keyboardHeight)
+            .onReceive(Publishers.keyboardHeight) {
+                    self.keyboardHeight = $0
+            }
+            .alert(isPresented: self.$showAlert) {
+                self.codeSendAlert
+            }
         }
         
     }
     
-    var codeSentAlert : Alert {
-        Alert(title: Text("Code Sent"),
-              message: Text(self.viewModel.codeSentMessage),
-              dismissButton: .default(Text("OK")))
-    }
-    
-    var errorAlert : Alert {
-        Alert(title: Text(self.viewModel.errorTitle),
-              message: Text(self.viewModel.errorMessage),
+    var codeSendAlert : Alert {
+        Alert(title: Text(self.alertTitle),
+              message: Text(self.alertMessage),
               dismissButton: .default(Text("OK")))
     }
 }

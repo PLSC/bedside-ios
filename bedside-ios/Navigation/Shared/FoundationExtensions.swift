@@ -50,3 +50,23 @@ extension Date {
 extension String {
     var iso8601withFractionalSeconds: Date? { return Formatter.iso8601withFractionalSeconds.date(from: self) }
 }
+
+extension DateFormatter {
+    static let AWS_DATE_TIME_STRING_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+}
+
+extension Date {
+    var awsDateTimeString : String {
+        get {
+            return self.iso8601withFractionalSeconds
+        }
+    }
+}
+
+extension String {
+    var awsDateTime : Date? {
+        get {
+            return self.iso8601withFractionalSeconds
+        }
+    }
+}

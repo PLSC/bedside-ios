@@ -15,7 +15,7 @@ struct UserHeaderSmall: View {
         HStack {
             UserImage()
                 .frame(width: 50, height: 50)
-                .aspectRatio(contentMode: .fit)
+                .aspectRatio(contentMode: .fill)
                 .padding(.trailing, 10)
             VStack(alignment: .leading) {
                 Text("Dr. \(userLoginState.currentUser?.firstName?.capitalized ?? "") \(userLoginState.currentUser?.lastName?.capitalized ?? "")")

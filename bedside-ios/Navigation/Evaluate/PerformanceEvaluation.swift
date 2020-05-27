@@ -104,7 +104,7 @@ struct PerformanceEvaluation: View {
             .sheet(isPresented: self.$showQuestionInfo) { AnswerOptionInfo(question: performanceQuestion)
             }
             .alert(isPresented: self.$presentAttestation) {
-                Alert(title: Text("Confirm"), message: Text("I attest that \(self.evaluation.subject!.displayName) performed a \(self.evaluation.procedure!.name) under my direct supervision on \(self.evaluation.procedureDate). The following ratings reflect this specific observation of this trainee: \(self.evaluation.answer!.displayText)"), primaryButton: .default(Text("Agree"), action: {
+                Alert(title: Text("Confirm"), message: Text(evaluation.attestation), primaryButton: .default(Text("Agree"), action: {
                     self.submitEval()
                 }), secondaryButton: .destructive(Text("Disagree"), action: {
                     self.dismiss()

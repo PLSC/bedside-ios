@@ -19,23 +19,6 @@ class EvaluationAPI {
         return date.awsDateTimeString
     }
     
-    func submitEvaluation(evaluation: EvaluationFormData, callback: @escaping (Error?)-> ()) {
-//        guard evaluation.isValid else {
-//            callback(EvaluationAPIError.InvalidEvaluationData)
-//            return
-//        }
-        
-        guard let subject = evaluation.subject,
-            let rater = evaluation.rater,
-            let procedure = evaluation.procedure,
-            let rating = evaluation.answer?.assocValue else {
-                callback(EvaluationAPIError.InvalidEvaluationData)
-                return
-        }
-        
-        createEvaluation(subject: subject, rater: rater, procedure: procedure, procedureDate: evaluation.procedureDate, ratingLevel: rating, errorHandler: callback)
-    }
-    
     func createEvaluation(subject: User,
                           rater: User,
                           procedure: Procedure,

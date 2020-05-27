@@ -49,15 +49,16 @@ class RatersViewModel : ObservableObject {
         //Show users with substrings of names.
         let substringInFirst = substring(filterText, inString: user.firstName)
         let substringInLast = substring(filterText, inString: user.lastName)
+        let substringInEmail = substring(filterText, inString: user.email)
                 
-        return substringInFirst || substringInLast
+        return substringInFirst || substringInLast || substringInEmail
     }
     
     func fetchRaters(orgId: String)  {
         let modelIDInput = ModelIDInput(eq: orgId)
         let userFilter = ModelUserFilterInput(orgId: modelIDInput)
         //TODO: Next token!
-        let listUsersQuery = ListUsersQuery(filter: userFilter, limit: 1000)
+        let listUsersQuery = ListUsersQuery(filter: userFilter, limit: 2000)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
         appSyncClient?.fetch(query: listUsersQuery, cachePolicy: .returnCacheDataAndFetch, resultHandler: {

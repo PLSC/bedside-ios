@@ -89,6 +89,9 @@ struct SettingsView: View {
     @State var image: UIImage?
     @State var showImagePicker : Bool = false
     @State var keyboardHeight : CGFloat = 0
+    
+    let appVersionString: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+    let buildNumber: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
 
     let authUtil = AuthUtils()
     
@@ -97,7 +100,7 @@ struct SettingsView: View {
         return Image(systemName: "person.crop.circle.badge.plus")
             .resizable()
             .foregroundColor(.gray)
-            .aspectRatio(contentMode: .fit)
+            .aspectRatio(contentMode: .fill)
             .frame(maxHeight:75)
             .onTapGesture {
                 self.showImagePicker = true
@@ -106,7 +109,7 @@ struct SettingsView: View {
     var profileImage : some View {
         return UserImage()
             .frame(width: 50, height: 50)
-            .aspectRatio(contentMode: .fit)
+            .aspectRatio(contentMode: .fill)
             .onTapGesture {
                 self.showImagePicker = true
             }
@@ -177,6 +180,11 @@ struct SettingsView: View {
                         Button(action: {self.signOut()}) {
                             Text("Sign Out").foregroundColor(Color.red)
                         }
+                    }
+                    
+                    Section {
+                        Text("App Version: \(self.appVersionString) (\(self.buildNumber))").font(.caption).foregroundColor(.gray)
+                        Text("Icon made by Freepik from www.flaticon.com.").font(.caption).foregroundColor(.gray)
                     }
                     
                     Section(header: Text("")) {EmptyView() }.padding(.bottom, self.keyboardHeight).onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }

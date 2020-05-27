@@ -26,10 +26,11 @@ class ProcedureSelectViewModel : ObservableObject {
             .receive(on: RunLoop.main)
             .map {
                 procedures, filterText in
+                let sortedProcedures = procedures.sorted { $0.name < $1.name }
                 if filterText.isEmpty {
-                    return procedures
+                    return sortedProcedures
                 } else {
-                    return procedures.filter { procedure in
+                    return sortedProcedures.filter { procedure in
                         procedure.name.lowercased().contains(filterText.lowercased())
                     }
                 }
