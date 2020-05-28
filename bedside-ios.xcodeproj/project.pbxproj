@@ -410,6 +410,8 @@
 			dependencies = (
 			);
 			name = "bedside-ios";
+			packageProductDependencies = (
+			);
 			productName = "bedside-ios";
 			productReference = 391C05F723F4414000935BBC /* bedside.app */;
 			productType = "com.apple.product-type.application";
@@ -438,6 +440,8 @@
 				Base,
 			);
 			mainGroup = 391C05EE23F4414000935BBC;
+			packageReferences = (
+			);
 			productRefGroup = 391C05F823F4414000935BBC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

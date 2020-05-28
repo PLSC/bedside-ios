@@ -23,7 +23,7 @@ struct SearchBar: UIViewRepresentable {
         }
 
         func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-            text = searchText
+            text = searchText.capitalized
         }
     }
 
@@ -36,7 +36,7 @@ struct SearchBar: UIViewRepresentable {
         searchBar.delegate = context.coordinator
         searchBar.placeholder = placeholder
         searchBar.searchBarStyle = .minimal
-        searchBar.autocapitalizationType = .none
+        searchBar.autocapitalizationType = .words
         return searchBar
     }
 

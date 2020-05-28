@@ -17,7 +17,7 @@ struct UserHeader: View {
             UserBanner()
             Group {
                 Text("Dr. \(userLoginState.currentUser?.lastName?.capitalized ?? "") has been deemed competent to perform the following procedures under ") + Text("Indirect Supervision").font(.headline)
-            }.padding()
+            }.padding([.leading, .trailing])
         }
     }
 }

@@ -11,6 +11,7 @@ import UIKit
 import Combine
 
 class RatersViewModel : ObservableObject {
+    @Published var orgId : String = ""
     @Published var raters : [User] = []
     @Published var filterText : String = ""
     @Published var filteredUsers : [User] = []
@@ -27,6 +28,20 @@ class RatersViewModel : ObservableObject {
         }
         .assign(to: \.filteredUsers, on: self)
         .store(in: &cancellableSet)
+        
+        $filterText.receive(on: RunLoop.main)
+            .dropFirst()
+            .debounce(for: 0.5, scheduler: RunLoop.main)
+            .sink {
+                [weak self] filterText in
+                guard let s = self else {return}
+                if !filterText.isEmpty {
+                    s.fetchRatersWithFilter(orgId: s.orgId, filterText: filterText)
+                } else {
+                    s.fetchRaters(orgId: s.orgId)
+                }
+            }.store(in: &cancellableSet)
+        
     }
     
     func substring(_ substring: String, inString: String?) -> Bool {
@@ -36,29 +51,22 @@ class RatersViewModel : ObservableObject {
     
     
     private func userSearchFilter(_ user: User) -> Bool {
-        
-        if filterIds.contains(user.id) {
-            return false
-        }
-        
-        //Show all users if there is no search text.
-        if filterText.isEmpty {
-            return true
-        }
-        
-        //Show users with substrings of names.
-        let substringInFirst = substring(filterText, inString: user.firstName)
-        let substringInLast = substring(filterText, inString: user.lastName)
-        let substringInEmail = substring(filterText, inString: user.email)
-                
-        return substringInFirst || substringInLast || substringInEmail
+        return !filterIds.contains(user.id)
     }
     
-    func fetchRaters(orgId: String)  {
+    func fetchRatersWithFilter(orgId: String, filterText: String) {
+        self.orgId = orgId
         let modelIDInput = ModelIDInput(eq: orgId)
-        let userFilter = ModelUserFilterInput(orgId: modelIDInput)
-        //TODO: Next token!
-        let listUsersQuery = ListUsersQuery(filter: userFilter, limit: 2000)
+        let filterStringInput = ModelStringInput(contains: filterText)
+        let firstNameFilter = ModelUserFilterInput(orgId: modelIDInput, firstName: filterStringInput)
+        let lastNameFilter = ModelUserFilterInput(orgId: modelIDInput, lastName: filterStringInput)
+        let emailFilter = ModelUserFilterInput(orgId: modelIDInput, email: filterStringInput)
+        let orFilter = ModelUserFilterInput(or:[firstNameFilter, lastNameFilter, emailFilter])
+        fetchRaters(filter: orFilter)
+    }
+    
+    func fetchRaters(filter: ModelUserFilterInput, nextToken: String? = nil) {
+        let listUsersQuery = ListUsersQuery(filter: filter, limit: 1000, nextToken: nextToken)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
         appSyncClient?.fetch(query: listUsersQuery, cachePolicy: .returnCacheDataAndFetch, resultHandler: {
@@ -66,8 +74,24 @@ class RatersViewModel : ObservableObject {
             guard let strongSelf = self else { return }
             if let userItems = result?.data?.listUsers?.items {
                 let users = userItems.compactMap { $0?.mapToUser() }
-                strongSelf.raters = users
+                if nextToken != nil {
+                    let uniqueUsers = (strongSelf.raters + users).uniques
+                    strongSelf.raters = uniqueUsers
+                } else {
+                    strongSelf.raters = users
+                }
             }
-        })
+            
+            if let next = result?.data?.listUsers?.nextToken {
+                strongSelf.fetchRaters(filter: filter, nextToken: next)
+            }
+       })
+    }
+    
+    func fetchRaters(orgId: String)  {
+        self.orgId = orgId
+        let modelIDInput = ModelIDInput(eq: orgId)
+        let userFilter = ModelUserFilterInput(orgId: modelIDInput)
+        fetchRaters(filter: userFilter)
     }
 }

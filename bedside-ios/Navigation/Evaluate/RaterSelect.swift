@@ -50,6 +50,7 @@ struct RaterSelect: View {
     
     //TODO: Fetch org id from user.
     func fetchRaters() {
+        
         guard let org = userLoginState.currentUser?.orgId else {
             print("org not found for user: \(userLoginState.currentUser?.displayName ?? "No user")")
             return
@@ -58,9 +59,8 @@ struct RaterSelect: View {
         if let id = self.userLoginState.currentUser?.id {
             self.ratersViewModel.filterIds = [id]
         }
-       
+        
         ratersViewModel.fetchRaters(orgId: org)
-       
     }
     
     var body: some View {
