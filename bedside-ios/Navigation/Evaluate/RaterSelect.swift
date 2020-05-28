@@ -55,13 +55,12 @@ struct RaterSelect: View {
             return
         }
         
-        ratersViewModel.fetchRaters(orgId: org)
-    }
-    
-    func filterCurrentUser() {
         if let id = self.userLoginState.currentUser?.id {
             self.ratersViewModel.filterIds = [id]
         }
+       
+        ratersViewModel.fetchRaters(orgId: org)
+       
     }
     
     var body: some View {
@@ -91,7 +90,10 @@ struct RaterSelect: View {
             Image(systemName: "person.badge.plus")
         }).onAppear(perform:{
             self.fetchRaters()
-            self.filterCurrentUser()
+        }).onDisappear(perform: {
+            if self.isPresented {
+                self.isPresented = false
+            }
         }).sheet(isPresented: self.$presentNewRaterScreen) {
             NewRater(newRaterViewModel:
                 NewRaterViewModel(

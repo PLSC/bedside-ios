@@ -8,25 +8,25 @@
 
 import Foundation
 import UIKit
-
-
-
-
-extension ListUsersQuery.Data.ListUser.Item : UserRepresentible {}
+import Combine
 
 class RatersViewModel : ObservableObject {
     @Published var raters : [User] = []
     @Published var filterText : String = ""
+    @Published var filteredUsers : [User] = []
     var filterIds : [String] = []
-    
-    var filteredUsers : [User] {
-        return raters.filter(userSearchFilter(_:)).sorted { (user1, user2) -> Bool in
-            return user1.sortName < user2.sortName
-        }
-    }
+    var cancellableSet : Set<AnyCancellable> = []
     
     init(filterIds: [String]) {
         self.filterIds = filterIds
+        
+        $raters.receive(on: RunLoop.main).map { users in
+            users.filter(self.userSearchFilter(_:)).sorted { (user1, user2) -> Bool in
+                return user1.sortName < user2.sortName
+            }
+        }
+        .assign(to: \.filteredUsers, on: self)
+        .store(in: &cancellableSet)
     }
     
     func substring(_ substring: String, inString: String?) -> Bool {

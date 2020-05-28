@@ -17,6 +17,7 @@ extension ListCertificationRecordsQuery.Data.ListCertificationRecord.Item.Certif
 extension ListCertificationRecordsQuery.Data.ListCertificationRecord.Item.CertificationLog.Item.Rater: UserRepresentible {}
 extension UsersByEmailQuery.Data.UsersByEmail.Item: UserRepresentible {}
 extension UpdateUserMutation.Data.UpdateUser: UserRepresentible {}
+extension ListUsersQuery.Data.ListUser.Item : UserRepresentible {}
 
 public struct User: Identifiable, UserRepresentible {    
   public let id: String
