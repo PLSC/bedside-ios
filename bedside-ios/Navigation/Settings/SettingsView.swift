@@ -88,7 +88,9 @@ struct SettingsView: View {
     @EnvironmentObject var userLoginState : UserLoginState
     @State var image: UIImage?
     @State var showImagePicker : Bool = false
-    @State var keyboardHeight : CGFloat = 0
+    @State var isLoading: Bool = false
+    @State var showAlert: Bool = false
+    @State var errorMessage: String = ""
     
     let appVersionString: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
     let buildNumber: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
@@ -129,17 +131,30 @@ struct SettingsView: View {
     func submit() {
         UIApplication.shared.endEditing()
         let user = viewModel.allUserValues
-        self.userLoginState.updateUser(user: user)
+        isLoading = true
+        self.userLoginState.updateUser(user: user) {
+            result in
+            self.isLoading = false
+            switch result {
+            case .success(user?):
+                print("User successfully updated \(user)")
+            case .success(let user):
+                print("Success, but no mapped data \(String(describing: user))")
+            case .failure(let error):
+                self.showAlert = true
+                self.errorMessage = "An error occurred while updating user information."
+                print(error)
+            }
+        }
     }
     
     var body: some View {
-        LoadingView(isShowing: $viewModel.isUploadingImage, progress: $viewModel.uploadProgress) {
+        LoadingView(isShowing: $isLoading) {
             NavigationView {
                 Form {
                     HStack {
                         
                         self.profileImage
-                       
                         
                         VStack(alignment: .leading) {
                             (Text("Username: ").bold() + Text(self.viewModel.username)).lineLimit(3)
@@ -186,17 +201,17 @@ struct SettingsView: View {
                         Text("App Version: \(self.appVersionString) (\(self.buildNumber))").font(.caption).foregroundColor(.gray)
                         Text("Icon made by Freepik from www.flaticon.com.").font(.caption).foregroundColor(.gray)
                     }
-                    
-                    Section(header: Text("")) {EmptyView() }.padding(.bottom, self.keyboardHeight).onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
-            
-                }.padding(.bottom, self.keyboardHeight)
-                
-                //.modifier(DismissingKeyboard())
+                }
                 .navigationBarTitle("Settings")
-                    .sheet(isPresented: self.$showImagePicker) {
-                        PhotoCaptureView(image: self.$image, showImagePicker: self.$showImagePicker)
-                            
-                }.onAppear { self.populateUserInfo() }
+                .sheet(isPresented: self.$showImagePicker) {
+                    PhotoCaptureView(image: self.$image, showImagePicker: self.$showImagePicker)
+                }
+                .onAppear {
+                    self.populateUserInfo()
+                }
+                .alert(isPresented: self.$showAlert) {
+                    Alert(title: Text("Error"), message: Text(self.errorMessage), dismissButton: .default(Text("OK")))
+                }
             }
         }
         

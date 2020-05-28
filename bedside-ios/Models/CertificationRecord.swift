@@ -19,19 +19,6 @@ public struct CertificationRecord : Identifiable {
     public var certificationLog: [EvaluationResponse]?
 }
 
-extension ListCertificationRecordsQuery.Data.ListCertificationRecord.Item.CertificationLog.Item.Subject: UserRepresentible {
-    
-}
-extension ListCertificationRecordsQuery.Data.ListCertificationRecord.Item.CertificationLog.Item.Rater: UserRepresentible {
-    
-}
-
-extension UsersByEmailQuery.Data.UsersByEmail.Item: UserRepresentible {
-    
-}
-
-
-
 extension UserRepresentible {
     func mapToUser() -> User {
         return User(id: self.id, userName: self.userName, email: self.email, phone: self.phone, firstName: self.firstName, lastName: self.lastName, npi: self.npi, orgId: self.orgId)

@@ -167,18 +167,24 @@ class UserLoginState: ObservableObject {
         currentUser?.memberships = memberships
     }
     
-    func updateUser(user: User) {
+    func updateUser(user: User, completion: @escaping (Result<User?, Error>)->()) {
         self.currentUser = user
         let updateUserInput = UpdateUserInput(id: user.id, phone: user.phone, firstName: user.firstName, lastName: user.lastName, npi: user.npi)
-        updateUser(updateUserInput)
+        updateUser(updateUserInput, completion: completion)
     }
     
-    func updateUser(_ updateUserInput: UpdateUserInput) {
+    func updateUser(_ updateUserInput: UpdateUserInput, completion: @escaping (Result<User?, Error>)->()) {
         let mutation = UpdateUserMutation(input: updateUserInput)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
         appSyncClient?.perform(mutation: mutation, resultHandler: { (data, error) in
-            print("Current user update complete")
+            if let error = error {
+                completion(.failure(error))
+            } else if let userItem = data?.data?.updateUser  {
+                completion(.success(userItem.mapToUser()))
+            } else {
+                completion(.success(nil))
+            }
         })
     }
     

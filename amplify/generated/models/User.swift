@@ -13,6 +13,11 @@ protocol UserRepresentible {
     var orgId: String? {get}
 }
 
+extension ListCertificationRecordsQuery.Data.ListCertificationRecord.Item.CertificationLog.Item.Subject: UserRepresentible {}
+extension ListCertificationRecordsQuery.Data.ListCertificationRecord.Item.CertificationLog.Item.Rater: UserRepresentible {}
+extension UsersByEmailQuery.Data.UsersByEmail.Item: UserRepresentible {}
+extension UpdateUserMutation.Data.UpdateUser: UserRepresentible {}
+
 public struct User: Identifiable, UserRepresentible {    
   public let id: String
   public let orgId: String?
