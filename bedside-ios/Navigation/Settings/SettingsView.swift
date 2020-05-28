@@ -82,7 +82,8 @@ class UserSettingsFormViewModel : ObservableObject {
                     email: email,
                     firstName: firstName,
                     lastName: lastName,
-                    npi: Int(npi))
+                    npi: Int(npi),
+                    orgId: currentUser?.orgId)
     }
     
     
