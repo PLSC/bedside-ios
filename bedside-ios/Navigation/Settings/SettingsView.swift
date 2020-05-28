@@ -23,13 +23,31 @@ extension UIApplication {
 
 //TODO: Clean up image downloading stuff from this.
 class UserSettingsFormViewModel : ObservableObject {
+    var currentUser : User?
     @Published var username = ""
-    @Published var firstName = ""
-    @Published var lastName = ""
+
+    @Published var formIsDirty = false
+    @Published var firstName = "" {
+        didSet {
+            if let currentFirstName = currentUser?.firstName, currentFirstName != firstName {
+                formIsDirty = true
+            }
+        }
+    }
+    @Published var lastName = "" {
+        didSet {
+            if let currentLastName = currentUser?.lastName, currentLastName != lastName {
+                formIsDirty = true
+            }
+        }
+    }
     @Published var npi = "" {
         didSet {
             if npi.count > 10 && oldValue.count <= 10 {
                 npi = oldValue
+            }
+            if let currentNpi = currentUser?.npi, currentNpi != Int(npi) {
+                formIsDirty = true
             }
         }
     }
@@ -69,6 +87,7 @@ class UserSettingsFormViewModel : ObservableObject {
     
     
     func setUserValues(user: User?) {
+        currentUser = user
         guard let user = user else { return }
         self.username = user.userName ?? ""
         self.firstName = user.firstName ?? ""
@@ -138,6 +157,8 @@ struct SettingsView: View {
             switch result {
             case .success(user?):
                 print("User successfully updated \(user)")
+                self.viewModel.setUserValues(user: user)
+                self.viewModel.formIsDirty = false
             case .success(let user):
                 print("Success, but no mapped data \(String(describing: user))")
             case .failure(let error):
@@ -160,7 +181,11 @@ struct SettingsView: View {
                             (Text("Username: ").bold() + Text(self.viewModel.username)).lineLimit(3)
                             (Text("Email: ").bold() + Text(self.viewModel.email)).lineLimit(3)
                         }
-                    }.padding()
+                    }
+                    .padding()
+                    .onTapGesture {
+                        UIApplication.shared.endEditing()
+                    }
                     
                     HStack {
                         Text("First Name:").font(.callout).bold()
@@ -169,12 +194,16 @@ struct SettingsView: View {
                         }, onCommit: {
                             print("committed")
                         }).textFieldStyle(RoundedBorderTextFieldStyle())
+                    }.onTapGesture {
+                        UIApplication.shared.endEditing()
                     }
                     
                     HStack {
                         Text("Last Name:").font(.callout).bold()
                         TextField("Last Name", text: self.$viewModel.lastName)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
+                    }.onTapGesture {
+                        UIApplication.shared.endEditing()
                     }
                     
                     HStack {
@@ -182,13 +211,15 @@ struct SettingsView: View {
                         TextField("NPI", text:self.$viewModel.npi)
                             .keyboardType(.numberPad)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
+                    }.onTapGesture {
+                        UIApplication.shared.endEditing()
                     }
                     
                     Section {
                         Button(action: {self.submit()}) {
                             Text("Submit Changes")
-                        }.disabled(!self.viewModel.formIsValid)
-                            .foregroundColor(self.viewModel.formIsValid ? Color.blue : Color.gray)
+                        }.disabled(!self.viewModel.formIsValid && self.viewModel.formIsDirty)
+                        .foregroundColor(self.viewModel.formIsValid && self.viewModel.formIsDirty ? Color.blue : Color.gray)
                     }
                     
                     Section {
@@ -200,6 +231,8 @@ struct SettingsView: View {
                     Section {
                         Text("App Version: \(self.appVersionString) (\(self.buildNumber))").font(.caption).foregroundColor(.gray)
                         Text("Icon made by Freepik from www.flaticon.com.").font(.caption).foregroundColor(.gray)
+                    }.onTapGesture {
+                        UIApplication.shared.endEditing()
                     }
                 }
                 .navigationBarTitle("Settings")
@@ -210,7 +243,9 @@ struct SettingsView: View {
                     self.populateUserInfo()
                 }
                 .alert(isPresented: self.$showAlert) {
-                    Alert(title: Text("Error"), message: Text(self.errorMessage), dismissButton: .default(Text("OK")))
+                    Alert(title: Text("Error"),
+                          message: Text(self.errorMessage),
+                          dismissButton: .default(Text("OK")))
                 }
             }
         }
