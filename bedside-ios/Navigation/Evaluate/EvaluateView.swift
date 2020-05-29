@@ -35,6 +35,7 @@ struct EvaluateView: View {
                 self.errorMessage = "There was an error submitting your evaluation. Please try again later."
             } else {
                 self.errorMessage = ""
+                NotificationCenter.default.post(name: TabBarEvents.change, object: Tab.verify)
             }
         }
     }

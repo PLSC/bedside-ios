@@ -61,10 +61,22 @@ struct LoginView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: HorizontalAlignment.center, spacing: 15) {
-                Text("Bedside Procedures")
-                    .font(.largeTitle)
-                    .foregroundColor(.gray)
-                    .padding([.top, .bottom], 20)
+                
+                HStack(spacing:30) {
+                    Image("bedicon")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxHeight:100)
+                    VStack(alignment:.leading) {
+                        Text("SIMPL")
+                            .font(.system(.largeTitle, design: .rounded))
+                        Text("Bedside")
+                            .font(.system(.largeTitle, design: .rounded))
+                            .foregroundColor(.gray)
+                    }
+                }
+                
+                    
                     
                 TextField("Username", text: self.$viewModel.username)
                     .padding()

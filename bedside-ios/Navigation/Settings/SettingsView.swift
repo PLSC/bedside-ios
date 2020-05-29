@@ -190,11 +190,7 @@ struct SettingsView: View {
                     
                     HStack {
                         Text("First Name:").font(.callout).bold()
-                        TextField("First Name", text: self.$viewModel.firstName, onEditingChanged: { didChange in
-                            print("editingChanged: \(didChange)")
-                        }, onCommit: {
-                            print("committed")
-                        }).textFieldStyle(RoundedBorderTextFieldStyle())
+                        TextField("First Name", text: self.$viewModel.firstName).textFieldStyle(RoundedBorderTextFieldStyle())
                     }.onTapGesture {
                         UIApplication.shared.endEditing()
                     }

@@ -89,7 +89,10 @@ struct ProcedureSelect: View {
             }
         }.onAppear {
             self.fetchProcedures()
-        }.navigationBarTitle("Procedures")
+        }.onDisappear {
+            self.isPresented = false
+        }
+        .navigationBarTitle("Procedures")
     }
 }
 

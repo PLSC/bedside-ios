@@ -49,7 +49,6 @@ class RefreshData: ObservableObject {
                 self.showDone = false
                 self.showText = "Pull to refresh"
             }
-            print(self.isDone)
         }
     }
     
