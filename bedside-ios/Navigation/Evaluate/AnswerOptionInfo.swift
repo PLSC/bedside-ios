@@ -18,10 +18,16 @@ struct AnswerOptionInfo<T:Hashable>: View {
         NavigationView {
             List {
                 ForEach(question.answerOptions, id: \.id) { option in
-                    HStack {
-                        (Text(String(describing: option.assocValue)).bold() + Text(".")).padding()
-                        Text(option.displayText).bold() + Text(" - ") + Text(option.description)
-                    }.padding()
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text("\(String(describing:option.assocValue)).").font(.headline)
+                            Text(option.displayText).font(.headline)
+                        }
+                        Spacer()
+                        Text(option.description).font(.caption)
+                    }
+                        
+                    
                 }
             }
             .navigationBarTitle(question.title)

@@ -23,13 +23,17 @@ struct VerifyView: View {
         }
     }
     
+    init() {
+        
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
                 UserHeader()
                 CertRecordListView()
             }
-            .navigationBarTitle(Text("Dr. \(userLoginState.currentUser?.lastName ?? "")"))
+            .navigationBarTitle(Text("Dr. \(userLoginState.currentUser?.lastName ?? "")"), displayMode: .large)
         }.sheet(isPresented: $showImagePicker, content: { PhotoCaptureView(image: self.$image, showImagePicker: self.$showImagePicker)
         }).alert(isPresented: $showImagePickerAlert, content: {
             Alert(title: Text("User Image"),

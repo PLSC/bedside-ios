@@ -9,15 +9,15 @@
 import SwiftUI
 
 struct StartupContainerView: View {
-    
+
     @EnvironmentObject var authUtil : UserLoginState
     
     @ViewBuilder
     var body: some View {
         if authUtil.isSignedIn {
-            BaseView()
+            BaseView().accentColor(Color.simplTeal)
         } else {
-            LoginView()
+            LoginView().accentColor(Color.simplTeal)
         }
     }
 }

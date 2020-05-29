@@ -85,7 +85,7 @@ struct EvaluateView: View {
               }
           }
         .padding()
-        .foregroundColor(self.evaluation.readyForEvaluation ? Color.blue : Color.gray)
+        .foregroundColor(Color.white)
         .frame(maxWidth: .infinity)
         .disabled(!self.evaluation.readyForEvaluation)
     }
@@ -94,25 +94,29 @@ struct EvaluateView: View {
         evaluation.subject = userLoginState.currentUser
     }
     
-    
     var body: some View {
         LoadingView(isShowing: $isLoading) {
             NavigationView {
-                VStack {
-                    Form {
-                        if !self.errorMessage.isEmpty {
-                            Text(self.errorMessage).foregroundColor(.red)
-                        }
-                        UserHeaderSmall()
-                        
-                        self.procedureDatePicker
-                        self.procedureSelectRow
-                        self.raterSelectRow
-                        Section {
-                            self.nextButton
-                        }
+            
+                Form {
+                    if !self.errorMessage.isEmpty {
+                        Text(self.errorMessage).foregroundColor(.red)
                     }
+                    UserHeaderSmall()
+                    
+                    self.procedureDatePicker
+                    self.procedureSelectRow
+                    self.raterSelectRow
+                    Section {
+                        self.nextButton
+                    }.listRowBackground(
+                        Rectangle()
+                            .cornerRadius(10)
+                            .foregroundColor(self.evaluation.readyForEvaluation ? Color.lightTeal : Color.gray)
+                            .padding([.leading, .trailing], 10)
+                    )
                 }
+                
                 .navigationBarTitle("New Evaluation")
                 .onAppear(perform: self.initialize)
             }.sheet(isPresented: self.$presentEvaluation) {
@@ -128,7 +132,7 @@ struct EvaluateView: View {
             }.alert(isPresented: self.$presentEvalHandoffAlert) {
                 Alert(title: Text("Handoff"),
                       message: Text("Please hand your phone to the rater you selected."),
-                      dismissButton: .default(Text("OK"), action: { self.handoffAlertDismissed() }) )
+                      dismissButton: .default(Text("OK").foregroundColor(Color.lightTeal), action: { self.handoffAlertDismissed() }) )
             }
         }
     }

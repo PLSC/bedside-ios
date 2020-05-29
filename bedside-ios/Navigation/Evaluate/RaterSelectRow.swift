@@ -19,7 +19,7 @@ struct RaterSelectRow: View {
             } else {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 30))
-                    .foregroundColor(Color.green)
+                    .foregroundColor(Color.lightTeal)
             }
            
             VStack(alignment: .leading, spacing: 5) {

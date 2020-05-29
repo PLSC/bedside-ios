@@ -52,6 +52,7 @@
 		398237592448CECB00ED7148 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3982374D2448CECB00ED7148 /* User.swift */; };
 		3982375C2448CECB00ED7148 /* Organization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398237502448CECB00ED7148 /* Organization.swift */; };
 		3982375D2448CECB00ED7148 /* Membership.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398237512448CECB00ED7148 /* Membership.swift */; };
+		3990AB6724805D6C00D6DAD1 /* SwiftUIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3990AB6624805D6C00D6DAD1 /* SwiftUIExtensions.swift */; };
 		39918C742457516D001797F1 /* EvaluationFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39918C732457516D001797F1 /* EvaluationFormData.swift */; };
 		39A58015242A6C1A004999AD /* EmailCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A58014242A6C1A004999AD /* EmailCodeView.swift */; };
 		39B084E12451C18B003CE860 /* EvaluationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B084E02451C18B003CE860 /* EvaluationAPI.swift */; };
@@ -124,6 +125,7 @@
 		3982374D2448CECB00ED7148 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = amplify/generated/models/User.swift; sourceTree = SOURCE_ROOT; };
 		398237502448CECB00ED7148 /* Organization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Organization.swift; path = amplify/generated/models/Organization.swift; sourceTree = SOURCE_ROOT; };
 		398237512448CECB00ED7148 /* Membership.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Membership.swift; path = amplify/generated/models/Membership.swift; sourceTree = SOURCE_ROOT; };
+		3990AB6624805D6C00D6DAD1 /* SwiftUIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIExtensions.swift; sourceTree = "<group>"; };
 		39918C732457516D001797F1 /* EvaluationFormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationFormData.swift; sourceTree = "<group>"; };
 		39A58014242A6C1A004999AD /* EmailCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailCodeView.swift; sourceTree = "<group>"; };
 		39B084E02451C18B003CE860 /* EvaluationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluationAPI.swift; sourceTree = "<group>"; };
@@ -317,6 +319,7 @@
 				397F087A2464695D00A14513 /* LoadingView.swift */,
 				39E5C776246B113A00618F66 /* SearchBar.swift */,
 				39E5C778246B169000618F66 /* FoundationExtensions.swift */,
+				3990AB6624805D6C00D6DAD1 /* SwiftUIExtensions.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -559,6 +562,7 @@
 				397F087F24646CB600A14513 /* UITestModels.swift in Sources */,
 				397F087D24646C3F00A14513 /* EvalResponseListItem.swift in Sources */,
 				39918C742457516D001797F1 /* EvaluationFormData.swift in Sources */,
+				3990AB6724805D6C00D6DAD1 /* SwiftUIExtensions.swift in Sources */,
 				3960372C242CD489006B216E /* UserBanner.swift in Sources */,
 				397F087B2464695D00A14513 /* LoadingView.swift in Sources */,
 				396803AE246989FE005094F4 /* NewRater.swift in Sources */,
@@ -710,7 +714,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"bedside-ios/Preview Content\"";
 				DEVELOPMENT_TEAM = EUY77Y4C9L;
 				ENABLE_PREVIEWS = YES;
@@ -733,7 +737,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"bedside-ios/Preview Content\"";
 				DEVELOPMENT_TEAM = EUY77Y4C9L;
 				ENABLE_PREVIEWS = YES;

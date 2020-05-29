@@ -81,7 +81,7 @@ struct LoginView: View {
                         .foregroundColor(.white)
                         .padding()
                         .frame(width: 300, height: 50)
-                        .background(self.viewModel.formIsValid ? Color.blue : Color.gray)
+                        .background(self.viewModel.formIsValid ? Color.lightTeal : Color.gray)
                         .cornerRadius(15.0)
                 }.disabled(!self.viewModel.formIsValid)
                 

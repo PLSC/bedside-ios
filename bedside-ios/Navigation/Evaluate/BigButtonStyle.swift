@@ -13,7 +13,7 @@ struct BigButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
-            .background(enabled ? Color.blue : Color.gray)
+            .background(enabled ? Color.lightTeal : Color.gray)
             .foregroundColor(Color.white)
             .font(.headline)
             .frame(maxWidth: .infinity)

@@ -72,8 +72,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.initAmplify()
         self.initAppSync()
+        self.initStyles()
         
         return true
+    }
+    
+    func initStyles() {
+//       UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "Georgia-Bold", size: 20)!]
+//       UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "Georgia-Bold", size: 30)!]
     }
 
     // MARK: UISceneSession Lifecycle

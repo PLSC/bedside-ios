@@ -14,11 +14,12 @@ struct ProcedureDetailRowView: View {
     
     var body: some View {
         HStack(alignment:.center) {
-            Image(systemName: "bandage")
+            Image(systemName: "bandage").font(.system(size: 30)).padding(.trailing, 15).padding(.leading,10)
             VStack(alignment: .leading) {
                 Text(procedure.name).bold()
                 Text(procedure.description ?? "No description").lineLimit(nil)
             }
+            Spacer()
         }
     }
 }

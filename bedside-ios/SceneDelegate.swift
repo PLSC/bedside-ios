@@ -36,6 +36,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             window.rootViewController = UIHostingController(rootView: cv)
             self.window = window
+            
             window.makeKeyAndVisible()
         }
     }

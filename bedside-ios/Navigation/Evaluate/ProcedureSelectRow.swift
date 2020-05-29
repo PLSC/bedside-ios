@@ -15,7 +15,7 @@ struct ProcedureSelectRow: View {
             if selectedProcedure != nil {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 30))
-                    .foregroundColor(Color.green)
+                    .foregroundColor(Color.lightTeal)
             } else {
                 Image(systemName: "circle")
                     .font(.system(size:30))

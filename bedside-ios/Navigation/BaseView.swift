@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct BaseView: View {
     
@@ -28,6 +29,7 @@ struct BaseView: View {
                     Text("Settings")
             }
         }
+        .accentColor(Color.lightTeal)
         .navigationBarBackButtonHidden(true)
     }
 }

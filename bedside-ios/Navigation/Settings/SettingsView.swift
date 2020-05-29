@@ -130,7 +130,8 @@ struct SettingsView: View {
     }
     var profileImage : some View {
         return UserImage()
-            .frame(width: 50, height: 50)
+            .scaledToFit()
+            .frame(width: 80, height: 80)
             .aspectRatio(contentMode: .fill)
             .onTapGesture {
                 self.showImagePicker = true
@@ -183,7 +184,6 @@ struct SettingsView: View {
                             (Text("Email: ").bold() + Text(self.viewModel.email)).lineLimit(3)
                         }
                     }
-                    .padding()
                     .onTapGesture {
                         UIApplication.shared.endEditing()
                     }
@@ -220,7 +220,7 @@ struct SettingsView: View {
                         Button(action: {self.submit()}) {
                             Text("Submit Changes")
                         }.disabled(!self.viewModel.formIsValid && self.viewModel.formIsDirty)
-                        .foregroundColor(self.viewModel.formIsValid && self.viewModel.formIsDirty ? Color.blue : Color.gray)
+                        .foregroundColor(self.viewModel.formIsValid && self.viewModel.formIsDirty ? Color.lightTeal : Color.gray)
                     }
                     
                     Section {

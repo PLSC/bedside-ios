@@ -23,7 +23,6 @@ struct UserBanner: View {
           
             UserImage()
                 .aspectRatio(contentMode: .fit)
-                .frame(maxHeight:200)
                 .shadow(radius: 10)
             
         }

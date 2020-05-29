@@ -92,7 +92,7 @@ struct ForgotPasswordView: View {
                 .foregroundColor(.white)
                 .padding()
                 .frame(width: 300, height: 50)
-                .background(Color.blue)
+                .background(Color.lightTeal)
                 .cornerRadius(15.0)
         }
     }
@@ -108,7 +108,7 @@ struct ForgotPasswordView: View {
                 .foregroundColor(.white)
                 .padding()
                 .frame(width: 300, height: 50)
-                .background(self.viewModel.formDataIsValid ? Color.blue : Color.gray)
+                .background(self.viewModel.formDataIsValid ? Color.lightTeal : Color.gray)
                 .cornerRadius(15.0)
                 .disabled(!self.viewModel.formDataIsValid)
         }

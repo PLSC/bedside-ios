@@ -134,7 +134,7 @@ struct EmailCodeView: View {
                       .foregroundColor(.white)
                       .padding()
                       .frame(width: 300, height: 50)
-                      .background(Color.blue)
+                      .background(Color.lightTeal)
                       .cornerRadius(15.0)
                 }
                 

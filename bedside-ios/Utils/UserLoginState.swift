@@ -168,7 +168,6 @@ class UserLoginState: ObservableObject {
     }
     
     func updateUser(user: User, completion: @escaping (Result<User?, Error>)->()) {
-        self.currentUser = user
         let updateUserInput = UpdateUserInput(id: user.id, phone: user.phone, firstName: user.firstName, lastName: user.lastName, npi: user.npi)
         updateUser(updateUserInput, completion: completion)
     }
@@ -181,7 +180,8 @@ class UserLoginState: ObservableObject {
             if let error = error {
                 completion(.failure(error))
             } else if let userItem = data?.data?.updateUser  {
-                completion(.success(userItem.mapToUser()))
+                self.currentUser = userItem.mapToUser()
+                completion(.success(self.currentUser))
             } else {
                 completion(.success(nil))
             }

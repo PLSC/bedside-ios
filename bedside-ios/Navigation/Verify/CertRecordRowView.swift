@@ -17,7 +17,7 @@ struct CertRecordRowView: View {
             if (certificationRecord.isCertified) {
                 Image(systemName: "checkmark.circle.fill")
                 .font(.system(size: 30))
-                .foregroundColor(Color.green)
+                .foregroundColor(Color.lightTeal)
             } else {
                 Image(systemName: "circle")
                     .font(.system(size:30))

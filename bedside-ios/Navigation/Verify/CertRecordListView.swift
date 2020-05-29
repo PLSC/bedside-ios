@@ -69,7 +69,7 @@ struct RefreshView: View {
             VStack(alignment: .center){
                 if self.data.showDone {
                     Image(systemName: "checkmark.circle")
-                        .foregroundColor(Color.green)
+                        .foregroundColor(Color.lightTeal)
                         .imageScale(.large)
                 } else if (!data.showRefreshView) {
                     Spinner(percentage: self.$data.pullStatus)

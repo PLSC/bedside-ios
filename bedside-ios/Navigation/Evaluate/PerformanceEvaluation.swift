@@ -110,6 +110,12 @@ struct PerformanceEvaluation: View {
                     self.dismiss()
                 }))
             }
+            .navigationBarItems(trailing:
+                           Button(action: {
+                               self.presentationMode.wrappedValue.dismiss()
+                           }) {
+                              Image(systemName: "xmark")
+                           })
         }
     }
 }
