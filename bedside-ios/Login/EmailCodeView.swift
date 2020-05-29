@@ -62,8 +62,6 @@ class EmailCodeViewModel : ObservableObject {
 }
 
 struct EmailCodeView: View {
-    
-    //TODO: sending/waiting state for spinner and disabling UI elements.
     @Binding var showSelf: Bool
     @Binding var username: String
     @State var keyboardHeight: CGFloat = 0

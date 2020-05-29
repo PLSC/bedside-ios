@@ -74,7 +74,7 @@ class UserLoginState: ObservableObject {
         DispatchQueue.main.async {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let appSyncClient = appDelegate.appSyncClient
-            appSyncClient?.fetch(query:  UsersByEmailQuery(email: email, limit: 1), cachePolicy: .returnCacheDataAndFetch) {
+            appSyncClient?.fetch(query:  UsersByEmailQuery(email: email, limit: 1), cachePolicy: .fetchIgnoringCacheData) {
                 (result, error ) in
                 
                 if let userItem = result?.data?.usersByEmail?.items?.compactMap({ $0 }).first {
@@ -99,7 +99,6 @@ class UserLoginState: ObservableObject {
         }
     }
     
-    //TODO: This is getting called multiple times.
     func fetchOrganizationInfo(orgId: String) {
 
         for org in self.organizations {
@@ -191,6 +190,5 @@ class UserLoginState: ObservableObject {
     init() {
         initializeAWSMobileClient()
         addUserStateListener()
-        fetchUserInfo()
     }
 }
