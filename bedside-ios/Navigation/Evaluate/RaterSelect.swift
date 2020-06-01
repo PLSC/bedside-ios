@@ -48,7 +48,6 @@ struct RaterSelect: View {
         self.isPresented = false
     }
     
-    //TODO: Fetch org id from user.
     func fetchRaters() {
         
         guard let org = userLoginState.currentUser?.orgId else {
@@ -88,6 +87,8 @@ struct RaterSelect: View {
             self.presentNewRaterScreen = true
         }) {
             Image(systemName: "person.badge.plus")
+                .imageScale(.large)
+                .padding(.leading, 20)
         }).onAppear(perform:{
             self.fetchRaters()
         }).onDisappear(perform: {
@@ -102,7 +103,7 @@ struct RaterSelect: View {
                     userCreatedCallback: {
                         user in
                         self.selectRater(rater: user)
-                }))
+                })).accentColor(Color.lightTeal)
         }
     }
 }

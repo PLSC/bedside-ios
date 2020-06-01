@@ -68,7 +68,6 @@ struct ProcedureSelect: View {
         isPresented = false
     }
     
-    //TODO: refactor into API module.
     func fetchProcedures() {
         self.viewModel.fetchProcedures()
     }

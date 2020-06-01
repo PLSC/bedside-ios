@@ -130,6 +130,7 @@ struct EvaluateView: View {
                     }
                 }
                 .environmentObject(self.userLoginState)
+                .accentColor(Color.lightTeal)
             }.alert(isPresented: self.$presentEvalHandoffAlert) {
                 Alert(title: Text("Handoff"),
                       message: Text("Please hand your phone to the rater you selected."),

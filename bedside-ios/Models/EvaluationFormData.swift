@@ -26,7 +26,13 @@ class EvaluationFormData : ObservableObject {
             return "Evaluation is incomplete."
         }
         
-        return "I, \(rater.displayName) attest that \(subject.displayName) performed a \(procedure.name) under my direct supervision on \(procedureDate). The following ratings reflect this specific observation of this trainee: \(answer)"
+        let dateformatter = DateFormatter()
+        dateformatter.dateStyle = .medium
+        dateformatter.timeStyle = .short
+        dateformatter.locale = Locale(identifier: "en_US")
+        let dateString = dateformatter.string(from: procedureDate)
+        
+        return "I, \(rater.displayName) attest that \(subject.displayName) performed a \(procedure.name) under my direct supervision on \(dateString). The following ratings reflect this specific observation of this trainee: \(answer)"
     }
     
     init() {
@@ -61,10 +67,9 @@ class EvaluationFormData : ObservableObject {
         Publishers.CombineLatest($procedure, $procedureDate)
             .receive(on: RunLoop.main)
             .map {
-                procedure, procedureDate in
-                guard let _ = procedure else { return false }
-                //TODO: validate date
-                return true
+                [weak self] procedure, procedureDate in
+                guard let _ = procedure, let s = self else { return false }
+                return procedureDate >= s.oldestValidEvalDate()
             }.eraseToAnyPublisher()
     }
     

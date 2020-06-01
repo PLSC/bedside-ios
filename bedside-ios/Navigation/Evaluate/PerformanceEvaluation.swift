@@ -102,6 +102,7 @@ struct PerformanceEvaluation: View {
             }
             .navigationBarTitle("Select \(performanceQuestion.title)")
             .sheet(isPresented: self.$showQuestionInfo) { AnswerOptionInfo(question: performanceQuestion)
+                    .accentColor(Color.lightTeal)
             }
             .alert(isPresented: self.$presentAttestation) {
                 Alert(title: Text("Confirm"), message: Text(evaluation.attestation), primaryButton: .default(Text("Agree"), action: {
@@ -115,6 +116,8 @@ struct PerformanceEvaluation: View {
                                self.presentationMode.wrappedValue.dismiss()
                            }) {
                               Image(systemName: "xmark")
+                                .imageScale(.large)
+                                .padding(.leading, 20)
                            })
         }
     }

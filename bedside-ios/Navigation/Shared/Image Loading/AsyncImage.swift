@@ -10,6 +10,12 @@ import SwiftUI
 
 struct UserImage : View {
     @ObservedObject private var loader: UserImageLoader = UserImageLoader()
+    
+    var isCircle : Bool = true
+    
+    init(isCircle: Bool = true) {
+        self.isCircle = isCircle
+    }
 
     var body: some View {
         image
@@ -20,9 +26,17 @@ struct UserImage : View {
     private var image: some View {
         Group {
             if loader.image != nil {
-                Image(uiImage: loader.image!)
+                if self.isCircle {
+                    Image(uiImage: loader.image!)
                     .resizable()
-                    .clipShape(Circle())
+                    .clipShape(
+                        Circle()
+                    )
+                } else {
+                    Image(uiImage: loader.image!)
+                    .resizable()
+                }
+                
             } else {
                 Image(systemName: "person.crop.circle.badge.plus")
                     .resizable()

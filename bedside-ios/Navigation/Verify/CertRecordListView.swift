@@ -65,18 +65,19 @@ struct RefreshView: View {
     
     var body: some View {
         HStack() {
-            VStack(alignment: .center){
-                if self.data.showDone {
-                    Image(systemName: "checkmark.circle")
-                        .foregroundColor(Color.lightTeal)
-                        .imageScale(.large)
-                } else if (!data.showRefreshView) {
-                    Spinner(percentage: self.$data.pullStatus)
-                } else {
-                    ActivityIndicator(isAnimating: .constant(true), style: .large)
-                }
-                Text(self.data.showText).font(.caption)
-            }
+
+//                if self.data.showDone {
+//                    Image(systemName: "checkmark.circle")
+//                        .foregroundColor(Color.lightTeal)
+//                        .imageScale(.large)
+//                } else if (!data.showRefreshView) {
+//                    Spinner(percentage: self.$data.pullStatus)
+//                } else {
+//                    ActivityIndicator(isAnimating: .constant(true), style: .large)
+//                }
+//                Text(self.data.showText).font(.caption)
+            EmptyView()
+            
         }
     }
 }
@@ -105,56 +106,101 @@ struct PullToRefreshView: View {
         GeometryReader{ geometry in
             RefreshView(data: self.data)
                 .opacity(Double((geometry.frame(in: CoordinateSpace.global).origin.y - 106) / 80)).preference(key: RefreshableKeyTypes.PrefKey.self, value: [RefreshableKeyTypes.PrefData(bounds: geometry.frame(in: CoordinateSpace.global))])
-                .offset(y: -70)
+                
         }
-        .offset(y: -20)
     }
 }
     
 struct CertRecordListView: View {
     @EnvironmentObject var userLoginState : UserLoginState
-    @State var data : RefreshData = RefreshData()
     
     func refreshCertRecords() {
         userLoginState.fetchCurrentUserCertRecords()
     }
     
-    func refresh(offset: CGFloat) {
-        if offset > 185 && !self.data.showRefreshView && !self.data.showDone {
-            self.data.showRefreshView = true
-            DispatchQueue.main.async {
-                self.refreshCertRecords()
-            }
-            
-        }
+    var evaluateButton: some View {
+        Button(action: {
+            print("Create eval button")
+            NotificationCenter.default.post(name: TabBarEvents.change, object: Tab.evaluate)
+          }) {
+              HStack {
+                  Text("Create Evaluation")
+                      .font(.headline)
+              }
+          }
+        .padding()
+        .foregroundColor(Color.white)
+        .frame(maxWidth: .infinity)
     }
     
     var body: some View {
-        List {
-            Section(header: PullToRefreshView(data: data)) {
-                ForEach(userLoginState.certificationRecords.sorted(by: {
-                    (cert1, cert2) -> Bool in
-                    return cert1.procedure.name < cert2.procedure.name
-                })) { certRecord in
-                    NavigationLink(destination: CertRecordDetailView(certRecord: certRecord)) {
-                        CertRecordRowView(certificationRecord: certRecord)
+        let certifiedRecords = userLoginState.certificationRecords.filter { $0.isCertified }.sorted { (cert1, cert2) in
+            return cert1.procedure.name < cert2.procedure.name
+        }
+        
+        let notCertified = userLoginState.certificationRecords.filter { !$0.isCertified }.sorted { (cert1, cert2) in
+            return cert1.procedure.name < cert2.procedure.name
+        }
+    
+        return List {
+            if !certifiedRecords.isEmpty {
+                Section(header: CertifiedHeaderView()) {
+                    ForEach(certifiedRecords) { certRecord in
+                        NavigationLink(destination: CertRecordDetailView(certRecord: certRecord)) {
+                            CertRecordRowView(certificationRecord: certRecord)
+                        }
                     }
                 }
             }
-        }.onPreferenceChange(RefreshableKeyTypes.PrefKey.self) { (values) in
-            guard let bounds = values.first?.bounds else { return }
-            self.data.pullStatus = CGFloat((bounds.origin.y - 106) / 80)
-            self.refresh(offset: bounds.origin.y)
+            
+            if !notCertified.isEmpty {
+                Section(header:InProgressHeaderView()) {
+                    ForEach(notCertified) {
+                        certRecord in
+                        NavigationLink(destination: CertRecordDetailView(certRecord: certRecord)) {
+                            CertRecordRowView(certificationRecord: certRecord)
+                        }
+                    }
+                }
+            }
+            
+            Section {
+                self.evaluateButton
+            }.listRowBackground(
+                Rectangle()
+                    .cornerRadius(10)
+                    .foregroundColor(.lightTeal)
+                    .padding([.leading, .trailing], 10)
+            )
+            
         }.onAppear {
             UITableViewHeaderFooterView.appearance().tintColor = UIColor.clear
+            self.refreshCertRecords()
         }
     }
 }
-
-struct ProcedureListView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            CertRecordListView()
+    
+struct InProgressHeaderView: View {
+    var body: some View {
+        return VStack(alignment:.leading) {
+            Text("Procedures in progress".uppercased())
+            .foregroundColor(.secondary)
+            .font(.caption)
+            .padding(.horizontal)
+        }.listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+    }
+}
+    
+struct CertifiedHeaderView: View {
+    var body: some View {
+        VStack(alignment:.leading) {
+            (Text("Dr. Lenox has been deemed competent to perform the following procedures under ").foregroundColor(.secondary).font(.caption) + Text("Indirect Supervision".uppercased())
+                .font(.caption)
+                .foregroundColor(.primary)
+                .fontWeight(.bold))
+            
+            
         }
     }
 }
+    

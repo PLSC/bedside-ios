@@ -12,6 +12,7 @@ import SwiftUI
 extension Color {
     static var simplTeal = Color("simplTeal")
     static var lightTeal = Color("lightTeal")
+    static var mustard = Color("mustard")
 }
 
 extension Color {

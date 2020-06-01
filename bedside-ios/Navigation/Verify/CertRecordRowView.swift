@@ -19,9 +19,9 @@ struct CertRecordRowView: View {
                 .font(.system(size: 30))
                 .foregroundColor(Color.lightTeal)
             } else {
-                Image(systemName: "circle")
+                Image(systemName: "clock")
                     .font(.system(size:30))
-                    .foregroundColor(Color.gray)
+                    .foregroundColor(Color.mustard)
             }
             
             Text("\(certificationRecord.procedure.name)")

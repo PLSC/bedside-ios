@@ -14,7 +14,6 @@
 		391C060123F4414200935BBC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 391C060023F4414200935BBC /* Assets.xcassets */; };
 		391C060423F4414200935BBC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 391C060323F4414200935BBC /* Preview Assets.xcassets */; };
 		391C060723F4414200935BBC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 391C060523F4414200935BBC /* LaunchScreen.storyboard */; };
-		392AA7CE2409AFAB00A64981 /* UserHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392AA7CD2409AFAB00A64981 /* UserHeader.swift */; };
 		393CF2AD2461AB9B007BB281 /* CertRecordAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393CF2AC2461AB9B007BB281 /* CertRecordAPI.swift */; };
 		393CF2AF2461B201007BB281 /* CertificationRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393CF2AE2461B201007BB281 /* CertificationRecord.swift */; };
 		393CF2B22461EC37007BB281 /* ProcedureDetailRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393CF2B12461EC37007BB281 /* ProcedureDetailRowView.swift */; };
@@ -87,7 +86,6 @@
 		391C060623F4414200935BBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		391C060823F4414200935BBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		391C061323F4414200935BBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		392AA7CD2409AFAB00A64981 /* UserHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHeader.swift; sourceTree = "<group>"; };
 		393CF2AC2461AB9B007BB281 /* CertRecordAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertRecordAPI.swift; sourceTree = "<group>"; };
 		393CF2AE2461B201007BB281 /* CertificationRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificationRecord.swift; sourceTree = "<group>"; };
 		393CF2B12461EC37007BB281 /* ProcedureDetailRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcedureDetailRowView.swift; sourceTree = "<group>"; };
@@ -262,7 +260,6 @@
 			isa = PBXGroup;
 			children = (
 				39B6541624095F6100EEA4A2 /* VerifyView.swift */,
-				392AA7CD2409AFAB00A64981 /* UserHeader.swift */,
 				39BFFF772409B7DA00F3769D /* CertRecordRowView.swift */,
 				39BFFF792409BB8600F3769D /* CertRecordListView.swift */,
 				39BFFF7B2409BC7300F3769D /* CertRecordDetailView.swift */,
@@ -576,7 +573,6 @@
 				39B65419240962D300EEA4A2 /* EvaluateView.swift in Sources */,
 				393CF2B22461EC37007BB281 /* ProcedureDetailRowView.swift in Sources */,
 				3942E778240D67520038011D /* StartupContainerView.swift in Sources */,
-				392AA7CE2409AFAB00A64981 /* UserHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

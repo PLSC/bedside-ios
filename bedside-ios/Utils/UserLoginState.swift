@@ -140,7 +140,6 @@ class UserLoginState: ObservableObject {
             
             var program : Program? = nil
             
-            //TODO: Pull more org info.
             if let programId = $0?.program.id,
                 let name = $0?.program.name,
                 let orgID = $0?.program.orgId {

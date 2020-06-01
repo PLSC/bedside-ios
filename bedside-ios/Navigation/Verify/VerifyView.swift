@@ -23,18 +23,39 @@ struct VerifyView: View {
         }
     }
     
-    init() {
-        
-    }
+    
     
     var body: some View {
-        NavigationView {
-            VStack {
-                UserHeader()
-                CertRecordListView()
-            }
-            .navigationBarTitle(Text("Dr. \(userLoginState.currentUser?.lastName ?? "")"), displayMode: .large)
-        }.sheet(isPresented: $showImagePicker, content: { PhotoCaptureView(image: self.$image, showImagePicker: self.$showImagePicker)
+        
+        let showRecords = !userLoginState.certificationRecords.isEmpty
+        
+        return NavigationView {
+            VStack(alignment: .leading) {
+                UserBanner()
+                if showRecords {
+                    CertRecordListView()
+                } else {
+                    //Show empty data view
+                    
+                    VStack {
+                        Spacer()
+                        Text("No Evaluations").font(.headline).foregroundColor(.secondary)
+                        Button(action: {
+                            NotificationCenter.default.post(name: TabBarEvents.change, object: Tab.evaluate)
+                        }) {
+                            Text("New Evaluation")
+                        }.buttonStyle(BigButtonStyle())
+                            .frame(minWidth:0, maxWidth: .infinity)
+                            .padding(.horizontal, 20)
+                        Spacer()
+                    }
+                        
+                    
+                    
+                }
+            }.navigationBarTitle("Verify", displayMode: .inline)
+        }
+        .sheet(isPresented: $showImagePicker, content: { PhotoCaptureView(image: self.$image, showImagePicker: self.$showImagePicker)
         }).alert(isPresented: $showImagePickerAlert, content: {
             Alert(title: Text("User Image"),
                   message: Text("Please select an image of yourself."),

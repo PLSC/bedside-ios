@@ -15,7 +15,7 @@ struct CertRecordDetailView: View {
     var body: some View {
         VStack(alignment: .leading) {
             UserHeaderSmall()
-            ProcedureDetailRowView(procedure:certRecord.procedure).padding(.leading, 20)
+            ProcedureDetailRowView(procedure:certRecord.procedure, isCertified: certRecord.isCertified).padding(.leading, 20)
             CertLogListView(certLog: certRecord.certificationLog!)
         }
         .navigationBarTitle("Certification Record")

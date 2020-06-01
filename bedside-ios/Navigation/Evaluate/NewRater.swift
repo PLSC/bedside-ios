@@ -82,6 +82,8 @@ struct NewRater: View {
                         self.presentationMode.wrappedValue.dismiss()
                     }) {
                        Image(systemName: "xmark")
+                        .imageScale(.large)
+                        .padding(.leading, 20)
                     })
                     .alert(isPresented: self.$presentErrorAlert) { () -> Alert in
                         Alert(title: Text("Error"), message: Text("Error submitting new rater"), dismissButton: .default(Text("OK")))

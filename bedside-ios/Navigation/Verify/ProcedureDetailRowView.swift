@@ -11,10 +11,19 @@ import SwiftUI
 struct ProcedureDetailRowView: View {
     
     var procedure : Procedure
+    var isCertified : Bool
     
     var body: some View {
         HStack(alignment:.center) {
-            Image(systemName: "bandage").font(.system(size: 30)).padding(.trailing, 15).padding(.leading,10)
+            if isCertified {
+                 Image(systemName: "checkmark.circle.fill").font(.system(size: 30)).padding(.trailing, 15).padding(.leading,10).foregroundColor(.lightTeal)
+            } else {
+                Image(systemName: "clock")
+                   .font(.system(size:30))
+                    .padding(.trailing, 15).padding(.leading,10)
+                   .foregroundColor(Color.mustard)
+            }
+           
             VStack(alignment: .leading) {
                 Text(procedure.name).bold()
                 Text(procedure.description ?? "No description").lineLimit(nil)
@@ -26,6 +35,6 @@ struct ProcedureDetailRowView: View {
 
 struct ProcedureDetailRowView_Previews: PreviewProvider {
     static var previews: some View {
-        ProcedureDetailRowView(procedure: UITestModels.proceduresTestData[0])
+        ProcedureDetailRowView(procedure: UITestModels.proceduresTestData[0], isCertified: true)
     }
 }

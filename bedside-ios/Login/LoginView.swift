@@ -62,19 +62,7 @@ struct LoginView: View {
         NavigationView {
             VStack(alignment: HorizontalAlignment.center, spacing: 15) {
                 
-                HStack(spacing:30) {
-                    Image("bedicon")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxHeight:100)
-                    VStack(alignment:.leading) {
-                        Text("SIMPL")
-                            .font(.system(.largeTitle, design: .rounded))
-                        Text("Bedside")
-                            .font(.system(.largeTitle, design: .rounded))
-                            .foregroundColor(.gray)
-                    }
-                }
+                SIMPLBedsideLogoView()
                 
                     
                     
@@ -129,5 +117,23 @@ struct ContentView_Previews: PreviewProvider {
         let authUtil = UserLoginState()
         authUtil.isSignedIn = false
         return LoginView().environmentObject(authUtil)
+    }
+}
+
+struct SIMPLBedsideLogoView: View {
+    var body: some View {
+        HStack(spacing:30) {
+            Image("bedicon")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxHeight:100)
+            VStack(alignment:.leading) {
+                Text("SIMPL")
+                    .font(.system(.largeTitle, design: .rounded))
+                Text("Bedside")
+                    .font(.system(.largeTitle, design: .rounded))
+                    .foregroundColor(.gray)
+            }
+        }
     }
 }
