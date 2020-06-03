@@ -14,6 +14,7 @@ enum NewRaterError: Error {
     case InvalidData
 }
 
+//TODO: Inject a new user API module instead of embedding.
 class NewRaterViewModel: ObservableObject {
     @Published var firstName : String = ""
     @Published var lastName : String = ""

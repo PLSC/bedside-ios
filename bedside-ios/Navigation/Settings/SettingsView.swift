@@ -27,30 +27,9 @@ class UserSettingsFormViewModel : ObservableObject {
     @Published var username = ""
 
     @Published var formIsDirty = false
-    @Published var firstName = "" {
-        didSet {
-            if let currentFirstName = currentUser?.firstName, currentFirstName != firstName {
-                formIsDirty = true
-            }
-        }
-    }
-    @Published var lastName = "" {
-        didSet {
-            if let currentLastName = currentUser?.lastName, currentLastName != lastName {
-                formIsDirty = true
-            }
-        }
-    }
-    @Published var npi = "" {
-        didSet {
-            if npi.count > 10 && oldValue.count <= 10 {
-                npi = oldValue
-            }
-            if let currentNpi = currentUser?.npi, currentNpi != Int(npi) {
-                formIsDirty = true
-            }
-        }
-    }
+    @Published var firstName = ""
+    @Published var lastName = ""
+    
     @Published var email = ""
     @Published var id = ""
     @Published var isUploadingImage : Bool = false
@@ -58,21 +37,35 @@ class UserSettingsFormViewModel : ObservableObject {
     @Published var imageUrl : URL? = nil
     @Published var image : Image? = nil
     @Published var formIsValid = false
+    @Published var enableSubmit = false
     
     var cancellableSet : Set<AnyCancellable> = []
     
-    func npiIsValid(npi: String) -> Bool {
-        guard Int(npi) != nil else { return false }
-        return npi.count < 11
-    }
-    
     init() {
-        Publishers.CombineLatest3($firstName, $lastName, $npi).receive(on: RunLoop.main).map {
-                firstName, lastName, npi in
-                return (firstName.count >= 2) &&
-                    (lastName.count >= 2) &&
-                    self.npiIsValid(npi: npi)
-            }.assign(to: \.formIsValid, on: self)
+        Publishers.CombineLatest($firstName, $lastName).receive(on: RunLoop.main).map {
+                firstName, lastName in
+                return (firstName.count >= 2) && (lastName.count >= 2)
+            }
+            .assign(to: \.formIsValid, on: self)
+            .store(in: &cancellableSet)
+        
+        Publishers.CombineLatest($firstName, $lastName)
+            .receive(on: RunLoop.main)
+            .map { firstName, lastName in
+                guard let currentFirstName = self.currentUser?.firstName,
+                    let currentLastName = self.currentUser?.lastName else { return false }
+                return currentLastName != lastName || currentFirstName != firstName
+            }
+            .assign(to: \.formIsDirty, on: self)
+            .store(in: &cancellableSet)
+            
+        
+        Publishers.CombineLatest($formIsValid, $formIsDirty)
+            .receive(on: RunLoop.main)
+            .map { valid, dirty in
+                return valid && dirty
+            }
+            .assign(to: \.enableSubmit, on: self)
             .store(in: &cancellableSet)
     }
     
@@ -82,7 +75,6 @@ class UserSettingsFormViewModel : ObservableObject {
                     email: email,
                     firstName: firstName,
                     lastName: lastName,
-                    npi: Int(npi),
                     orgId: currentUser?.orgId)
     }
     
@@ -95,9 +87,6 @@ class UserSettingsFormViewModel : ObservableObject {
         self.lastName = user.lastName ?? ""
         self.id = user.id
         self.email = user.email
-        if let npi = user.npi {
-            self.npi = String(describing: npi)
-        }
     }
 }
 
@@ -203,20 +192,13 @@ struct SettingsView: View {
                         UIApplication.shared.endEditing()
                     }
                     
-                    HStack {
-                        Text("NPI: ").font(.callout).bold()
-                        TextField("NPI", text:self.$viewModel.npi)
-                            .keyboardType(.numberPad)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                    }.onTapGesture {
-                        UIApplication.shared.endEditing()
-                    }
-                    
                     Section {
-                        Button(action: {self.submit()}) {
+                        Button(action: {
+                            self.submit()
+                        }) {
                             Text("Submit Changes")
-                        }.disabled(!self.viewModel.formIsValid && self.viewModel.formIsDirty)
-                        .foregroundColor(self.viewModel.formIsValid && self.viewModel.formIsDirty ? Color.lightTeal : Color.gray)
+                        }.disabled(!self.viewModel.enableSubmit)
+                            .foregroundColor(self.viewModel.enableSubmit ? Color.lightTeal : Color.gray)
                     }
                     
                     Section {
@@ -246,8 +228,6 @@ struct SettingsView: View {
                 }
             }
         }
-        
-        
     }
 }
 
