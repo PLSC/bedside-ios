@@ -20,41 +20,14 @@ class NewRaterViewModel: ObservableObject {
     @Published var email : String = ""
     @Published var selectedProgram : Int = 0
     @Published var programs: [Program]
+    
+    @Published var emailErrorMessage : String? = nil
+    @Published var emailValid : Bool = false
+    @Published var emailAvailable: Bool = false
+    @Published var isRaterValid : Bool = false
+    
     var orgId : String
-    
-    var emailAvailable : AnyPublisher<Bool, Never> {
-        return $email
-            .debounce(for: 0.5, scheduler: RunLoop.main)
-            .removeDuplicates()
-            .flatMap { email in
-                return Future { promise in
-                    self.emailAvailable(email) { available in
-                        promise(.success(available))
-                    }
-                }
-        }.eraseToAnyPublisher()
-    }
-    
-    var emailValid : AnyPublisher<Bool, Never> {
-        return $email
-            .filter { email in
-                return email.count > 3
-            }
-            .map { email in
-                return email.validateEmail()
-            }.eraseToAnyPublisher()
-    }
-    
-    var emailError : AnyPublisher<String?, Never> {
-        return Publishers.CombineLatest(emailAvailable, emailValid)
-            .debounce(for: 0.2, scheduler: RunLoop.main)
-            .map {available, valid in
-                if !valid {return "Email not valid"}
-                if !available {return "Email not available"}
-                return nil
-            }
-            .eraseToAnyPublisher()
-    }
+    private var cancellableSet : Set<AnyCancellable> = []
     
     var userCreatedCallback : (User) -> ()
     
@@ -64,12 +37,50 @@ class NewRaterViewModel: ObservableObject {
         self.programs = programs
         self.userCreatedCallback = userCreatedCallback
         self.orgId = orgId
+        
+        $email.receive(on: RunLoop.main).map { email in
+            return email.count > 3 && email.validateEmail()
+        }
+        .assign(to: \.emailValid, on: self)
+        .store(in: &cancellableSet)
+        
+        $emailValid
+            .receive(on: RunLoop.main)
+            .flatMap { valid in
+                return Future { promise in
+                    if valid {
+                        self.emailAvailable(self.email) { available in
+                            promise(.success(available))
+                        }
+                    } else {
+                        promise(.success(false))
+                    }
+                }
+            }
+            .assign(to: \.emailAvailable, on: self)
+            .store(in: &cancellableSet)
+        
+        
+        Publishers.CombineLatest3($emailAvailable, $firstName, $lastName)
+            .receive(on: RunLoop .main)
+            .map { emailAvailable, firstName, lastName in
+                return emailAvailable && !firstName.isEmpty && !lastName.isEmpty
+            }
+            .assign(to: \.isRaterValid, on: self)
+            .store(in: &cancellableSet)
+        
+        Publishers.CombineLatest3($emailAvailable, $emailValid, $email)
+            .debounce(for: 0.5, scheduler: RunLoop.main)
+            .map { available, valid, email in
+                if email.count < 4 { return nil }
+                if !valid {return "Email not valid"}
+                if !available {return "Email not available"}
+                return nil
+            }
+            .assign(to: \.emailErrorMessage, on: self)
+            .store(in: &cancellableSet)
     }
-    
-    var isValid : Bool {
-        return !firstName.isEmpty && !lastName.isEmpty && !email.isEmpty && email.validateEmail()
-    }
-    
+        
     func emailAvailable(_ email: String, completion: @escaping (Bool) -> ()) {
         let usersByEmailQuery = UsersByEmailQuery(email: email)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -103,7 +114,7 @@ class NewRaterViewModel: ObservableObject {
     
     func submitNewRater(callback: @escaping (Error?) -> ()) {
         
-        guard isValid else {
+        guard isRaterValid else {
             callback(NewRaterError.InvalidData)
             return
         }

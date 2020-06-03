@@ -118,21 +118,6 @@ struct CertRecordListView: View {
         userLoginState.fetchCurrentUserCertRecords()
     }
     
-    var evaluateButton: some View {
-        Button(action: {
-            print("Create eval button")
-            NotificationCenter.default.post(name: TabBarEvents.change, object: Tab.evaluate)
-          }) {
-              HStack {
-                  Text("Create Evaluation")
-                      .font(.headline)
-              }
-          }
-        .padding()
-        .foregroundColor(Color.white)
-        .frame(maxWidth: .infinity)
-    }
-    
     var body: some View {
         let certifiedRecords = userLoginState.certificationRecords.filter { $0.isCertified }.sorted { (cert1, cert2) in
             return cert1.procedure.name < cert2.procedure.name
@@ -163,16 +148,6 @@ struct CertRecordListView: View {
                     }
                 }
             }
-            
-            Section {
-                self.evaluateButton
-            }.listRowBackground(
-                Rectangle()
-                    .cornerRadius(10)
-                    .foregroundColor(.lightTeal)
-                    .padding([.leading, .trailing], 10)
-            )
-            
         }.onAppear {
             UITableViewHeaderFooterView.appearance().tintColor = UIColor.clear
             self.refreshCertRecords()
@@ -184,7 +159,6 @@ struct InProgressHeaderView: View {
     var body: some View {
         return VStack(alignment:.leading) {
             Text("Procedures in progress".uppercased())
-            .foregroundColor(.secondary)
             .font(.caption)
             .padding(.horizontal)
         }.listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -194,12 +168,8 @@ struct InProgressHeaderView: View {
 struct CertifiedHeaderView: View {
     var body: some View {
         VStack(alignment:.leading) {
-            (Text("Dr. Lenox has been deemed competent to perform the following procedures under ").foregroundColor(.secondary).font(.caption) + Text("Indirect Supervision".uppercased())
+            Text("Dr. Lenox has been deemed competent to perform the following procedures under \("Indirect Supervision".uppercased())")
                 .font(.caption)
-                .foregroundColor(.primary)
-                .fontWeight(.bold))
-            
-            
         }
     }
 }

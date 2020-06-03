@@ -63,6 +63,7 @@ struct PerformanceEvaluation: View {
     
     func dismiss() {
         self.presentationMode.wrappedValue.dismiss()
+        NotificationCenter.default.post(name: TabBarEvents.change, object: Tab.verify)
         completion(false)
     }
     
@@ -105,11 +106,13 @@ struct PerformanceEvaluation: View {
                     .accentColor(Color.lightTeal)
             }
             .alert(isPresented: self.$presentAttestation) {
-                Alert(title: Text("Confirm"), message: Text(evaluation.attestation), primaryButton: .default(Text("Agree"), action: {
-                    self.submitEval()
-                }), secondaryButton: .destructive(Text("Disagree"), action: {
+                Alert(title: Text("Confirm"), message: Text(evaluation.attestation), primaryButton:.destructive(Text("Disagree"), action: {
                     self.dismiss()
+                }), secondaryButton: .default(Text("Agree"), action: {
+                    self.submitEval()
                 }))
+                
+                
             }
             .navigationBarItems(trailing:
                            Button(action: {

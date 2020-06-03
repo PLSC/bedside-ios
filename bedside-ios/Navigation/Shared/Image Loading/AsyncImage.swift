@@ -35,6 +35,7 @@ struct UserImage : View {
                 } else {
                     Image(uiImage: loader.image!)
                     .resizable()
+                    .clipped()
                 }
                 
             } else {

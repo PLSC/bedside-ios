@@ -96,7 +96,7 @@ struct RaterSelect: View {
                 self.isPresented = false
             }
         }).sheet(isPresented: self.$presentNewRaterScreen) {
-            NewRater(newRaterViewModel:
+            NewRater(viewModel:
                 NewRaterViewModel(
                     programs:self.userLoginState.organizations[0].programs!,
                     orgId: self.userLoginState.currentUser?.orgId ?? "",

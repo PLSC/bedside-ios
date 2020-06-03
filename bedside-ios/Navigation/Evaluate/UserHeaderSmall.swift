@@ -13,13 +13,14 @@ struct UserHeaderSmall: View {
     
     var body: some View {
         
-        HStack {
+        let orgTitle = userLoginState.organizations.reduce("") {result, next in return "\(next.title ?? "")"}
+        return HStack {
             UserImage()
                 .scaledToFit()
                 .frame(width: 80, height: 80)
             VStack(alignment: .leading) {
                 Text("Dr. \(userLoginState.currentUser?.firstName?.capitalized ?? "") \(userLoginState.currentUser?.lastName?.capitalized ?? "")").bold()
-                Text("Surgical Trainee, \(userLoginState.organizations[0].title ?? "")")
+                Text("Surgical Trainee, \(orgTitle)")
             }
         }
     }

@@ -23,10 +23,7 @@ struct VerifyView: View {
         }
     }
     
-    
-    
     var body: some View {
-        
         let showRecords = !userLoginState.certificationRecords.isEmpty
         
         return NavigationView {
@@ -35,27 +32,21 @@ struct VerifyView: View {
                 if showRecords {
                     CertRecordListView()
                 } else {
-                    //Show empty data view
-                    
-                    VStack {
-                        Spacer()
-                        Text("No Evaluations").font(.headline).foregroundColor(.secondary)
-                        Button(action: {
-                            NotificationCenter.default.post(name: TabBarEvents.change, object: Tab.evaluate)
-                        }) {
-                            Text("New Evaluation")
-                        }.buttonStyle(BigButtonStyle())
-                            .frame(minWidth:0, maxWidth: .infinity)
-                            .padding(.horizontal, 20)
-                        Spacer()
-                    }
-                        
-                    
-                    
+                    EmptyCertRecordView()
                 }
-            }.navigationBarTitle("Verify", displayMode: .inline)
+            }
+            .navigationBarTitle("Verify", displayMode: .inline)
+            .navigationBarItems(trailing: Button(action: {
+                NotificationCenter.default.post(name: TabBarEvents.change, object: Tab.evaluate)
+            }) {
+                Image(systemName: "plus")
+                    .imageScale(.large)
+                    .padding(.leading, 20)
+            })
         }
-        .sheet(isPresented: $showImagePicker, content: { PhotoCaptureView(image: self.$image, showImagePicker: self.$showImagePicker)
+        .sheet(isPresented: $showImagePicker,
+               content: {
+                PhotoCaptureView(image: self.$image, showImagePicker: self.$showImagePicker)
         }).alert(isPresented: $showImagePickerAlert, content: {
             Alert(title: Text("User Image"),
                   message: Text("Please select an image of yourself."),
@@ -73,5 +64,22 @@ struct VerifyView: View {
 struct VerifyView_Previews: PreviewProvider {
     static var previews: some View {
         VerifyView()
+    }
+}
+
+struct EmptyCertRecordView: View {
+    var body: some View {
+        VStack {
+            Spacer()
+            Text("No Evaluations").font(.headline).foregroundColor(.secondary)
+            Button(action: {
+                NotificationCenter.default.post(name: TabBarEvents.change, object: Tab.evaluate)
+            }) {
+                Text("New Evaluation")
+            }.buttonStyle(BigButtonStyle())
+                .frame(minWidth:0, maxWidth: .infinity)
+                .padding(.horizontal, 20)
+            Spacer()
+        }
     }
 }

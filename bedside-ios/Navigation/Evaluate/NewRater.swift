@@ -12,7 +12,7 @@ import Combine
 struct NewRater: View {
     
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var newRaterViewModel : NewRaterViewModel
+    @ObservedObject var viewModel : NewRaterViewModel
     @State var emailErrorString : String?
     @State var isLoading : Bool = false
     @State var presentErrorAlert : Bool = false
@@ -25,7 +25,7 @@ struct NewRater: View {
     
     func submitRater() {
         self.isLoading = true
-        self.newRaterViewModel.submitNewRater(callback: self.submitCompletionCallback(error:))
+        self.viewModel.submitNewRater(callback: self.submitCompletionCallback(error:))
     }
     
     func submitCompletionCallback(error: Error?) {
@@ -39,13 +39,10 @@ struct NewRater: View {
     
     var emailField : some View {
         VStack(alignment: .leading) {
-            TextField("Email Address", text: self.$newRaterViewModel.email)
+            TextField("Email Address", text: self.$viewModel.email)
             .keyboardType(.emailAddress)
             .autocapitalization(.none)
-            Text(self.emailErrorString ?? "")
-                .onReceive(self.newRaterViewModel.emailError) { errorString in
-                    self.emailErrorString = errorString
-            }
+            Text(self.viewModel.emailErrorMessage ?? "")
         }
     }
     
@@ -56,14 +53,14 @@ struct NewRater: View {
                     Form {
                         self.emailField
                         
-                        TextField("First Name", text: self.$newRaterViewModel.firstName)
-                        TextField("Last Name", text: self.$newRaterViewModel.lastName)
+                        TextField("First Name", text: self.$viewModel.firstName)
+                        TextField("Last Name", text: self.$viewModel.lastName)
                         
                         Section(header: Text("Program")) {
                             
-                            Picker("Program", selection: self.$newRaterViewModel.selectedProgram) {
-                                ForEach(0..<self.newRaterViewModel.programs.count) { program in
-                                    Text(self.newRaterViewModel.programs[program].name)
+                            Picker("Program", selection: self.$viewModel.selectedProgram) {
+                                ForEach(0..<self.viewModel.programs.count) { program in
+                                    Text(self.viewModel.programs[program].name)
                                 }
                             }
                         }
@@ -72,7 +69,7 @@ struct NewRater: View {
                         Section {
                             Button(action: {
                                 self.submitRater()
-                            }) { Text("Submit") }.disabled(!self.newRaterViewModel.isValid)
+                            }) { Text("Submit") }.disabled(!self.viewModel.isRaterValid)
                         }
                         
                         Section(header: Text("")) {EmptyView() }.padding(.bottom, self.keyboardHeight).onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
@@ -96,6 +93,6 @@ struct NewRater: View {
 
 struct NewRater_Previews: PreviewProvider {
     static var previews: some View {
-        NewRater(newRaterViewModel: NewRaterViewModel(programs: [], orgId: "test") {_ in })
+        NewRater(viewModel: NewRaterViewModel(programs: [], orgId: "test") {_ in })
     }
 }
