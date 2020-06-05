@@ -27,13 +27,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
             
             let userLoginState = UserLoginState()
-        
+            let tabBarViewModel = TabBarViewModel()
             
             let cv = contentView
                 .environmentObject(userLoginState)
+                .environmentObject(tabBarViewModel)
         
-                
-            
             window.rootViewController = UIHostingController(rootView: cv)
             self.window = window
             

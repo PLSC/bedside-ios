@@ -10,29 +10,29 @@ import SwiftUI
 import UIKit
 import Combine
 
-extension BaseView {
-    class TabBarViewModel : ObservableObject {
-        @Published var selectedTab : Tab = .verify
-        var cancellables : Set<AnyCancellable> = []
-        
-        init() {
-            NotificationCenter.default
+
+class TabBarViewModel : ObservableObject {
+    @Published var selectedTab : Tab = .verify
+    var cancellables : Set<AnyCancellable> = []
+    
+    init() {
+        NotificationCenter.default
             .publisher(for: TabBarEvents.change)
             .sink { (notification) in
                 guard let tab = notification.object as? Tab else { return }
                 self.selectedTab = tab
             }
             .store(in: &cancellables)
-        }
     }
 }
 
+
 struct BaseView: View {
     
-    @ObservedObject var viewModel = TabBarViewModel()
+    @EnvironmentObject var tabBarViewModel : TabBarViewModel
     
     var body: some View {
-        TabView(selection: $viewModel.selectedTab) {
+        TabView(selection: $tabBarViewModel.selectedTab) {
             VerifyView()
                 .tabItem {
                     Image(systemName: "checkmark.shield")
