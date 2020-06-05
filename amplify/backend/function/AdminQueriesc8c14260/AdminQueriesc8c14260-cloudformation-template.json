@@ -67,7 +67,7 @@
 				"Runtime": "nodejs10.x",
 				"Timeout": "25",
 				"Code": {
-					"S3Bucket": "amplify-bedside-dev-102822-deployment",
+					"S3Bucket": "amplify-bedside-prod-81932-deployment",
 					"S3Key": "amplify-builds/AdminQueriesc8c14260-4647737663344d61516f-build.zip"
 				}
 			}

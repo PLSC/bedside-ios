@@ -45,7 +45,7 @@ class ProcedureSelectViewModel : ObservableObject {
         let query = ListProceduresQuery()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
-        appSyncClient?.fetch(query: query) {
+        appSyncClient?.fetch(query: query, cachePolicy: .returnCacheDataAndFetch) {
             result, error in
             if let procedureItems = result?.data?.listProcedures?.items {
                 self.procedures = procedureItems.compactMap {

@@ -19,7 +19,7 @@ class UserLoginState: ObservableObject {
     @Published var organizations : [Organization] = []
     @Published var certificationRecords: [CertificationRecord] = []
     
-    
+    //TODO: have intermediate states for loading user data to display intermediate UIs
     func setIsSignedIn(userState: UserState) {
         switch (userState) {
         case .guest: fallthrough

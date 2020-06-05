@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Combine
 
+//TODO: Make rater api dependency injected.
 class RatersViewModel : ObservableObject {
     @Published var orgId : String = ""
     @Published var raters : [User] = []
