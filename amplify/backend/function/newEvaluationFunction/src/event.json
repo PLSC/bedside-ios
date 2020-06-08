@@ -1,0 +1,42 @@
+{
+  "type": "Query",
+  "field": "newEvaluationResponse",
+  "arguments": {
+    "evaluationResponse": {
+      "subjectId": "7694b66ca9c05d075aea17c4d0404d85",
+      "raterId": "0b26e4a5-8d5b-4c64-90df-cd7623bc0e02",
+      "procedureId": "eccc29a4-08b9-4a8f-941b-dfed82dffd48",
+      "evaluationDate": "2020-04-11T11:11:11.111Z",
+      "ratingLevel": 1
+    }
+  },
+  "identity": {
+    "claims": {
+      "sub": "ab600e6b-a518-4242-b773-eb61b8b6f84f",
+      "cognito:groups": ["Sysadmins"],
+      "email_verified": true,
+      "cognito:preferred_role": "arn:aws:iam::597534837657:role/us-east-1_nnNCUihi5-SysadminsGroupRole",
+      "iss": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_nnNCUihi5",
+      "phone_number_verified": false,
+      "cognito:username": "andy",
+      "cognito:roles": [
+        "arn:aws:iam::597534837657:role/us-east-1_nnNCUihi5-SysadminsGroupRole"
+      ],
+      "aud": "hpo6kesblasnmqu0r4a15ahrn",
+      "event_id": "679dbc72-f9dd-4a4c-b641-12f7ea9804cd",
+      "token_use": "id",
+      "auth_time": 1586889966,
+      "phone_number": "+18108757864",
+      "exp": 1588084708,
+      "iat": 1588081108,
+      "email": "andy+dev@simpl.org"
+    },
+    "defaultAuthStrategy": "ALLOW",
+    "groups": ["Sysadmins"],
+    "issuer": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_nnNCUihi5",
+    "sourceIp": ["71.82.99.142"],
+    "sub": "ab600e6b-a518-4242-b773-eb61b8b6f84f",
+    "username": "andy"
+  },
+  "source": null
+}
