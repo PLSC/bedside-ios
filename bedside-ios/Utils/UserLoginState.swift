@@ -74,7 +74,7 @@ class UserLoginState: ObservableObject {
         DispatchQueue.main.async {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let appSyncClient = appDelegate.appSyncClient
-            appSyncClient?.fetch(query:  UsersByEmailQuery(email: email, limit: 1), cachePolicy: .fetchIgnoringCacheData) {
+            appSyncClient?.fetch(query:  UsersByEmailQuery(email: email, limit: 1), cachePolicy: .returnCacheDataAndFetch) {
                 (result, error ) in
                 
                 if let userItem = result?.data?.usersByEmail?.items?.compactMap({ $0 }).first {

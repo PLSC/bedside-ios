@@ -14,6 +14,7 @@ enum SignInResult {
     case signedIn
     case needsConfirmation
     case signInError(String)
+    case resetPassword
 }
 
 enum AuthUtilsError : Error {
@@ -52,6 +53,8 @@ class AuthUtils {
                         completion(.signInError(message))
                     case .userNotFound(_):
                         completion(.signInError("User not found"))
+                    case .passwordResetRequired(_):
+                        completion(.resetPassword)
                     default:
                         completion(.signInError("Unknown Error: \(error.localizedDescription)"))
                     }

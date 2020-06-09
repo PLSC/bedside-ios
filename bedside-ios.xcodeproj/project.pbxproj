@@ -60,6 +60,7 @@
 		39B65419240962D300EEA4A2 /* EvaluateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B65418240962D300EEA4A2 /* EvaluateView.swift */; };
 		39B6541B2409632F00EEA4A2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B6541A2409632F00EEA4A2 /* SettingsView.swift */; };
 		39B6541E240968C000EEA4A2 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B6541D240968C000EEA4A2 /* BaseView.swift */; };
+		39B84B60248FBFAB0000276E /* UserLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B84B5F248FBFAB0000276E /* UserLoader.swift */; };
 		39BFFF782409B7DA00F3769D /* CertRecordRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BFFF772409B7DA00F3769D /* CertRecordRowView.swift */; };
 		39BFFF7A2409BB8600F3769D /* CertRecordListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BFFF792409BB8600F3769D /* CertRecordListView.swift */; };
 		39BFFF7C2409BC7300F3769D /* CertRecordDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BFFF7B2409BC7300F3769D /* CertRecordDetailView.swift */; };
@@ -132,6 +133,7 @@
 		39B65418240962D300EEA4A2 /* EvaluateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluateView.swift; sourceTree = "<group>"; };
 		39B6541A2409632F00EEA4A2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		39B6541D240968C000EEA4A2 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		39B84B5F248FBFAB0000276E /* UserLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLoader.swift; sourceTree = "<group>"; };
 		39BFFF772409B7DA00F3769D /* CertRecordRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertRecordRowView.swift; sourceTree = "<group>"; };
 		39BFFF792409BB8600F3769D /* CertRecordListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertRecordListView.swift; sourceTree = "<group>"; };
 		39BFFF7B2409BC7300F3769D /* CertRecordDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertRecordDetailView.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				39773EA1245338CF0088B960 /* RatersViewModel.swift */,
 				393CF2AC2461AB9B007BB281 /* CertRecordAPI.swift */,
 				39E5C774246B012000618F66 /* NewRaterViewModel.swift */,
+				39B84B5F248FBFAB0000276E /* UserLoader.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -523,6 +526,7 @@
 				39759CA0240D867200C1C87B /* AuthUtils.swift in Sources */,
 				39C4731324756182004EDF20 /* KeyboardNotifications.swift in Sources */,
 				391C05FD23F4414000935BBC /* SceneDelegate.swift in Sources */,
+				39B84B60248FBFAB0000276E /* UserLoader.swift in Sources */,
 				393CF2B42461F146007BB281 /* EvaluationResponse.swift in Sources */,
 				3946F688242D2A55005AC547 /* ProcedureSelectRow.swift in Sources */,
 				39C4C06424731CE200B0A59B /* Cache.swift in Sources */,

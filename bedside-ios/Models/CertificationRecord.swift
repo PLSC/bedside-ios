@@ -19,14 +19,6 @@ public struct CertificationRecord : Identifiable {
     public var certificationLog: [EvaluationResponse]?
 }
 
-extension UserRepresentible {
-    func mapToUser() -> User {
-        return User(id: self.id, userName: self.userName, email: self.email, phone: self.phone, firstName: self.firstName, lastName: self.lastName, npi: self.npi, orgId: self.orgId)
-    }
-}
-
-
-
 extension CertificationRecord {
     
     func map(userListItem: UserRepresentible?) -> User? {

@@ -2,24 +2,7 @@
 import Amplify
 import Foundation
 
-protocol UserRepresentible {
-    var id: String { get }
-    var userName: String? { get }
-    var email: String { get }
-    var phone: String? { get }
-    var firstName: String? { get }
-    var lastName: String? { get }
-    var npi: Int? { get }
-    var orgId: String? {get}
-}
-
-extension ListCertificationRecordsQuery.Data.ListCertificationRecord.Item.CertificationLog.Item.Subject: UserRepresentible {}
-extension ListCertificationRecordsQuery.Data.ListCertificationRecord.Item.CertificationLog.Item.Rater: UserRepresentible {}
-extension UsersByEmailQuery.Data.UsersByEmail.Item: UserRepresentible {}
-extension UpdateUserMutation.Data.UpdateUser: UserRepresentible {}
-extension ListUsersQuery.Data.ListUser.Item : UserRepresentible {}
-
-public struct User: Identifiable, UserRepresentible {    
+public struct User: Identifiable {
   public let id: String
   public let orgId: String?
   public var userName: String?
@@ -87,3 +70,30 @@ extension User : Hashable {
         return lhs.id == rhs.id
     }
 }
+
+extension User : UserRepresentible {}
+
+
+protocol UserRepresentible {
+    var id: String { get }
+    var userName: String? { get }
+    var email: String { get }
+    var phone: String? { get }
+    var firstName: String? { get }
+    var lastName: String? { get }
+    var npi: Int? { get }
+    var orgId: String? {get}
+}
+
+extension UserRepresentible {
+    func mapToUser() -> User {
+        return User(id: self.id, userName: self.userName, email: self.email, phone: self.phone, firstName: self.firstName, lastName: self.lastName, npi: self.npi, orgId: self.orgId)
+    }
+}
+
+extension ListCertificationRecordsQuery.Data.ListCertificationRecord.Item.CertificationLog.Item.Subject: UserRepresentible {}
+extension ListCertificationRecordsQuery.Data.ListCertificationRecord.Item.CertificationLog.Item.Rater: UserRepresentible {}
+extension UsersByEmailQuery.Data.UsersByEmail.Item: UserRepresentible {}
+extension UpdateUserMutation.Data.UpdateUser: UserRepresentible {}
+extension ListUsersQuery.Data.ListUser.Item : UserRepresentible {}
+

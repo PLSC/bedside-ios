@@ -17,6 +17,9 @@ class LoginViewModel : ObservableObject {
     @Published var showEmailCodeEnter = false
     @Published var loginErrorMessage : String = ""
     @Published var isLoginError : Bool = false
+    @Published var showForgotPassword: Bool = false
+    @Published var loading: Bool = false
+    @Published var codeSent: Bool = false
     
     var authUtils : AuthUtils
     
@@ -35,8 +38,10 @@ class LoginViewModel : ObservableObject {
     }
     
     func signIn() {
+        self.loading = true
         authUtils.signIn(userName: username, password: password) {
             result in
+            self.loading = false
             switch result {
             case .signedIn:
                 self.username = ""
@@ -46,6 +51,10 @@ class LoginViewModel : ObservableObject {
             case .signInError(let message):
                 self.loginErrorMessage = message
                 self.isLoginError = true
+            case .resetPassword:
+                self.password = ""
+                self.showForgotPassword = true
+                self.codeSent = true
             }
         }
     }
@@ -54,61 +63,61 @@ class LoginViewModel : ObservableObject {
 struct LoginView: View {
         
     @ObservedObject var viewModel = LoginViewModel()
-    @State private var showForgotPassword = false
     @State private var keyboardHeight : CGFloat = 0
 
     
     var body: some View {
-        NavigationView {
-            VStack(alignment: HorizontalAlignment.center, spacing: 15) {
-                
-                SIMPLBedsideLogoView()
-                
+        LoadingView(isShowing: $viewModel.loading) {
+            NavigationView {
+                VStack(alignment: HorizontalAlignment.center, spacing: 15) {
                     
+                    SIMPLBedsideLogoView()
                     
-                TextField("Username", text: self.$viewModel.username)
-                    .padding()
-                    .keyboardType(.alphabet)
-                    .autocapitalization(.none)
-
-                SecureField("Password", text: self.$viewModel.password)
-                    .padding()
-                    .cornerRadius(20)
-
-                Button(action:{ self.viewModel.signIn()}) {
-                    Text("Sign In")
-                        .font(.headline)
-                        .foregroundColor(.white)
+                    TextField("Username", text: self.$viewModel.username)
                         .padding()
-                        .frame(width: 300, height: 50)
-                        .background(self.viewModel.formIsValid ? Color.lightTeal : Color.gray)
-                        .cornerRadius(15.0)
-                }.disabled(!self.viewModel.formIsValid)
-                
-                NavigationLink(destination: ForgotPasswordView(showSelf:$showForgotPassword), isActive:$showForgotPassword) {
-                    Text("")
+                        .keyboardType(.alphabet)
+                        .autocapitalization(.none)
+
+                    SecureField("Password", text: self.$viewModel.password)
+                        .padding()
+                        .cornerRadius(20)
+
+                    Button(action:{ self.viewModel.signIn()}) {
+                        Text("Sign In")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(width: 300, height: 50)
+                            .background(self.viewModel.formIsValid ? Color.lightTeal : Color.gray)
+                            .cornerRadius(15.0)
+                    }.disabled(!self.viewModel.formIsValid)
+                    
+                    NavigationLink(destination: ForgotPasswordView(showSelf: self.$viewModel.showForgotPassword, codeSent: self.$viewModel.codeSent, username: self.$viewModel.username), isActive:self.$viewModel.showForgotPassword) {
+                        Text("")
+                    }
+                    
+                    Button(action:{
+                        self.viewModel.showForgotPassword = true
+                    }) {
+                        Text("Forgot Password")
+                    }
+                    
+                    NavigationLink(destination: EmailCodeView(showSelf: self.$viewModel.showEmailCodeEnter, username: self.$viewModel.username), isActive: self.$viewModel.showEmailCodeEnter) {
+                        Text("")
+                    }
+                    
+                    Spacer()
+                    
+                }.padding()
+                    .padding(.bottom, self.keyboardHeight)
+                    .onReceive(Publishers.keyboardHeight) {
+                        self.keyboardHeight = $0
                 }
-                
-                Button(action:{
-                    self.showForgotPassword = true
-                }) {
-                    Text("Forgot Password")
-                }
-                
-                NavigationLink(destination: EmailCodeView(showSelf: $viewModel.showEmailCodeEnter, username: self.$viewModel.username), isActive: $viewModel.showEmailCodeEnter) {
-                    Text("")
-                }
-                
-                Spacer()
-                
-            }.padding()
-                .padding(.bottom, self.keyboardHeight)
-                .onReceive(Publishers.keyboardHeight) {
-                    self.keyboardHeight = $0
+            }.alert(isPresented: self.$viewModel.isLoginError) {
+                Alert(title: Text("Login Error"), message: Text(self.viewModel.loginErrorMessage), dismissButton: .default(Text("OK")))
             }
-        }.alert(isPresented: $viewModel.isLoginError) {
-            Alert(title: Text("Login Error"), message: Text(self.viewModel.loginErrorMessage), dismissButton: .default(Text("OK")))
         }
+        
     }
 }
 

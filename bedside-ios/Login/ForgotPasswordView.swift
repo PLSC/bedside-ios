@@ -19,6 +19,7 @@ class ForgotPasswordViewModel : ObservableObject {
     @Published var showError = false
     @Published var errorMessage = ""
     @Published var formDataIsValid = false
+    @Published var loading = false
     
     private var cancellableSet: Set<AnyCancellable> = []
     
@@ -45,10 +46,12 @@ class ForgotPasswordViewModel : ObservableObject {
         .store(in: &cancellableSet)
     }
     
-    func sendCode(callback: @escaping (Bool, String) -> ()) {
+    func sendCode(username: String, callback: @escaping (Bool, String) -> ()) {
+        self.loading = true
         authUtil.sendAuthCode(username: username) {
             result in
             DispatchQueue.main.async {
+                self.loading = false
                 switch result {
                 case .success(let message):
                     callback(true, message)
@@ -60,10 +63,12 @@ class ForgotPasswordViewModel : ObservableObject {
        }
     }
        
-    func confirmForgotPassword(action: @escaping ()->()) {
+    func confirmForgotPassword(username: String, action: @escaping ()->()) {
+        self.loading = true
         authUtil.confirmForgotPassword(username: username, newPassword: password, code: code) {
             success, message in
             DispatchQueue.main.async {
+                self.loading = false
                 self.success = true
                 action()
             }
@@ -73,16 +78,22 @@ class ForgotPasswordViewModel : ObservableObject {
 
 struct ForgotPasswordView: View {
     
-    @EnvironmentObject var authUtil : UserLoginState
     @ObservedObject var viewModel = ForgotPasswordViewModel()
     @Binding var showSelf : Bool
+    @Binding var codeSent : Bool
+    @Binding var username : String
     @State var keyboardHeight : CGFloat = 0
-    @State var codeSent = false
     @State var codeSentMessage = ""
+    
+    init(showSelf: Binding<Bool>, codeSent: Binding<Bool>, username: Binding<String>) {
+        self._showSelf = showSelf
+        self._codeSent = codeSent
+        self._username = username
+    }
     
     var sendCodeButton: some View {
         Button(action:{
-            self.viewModel.sendCode { sent, message in
+            self.viewModel.sendCode(username: self.username) { sent, message in
                 self.codeSent = sent
                 self.codeSentMessage = message
             }
@@ -99,7 +110,7 @@ struct ForgotPasswordView: View {
     
     var submitNewPasswordButton: some View {
         Button(action:{
-            self.viewModel.confirmForgotPassword {
+            self.viewModel.confirmForgotPassword(username: self.username) {
                 self.showSelf = false
             }
         }) {
@@ -114,43 +125,41 @@ struct ForgotPasswordView: View {
         }
     }
     var body: some View {
-        
-        VStack {
-            if self.codeSent {
-                Text(codeSentMessage)
-                TextField("Code", text: self.$viewModel.code)
-                   .padding()
-                   .keyboardType(.alphabet)
-                   .autocapitalization(.none)
+        LoadingView(isShowing: self.$viewModel.loading) {
+            VStack {
+                if self.codeSent {
+                    Text(self.codeSentMessage)
+                    TextField("Code", text: self.$viewModel.code)
+                       .padding()
+                       .keyboardType(.alphabet)
+                       .autocapitalization(.none)
+                    
+                    SecureField("New Password", text: self.$viewModel.password)
+                        .padding()
+                        .cornerRadius(20)
+                    self.submitNewPasswordButton
+                } else {
+                    Text("Reset your password")
+                                   .font(.headline)
+                    TextField("Username", text: self.$username)
+                        .padding()
+                        .keyboardType(.alphabet)
+                        .autocapitalization(.none)
+                    self.sendCodeButton
+                }
                 
-                SecureField("New Password", text: self.$viewModel.password)
-                    .padding()
-                    .cornerRadius(20)
-                self.submitNewPasswordButton
-            } else {
-                Text("Reset your password")
-                               .font(.headline)
-                TextField("Username", text: self.$viewModel.username)
-                    .padding()
-                    .keyboardType(.alphabet)
-                    .autocapitalization(.none)
-                self.sendCodeButton
+                Spacer()
+                
+            }.padding()
+                .padding(.bottom, self.keyboardHeight)
+                    .onReceive(Publishers.keyboardHeight) {
+                        self.keyboardHeight = $0
+                }
+                .alert(isPresented: self.$viewModel.showError) {
+                Alert(title: Text("Error"),
+                      message: Text(self.viewModel.errorMessage),
+                      dismissButton: .default(Text("OK")))
             }
-            
-            
-            
-            Spacer()
-            
-            
-        }.padding()
-            .padding(.bottom, self.keyboardHeight)
-                .onReceive(Publishers.keyboardHeight) {
-                    self.keyboardHeight = $0
-            }
-            .alert(isPresented: self.$viewModel.showError) {
-            Alert(title: Text("Error"),
-                  message: Text(self.viewModel.errorMessage),
-                  dismissButton: .default(Text("OK")))
         }
     }
 }
@@ -158,7 +167,7 @@ struct ForgotPasswordView: View {
 struct ForgotPasswordView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ForgotPasswordView(showSelf: .constant(true))
+            ForgotPasswordView(showSelf: .constant(true), codeSent: .constant(false), username: .constant(""))
         }
     }
 }
