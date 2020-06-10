@@ -31,7 +31,7 @@ class LoginViewModel : ObservableObject {
         Publishers.CombineLatest($username, $password)
             .receive(on: RunLoop.main)
             .map { username, password in
-                return username.count > 2 && password.count > 5
+                return username.count > 2 && password.count > 7
             }
             .assign(to: \.formIsValid, on: self)
             .store(in: &cancellableSet)
@@ -98,6 +98,7 @@ struct LoginView: View {
                     
                     Button(action:{
                         self.viewModel.showForgotPassword = true
+                        self.viewModel.password = ""
                     }) {
                         Text("Forgot Password")
                     }

@@ -27,7 +27,7 @@ class ForgotPasswordViewModel : ObservableObject {
     
     var passwordIsValid : AnyPublisher<Bool, Never> {
         $password.map {
-            $0.count > 5
+            $0.count > 7
         }.eraseToAnyPublisher()
     }
     

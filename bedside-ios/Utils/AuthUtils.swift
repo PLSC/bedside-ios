@@ -62,8 +62,6 @@ class AuthUtils {
                     switch (signInResult.signInState) {
                     case .signedIn:
                         completion(.signedIn)
-                    case .smsMFA:
-                        print("SMS message sent to \(signInResult.codeDetails!.destination!)")
                     case .newPasswordRequired:
                         print("TODO: go to new password screen")
                     default:
