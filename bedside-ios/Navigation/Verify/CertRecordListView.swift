@@ -119,13 +119,9 @@ struct CertRecordListView: View {
     }
     
     var body: some View {
-        let certifiedRecords = userLoginState.certificationRecords.filter { $0.isCertified }.sorted { (cert1, cert2) in
-            return cert1.procedure.name < cert2.procedure.name
-        }
+        let certifiedRecords = userLoginState.certRecordViewModel.certifiedRecords
         
-        let notCertified = userLoginState.certificationRecords.filter { !$0.isCertified }.sorted { (cert1, cert2) in
-            return cert1.procedure.name < cert2.procedure.name
-        }
+        let notCertified = userLoginState.certRecordViewModel.notCertified
     
         return List {
             if !certifiedRecords.isEmpty {

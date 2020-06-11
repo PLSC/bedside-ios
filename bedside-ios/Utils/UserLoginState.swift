@@ -10,6 +10,30 @@ import Foundation
 import AWSMobileClient
 import AmplifyPlugins
 import Amplify
+import Combine
+
+//TODO: Put this in its own file.
+class CertRecordViewModel : ObservableObject {
+    @Published var certificationRecords: [CertificationRecord] = []
+    @Published var certifiedRecords: [CertificationRecord] = []
+    @Published var notCertified: [CertificationRecord] = []
+    
+    private var cancellableSet : Set<AnyCancellable> = []
+    
+    init() {
+        $certificationRecords.receive(on: RunLoop.main).map { certRecords in
+            return certRecords.filter { $0.isCertified }.sorted { $0.procedure.name < $1.procedure.name }
+        }
+        .assign(to: \.certifiedRecords, on: self)
+        .store(in: &cancellableSet)
+        
+        $certificationRecords.receive(on: RunLoop.main).map { certRecords in
+            return certRecords.filter { !$0.isCertified }.sorted { $0.procedure.name < $1.procedure.name }
+        }
+        .assign(to: \.notCertified, on: self)
+        .store(in: &cancellableSet)
+    }
+}
 
 class UserLoginState: ObservableObject {
     
@@ -18,6 +42,7 @@ class UserLoginState: ObservableObject {
     @Published var currentUser : User?
     @Published var organizations : [Organization] = []
     @Published var certificationRecords: [CertificationRecord] = []
+    @Published var certRecordViewModel: CertRecordViewModel = CertRecordViewModel()
     
     //TODO: have intermediate states for loading user data to display intermediate UIs
     func setIsSignedIn(userState: UserState) {
@@ -96,6 +121,7 @@ class UserLoginState: ObservableObject {
         api.getCertRecords(subjectId:user.id) {
             certRecords in
             self.certificationRecords = certRecords
+            self.certRecordViewModel.certificationRecords = certRecords
         }
     }
     

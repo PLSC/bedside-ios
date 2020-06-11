@@ -19,7 +19,6 @@ class NewRaterViewModel: ObservableObject {
     @Published var firstName : String = ""
     @Published var lastName : String = ""
     @Published var email : String = ""
-    @Published var selectedProgram : Int = 0
     @Published var programs: [Program]
     
     @Published var emailErrorMessage : String? = nil
@@ -124,9 +123,10 @@ class NewRaterViewModel: ObservableObject {
         let appSyncClient = appDelegate.appSyncClient
         let createUserInput = CreateUserInput(orgId: self.orgId, email: self.email, firstName: self.firstName, lastName: self.lastName, isRater: true)
         let createUserMutation = CreateUserMutation(input: createUserInput)
-        appSyncClient?.perform(mutation: createUserMutation, resultHandler: { (data, error) in
-            guard let result = data?.data?.createUser else {
+        appSyncClient?.perform(mutation: createUserMutation, resultHandler: { (response, error) in
+            guard let result = response?.data?.createUser else {
                 print("error creating rater")
+                callback(error)
                 return
             }
 
@@ -136,9 +136,9 @@ class NewRaterViewModel: ObservableObject {
                              firstName: result.firstName,
                              lastName: result.lastName,
                              orgId: self.orgId )
-            self.createMembership(user: rater,
-                                  programId: self.programs[self.selectedProgram].id,
-                                  callback: callback)
+           
+            self.userCreatedCallback(rater)
+            callback(error)
         })
     }
     

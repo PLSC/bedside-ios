@@ -16,8 +16,8 @@ struct CertRecordRowView: View {
         HStack {
             if (certificationRecord.isCertified) {
                 Image(systemName: "checkmark.circle.fill")
-                .font(.system(size: 30))
-                .foregroundColor(Color.lightTeal)
+                    .font(.system(size: 30))
+                    .foregroundColor(Color.lightTeal)
             } else {
                 Image(systemName: "clock")
                     .font(.system(size:30))

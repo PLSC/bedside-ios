@@ -13,7 +13,7 @@ struct NewRater: View {
     
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var viewModel : NewRaterViewModel
-    @State var emailErrorString : String?
+    
     @State var isLoading : Bool = false
     @State var presentErrorAlert : Bool = false
     @State var errorAlertText : String = ""
@@ -21,6 +21,7 @@ struct NewRater: View {
     
     func displayError(error: Error) {
         errorAlertText = error.localizedDescription
+        presentErrorAlert = true
     }
     
     func submitRater() {
@@ -56,15 +57,6 @@ struct NewRater: View {
                         TextField("First Name", text: self.$viewModel.firstName)
                         TextField("Last Name", text: self.$viewModel.lastName)
                         
-                        Section(header: Text("Program")) {
-                            
-                            Picker("Program", selection: self.$viewModel.selectedProgram) {
-                                ForEach(0..<self.viewModel.programs.count) { program in
-                                    Text(self.viewModel.programs[program].name)
-                                }
-                            }
-                        }
-                        
                         
                         Section {
                             Button(action: {
@@ -83,7 +75,7 @@ struct NewRater: View {
                         .padding(.leading, 20)
                     })
                     .alert(isPresented: self.$presentErrorAlert) { () -> Alert in
-                        Alert(title: Text("Error"), message: Text("Error submitting new rater"), dismissButton: .default(Text("OK")))
+                        Alert(title: Text("Error"), message: Text("Error submitting new rater: \(self.errorAlertText)"), dismissButton: .default(Text("OK")))
                     }
                 }
             }
