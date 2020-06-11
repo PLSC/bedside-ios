@@ -42,8 +42,9 @@ class ForgotPasswordViewModel : ObservableObject {
             .receive(on: RunLoop.main)
             .map { (codeIsValid, passwordIsValid)  in
                 return codeIsValid && passwordIsValid
-        }.assign(to: \.formDataIsValid, on: self)
-        .store(in: &cancellableSet)
+            }
+            .assign(to: \.formDataIsValid, on: self)
+            .store(in: &cancellableSet)
     }
     
     func sendCode(username: String, callback: @escaping (Bool, String) -> ()) {

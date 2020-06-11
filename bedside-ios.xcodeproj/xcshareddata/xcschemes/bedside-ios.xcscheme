@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "391C05F623F4414000935BBC"
-               BuildableName = "SIMPL Bedside.app"
+               BuildableName = "Bedside.app"
                BlueprintName = "bedside-ios"
                ReferencedContainer = "container:bedside-ios.xcodeproj">
             </BuildableReference>
@@ -55,7 +55,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "391C05F623F4414000935BBC"
-            BuildableName = "SIMPL Bedside.app"
+            BuildableName = "Bedside.app"
             BlueprintName = "bedside-ios"
             ReferencedContainer = "container:bedside-ios.xcodeproj">
          </BuildableReference>
@@ -72,7 +72,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "391C05F623F4414000935BBC"
-            BuildableName = "SIMPL Bedside.app"
+            BuildableName = "Bedside.app"
             BlueprintName = "bedside-ios"
             ReferencedContainer = "container:bedside-ios.xcodeproj">
          </BuildableReference>
