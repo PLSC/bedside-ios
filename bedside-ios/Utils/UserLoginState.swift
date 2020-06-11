@@ -97,8 +97,13 @@ class UserLoginState: ObservableObject {
     func fetchCertRecords(user: User) {
         let api = CertRecordAPI()
         api.getCertRecords(subjectId:user.id) {
-            certRecords in
-            self.certRecordViewModel.certificationRecords = certRecords
+            result in
+            switch result {
+            case .success(let certRecords):
+                self.certRecordViewModel.certificationRecords = certRecords
+            case .failure(let error):
+                print("Error fetching certRecords: \(error)")
+            }
         }
     }
     

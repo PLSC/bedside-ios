@@ -66,6 +66,7 @@ class RatersViewModel : ObservableObject {
         fetchRaters(filter: orFilter)
     }
     
+    //TODO: Error handling!
     func fetchRaters(filter: ModelUserFilterInput, nextToken: String? = nil) {
         let listUsersQuery = ListUsersQuery(filter: filter, limit: 1000, nextToken: nextToken)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate

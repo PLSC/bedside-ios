@@ -152,13 +152,6 @@ class AuthUtils {
     
     func resendConfirmationCode(username: String, completion: @escaping (Result<SignUpResult, Error>)->()) {
         AWSMobileClient.default().resendSignUpCode(username: username, completionHandler: { (result, error) in
-//            if let signUpResult = result {
-//                let message = "A verification code has been sent via \(signUpResult.codeDeliveryDetails!.deliveryMedium) at \(signUpResult.codeDeliveryDetails!.destination!)"
-//                print(message)
-//                completion(message, nil)
-//            } else if let error = error {
-//                completion("A problem has occurred", error)
-//            }
             DispatchQueue.main.async {
                 if let error = error {
                     completion(.failure(error))
@@ -172,5 +165,12 @@ class AuthUtils {
     func signOut() {
         AWSMobileClient.default().signOut()
         NotificationCenter.default.post(name: TabBarEvents.change, object: Tab.verify)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let appSyncClient = appDelegate.appSyncClient
+        do {
+            try appSyncClient?.clearCaches()
+        } catch(let error) {
+            print("Error clearing caches in signOut function: \(error)")
+        }
     }
 }

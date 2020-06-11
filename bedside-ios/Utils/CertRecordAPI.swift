@@ -9,23 +9,35 @@
 import Foundation
 import UIKit
 
+enum CertRecordAPIError : Error {
+    case MappingError
+}
+
 class CertRecordAPI  {
-    func getCertRecords(subjectId: String, callback: @escaping ([CertificationRecord]) ->()) {
+    
+    
+    
+    typealias Handler = (Result<[CertificationRecord], Error>) -> Void
+    
+    func getCertRecords(subjectId: String, callback: @escaping Handler) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
         let subjectModelId = ModelIDInput(eq:subjectId)
         let filter = ModelCertificationRecordFilterInput(subjectId: subjectModelId)
-        let query = ListCertificationRecordsQuery(filter: filter, limit: 100)
+        let query = ListCertificationRecordsQuery(filter: filter, limit: 1000)
         appSyncClient?.fetch(query: query,
                              cachePolicy: .returnCacheDataAndFetch,
                              resultHandler:{(result, error) in
             if let e = error {
                 print("error fetching cert records: \(e.localizedDescription)")
+                callback(.failure(e))
             }
                                 
             if let certRecordItems = result?.data?.listCertificationRecords?.items {
                 let certRecords : [CertificationRecord] = certRecordItems.compactMap(self.mapCertRecord)
-                callback(certRecords)
+                callback(.success(certRecords))
+            } else {
+                callback(.failure(CertRecordAPIError.MappingError))
             }
         })
     }
