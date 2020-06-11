@@ -171,5 +171,6 @@ class AuthUtils {
     
     func signOut() {
         AWSMobileClient.default().signOut()
+        NotificationCenter.default.post(name: TabBarEvents.change, object: Tab.verify)
     }
 }

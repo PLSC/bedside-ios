@@ -24,7 +24,7 @@ struct VerifyView: View {
     }
     
     var body: some View {
-        let showRecords = !userLoginState.certificationRecords.isEmpty
+        let showRecords = !userLoginState.certRecordViewModel.certificationRecords.isEmpty
         
         return NavigationView {
             VStack(alignment: .leading) {
