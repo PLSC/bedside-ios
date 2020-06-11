@@ -10,6 +10,13 @@ import SwiftUI
 
 struct RaterSelectRow: View {
     @Binding var selectedRater : User?
+    var selectedImage: Image
+    
+    init(selectedRater:Binding<User?>, selectedImage: Image = Image(systemName: "checkmark.circle.fill")) {
+        self._selectedRater = selectedRater
+        self.selectedImage = selectedImage
+    }
+    
     var body: some View {
         HStack {
             if selectedRater == nil {
@@ -17,7 +24,7 @@ struct RaterSelectRow: View {
                    .font(.system(size:30))
                    .foregroundColor(Color.gray)
             } else {
-                Image(systemName: "checkmark.circle.fill")
+                selectedImage
                     .font(.system(size: 30))
                     .foregroundColor(Color.lightTeal)
             }

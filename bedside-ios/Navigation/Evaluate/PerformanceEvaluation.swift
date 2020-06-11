@@ -71,8 +71,20 @@ struct PerformanceEvaluation: View {
         NavigationView {
             VStack {
                 List {
+//                    RaterSelectRow(selectedRater: $evaluation.rater, selectedImage: Image(systemName: "person.circle"))
+//                        .padding(.horizontal, 10)
+                    HStack {
+                        Image(systemName: "person.circle")
+                            .font(.system(size: 60))
+                            .foregroundColor(Color.lightTeal)
+                            .padding(.horizontal)
+                        VStack(alignment: .leading) {
+                            Text("Rater:")
+                            Text(evaluation.rater?.displayName ?? "No Rater")
+                        }
+                    }
                     UserHeaderSmall()
-                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                        .padding(.horizontal, 10)
                     HStack {
                         Text(performanceQuestion.questionText).padding()
                         Image(systemName: "info.circle").padding().onTapGesture {
