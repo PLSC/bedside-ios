@@ -19,6 +19,7 @@ enum SignInResult {
 
 enum AuthUtilsError : Error {
     case unknownError
+    case userNotFound(String)
 }
 
 class AuthUtils {
@@ -34,8 +35,13 @@ class AuthUtils {
                     default:
                         callback(.failure(AuthUtilsError.unknownError))
                     }
-                } else if let error = error {
-                    callback(.failure(error))
+                } else if let error = error as? AWSMobileClientError {
+                    switch error {
+                    case .userNotFound(_):
+                        callback(.failure(AuthUtilsError.userNotFound("If you do not know your username for SIMPL Bedside, please contact your program coordinator.")))
+                    default:
+                        callback(.failure(error))
+                    }
                 }
             }
         }

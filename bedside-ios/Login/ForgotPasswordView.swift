@@ -17,6 +17,7 @@ class ForgotPasswordViewModel : ObservableObject {
     @Published var code = ""
     @Published var success = false
     @Published var showError = false
+    @Published var errorTitle = "Error"
     @Published var errorMessage = ""
     @Published var formDataIsValid = false
     @Published var loading = false
@@ -56,9 +57,19 @@ class ForgotPasswordViewModel : ObservableObject {
                 switch result {
                 case .success(let message):
                     callback(true, message)
+                case .failure(let error as AuthUtilsError):
+                    self.showError = true
+                    self.errorTitle = "Error"
+                    switch error {
+                    case .userNotFound(let message):
+                        self.errorTitle = "User not found"
+                        self.errorMessage = message
+                    default:
+                         self.errorMessage = "An error has occurred: \(error.localizedDescription)"
+                    }
                 case .failure(let error):
                     self.showError = true
-                    self.errorMessage = "An error has occurred: \(error.localizedDescription)"
+                    self.errorMessage = "An unknown error has occurred: \(error.localizedDescription)"
                 }
             }
        }
@@ -157,7 +168,7 @@ struct ForgotPasswordView: View {
                         self.keyboardHeight = $0
                 }
                 .alert(isPresented: self.$viewModel.showError) {
-                Alert(title: Text("Error"),
+                    Alert(title: Text(self.viewModel.errorTitle),
                       message: Text(self.viewModel.errorMessage),
                       dismissButton: .default(Text("OK")))
             }
