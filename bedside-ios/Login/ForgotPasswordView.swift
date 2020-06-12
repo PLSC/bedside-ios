@@ -66,25 +66,23 @@ class ForgotPasswordViewModel : ObservableObject {
         self.loading = true
         authUtil.sendAuthCode(username: username) {
             result in
-            DispatchQueue.main.async {
-                self.loading = false
-                switch result {
-                case .success(let message):
-                    callback(true, message)
-                case .failure(let error as AuthUtilsError):
-                    self.showError = true
-                    self.errorTitle = "Error"
-                    switch error {
-                    case .userNotFound(let message):
-                        self.errorTitle = "User not found"
-                        self.errorMessage = message
-                    default:
-                         self.errorMessage = "An error has occurred: \(error.localizedDescription)"
-                    }
-                case .failure(let error):
-                    self.showError = true
-                    self.errorMessage = "An unknown error has occurred: \(error.localizedDescription)"
+            self.loading = false
+            switch result {
+            case .success(let message):
+                callback(true, message)
+            case .failure(let error as AuthUtilsError):
+                self.showError = true
+                self.errorTitle = "Error"
+                switch error {
+                case .userNotFound(let message):
+                    self.errorTitle = "User not found"
+                    self.errorMessage = message
+                default:
+                     self.errorMessage = "An error has occurred: \(error.localizedDescription)"
                 }
+            case .failure(let error):
+                self.showError = true
+                self.errorMessage = "An unknown error has occurred: \(error.localizedDescription)"
             }
        }
     }
@@ -155,10 +153,11 @@ struct ForgotPasswordView: View {
             VStack {
                 if self.codeSent {
                     Text(self.codeSentMessage)
+                        .lineLimit(3)
                     
                     TextField("Code", text: self.$viewModel.code)
                        .padding()
-                       .keyboardType(.alphabet)
+                       .keyboardType(.numberPad)
                        .autocapitalization(.none)
                     
                     TextField("New Password", text: self.$viewModel.password)

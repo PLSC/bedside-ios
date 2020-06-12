@@ -35,9 +35,7 @@ struct VerifyView: View {
     }
     
     var body: some View {
-        
-        
-        return NavigationView {
+         NavigationView {
             VStack(alignment: .leading) {
                 UserBanner()
                 certRecordContainer

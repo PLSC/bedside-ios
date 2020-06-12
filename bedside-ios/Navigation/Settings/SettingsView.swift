@@ -199,6 +199,8 @@ struct SettingsView: View {
                             Text("Submit Changes")
                         }.disabled(!self.viewModel.enableSubmit)
                             .foregroundColor(self.viewModel.enableSubmit ? Color.lightTeal : Color.gray)
+                    }.onTapGesture {
+                        UIApplication.shared.endEditing()
                     }
                     
                     Section {
