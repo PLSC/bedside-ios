@@ -14,26 +14,33 @@ struct VerifyView: View {
     @State var showImagePicker = false
     @State var image : UIImage? = nil
     @State var showImagePickerAlert = false
+    @State var showEmptyView = true
     
     var userProfileImage = UserProfileImage()
     
     func checkUserImage() {
+        userLoginState.fetchCurrentUserCertRecords()
         if !userProfileImage.storedProfileImage {
             showImagePickerAlert = true
         }
     }
     
+    @ViewBuilder
+    var certRecordContainer : some View {
+        if showEmptyView {
+            EmptyCertRecordView()
+        } else {
+            CertRecordListView()
+        }
+    }
+    
     var body: some View {
-        let showRecords = !userLoginState.certRecordViewModel.certificationRecords.isEmpty
+        
         
         return NavigationView {
             VStack(alignment: .leading) {
                 UserBanner()
-                if showRecords {
-                    CertRecordListView()
-                } else {
-                    EmptyCertRecordView()
-                }
+                certRecordContainer
             }
             .navigationBarTitle("Verify", displayMode: .inline)
             .navigationBarItems(trailing: Button(action: {
@@ -58,6 +65,9 @@ struct VerifyView: View {
                   }))
         })
         .onAppear(perform: checkUserImage)
+            .onReceive(self.userLoginState.certRecordViewModel.$showEmptyView) { (show) in
+            self.showEmptyView = show
+        }
     }
 }
 

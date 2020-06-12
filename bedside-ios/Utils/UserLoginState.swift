@@ -22,6 +22,9 @@ class UserLoginState: ObservableObject {
     @Published var organizations : [Organization] = []
     @Published var certRecordViewModel: CertRecordViewModel = CertRecordViewModel()
     
+    
+    let certRecordApi = CertRecordAPI()
+    
     //TODO: have intermediate states for loading user data to display intermediate UIs
     func setIsSignedIn(userState: UserState) {
         switch (userState) {
@@ -66,9 +69,12 @@ class UserLoginState: ObservableObject {
         AWSMobileClient.default().getUserAttributes { (attributes, error) in
             if error != nil {
                 print("User is not signed in, cannot fetch user attributes")
+                let email = UserDefaults.standard.string(forKey: "userEmail")
+                self.fetchUserInfo(email: email ?? "")
             }
             if let email = attributes?["email"] {
                 self.fetchUserInfo(email: email)
+                UserDefaults.standard.set(email, forKey: "userEmail")
             }
         }
     }
@@ -95,8 +101,8 @@ class UserLoginState: ObservableObject {
     }
     
     func fetchCertRecords(user: User) {
-        let api = CertRecordAPI()
-        api.getCertRecords(subjectId:user.id) {
+        
+        certRecordApi.getCertRecords(subjectId:user.id) {
             result in
             switch result {
             case .success(let certRecords):

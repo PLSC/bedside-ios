@@ -146,7 +146,6 @@ struct CertRecordListView: View {
             }
         }.onAppear {
             UITableViewHeaderFooterView.appearance().tintColor = UIColor.clear
-            self.refreshCertRecords()
         }
     }
 }

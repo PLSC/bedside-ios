@@ -45,12 +45,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func initAppSync() {
         do {
-           let cacheConfiguration = try AWSAppSyncCacheConfiguration()
-           let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
+            let serviceConfig = try AWSAppSyncServiceConfig()
+            let cache = try AWSAppSyncCacheConfiguration(useClientDatabasePrefix: true, appSyncServiceConfig: serviceConfig)
+            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
                                                                  userPoolsAuthProvider: AWSMobileClient.default(),
-                                                                 cacheConfiguration: cacheConfiguration)
-           appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
-           print("Appsync configured")
+                                                                 cacheConfiguration: cache)
+               appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+               print("Appsync configured")
         } catch(let error) {
            print("AppSync is a no-go: \(error)")
         }

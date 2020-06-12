@@ -13,6 +13,7 @@ import Combine
 class ForgotPasswordViewModel : ObservableObject {
     @Published var username = ""
     @Published var password : String = ""
+    @Published var repeatPassword : String = ""
     @Published var codeSent = false
     @Published var code = ""
     @Published var success = false
@@ -32,6 +33,19 @@ class ForgotPasswordViewModel : ObservableObject {
         }.eraseToAnyPublisher()
     }
     
+    var repeatPasswordIsValid : AnyPublisher<Bool, Never> {
+        $repeatPassword.map {
+            $0.count > 7
+        }.eraseToAnyPublisher()
+    }
+    
+    var passwordsMatch : AnyPublisher<Bool, Never> {
+        Publishers.CombineLatest($password, $repeatPassword)
+            .map { password, repeatPassword in
+                password == repeatPassword
+        }.eraseToAnyPublisher()
+    }
+    
     var codeIsValid : AnyPublisher<Bool, Never> {
         $code.map { $0.count > 5 }.eraseToAnyPublisher()
     }
@@ -39,10 +53,10 @@ class ForgotPasswordViewModel : ObservableObject {
     init(authUtil: AuthUtils = AuthUtils()) {
         self.authUtil = authUtil
         
-        Publishers.CombineLatest(codeIsValid, passwordIsValid)
+        Publishers.CombineLatest4(codeIsValid, passwordIsValid, repeatPasswordIsValid, passwordsMatch)
             .receive(on: RunLoop.main)
-            .map { (codeIsValid, passwordIsValid)  in
-                return codeIsValid && passwordIsValid
+            .map {
+                return $0 && $1 && $2 && $3
             }
             .assign(to: \.formDataIsValid, on: self)
             .store(in: &cancellableSet)
@@ -141,14 +155,22 @@ struct ForgotPasswordView: View {
             VStack {
                 if self.codeSent {
                     Text(self.codeSentMessage)
+                    
                     TextField("Code", text: self.$viewModel.code)
                        .padding()
                        .keyboardType(.alphabet)
                        .autocapitalization(.none)
                     
-                    SecureField("New Password", text: self.$viewModel.password)
+                    TextField("New Password", text: self.$viewModel.password)
                         .padding()
                         .cornerRadius(20)
+                        .autocapitalization(.none)
+                    
+                    TextField("Repeat Password", text: self.$viewModel.repeatPassword)
+                        .padding()
+                        .cornerRadius(20)
+                        .autocapitalization(.none)
+                    
                     self.submitNewPasswordButton
                 } else {
                     Text("Reset your password")
