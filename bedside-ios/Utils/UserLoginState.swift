@@ -106,7 +106,7 @@ class UserLoginState: ObservableObject {
             result in
             switch result {
             case .success(let certRecords):
-                self.certRecordViewModel.certificationRecords = certRecords
+                self.certRecordViewModel.allCertificationRecords = certRecords
             case .failure(let error):
                 print("Error fetching certRecords: \(error)")
             }

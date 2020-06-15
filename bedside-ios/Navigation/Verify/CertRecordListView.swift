@@ -119,7 +119,7 @@ struct CertRecordListView: View {
     }
     
     var body: some View {
-        let certifiedRecords = userLoginState.certRecordViewModel.certifiedRecords
+        let certifiedRecords = userLoginState.certRecordViewModel.certified
         
         let notCertified = userLoginState.certRecordViewModel.notCertified
     

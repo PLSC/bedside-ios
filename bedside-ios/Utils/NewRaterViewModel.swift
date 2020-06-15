@@ -26,10 +26,17 @@ class NewRaterViewModel: ObservableObject {
     @Published var emailAvailable: Bool = false
     @Published var isRaterValid : Bool = false
     
+    @Published var reccomendedUser : User? = nil
+    
     var orgId : String
     private var cancellableSet : Set<AnyCancellable> = []
     
     var userCreatedCallback : (User) -> ()
+    
+    func selectReccomendedUser() {
+        guard let user = reccomendedUser else { return }
+        userCreatedCallback(user)
+    }
     
     init(programs:[Program],
          orgId: String,
@@ -79,6 +86,12 @@ class NewRaterViewModel: ObservableObject {
             }
             .assign(to: \.emailErrorMessage, on: self)
             .store(in: &cancellableSet)
+        
+        $reccomendedUser.receive(on: RunLoop.main)
+            .sink { user in
+                print("reccomended user: \(String(describing: user?.displayName))")
+            }
+            .store(in: &cancellableSet)
     }
         
     func emailAvailable(_ email: String, completion: @escaping (Bool) -> ()) {
@@ -90,7 +103,14 @@ class NewRaterViewModel: ObservableObject {
                 completion(false)
                 return
             }
-            completion(items.count == 0)
+            let noUser = items.count == 0
+            completion(noUser)
+            if let userItem = items.first {
+                //Assign reccomended user
+                self.reccomendedUser = userItem?.mapToUser()
+            } else {
+                self.reccomendedUser = nil
+            }
         })
     }
     
