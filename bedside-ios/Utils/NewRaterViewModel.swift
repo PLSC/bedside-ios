@@ -41,15 +41,17 @@ class NewRaterViewModel: ObservableObject {
     init(orgId: String,
          currentUser: User?,
          userCreatedCallback: @escaping (User) -> ()) {
+        
         self.userCreatedCallback = userCreatedCallback
         self.orgId = orgId
         self.currentUser = currentUser
         
-        $email.receive(on: RunLoop.main).map { email in
-            return email.count > 3 && email.validateEmail() && !(email == currentUser?.email)
-        }
-        .assign(to: \.emailValid, on: self)
-        .store(in: &cancellableSet)
+        $email.receive(on: RunLoop.main)
+            .map { email in
+                return email.count > 3 && email.validateEmail() && !(email == currentUser?.email)
+            }
+            .assign(to: \.emailValid, on: self)
+            .store(in: &cancellableSet)
         
         $emailValid
             .receive(on: RunLoop.main)
@@ -93,6 +95,7 @@ class NewRaterViewModel: ObservableObject {
         let usersByEmailQuery = UsersByEmailQuery(email: email)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
+        
         appSyncClient?.fetch(query: usersByEmailQuery, cachePolicy:.fetchIgnoringCacheData, resultHandler: { (result, error) in
             guard let items = result?.data?.usersByEmail?.items else {
                 completion(false)

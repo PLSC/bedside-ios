@@ -39,10 +39,12 @@ struct NewRater: View {
     }
     
     var emailField : some View {
+        let emailBinding = Binding<String>(get: {self.viewModel.email}, set: {self.viewModel.email = $0.lowercased()})
         let showUserSuggestion = self.viewModel.recommendedUser != nil
+        
         return HStack {
             VStack(alignment: .leading) {
-                TextField("Email Address", text: self.$viewModel.email)
+                TextField("Email Address", text: emailBinding)
                     .keyboardType(.emailAddress)
                     .autocapitalization(.none)
                 Text(self.viewModel.emailErrorMessage ?? "")
@@ -60,7 +62,8 @@ struct NewRater: View {
     }
     
     var body: some View {
-        LoadingView(isShowing: $isLoading) {
+        
+        return LoadingView(isShowing: $isLoading) {
             NavigationView {
                 Group {
                     Form {
