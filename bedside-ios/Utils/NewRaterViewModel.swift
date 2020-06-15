@@ -81,7 +81,7 @@ class NewRaterViewModel: ObservableObject {
             .map { available, valid, email in
                 if email.count < 4 { return nil }
                 if !valid {return "Email not valid"}
-                if !available {return "Email not available"}
+                if !available {return "User already exists"}
                 return nil
             }
             .assign(to: \.emailErrorMessage, on: self)

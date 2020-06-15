@@ -39,11 +39,23 @@ struct NewRater: View {
     }
     
     var emailField : some View {
-        VStack(alignment: .leading) {
-            TextField("Email Address", text: self.$viewModel.email)
-            .keyboardType(.emailAddress)
-            .autocapitalization(.none)
-            Text(self.viewModel.emailErrorMessage ?? "")
+        let showUserSuggestion = self.viewModel.reccomendedUser != nil
+        return HStack {
+            VStack(alignment: .leading) {
+                TextField("Email Address", text: self.$viewModel.email)
+                    .keyboardType(.emailAddress)
+                    .autocapitalization(.none)
+                Text(self.viewModel.emailErrorMessage ?? "")
+            }
+            if showUserSuggestion {
+                Image(systemName: "arrowshape.turn.up.right.circle")
+                    .font(.system(size: 40))
+                    .foregroundColor(Color.lightTeal)
+                    .onTapGesture {
+                        self.viewModel.selectReccomendedUser()
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
+            }
         }
     }
     
