@@ -44,7 +44,7 @@ class UserSettingsFormViewModel : ObservableObject {
     init() {
         Publishers.CombineLatest($firstName, $lastName).receive(on: RunLoop.main).map {
                 firstName, lastName in
-                return (firstName.count >= 2) && (lastName.count >= 2)
+                return (firstName.count >= 1) && (lastName.count >= 1)
             }
             .assign(to: \.formIsValid, on: self)
             .store(in: &cancellableSet)
@@ -199,8 +199,6 @@ struct SettingsView: View {
                             Text("Submit Changes")
                         }.disabled(!self.viewModel.enableSubmit)
                             .foregroundColor(self.viewModel.enableSubmit ? Color.lightTeal : Color.gray)
-                    }.onTapGesture {
-                        UIApplication.shared.endEditing()
                     }
                     
                     Section {
