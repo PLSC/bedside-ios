@@ -19,34 +19,34 @@ class NewRaterViewModel: ObservableObject {
     @Published var firstName : String = ""
     @Published var lastName : String = ""
     @Published var email : String = ""
-    @Published var programs: [Program]
     
     @Published var emailErrorMessage : String? = nil
     @Published var emailValid : Bool = false
     @Published var emailAvailable: Bool = false
     @Published var isRaterValid : Bool = false
     
-    @Published var reccomendedUser : User? = nil
+    @Published var recommendedUser : User? = nil
     
     var orgId : String
     private var cancellableSet : Set<AnyCancellable> = []
+    var currentUser : User?
     
     var userCreatedCallback : (User) -> ()
     
     func selectReccomendedUser() {
-        guard let user = reccomendedUser else { return }
+        guard let user = recommendedUser else { return }
         userCreatedCallback(user)
     }
     
-    init(programs:[Program],
-         orgId: String,
+    init(orgId: String,
+         currentUser: User?,
          userCreatedCallback: @escaping (User) -> ()) {
-        self.programs = programs
         self.userCreatedCallback = userCreatedCallback
         self.orgId = orgId
+        self.currentUser = currentUser
         
         $email.receive(on: RunLoop.main).map { email in
-            return email.count > 3 && email.validateEmail()
+            return email.count > 3 && email.validateEmail() && !(email == currentUser?.email)
         }
         .assign(to: \.emailValid, on: self)
         .store(in: &cancellableSet)
@@ -86,15 +86,10 @@ class NewRaterViewModel: ObservableObject {
             }
             .assign(to: \.emailErrorMessage, on: self)
             .store(in: &cancellableSet)
-        
-        $reccomendedUser.receive(on: RunLoop.main)
-            .sink { user in
-                print("reccomended user: \(String(describing: user?.displayName))")
-            }
-            .store(in: &cancellableSet)
     }
         
     func emailAvailable(_ email: String, completion: @escaping (Bool) -> ()) {
+        
         let usersByEmailQuery = UsersByEmailQuery(email: email)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
@@ -107,9 +102,9 @@ class NewRaterViewModel: ObservableObject {
             completion(noUser)
             if let userItem = items.first {
                 //Assign reccomended user
-                self.reccomendedUser = userItem?.mapToUser()
+                self.recommendedUser = userItem?.mapToUser()
             } else {
-                self.reccomendedUser = nil
+                self.recommendedUser = nil
             }
         })
     }

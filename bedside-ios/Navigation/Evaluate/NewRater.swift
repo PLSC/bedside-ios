@@ -39,7 +39,7 @@ struct NewRater: View {
     }
     
     var emailField : some View {
-        let showUserSuggestion = self.viewModel.reccomendedUser != nil
+        let showUserSuggestion = self.viewModel.recommendedUser != nil
         return HStack {
             VStack(alignment: .leading) {
                 TextField("Email Address", text: self.$viewModel.email)
@@ -92,11 +92,5 @@ struct NewRater: View {
                 }
             }
         }
-    }
-}
-
-struct NewRater_Previews: PreviewProvider {
-    static var previews: some View {
-        NewRater(viewModel: NewRaterViewModel(programs: [], orgId: "test") {_ in })
     }
 }

@@ -98,8 +98,8 @@ struct RaterSelect: View {
         }).sheet(isPresented: self.$presentNewRaterScreen) {
             NewRater(viewModel:
                 NewRaterViewModel(
-                    programs:self.userLoginState.organizations[0].programs!,
                     orgId: self.userLoginState.currentUser?.orgId ?? "",
+                    currentUser: self.userLoginState.currentUser ?? nil,
                     userCreatedCallback: {
                         user in
                         self.selectRater(rater: user)
