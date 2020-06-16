@@ -25,6 +25,20 @@ class ForgotPasswordViewModel : ObservableObject {
     
     private var cancellableSet: Set<AnyCancellable> = []
     
+    func reset()  {
+        username = ""
+        password = ""
+        repeatPassword = ""
+        codeSent = false
+        code = ""
+        success = false
+        showError = false
+        errorTitle = "Error"
+        errorMessage = ""
+        formDataIsValid = false
+        loading = false
+    }
+    
     let authUtil : AuthUtils
     
     var passwordIsValid : AnyPublisher<Bool, Never> {
@@ -90,14 +104,21 @@ class ForgotPasswordViewModel : ObservableObject {
        }
     }
        
-    func confirmForgotPassword(username: String, action: @escaping ()->()) {
+    func confirmForgotPassword(username: String, action: @escaping (Result<Bool, Error>)->()) {
         self.loading = true
         authUtil.confirmForgotPassword(username: username, newPassword: password, code: code) {
             success, message in
             DispatchQueue.main.async {
+                self.success = success
                 self.loading = false
-                self.success = true
-                action()
+                if !success {
+                    self.showError = true
+                    self.errorTitle = "Error"
+                    self.errorMessage = "Error resetting password, please try again"
+                    action(.failure(AuthUtilsError.unknownError))
+                } else {
+                    action(.success(success))
+                }
             }
         }
    }
@@ -140,7 +161,15 @@ struct ForgotPasswordView: View {
     var submitNewPasswordButton: some View {
         Button(action:{
             self.forgotPasswordViewModel.confirmForgotPassword(username: self.username) {
-                self.showSelf = false
+                result in
+                switch result {
+                case .success(_):
+                    self.showSelf = false
+                    self.codeSent = false
+                    self.forgotPasswordViewModel.reset()
+                case .failure(_):
+                    print("error in confirmForgotPassword")
+                }
             }
         }) {
             Text("Submit")
