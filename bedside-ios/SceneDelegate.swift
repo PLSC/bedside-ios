@@ -29,9 +29,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let userLoginState = UserLoginState()
             let tabBarViewModel = TabBarViewModel()
             
+            //TODO: Figure out where else I can inject this thing.
+            let forgotPasswordViewModel = ForgotPasswordViewModel()
+            
             let cv = contentView
                 .environmentObject(userLoginState)
                 .environmentObject(tabBarViewModel)
+                .environmentObject(forgotPasswordViewModel)
         
             window.rootViewController = UIHostingController(rootView: cv)
             self.window = window

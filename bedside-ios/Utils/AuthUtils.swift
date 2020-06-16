@@ -20,6 +20,7 @@ enum SignInResult {
 enum AuthUtilsError : Error {
     case unknownError
     case userNotFound(String)
+    case limitExceeded
 }
 
 class AuthUtils {
@@ -39,6 +40,8 @@ class AuthUtils {
                     switch error {
                     case .userNotFound(_):
                         callback(.failure(AuthUtilsError.userNotFound("If you do not know your username for SIMPL Bedside, please contact your program coordinator.")))
+                    case .limitExceeded(_):
+                        callback(.failure(AuthUtilsError.limitExceeded))
                     default:
                         callback(.failure(error))
                     }

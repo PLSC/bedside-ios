@@ -77,6 +77,9 @@ class ForgotPasswordViewModel : ObservableObject {
                 case .userNotFound(let message):
                     self.errorTitle = "User not found"
                     self.errorMessage = message
+                case .limitExceeded:
+                    self.errorTitle = "Limit Exceeded"
+                    self.errorMessage = "Request limit exceeded. Please try again later."
                 default:
                      self.errorMessage = "An error has occurred: \(error.localizedDescription)"
                 }
@@ -102,12 +105,14 @@ class ForgotPasswordViewModel : ObservableObject {
 
 struct ForgotPasswordView: View {
     
-    @ObservedObject var viewModel = ForgotPasswordViewModel()
+    
+    @EnvironmentObject var forgotPasswordViewModel : ForgotPasswordViewModel
     @Binding var showSelf : Bool
     @Binding var codeSent : Bool
     @Binding var username : String
     @State var keyboardHeight : CGFloat = 0
     @State var codeSentMessage = ""
+    @State var showAlert = false
     
     init(showSelf: Binding<Bool>, codeSent: Binding<Bool>, username: Binding<String>) {
         self._showSelf = showSelf
@@ -117,7 +122,7 @@ struct ForgotPasswordView: View {
     
     var sendCodeButton: some View {
         Button(action:{
-            self.viewModel.sendCode(username: self.username) { sent, message in
+            self.forgotPasswordViewModel.sendCode(username: self.username) { sent, message in
                 self.codeSent = sent
                 self.codeSentMessage = message
             }
@@ -134,7 +139,7 @@ struct ForgotPasswordView: View {
     
     var submitNewPasswordButton: some View {
         Button(action:{
-            self.viewModel.confirmForgotPassword(username: self.username) {
+            self.forgotPasswordViewModel.confirmForgotPassword(username: self.username) {
                 self.showSelf = false
             }
         }) {
@@ -143,29 +148,29 @@ struct ForgotPasswordView: View {
                 .foregroundColor(.white)
                 .padding()
                 .frame(width: 300, height: 50)
-                .background(self.viewModel.formDataIsValid ? Color.lightTeal : Color.gray)
+                .background(self.forgotPasswordViewModel.formDataIsValid ? Color.lightTeal : Color.gray)
                 .cornerRadius(15.0)
-                .disabled(!self.viewModel.formDataIsValid)
+                .disabled(!self.forgotPasswordViewModel.formDataIsValid)
         }
     }
     var body: some View {
-        LoadingView(isShowing: self.$viewModel.loading) {
+        LoadingView(isShowing: self.$forgotPasswordViewModel.loading) {
             VStack {
                 if self.codeSent {
                     Text(self.codeSentMessage)
                         .lineLimit(3)
                     
-                    TextField("Code", text: self.$viewModel.code)
+                    TextField("Code", text: self.$forgotPasswordViewModel.code)
                        .padding()
                        .keyboardType(.numberPad)
                        .autocapitalization(.none)
                     
-                    TextField("New Password", text: self.$viewModel.password)
+                    SecureField("New Password", text: self.$forgotPasswordViewModel.password)
                         .padding()
                         .cornerRadius(20)
                         .autocapitalization(.none)
                     
-                    TextField("Repeat Password", text: self.$viewModel.repeatPassword)
+                    SecureField("Repeat Password", text: self.$forgotPasswordViewModel.repeatPassword)
                         .padding()
                         .cornerRadius(20)
                         .autocapitalization(.none)
@@ -183,15 +188,16 @@ struct ForgotPasswordView: View {
                 
                 Spacer()
                 
-            }.padding()
-                .padding(.bottom, self.keyboardHeight)
-                    .onReceive(Publishers.keyboardHeight) {
-                        self.keyboardHeight = $0
-                }
-                .alert(isPresented: self.$viewModel.showError) {
-                    Alert(title: Text(self.viewModel.errorTitle),
-                      message: Text(self.viewModel.errorMessage),
-                      dismissButton: .default(Text("OK")))
+            }
+            .padding()
+            .padding(.bottom, self.keyboardHeight)
+            .onReceive(Publishers.keyboardHeight) {
+                self.keyboardHeight = $0
+            }
+            .alert(isPresented: self.$forgotPasswordViewModel.showError) {
+                Alert(title: Text(self.forgotPasswordViewModel.errorTitle),
+                  message: Text(self.forgotPasswordViewModel.errorMessage),
+                  dismissButton: .default(Text("OK")))
             }
         }
     }
