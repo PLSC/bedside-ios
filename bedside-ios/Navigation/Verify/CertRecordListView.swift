@@ -116,13 +116,8 @@ struct CertRecordListView: View {
     @ObservedObject var viewModel : CertRecordViewModel
     
     func refreshCertRecords() {
-        NotificationCenter.default.post(name: Notification.Name("Refresh.CertRecord"), object: nil)
-    }
-    
-    var topHeader : some View {
-        return GeometryReader { geometry in
-            EmptyLoggingView(log: "\(geometry)")
-        }
+        NotificationCenter.default
+            .post(name: Notification.Name("Refresh.CertRecord"), object: nil)
     }
     
     var body: some View {
