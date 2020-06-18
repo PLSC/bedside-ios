@@ -112,16 +112,23 @@ struct PullToRefreshView: View {
 }
     
 struct CertRecordListView: View {
-    @EnvironmentObject var userLoginState : UserLoginState
+    
+    @ObservedObject var viewModel : CertRecordViewModel
     
     func refreshCertRecords() {
-        userLoginState.fetchCurrentUserCertRecords()
+        NotificationCenter.default.post(name: Notification.Name("Refresh.CertRecord"), object: nil)
+    }
+    
+    var topHeader : some View {
+        return GeometryReader { geometry in
+            EmptyLoggingView(log: "\(geometry)")
+        }
     }
     
     var body: some View {
-        let certifiedRecords = userLoginState.certRecordViewModel.certified
+        let certifiedRecords = viewModel.certified
         
-        let notCertified = userLoginState.certRecordViewModel.notCertified
+        let notCertified = viewModel.notCertified
     
         return List {
             if !certifiedRecords.isEmpty {

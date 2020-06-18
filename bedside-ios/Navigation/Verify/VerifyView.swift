@@ -30,7 +30,7 @@ struct VerifyView: View {
         if showEmptyView {
             EmptyCertRecordView()
         } else {
-            CertRecordListView()
+            CertRecordListView(viewModel: userLoginState.certRecordViewModel)
         }
     }
     
@@ -41,13 +41,19 @@ struct VerifyView: View {
                 certRecordContainer
             }
             .navigationBarTitle("Verify", displayMode: .inline)
-            .navigationBarItems(trailing: Button(action: {
-                NotificationCenter.default.post(name: TabBarEvents.change, object: Tab.evaluate)
-            }) {
-                Image(systemName: "plus")
+            .navigationBarItems(leading: Button(action: {
+                NotificationCenter.default.post(name: Notification.Name("Refresh.CertRecords"), object: nil)
+                }){
+                Image(systemName: "arrow.clockwise")
                     .imageScale(.large)
-                    .padding(.leading, 20)
-            })
+                    .padding(.trailing, 20)
+            }, trailing: Button(action: {
+               NotificationCenter.default.post(name: TabBarEvents.change, object: Tab.evaluate)
+               }) {
+                Image(systemName: "plus")
+                   .imageScale(.large)
+                   .padding(.leading, 20)
+           })
         }
         .sheet(isPresented: $showImagePicker,
                content: {

@@ -33,6 +33,8 @@ struct UserBanner: View {
                 Text("\(userLoginState.currentUser?.displayName ?? "")")
                     .font(.system(.title))
                     .fontWeight(.heavy)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.1)
                 Text("\(programString ?? "")Resident")
                     .font(.system(.caption))
                     .foregroundColor(.gray)

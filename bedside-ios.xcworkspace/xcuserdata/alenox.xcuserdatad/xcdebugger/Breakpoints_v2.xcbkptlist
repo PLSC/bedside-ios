@@ -46,5 +46,84 @@
             endingLineNumber = "51">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "11C6C336-E01B-4274-8B0B-6CEE0F2A0C2D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "bedside-ios/Utils/CertRecordViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "init()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "11C6C336-E01B-4274-8B0B-6CEE0F2A0C2D - ed8514bf4bfd004e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Array&lt;Bedside.CertificationRecord&gt;) -&gt; Swift.Array&lt;Bedside.CertificationRecord&gt; in Bedside.CertRecordViewModel.init() -&gt; Bedside.CertRecordViewModel"
+                  moduleName = "Bedside"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alenox/Development/bedside/bedside-ios/bedside-ios/Utils/CertRecordViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "11C6C336-E01B-4274-8B0B-6CEE0F2A0C2D - edbfb04c814a38c5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Bedside.CertificationRecord) -&gt; Swift.Bool in closure #1 (Swift.Array&lt;Bedside.CertificationRecord&gt;) -&gt; Swift.Array&lt;Bedside.CertificationRecord&gt; in Bedside.CertRecordViewModel.init() -&gt; Bedside.CertRecordViewModel"
+                  moduleName = "Bedside"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alenox/Development/bedside/bedside-ios/bedside-ios/Utils/CertRecordViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "11C6C336-E01B-4274-8B0B-6CEE0F2A0C2D - 733c244a3c292fd2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Bedside.CertificationRecord, Bedside.CertificationRecord) -&gt; Swift.Bool in closure #1 (Swift.Array&lt;Bedside.CertificationRecord&gt;) -&gt; Swift.Array&lt;Bedside.CertificationRecord&gt; in Bedside.CertRecordViewModel.init() -&gt; Bedside.CertRecordViewModel"
+                  moduleName = "Bedside"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alenox/Development/bedside/bedside-ios/bedside-ios/Utils/CertRecordViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "35">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AAE46FFA-324A-48C8-B89B-639FD9C3D7D8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "bedside-ios/Utils/CertRecordViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "init()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

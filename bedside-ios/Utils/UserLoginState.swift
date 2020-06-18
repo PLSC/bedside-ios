@@ -200,8 +200,16 @@ class UserLoginState: ObservableObject {
         })
     }
     
+    var cancelableSet : Set<AnyCancellable> = []
+    
     init() {
         initializeAWSMobileClient()
         addUserStateListener()
+        NotificationCenter.default
+            .publisher(for: Notification.Name("Refresh.CertRecords"))
+            .sink { (notification) in
+                self.fetchCurrentUserCertRecords()
+            }
+            .store(in: &cancelableSet)
     }
 }
