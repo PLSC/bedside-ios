@@ -16,13 +16,14 @@ struct EvaluateView: View {
     @State var presentRaterSelect: Bool = false
     @State var presentEvaluation: Bool = false
     @State var presentEvalHandoffAlert: Bool = false
+    @State var presentOfflineAlert: Bool = false
     
     @State var isLoading: Bool = false
-    
     @State var errorMessage: String = ""
     
     @EnvironmentObject var userLoginState : UserLoginState
     @EnvironmentObject private var loader: UserImageLoader
+    @EnvironmentObject var networkStatusObserver : NetworkStatusObserver
     
     func submit() {
         isLoading = true
@@ -45,7 +46,13 @@ struct EvaluateView: View {
     }
     
     func nextButtonPressed() {
-        self.presentEvalHandoffAlert = true
+        switch networkStatusObserver.networkStatus {
+        case .online:
+            self.presentEvalHandoffAlert = true
+        case .offline:
+            self.presentOfflineAlert = true
+        }
+        
     }
     
     func handoffAlertDismissed() {
@@ -85,10 +92,14 @@ struct EvaluateView: View {
                       .font(.headline)
               }
           }
+        .alert(isPresented: self.$presentOfflineAlert) {
+            Alert(title: Text("Offline"), message: Text("You appear to be offline. Please try again when you have an internet connection."), dismissButton: .cancel(Text("OK")))
+        }
         .padding()
         .foregroundColor(Color.white)
         .frame(maxWidth: .infinity)
         .disabled(!self.evaluation.readyForEvaluation)
+        
     }
     
     func initialize() {
