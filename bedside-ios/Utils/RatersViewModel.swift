@@ -18,9 +18,11 @@ class RatersViewModel : ObservableObject {
     @Published var filteredUsers : [User] = []
     var filterIds : [String] = []
     var cancellableSet : Set<AnyCancellable> = []
+    let userService : UserService
     
-    init(filterIds: [String]) {
+    init(filterIds: [String], userService: UserService = AppSyncUserService()) {
         self.filterIds = filterIds
+        self.userService = userService
         
         $raters.receive(on: RunLoop.main).map { users in
                 users.filter(self.userSearchFilter(_:)).sorted { (user1, user2) -> Bool in
@@ -49,45 +51,30 @@ class RatersViewModel : ObservableObject {
         return !filterIds.contains(user.id)
     }
     
+    //TODO: Error handling
     func fetchRatersWithFilter(orgId: String, filterText: String) {
         self.orgId = orgId
-        let modelIDInput = ModelIDInput(eq: orgId)
-        let filterStringInput = ModelStringInput(contains: filterText)
-        let firstNameFilter = ModelUserFilterInput(orgId: modelIDInput, firstName: filterStringInput)
-        let lastNameFilter = ModelUserFilterInput(orgId: modelIDInput, lastName: filterStringInput)
-        let emailFilter = ModelUserFilterInput(orgId: modelIDInput, email: filterStringInput)
-        let orFilter = ModelUserFilterInput(or:[firstNameFilter, lastNameFilter, emailFilter])
-        fetchRaters(filter: orFilter)
+        self.userService.fetchUsers(orgId: orgId, withFilterText: filterText) { (result) in
+            switch result {
+            case .success(let users):
+                self.raters = users
+            case .failure(let error):
+                print("Error fetching users: \(error)")
+            }
+        }
     }
     
-    //TODO: Error handling!
-    func fetchRaters(filter: ModelUserFilterInput, nextToken: String? = nil) {
-        let listUsersQuery = ListUsersQuery(filter: filter, limit: 1000, nextToken: nextToken)
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let appSyncClient = appDelegate.appSyncClient
-        appSyncClient?.fetch(query: listUsersQuery, cachePolicy: .returnCacheDataAndFetch, resultHandler: {
-            [weak self] (result, error) in
-            guard let strongSelf = self else { return }
-            if let userItems = result?.data?.listUsers?.items {
-                let users = userItems.compactMap { $0?.mapToUser() }
-                if nextToken != nil {
-                    let uniqueUsers = (strongSelf.raters + users).uniques
-                    strongSelf.raters = uniqueUsers
-                } else {
-                    strongSelf.raters = users
-                }
-            }
-            
-            if let next = result?.data?.listUsers?.nextToken {
-                strongSelf.fetchRaters(filter: filter, nextToken: next)
-            }
-       })
-    }
-    
+
+    //TODO: Error handling
     func fetchRaters(orgId: String)  {
         self.orgId = orgId
-        let modelIDInput = ModelIDInput(eq: orgId)
-        let userFilter = ModelUserFilterInput(orgId: modelIDInput)
-        fetchRaters(filter: userFilter)
+        self.userService.fetchUsers(orgId: orgId, withFilterText: nil) { (result) in
+            switch result {
+            case .success(let users):
+                self.raters = users
+            case .failure(let error):
+                print("Error fetching users \(error)")
+            }
+        }
     }
 }
