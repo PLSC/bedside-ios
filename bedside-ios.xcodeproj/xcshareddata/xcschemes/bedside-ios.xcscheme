@@ -38,6 +38,16 @@
                ReferencedContainer = "container:bedside-ios.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "393BD8C024A383DA00350695"
+               BuildableName = "BedsideTests.xctest"
+               BlueprintName = "BedsideTests"
+               ReferencedContainer = "container:bedside-ios.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

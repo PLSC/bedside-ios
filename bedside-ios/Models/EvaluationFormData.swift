@@ -32,7 +32,7 @@ class EvaluationFormData : ObservableObject {
         dateformatter.locale = Locale(identifier: "en_US")
         let dateString = dateformatter.string(from: procedureDate)
         
-        return "I, \(rater.displayName) attest that \(subject.displayName) performed a \(procedure.name) under my direct supervision on \(dateString). The following ratings reflect this specific observation of this trainee: \(answer)"
+        return "I, \(rater.displayName) rated \(subject.displayName)'s \(procedure.name) procedural performance on \(dateString) as \(answer)"
     }
     
     init() {
