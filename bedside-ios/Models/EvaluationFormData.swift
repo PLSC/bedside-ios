@@ -27,7 +27,7 @@ class EvaluationFormData : ObservableObject {
         }
         
         let dateformatter = DateFormatter()
-        dateformatter.dateStyle = .medium
+        dateformatter.dateStyle = .long
         dateformatter.timeStyle = .none
         dateformatter.locale = Locale(identifier: "en_US")
         let dateString = dateformatter.string(from: procedureDate)

@@ -23,12 +23,12 @@ class RatersViewModel : ObservableObject {
         self.filterIds = filterIds
         
         $raters.receive(on: RunLoop.main).map { users in
-            users.filter(self.userSearchFilter(_:)).sorted { (user1, user2) -> Bool in
-                return user1.sortName < user2.sortName
+                users.filter(self.userSearchFilter(_:)).sorted { (user1, user2) -> Bool in
+                    return user1.sortName < user2.sortName
+                }
             }
-        }
-        .assign(to: \.filteredUsers, on: self)
-        .store(in: &cancellableSet)
+            .assign(to: \.filteredUsers, on: self)
+            .store(in: &cancellableSet)
         
         $filterText.receive(on: RunLoop.main)
             .dropFirst()
@@ -44,12 +44,6 @@ class RatersViewModel : ObservableObject {
             }.store(in: &cancellableSet)
         
     }
-    
-    func substring(_ substring: String, inString: String?) -> Bool {
-       guard let string = inString else { return false }
-       return string.lowercased().contains(substring.lowercased())
-    }
-    
     
     private func userSearchFilter(_ user: User) -> Bool {
         return !filterIds.contains(user.id)

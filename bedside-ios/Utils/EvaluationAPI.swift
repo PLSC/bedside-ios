@@ -15,17 +15,13 @@ enum EvaluationAPIError : Error {
 
 class EvaluationAPI {
     
-    func dateString(date: Date) -> String {
-        return date.awsDateTimeString
-    }
-    
     func createEvaluation(subject: User,
                           rater: User,
                           procedure: Procedure,
                           procedureDate: Date,
                           ratingLevel: Int,
                           errorHandler: @escaping (Error?) -> ()) {
-        let evalDateString = dateString(date: procedureDate)
+        let evalDateString = procedureDate.awsDateTimeString
         let input = CreateEvaluationResponseInput(subjectId: subject.id, raterId: rater.id, procedureId: procedure.id, evaluationDate: evalDateString, ratingLevel: ratingLevel)
         createEvaluation(createEvaluationInput: input, callback: errorHandler)
     }

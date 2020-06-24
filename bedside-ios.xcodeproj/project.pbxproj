@@ -15,6 +15,8 @@
 		391C060423F4414200935BBC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 391C060323F4414200935BBC /* Preview Assets.xcassets */; };
 		391C060723F4414200935BBC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 391C060523F4414200935BBC /* LaunchScreen.storyboard */; };
 		393BD8C424A383DA00350695 /* BedsideTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393BD8C324A383DA00350695 /* BedsideTests.swift */; };
+		393BD8CC24A3890700350695 /* RaterViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393BD8CB24A3890700350695 /* RaterViewModelTests.swift */; };
+		393BD8D024A3921400350695 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393BD8CF24A3921400350695 /* UserService.swift */; };
 		393CF2AD2461AB9B007BB281 /* CertRecordAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393CF2AC2461AB9B007BB281 /* CertRecordAPI.swift */; };
 		393CF2AF2461B201007BB281 /* CertificationRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393CF2AE2461B201007BB281 /* CertificationRecord.swift */; };
 		393CF2B22461EC37007BB281 /* ProcedureDetailRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393CF2B12461EC37007BB281 /* ProcedureDetailRowView.swift */; };
@@ -103,6 +105,8 @@
 		393BD8C124A383DA00350695 /* BedsideTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BedsideTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		393BD8C324A383DA00350695 /* BedsideTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedsideTests.swift; sourceTree = "<group>"; };
 		393BD8C524A383DA00350695 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		393BD8CB24A3890700350695 /* RaterViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaterViewModelTests.swift; sourceTree = "<group>"; };
+		393BD8CF24A3921400350695 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		393CF2AC2461AB9B007BB281 /* CertRecordAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertRecordAPI.swift; sourceTree = "<group>"; };
 		393CF2AE2461B201007BB281 /* CertificationRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificationRecord.swift; sourceTree = "<group>"; };
 		393CF2B12461EC37007BB281 /* ProcedureDetailRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcedureDetailRowView.swift; sourceTree = "<group>"; };
@@ -284,6 +288,7 @@
 				39B84B5F248FBFAB0000276E /* UserLoader.swift */,
 				39C2DE482492B27500B189E2 /* CertRecordViewModel.swift */,
 				3996E80B24A23B3200C5294D /* NetworkStatusObserver.swift */,
+				393BD8CF24A3921400350695 /* UserService.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -307,6 +312,7 @@
 			children = (
 				393BD8C324A383DA00350695 /* BedsideTests.swift */,
 				393BD8C524A383DA00350695 /* Info.plist */,
+				393BD8CB24A3890700350695 /* RaterViewModelTests.swift */,
 			);
 			path = BedsideTests;
 			sourceTree = "<group>";
@@ -641,6 +647,7 @@
 				398237582448CECB00ED7148 /* AmplifyModels.swift in Sources */,
 				3982375D2448CECB00ED7148 /* Membership.swift in Sources */,
 				39E5C775246B012000618F66 /* NewRaterViewModel.swift in Sources */,
+				393BD8D024A3921400350695 /* UserService.swift in Sources */,
 				393CF2AD2461AB9B007BB281 /* CertRecordAPI.swift in Sources */,
 				3960372E242CD634006B216E /* ProcedureSelect.swift in Sources */,
 				39BFFF7C2409BC7300F3769D /* CertRecordDetailView.swift in Sources */,
@@ -655,6 +662,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				393BD8C424A383DA00350695 /* BedsideTests.swift in Sources */,
+				393BD8CC24A3890700350695 /* RaterViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
