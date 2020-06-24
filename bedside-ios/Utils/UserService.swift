@@ -9,25 +9,43 @@
 import Foundation
 import UIKit
 
+enum UserServiceError: Error {
+    case unknown
+    case noResults
+}
+
 protocol UserService {
-    func fetchUsers(orgId: String, withFilterText filter: String)
-    func fetchAllUsers(orgId:String)
+    typealias Handler = (Result<[User], UserServiceError>) -> ()
+    func fetchUsers(orgId: String, withFilterText filter: String?, completion: @escaping Handler)
 }
 
 class AppSyncUserService: UserService {
-    
-    var raters : [User] = []
-    
-    func fetchUsers(orgId: String, withFilterText filter: String) {
-        
+    func fetchUsers(orgId: String, withFilterText filter: String?, completion: @escaping Handler) {
+        if let filter = filter {
+            fetchRatersWithFilter(orgId: orgId, filterText: filter, completion: completion)
+        } else {
+            fetchRaters(orgId: orgId, completion: completion)
+        }
     }
     
-    func fetchAllUsers(orgId: String) {
-        
+    func fetchRatersWithFilter(orgId: String, filterText: String, completion: @escaping Handler) {
+        let modelIDInput = ModelIDInput(eq: orgId)
+        let filterStringInput = ModelStringInput(contains: filterText)
+        let firstNameFilter = ModelUserFilterInput(orgId: modelIDInput, firstName: filterStringInput)
+        let lastNameFilter = ModelUserFilterInput(orgId: modelIDInput, lastName: filterStringInput)
+        let emailFilter = ModelUserFilterInput(orgId: modelIDInput, email: filterStringInput)
+        let orFilter = ModelUserFilterInput(or:[firstNameFilter, lastNameFilter, emailFilter])
+        fetchUsers(filter: orFilter, completion: completion)
+    }
+    
+    func fetchRaters(orgId: String, completion: @escaping Handler)  {
+        let modelIDInput = ModelIDInput(eq: orgId)
+        let userFilter = ModelUserFilterInput(orgId: modelIDInput)
+        fetchUsers(filter: userFilter, completion: completion)
     }
     
     //TODO: Error handling!
-    func fetchUsers(filter: ModelUserFilterInput, nextToken: String? = nil) {
+    func fetchUsers(filter: ModelUserFilterInput, nextToken: String? = nil, completion: @escaping Handler, userList: [User] = []) {
         let listUsersQuery = ListUsersQuery(filter: filter, limit: 1000, nextToken: nextToken)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
@@ -35,17 +53,14 @@ class AppSyncUserService: UserService {
             [weak self] (result, error) in
             guard let strongSelf = self else { return }
             if let userItems = result?.data?.listUsers?.items {
-                let users = userItems.compactMap { $0?.mapToUser() }
-                if nextToken != nil {
-                    let uniqueUsers = (strongSelf.raters + users).uniques
-                    strongSelf.raters = uniqueUsers
+                let users = (userItems.compactMap { $0?.mapToUser() } + userList).uniques
+                if let next = result?.data?.listUsers?.nextToken {
+                    strongSelf.fetchUsers(filter: filter, nextToken: next, completion: completion, userList: users)
                 } else {
-                    strongSelf.raters = users
+                    completion(.success(users))
                 }
-            }
-            
-            if let next = result?.data?.listUsers?.nextToken {
-                strongSelf.fetchUsers(filter: filter, nextToken: next)
+            } else {
+                completion(.failure(.noResults))
             }
        })
     }
