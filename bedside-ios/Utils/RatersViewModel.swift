@@ -10,12 +10,15 @@ import Foundation
 import UIKit
 import Combine
 
-//TODO: Make rater api dependency injected.
 class RatersViewModel : ObservableObject {
+    
     @Published var orgId : String = ""
     @Published var raters : [User] = []
     @Published var filterText : String = ""
     @Published var filteredUsers : [User] = []
+    @Published var showError : Bool = false
+    @Published var errorMessage : String = ""
+    
     var filterIds : [String] = []
     var cancellableSet : Set<AnyCancellable> = []
     let userService : UserService
@@ -51,7 +54,6 @@ class RatersViewModel : ObservableObject {
         return !filterIds.contains(user.id)
     }
     
-    //TODO: Error handling
     func fetchRatersWithFilter(orgId: String, filterText: String) {
         self.orgId = orgId
         self.userService.fetchUsers(orgId: orgId, withFilterText: filterText) { (result) in
@@ -59,13 +61,13 @@ class RatersViewModel : ObservableObject {
             case .success(let users):
                 self.raters = users
             case .failure(let error):
-                print("Error fetching users: \(error)")
+                self.showError = true
+                self.errorMessage = error.localizedDescription
             }
         }
     }
     
 
-    //TODO: Error handling
     func fetchRaters(orgId: String)  {
         self.orgId = orgId
         self.userService.fetchUsers(orgId: orgId, withFilterText: nil) { (result) in
@@ -73,7 +75,8 @@ class RatersViewModel : ObservableObject {
             case .success(let users):
                 self.raters = users
             case .failure(let error):
-                print("Error fetching users \(error)")
+                self.showError = true
+                self.errorMessage = error.localizedDescription
             }
         }
     }

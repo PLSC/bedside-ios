@@ -15,6 +15,19 @@ enum UserServiceError: Error {
     case apiError(String)
 }
 
+extension UserServiceError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .unknown:
+            return NSLocalizedString("Unknown error in User service.", comment: "Unknown error")
+        case .noResults:
+            return NSLocalizedString("User service request produced no results.", comment: "No results")
+        case .apiError(let error):
+            return NSLocalizedString("Error with user service request: \(error)", comment: "API Error")
+        }
+    }
+}
+
 protocol UserService {
     typealias Handler = (Result<[User], UserServiceError>) -> ()
     func fetchUsers(orgId: String, withFilterText filter: String?, completion: @escaping Handler)
