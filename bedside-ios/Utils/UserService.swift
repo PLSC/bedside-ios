@@ -12,6 +12,20 @@ import UIKit
 enum UserServiceError: Error {
     case unknown
     case noResults
+    case apiError(String)
+}
+
+extension UserServiceError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .unknown:
+            return NSLocalizedString("Unknown error in User service.", comment: "Unknown error")
+        case .noResults:
+            return NSLocalizedString("User service request produced no results.", comment: "No results")
+        case .apiError(let error):
+            return NSLocalizedString("Error with user service request: \(error)", comment: "API Error")
+        }
+    }
 }
 
 protocol UserService {
@@ -44,7 +58,6 @@ class AppSyncUserService: UserService {
         fetchUsers(filter: userFilter, completion: completion)
     }
     
-    //TODO: Error handling!
     func fetchUsers(filter: ModelUserFilterInput, nextToken: String? = nil, completion: @escaping Handler, userList: [User] = []) {
         let listUsersQuery = ListUsersQuery(filter: filter, limit: 1000, nextToken: nextToken)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -52,6 +65,12 @@ class AppSyncUserService: UserService {
         appSyncClient?.fetch(query: listUsersQuery, cachePolicy: .returnCacheDataAndFetch, resultHandler: {
             [weak self] (result, error) in
             guard let strongSelf = self else { return }
+            
+            if let error = error {
+                completion(.failure(.apiError(error.localizedDescription)))
+                return
+            }
+            
             if let userItems = result?.data?.listUsers?.items {
                 let users = (userItems.compactMap { $0?.mapToUser() } + userList).uniques
                 if let next = result?.data?.listUsers?.nextToken {

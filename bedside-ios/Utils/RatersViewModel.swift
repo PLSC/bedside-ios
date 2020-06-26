@@ -10,17 +10,22 @@ import Foundation
 import UIKit
 import Combine
 
-//TODO: Make rater api dependency injected.
 class RatersViewModel : ObservableObject {
+    
     @Published var orgId : String = ""
     @Published var raters : [User] = []
     @Published var filterText : String = ""
     @Published var filteredUsers : [User] = []
+    @Published var showError : Bool = false
+    @Published var errorMessage : String = ""
+    
     var filterIds : [String] = []
     var cancellableSet : Set<AnyCancellable> = []
+    let userService : UserService
     
-    init(filterIds: [String]) {
+    init(filterIds: [String], userService: UserService = AppSyncUserService()) {
         self.filterIds = filterIds
+        self.userService = userService
         
         $raters.receive(on: RunLoop.main).map { users in
                 users.filter(self.userSearchFilter(_:)).sorted { (user1, user2) -> Bool in
@@ -51,43 +56,28 @@ class RatersViewModel : ObservableObject {
     
     func fetchRatersWithFilter(orgId: String, filterText: String) {
         self.orgId = orgId
-        let modelIDInput = ModelIDInput(eq: orgId)
-        let filterStringInput = ModelStringInput(contains: filterText)
-        let firstNameFilter = ModelUserFilterInput(orgId: modelIDInput, firstName: filterStringInput)
-        let lastNameFilter = ModelUserFilterInput(orgId: modelIDInput, lastName: filterStringInput)
-        let emailFilter = ModelUserFilterInput(orgId: modelIDInput, email: filterStringInput)
-        let orFilter = ModelUserFilterInput(or:[firstNameFilter, lastNameFilter, emailFilter])
-        fetchRaters(filter: orFilter)
+        self.userService.fetchUsers(orgId: orgId, withFilterText: filterText) { (result) in
+            switch result {
+            case .success(let users):
+                self.raters = users
+            case .failure(let error):
+                self.showError = true
+                self.errorMessage = error.localizedDescription
+            }
+        }
     }
     
-    //TODO: Error handling!
-    func fetchRaters(filter: ModelUserFilterInput, nextToken: String? = nil) {
-        let listUsersQuery = ListUsersQuery(filter: filter, limit: 1000, nextToken: nextToken)
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let appSyncClient = appDelegate.appSyncClient
-        appSyncClient?.fetch(query: listUsersQuery, cachePolicy: .returnCacheDataAndFetch, resultHandler: {
-            [weak self] (result, error) in
-            guard let strongSelf = self else { return }
-            if let userItems = result?.data?.listUsers?.items {
-                let users = userItems.compactMap { $0?.mapToUser() }
-                if nextToken != nil {
-                    let uniqueUsers = (strongSelf.raters + users).uniques
-                    strongSelf.raters = uniqueUsers
-                } else {
-                    strongSelf.raters = users
-                }
-            }
-            
-            if let next = result?.data?.listUsers?.nextToken {
-                strongSelf.fetchRaters(filter: filter, nextToken: next)
-            }
-       })
-    }
-    
+
     func fetchRaters(orgId: String)  {
         self.orgId = orgId
-        let modelIDInput = ModelIDInput(eq: orgId)
-        let userFilter = ModelUserFilterInput(orgId: modelIDInput)
-        fetchRaters(filter: userFilter)
+        self.userService.fetchUsers(orgId: orgId, withFilterText: nil) { (result) in
+            switch result {
+            case .success(let users):
+                self.raters = users
+            case .failure(let error):
+                self.showError = true
+                self.errorMessage = error.localizedDescription
+            }
+        }
     }
 }
