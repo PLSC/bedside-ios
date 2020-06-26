@@ -70,8 +70,9 @@ struct NewRater: View {
                         self.emailField
                         
                         TextField("First Name", text: self.$viewModel.firstName)
+                            .autocapitalization(.words)
                         TextField("Last Name", text: self.$viewModel.lastName)
-                        
+                            .autocapitalization(.words)
                         
                         Section {
                             Button(action: {
