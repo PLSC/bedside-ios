@@ -71,16 +71,15 @@ class S3ImageLoadingUtility {
     
     typealias DataCompletion = (Result<Data,Error>) -> ()
     
+    //TODO: fix issue with mismatched return type from updated library.
     func downloadProfileImageData(userId: User.ID, completion: @escaping DataCompletion ) {
         print("downloading with userID: \(userId)")
         let _ = Amplify.Storage.downloadData(key: userImageKey(forUserId: userId)) { (event) in
             switch event {
-//            case .completed(let data):
-//                completion(.success(data))
-//            case .failed(let error):
-//                completion(.failure(error))
-            default:
-                print("")
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
     }
