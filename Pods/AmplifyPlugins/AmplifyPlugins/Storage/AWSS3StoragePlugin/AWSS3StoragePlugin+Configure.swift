@@ -20,9 +20,9 @@ extension AWSS3StoragePlugin {
     /// - Parameter configuration: The configuration specified for this plugin
     /// - Throws:
     ///   - PluginError.pluginConfigurationError: If one of the configuration values is invalid or empty
-    public func configure(using configuration: Any) throws {
+    public func configure(using configuration: Any?) throws {
         guard let config = configuration as? JSONValue else {
-            throw StorageError.configuration(PluginErrorConstants.decodeConfigurationError.errorDescription,
+            throw PluginError.pluginConfigurationError(PluginErrorConstants.decodeConfigurationError.errorDescription,
                                                        PluginErrorConstants.decodeConfigurationError.recoverySuggestion)
         }
 
@@ -38,10 +38,10 @@ extension AWSS3StoragePlugin {
             let defaultAccessLevel = try AWSS3StoragePlugin.getDefaultAccessLevel(configObject)
 
             let authService = AWSAuthService()
-            let cognitoCredentialsProvider = authService.getCognitoCredentialsProvider()
+            let credentialsProvider = authService.getCredentialsProvider()
             let storageService = try AWSS3StorageService(region: region,
                                                          bucket: bucket,
-                                                         cognitoCredentialsProvider: cognitoCredentialsProvider,
+                                                         credentialsProvider: credentialsProvider,
                                                          identifier: key)
 
             configure(storageService: storageService, authService: authService, defaultAccessLevel: defaultAccessLevel)

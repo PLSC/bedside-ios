@@ -342,7 +342,7 @@ extension AWSMobileClient {
                 } else {
                     confirmedStatus = .unconfirmed
                 }
-                
+
                 var codeDeliveryDetails: UserCodeDeliveryDetails? = nil
                 if let deliveryDetails = result.codeDeliveryDetails {
                     switch(deliveryDetails.deliveryMedium) {
@@ -351,6 +351,8 @@ extension AWSMobileClient {
                     case .sms:
                         codeDeliveryDetails = UserCodeDeliveryDetails(deliveryMedium: .sms, destination: deliveryDetails.destination, attributeName: deliveryDetails.attributeName)
                     case .unknown:
+                        codeDeliveryDetails = UserCodeDeliveryDetails(deliveryMedium: .unknown, destination: deliveryDetails.destination, attributeName: deliveryDetails.attributeName)
+                    @unknown default:
                         codeDeliveryDetails = UserCodeDeliveryDetails(deliveryMedium: .unknown, destination: deliveryDetails.destination, attributeName: deliveryDetails.attributeName)
                     }
                 }
@@ -545,9 +547,15 @@ extension AWSMobileClient {
     
     internal func performUserPoolSignOut() {
         if let task = self.userpoolOpsHelper.passwordAuthTaskCompletionSource?.task, !task.isCompleted {
-            self.userpoolOpsHelper.passwordAuthTaskCompletionSource?.set(error: AWSMobileClientError.unableToSignIn(message: "Could not get end user to sign in."))
+            let error = AWSMobileClientError.unableToSignIn(message: "Could not get end user to sign in.")
+            self.userpoolOpsHelper.passwordAuthTaskCompletionSource?.set(error: error)
         }
         self.userpoolOpsHelper.passwordAuthTaskCompletionSource = nil
+
+        if let task = self.userpoolOpsHelper.customAuthChallengeTaskCompletionSource?.task, !task.isCompleted {
+            let error = AWSMobileClientError.unableToSignIn(message: "Could not get end user to sign in.")
+            self.userpoolOpsHelper.customAuthChallengeTaskCompletionSource?.set(error: error)
+        }
         self.userpoolOpsHelper.customAuthChallengeTaskCompletionSource = nil
         invokeSignInCallback(signResult: nil, error: AWSMobileClientError.unableToSignIn(message: "Could not get end user to sign in."))
         self.userPoolClient?.clearAll()
@@ -644,7 +652,7 @@ extension AWSMobileClient {
             return nil
         }
     }
- 
+
     /// Fetches the `AWSCredentials` asynchronously.
     ///
     /// - Parameter completionHandler: completionHandler which would have `AWSCredentials` if successfully retrieved, else error.
@@ -705,7 +713,8 @@ extension AWSMobileClient {
         if self.federationProvider == .userPools {
             self.userpoolOpsHelper.passwordAuthTaskCompletionSource?.set(error: AWSMobileClientError.unableToSignIn(message: "Unable to get valid sign in session from the end user."))
             self.userpoolOpsHelper.passwordAuthTaskCompletionSource = nil
-            self.tokenFetchLock.leave()
+            self.userpoolOpsHelper.customAuthChallengeTaskCompletionSource?.set(error: AWSMobileClientError.unableToSignIn(message: "Unable to get valid sign in session from the end user."))
+            self.userpoolOpsHelper.customAuthChallengeTaskCompletionSource = nil
         } else if self.federationProvider == .hostedUI {
             self.pendingGetTokensCompletion?(nil, AWSMobileClientError.unableToSignIn(message: "Could not get valid token from the user."))
             self.pendingGetTokensCompletion = nil
@@ -736,15 +745,16 @@ extension AWSMobileClient {
             self.tokenFetchOperationQueue.addOperation {
                 self.tokenFetchLock.enter()
                 AWSCognitoAuth.init(forKey: self.CognitoAuthRegistrationKey).getSession({ (session, error) in
-                    if let error = error as? AWSCognitoAuthClientErrorType {
-                        if error == AWSCognitoAuthClientErrorType.errorExpiredRefreshToken {
-                            self.pendingGetTokensCompletion = completionHandler
-                            self.mobileClientStatusChanged(userState: .signedOutUserPoolsTokenInvalid, additionalInfo: [self.ProviderKey:"OAuth"])
-                            // return early without releasing the tokenFetch lock.
-                            return
-                        } else {
-                            completionHandler(nil, AWSMobileClientError.makeMobileClientError(from: error))
-                        }
+
+                    if let sessionError = error,
+                        (sessionError as NSError).domain == AWSCognitoAuthErrorDomain,
+                        let errorType = AWSCognitoAuthClientErrorType(rawValue: (sessionError as NSError).code),
+                        (errorType == .errorExpiredRefreshToken) {
+                        self.pendingGetTokensCompletion = completionHandler
+                        self.mobileClientStatusChanged(userState: .signedOutUserPoolsTokenInvalid,
+                                                       additionalInfo: [self.ProviderKey:"OAuth"])
+                        // return early without releasing the tokenFetch lock.
+                        return
                     } else if let session = session {
                         completionHandler(self.getTokensForCognitoAuthSession(session: session), nil)
                     } else {
@@ -781,7 +791,7 @@ extension AWSMobileClient {
             return
         }
     }
-    
+
     internal func userSessionToTokens(userSession: AWSCognitoIdentityUserSession) -> Tokens {
         var idToken: SessionToken?
         var accessToken: SessionToken?
@@ -911,9 +921,11 @@ extension AWSMobileClient: UserPoolAuthHelperlCallbacks {
         self.userpoolOpsHelper.customAuthChallengeTaskCompletionSource = customAuthCompletionSource
         
         // getCustomAuthenticationDetails will be invoked in a signIn process or when the token expires.
-        // If this get invoked when the token expires, we first inform the listener that
-        // the user got signedOut.
-        if (self.currentUserState == .signedIn) {
+        // If this get invoked when the token expires, we first inform the listener that the user got signedOut. This
+        // delegate is called in token expiry if the user state is .signedIn or .signedOutUserPoolsTokenInvalid with
+        // customAuthenticationInput.challengeParameters empty
+        if ((self.currentUserState == .signedIn || self.currentUserState == .signedOutUserPoolsTokenInvalid) &&
+            customAuthenticationInput.challengeParameters.isEmpty) {
             let username = self.userPoolClient?.currentUser()?.username ?? ""
             self.mobileClientStatusChanged(userState: .signedOutUserPoolsTokenInvalid,
                                            additionalInfo: ["username": username])
@@ -943,7 +955,9 @@ extension AWSMobileClient: UserPoolAuthHelperlCallbacks {
                 codeDeliveryDetails = UserCodeDeliveryDetails(deliveryMedium: .sms, destination: authenticationInput.destination, attributeName: "phone")
             case .unknown:
                 codeDeliveryDetails = UserCodeDeliveryDetails(deliveryMedium: .unknown, destination: authenticationInput.destination, attributeName: "unknown")
-            }
+            @unknown default:
+                codeDeliveryDetails = UserCodeDeliveryDetails(deliveryMedium: .unknown, destination: authenticationInput.destination, attributeName: "unknown")
+        }
         
         let result = SignInResult(signInState: .smsMFA, codeDetails: codeDeliveryDetails)
         invokeSignInCallback(signResult: result, error: nil)

@@ -54,7 +54,7 @@ class CachingImageLoader {
         }
         
         print("cache miss with id: \(id)")
-       
+        
             
         S3ImageLoadingUtility.sharedInstance.downloadProfileImageData(userId: id) {
             [weak self] result in

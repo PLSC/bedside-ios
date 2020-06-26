@@ -61,7 +61,7 @@ extension QueryPredicate {
 
 extension QueryPredicateOperation: GraphQLFilterConvertible {
     var graphQLFilter: GraphQLFilter {
-        return [self.field: [self.operator.graphQLOperator: self.operator.value]]
+        return [field: [self.operator.graphQLOperator: self.operator.value]]
     }
 }
 
@@ -76,7 +76,7 @@ extension QueryPredicateGroup: GraphQLFilterConvertible {
             }
             return graphQLPredicateOperation
         case .not:
-            if let predicate = self.predicates.first {
+            if let predicate = predicates.first {
                 return [logicalOperator: predicate.graphQLFilter]
             } else {
                 preconditionFailure("Missing predicate for \(String(describing: self)) with type: \(type)")
@@ -134,31 +134,26 @@ extension QueryOperator {
 
 extension Persistable {
     internal func graphQLValue() -> Any {
-        let value = self
-
-        if let value = value as? Bool {
-            return value
+        switch self {
+        case is Bool:
+            return self
+        case let double as Double:
+            return Decimal(double)
+        case is Int:
+            return self
+        case is String:
+            return self
+        case let temporalDate as Temporal.Date:
+            return temporalDate.iso8601String
+        case let temporalDateTime as Temporal.DateTime:
+            return temporalDateTime.iso8601String
+        case let temporalTime as Temporal.Time:
+            return temporalTime.iso8601String
+        default:
+            preconditionFailure("""
+            Value \(String(describing: self)) of type \(String(describing: type(of: self))) \
+            is not a compatible type.
+            """)
         }
-
-        if let value = value as? Date {
-            return value.iso8601String
-        }
-
-        if let value = value as? Double {
-            return Decimal(value)
-        }
-
-        if let value = value as? Int {
-            return value
-        }
-
-        if let value = value as? String {
-            return value
-        }
-
-        preconditionFailure("""
-        Value \(String(describing: value)) of type \(String(describing: type(of: value)))
-        is not a compatible type.
-        """)
     }
 }

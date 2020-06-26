@@ -75,10 +75,10 @@ class S3ImageLoadingUtility {
         print("downloading with userID: \(userId)")
         let _ = Amplify.Storage.downloadData(key: userImageKey(forUserId: userId)) { (event) in
             switch event {
-            case .completed(let data):
-                completion(.success(data))
-            case .failed(let error):
-                completion(.failure(error))
+//            case .completed(let data):
+//                completion(.success(data))
+//            case .failed(let error):
+//                completion(.failure(error))
             default:
                 print("")
             }

@@ -16,12 +16,16 @@ final class SQLiteStorageEngineAdapter: StorageEngineAdapter {
 
     internal var connection: Connection!
     private var dbFilePath: URL?
+    static let dbVersionKey = "com.amazonaws.DataStore.dbVersion"
 
-    convenience init(databaseName: String = "database") throws {
-        guard let documentsPath = getDocumentPath() else {
-            preconditionFailure("Could not create the database. The `.documentDirectory` is invalid")
-        }
-        var dbFilePath = documentsPath.appendingPathComponent("\(databaseName).db")
+    convenience init(version: String,
+                     databaseName: String = "database",
+                     userDefaults: UserDefaults = UserDefaults.standard) throws {
+        var dbFilePath = SQLiteStorageEngineAdapter.getDbFilePath(databaseName: databaseName)
+
+        try SQLiteStorageEngineAdapter.clearIfNewVersion(version: version,
+                                                         dbFilePath: dbFilePath)
+
         let path = dbFilePath.absoluteString
 
         let connection: Connection
@@ -35,14 +39,22 @@ final class SQLiteStorageEngineAdapter: StorageEngineAdapter {
             throw DataStoreError.invalidDatabase(path: path, error)
         }
 
-        try self.init(connection: connection, dbFilePath: dbFilePath)
+        try self.init(connection: connection,
+                      dbFilePath: dbFilePath,
+                      userDefaults: userDefaults,
+                      version: version)
+
     }
 
-    internal init(connection: Connection, dbFilePath: URL? = nil) throws {
+    internal init(connection: Connection,
+                  dbFilePath: URL? = nil,
+                  userDefaults: UserDefaults = UserDefaults.standard,
+                  version: String = "version") throws {
         self.connection = connection
         self.dbFilePath = dbFilePath
         try SQLiteStorageEngineAdapter.initializeDatabase(connection: connection)
         log.verbose("Initialized \(connection)")
+        userDefaults.set(version, forKey: SQLiteStorageEngineAdapter.dbVersionKey)
     }
 
     static func initializeDatabase(connection: Connection) throws {
@@ -60,6 +72,13 @@ final class SQLiteStorageEngineAdapter: StorageEngineAdapter {
         """
 
         try connection.execute(databaseInitializationStatement)
+    }
+
+    static func getDbFilePath(databaseName: String) -> URL {
+        guard let documentsPath = getDocumentPath() else {
+            preconditionFailure("Could not create the database. The `.documentDirectory` is invalid")
+        }
+        return documentsPath.appendingPathComponent("\(databaseName).db")
     }
 
     func setUp(models: [Model.Type]) throws {
@@ -144,8 +163,15 @@ final class SQLiteStorageEngineAdapter: StorageEngineAdapter {
 
     func delete<M: Model>(_ modelType: M.Type,
                           withId id: Model.Identifier,
-                          completion: (DataStoreResult<Void>) -> Void) {
-        delete(untypedModelType: modelType, withId: id, completion: completion)
+                          completion: (DataStoreResult<M?>) -> Void) {
+        delete(untypedModelType: modelType, withId: id) { result in
+            switch result {
+            case .success:
+                completion(.success(nil))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
 
     func delete(untypedModelType modelType: Model.Type,
@@ -181,7 +207,7 @@ final class SQLiteStorageEngineAdapter: StorageEngineAdapter {
                                             paginationInput: paginationInput,
                                             additionalStatements: additionalStatements)
             let rows = try connection.prepare(statement.stringValue).run(statement.variables)
-            let result: [M] = try rows.convert(to: modelType)
+            let result: [M] = try rows.convert(to: modelType, using: statement)
             completion(.success(result))
         } catch {
             completion(.failure(causedBy: error))
@@ -236,7 +262,8 @@ final class SQLiteStorageEngineAdapter: StorageEngineAdapter {
         let ids = [String](modelById.keys)
         let rows = try connection.prepare(sql).bind(ids)
 
-        let syncMetadataList = try rows.convert(to: MutationSyncMetadata.self)
+        let syncMetadataList = try rows.convert(to: MutationSyncMetadata.self,
+                                                using: statement)
         let mutationSyncList = try syncMetadataList.map { syncMetadata -> MutationSync<AnyModel> in
             guard let model = modelById[syncMetadata.id] else {
                 throw DataStoreError.invalidOperation(causedBy: nil)
@@ -251,7 +278,8 @@ final class SQLiteStorageEngineAdapter: StorageEngineAdapter {
         let modelType = MutationSyncMetadata.self
         let statement = SelectStatement(from: modelType, predicate: field("id").eq(modelId))
         let rows = try connection.prepare(statement.stringValue).run(statement.variables)
-        let result = try rows.convert(to: modelType)
+        let result = try rows.convert(to: modelType,
+                                      using: statement)
         return try result.unique()
     }
 
@@ -259,7 +287,8 @@ final class SQLiteStorageEngineAdapter: StorageEngineAdapter {
         let statement = SelectStatement(from: ModelSyncMetadata.self,
                                         predicate: field("id").eq(modelType.modelName))
         let rows = try connection.prepare(statement.stringValue).run(statement.variables)
-        let result = try rows.convert(to: ModelSyncMetadata.self)
+        let result = try rows.convert(to: ModelSyncMetadata.self,
+                                      using: statement)
         return try result.unique()
     }
 
@@ -284,6 +313,32 @@ final class SQLiteStorageEngineAdapter: StorageEngineAdapter {
             completion(.failure(causedBy: DataStoreError.invalidDatabase(path: dbFilePath.absoluteString, error)))
         }
         completion(.successfulVoid)
+    }
+
+    static func clearIfNewVersion(version: String,
+                                  dbFilePath: URL,
+                                  userDefaults: UserDefaults = UserDefaults.standard,
+                                  fileManager: FileManager = FileManager.default) throws {
+
+        guard let previousVersion = userDefaults.string(forKey: dbVersionKey) else {
+            return
+        }
+
+        if previousVersion == version {
+            return
+        }
+
+        guard fileManager.fileExists(atPath: dbFilePath.path) else {
+            return
+        }
+
+        log.verbose("\(#function) Warning: Schema change detected, removing your previous database")
+        do {
+            try fileManager.removeItem(at: dbFilePath)
+        } catch {
+            log.error("\(#function) Failed to delete database file located at: \(dbFilePath), error: \(error)")
+            throw DataStoreError.invalidDatabase(path: dbFilePath.path, error)
+        }
     }
 }
 
