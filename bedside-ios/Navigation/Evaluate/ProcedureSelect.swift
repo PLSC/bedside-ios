@@ -42,7 +42,7 @@ class ProcedureSelectViewModel : ObservableObject {
     //TODO: refactor into API module.
     func fetchProcedures() {
         
-        let query = ListProceduresQuery()
+        let query = ListProceduresQuery(limit:1000)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
         appSyncClient?.fetch(query: query, cachePolicy: .returnCacheDataAndFetch) {
