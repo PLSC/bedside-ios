@@ -48,9 +48,14 @@ class ProcedureSelectViewModel : ObservableObject {
         appSyncClient?.fetch(query: query, cachePolicy: .returnCacheDataAndFetch) {
             result, error in
             if let procedureItems = result?.data?.listProcedures?.items {
-                self.procedures = procedureItems.compactMap {
+                let compactProcs = procedureItems.compactMap {
                     Procedure(id: ($0?.id)! , name: $0!.name, description: $0?.description)
                 }
+                
+                //TODO: remove this hack when we have editable procedures.
+                self.procedures = compactProcs.filter({ (procedure) -> Bool in
+                    !procedure.name.starts(with: "Invalid -")
+                })
             }
         }
     }
