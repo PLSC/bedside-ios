@@ -166,7 +166,7 @@ struct CertifiedHeaderView: View {
     
     var body: some View {
         VStack(alignment:.leading) {
-            Text("This Resident has been deemed competent to perform the following procedures under \("Indirect Supervision".uppercased())")
+            Text("This resident has been deemed competent to perform the following procedures under \("Indirect Supervision".uppercased())")
                 .font(.caption)
         }
     }
