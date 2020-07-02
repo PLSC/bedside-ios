@@ -27,7 +27,7 @@ struct SearchBar: UIViewRepresentable {
         }
         
         func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+            searchBar.resignFirstResponder()
         }
     }
 
