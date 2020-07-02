@@ -9,6 +9,7 @@
 import Foundation
 import Combine
 import UIKit
+import SwiftUI
 
 extension Publishers {
     static var keyboardHeight: AnyPublisher<CGFloat, Never> {
@@ -30,3 +31,12 @@ extension Notification {
         return (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height ?? 0
     }
 }
+
+
+#if canImport(UIKit)
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+#endif
