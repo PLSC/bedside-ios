@@ -166,6 +166,7 @@
 		39E5C774246B012000618F66 /* NewRaterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRaterViewModel.swift; sourceTree = "<group>"; };
 		39E5C776246B113A00618F66 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		39E5C778246B169000618F66 /* FoundationExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationExtensions.swift; sourceTree = "<group>"; };
+		39EA563824CF473E003CC296 /* Bedside.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bedside.entitlements; sourceTree = "<group>"; };
 		39FC6A57246EEFA6001BF08B /* amplifyconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 		39FC6A58246EEFA6001BF08B /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
 		39FC6A5B246F094C001BF08B /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -244,6 +245,7 @@
 		391C05F923F4414000935BBC /* bedside-ios */ = {
 			isa = PBXGroup;
 			children = (
+				39EA563824CF473E003CC296 /* Bedside.entitlements */,
 				398236FB2448C17600ED7148 /* API.swift */,
 				3942E779240D6C900038011D /* Login */,
 				392AA7CB24099FB300A64981 /* Utils */,
@@ -807,6 +809,7 @@
 			baseConfigurationReference = A3EAE1DE4BC6299EFC5F4DE2 /* Pods-bedside-ios.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "bedside-ios/Bedside.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"bedside-ios/Preview Content\"";
@@ -830,6 +833,7 @@
 			baseConfigurationReference = 6926CE226003A7E6F88934F6 /* Pods-bedside-ios.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "bedside-ios/Bedside.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"bedside-ios/Preview Content\"";
