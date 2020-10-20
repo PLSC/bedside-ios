@@ -29,6 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let userLoginState = UserLoginState()
             let tabBarViewModel = TabBarViewModel()
             let networkStatusObserver = NetworkStatusObserver()
+            let userSettingsFormViewModel = UserSettingsFormViewModel()
             
             //TODO: Figure out where else I can inject this thing.
             let forgotPasswordViewModel = ForgotPasswordViewModel()
@@ -38,6 +39,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 .environmentObject(tabBarViewModel)
                 .environmentObject(forgotPasswordViewModel)
                 .environmentObject(networkStatusObserver)
+                .environmentObject(userSettingsFormViewModel)
         
             window.rootViewController = UIHostingController(rootView: cv)
             self.window = window

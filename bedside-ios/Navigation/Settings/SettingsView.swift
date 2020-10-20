@@ -51,8 +51,7 @@ class UserSettingsFormViewModel : ObservableObject {
         
         Publishers.CombineLatest($firstName, $lastName)
             .receive(on: RunLoop.main)
-            .map { firstName, lastName in
-                guard let currentFirstName = self.currentUser?.firstName,
+            .map { firstName, lastName in                guard let currentFirstName = self.currentUser?.firstName,
                     let currentLastName = self.currentUser?.lastName else { return false }
                 return currentLastName != lastName || currentFirstName != firstName
             }
@@ -93,8 +92,8 @@ class UserSettingsFormViewModel : ObservableObject {
 struct SettingsView: View {
     
     @EnvironmentObject var userLoginState : UserLoginState
+    @EnvironmentObject var viewModel : UserSettingsFormViewModel
     
-    @ObservedObject var viewModel : UserSettingsFormViewModel
     @ObservedObject var userImageLoader = UserImageLoader()
     @State var image: UIImage?
     @State var showImagePicker : Bool = false
