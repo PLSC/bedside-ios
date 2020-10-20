@@ -4,7 +4,7 @@ AWS AppSync SDK for iOS
 [![Release](https://img.shields.io/github/release/awslabs/aws-mobile-appsync-sdk-ios.svg)](https://github.com/awslabs/aws-mobile-appsync-sdk-ios/releases)
 [![CocoaPods](https://img.shields.io/cocoapods/v/AWSAppSync.svg)](https://github.com/CocoaPods/CocoaPods)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Build Status](https://travis-ci.org/awslabs/aws-mobile-appsync-sdk-ios.svg?branch=master)](https://travis-ci.org/awslabs/aws-mobile-appsync-sdk-ios)
+[![Build Status](https://travis-ci.org/awslabs/aws-mobile-appsync-sdk-ios.svg?branch=main)](https://travis-ci.org/awslabs/aws-mobile-appsync-sdk-ios)
 [![Documentation Status](https://readthedocs.org/projects/ansicolortags/badge/?version=latest)](https://aws-amplify.github.io/docs/ios/api/)
 [![Swift](https://img.shields.io/badge/swift-5-orange.svg?style=flat)](https://developer.apple.com/swift/)
 [![Twitter Follow](https://img.shields.io/twitter/follow/AWSforMobile.svg?style=social&label=Follow)](https://twitter.com/AWSforMobile)
@@ -23,7 +23,7 @@ The AWS AppSync SDK for iOS enables you to access your AWS AppSync backend and p
 1. Add the following line to your Podfile:
 
     ```ruby
-    pod 'AWSAppSync', '~> 3.1.2'
+    pod 'AWSAppSync', '~> 3.1.5'
     ```
 
     Example:
@@ -37,7 +37,7 @@ The AWS AppSync SDK for iOS enables you to access your AWS AppSync backend and p
       use_frameworks!
 
       # Pods for EventsApp
-      pod 'AWSAppSync', '~> 3.1.2'
+      pod 'AWSAppSync', '~> 3.1.5'
     end
     ```
 
@@ -83,7 +83,7 @@ The AWS AppSync SDK for iOS enables you to access your AWS AppSync backend and p
 
 1. Now **Build** your project to start using the SDK. Whenever a new version of the SDK is released you can update by running `carthage update` and rebuilding your project to use the new features.
 
-    > Note: Currently, the AWSAppSync SDK for iOS builds the Carthage binaries using Xcode 11. To consume the pre-built binaries your Xcode version needs to be the same. Otherwise you will have to build the frameworks on your machine by passing `--no-use-binaries` flag to `carthage update` command.
+    > Note: Currently, the AWSAppSync SDK for iOS builds the Carthage binaries using Xcode 11.5. To consume the pre-built binaries your Xcode version needs to be the same. Otherwise you will have to build the frameworks on your machine by passing `--no-use-binaries` flag to `carthage update` command.
 
 1. In your source file, import the SDK using `import AWSAppSync`.
 
@@ -101,7 +101,7 @@ You can find a step by step walk through of setting up codegen backend and acces
 
 ## Contributing
 
-Contributing guidelines are noted [here](https://github.com/awslabs/aws-mobile-appsync-sdk-ios/blob/master/CONTRIBUTING.md).
+Contributing guidelines are noted [here](https://github.com/awslabs/aws-mobile-appsync-sdk-ios/blob/main/CONTRIBUTING.md).
 
 ## Testing Contributions
 

@@ -41,7 +41,7 @@ struct RaterSelect: View {
     
     @EnvironmentObject var userLoginState : UserLoginState
     
-    @ObservedObject private var ratersViewModel = RatersViewModel(filterIds:[])
+    @ObservedObject var ratersViewModel : RatersViewModel
     
     func selectRater(rater: User) {
         self.selectedRater = rater
@@ -108,9 +108,3 @@ struct RaterSelect: View {
     }
 }
 
-struct RaterSelect_Previews: PreviewProvider {
-    static var previews: some View {
-        RaterSelect(selectedRater: .constant(nil),
-                    isPresented: .constant(true))
-    }
-}

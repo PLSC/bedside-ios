@@ -11,6 +11,8 @@ import Combine
 
 struct EvaluateView: View {
     @ObservedObject var evaluation : EvaluationFormData = EvaluationFormData()
+    @ObservedObject var procedureViewModel = ProcedureSelectViewModel()
+    @ObservedObject var ratersViewModel = RatersViewModel(filterIds:[])
     
     @State var presentProcedures: Bool = false
     @State var presentRaterSelect: Bool = false
@@ -63,7 +65,8 @@ struct EvaluateView: View {
         NavigationLink(
             destination: ProcedureSelect(
                 selectedProcedure: self.$evaluation.procedure,
-                isPresented: self.$presentProcedures),
+                isPresented: self.$presentProcedures,
+                viewModel: self.procedureViewModel),
             isActive: self.$presentProcedures) {
                 ProcedureSelectRow(selectedProcedure: self.$evaluation.procedure)
         }
@@ -78,7 +81,8 @@ struct EvaluateView: View {
     var raterSelectRow: some View {
         NavigationLink(destination:
             RaterSelect(selectedRater: self.$evaluation.rater,
-                        isPresented: self.$presentRaterSelect), isActive:self.$presentRaterSelect) {
+                        isPresented: self.$presentRaterSelect,
+                        ratersViewModel: self.ratersViewModel), isActive:self.$presentRaterSelect) {
                             RaterSelectRow(selectedRater: self.$evaluation.rater).padding()
         }
     }

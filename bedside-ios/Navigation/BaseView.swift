@@ -30,6 +30,7 @@ class TabBarViewModel : ObservableObject {
 struct BaseView: View {
     
     @EnvironmentObject var tabBarViewModel : TabBarViewModel
+    @ObservedObject var viewModel = UserSettingsFormViewModel()
     
     var body: some View {
         TabView(selection: $tabBarViewModel.selectedTab) {
@@ -43,7 +44,7 @@ struct BaseView: View {
                     Image(systemName: "gauge")
                     Text("Evaluate")
             }.tag(Tab.evaluate)
-            SettingsView()
+            SettingsView(viewModel: self.viewModel)
                 .tabItem {
                     Image(systemName: "gear")
                     Text("Settings")

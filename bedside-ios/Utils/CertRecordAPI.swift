@@ -15,16 +15,14 @@ enum CertRecordAPIError : Error {
 
 class CertRecordAPI  {
     
-    
-    
     typealias Handler = (Result<[CertificationRecord], Error>) -> Void
     
-    func getCertRecords(subjectId: String, callback: @escaping Handler) {
+    func getCertRecords(subjectId: String, nextToken: String? = nil, callback: @escaping Handler, certRecordList: [CertificationRecord] = []) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
         let subjectModelId = ModelIDInput(eq:subjectId)
         let filter = ModelCertificationRecordFilterInput(subjectId: subjectModelId)
-        let query = ListCertificationRecordsQuery(filter: filter, limit: 1000)
+        let query = ListCertificationRecordsQuery(filter: filter, limit: 1000, nextToken: nextToken)
         appSyncClient?.fetch(query: query,
                              cachePolicy: .returnCacheDataAndFetch,
                              resultHandler:{(result, error) in
@@ -34,7 +32,10 @@ class CertRecordAPI  {
             }
                                 
             if let certRecordItems = result?.data?.listCertificationRecords?.items {
-                let certRecords : [CertificationRecord] = certRecordItems.compactMap(self.mapCertRecord)
+                let certRecords : [CertificationRecord] = certRecordItems.compactMap(self.mapCertRecord) + certRecordList
+                if let next = result?.data?.listCertificationRecords?.nextToken {
+                    self.getCertRecords(subjectId: subjectId, nextToken: next, callback: callback, certRecordList: certRecords)
+                }
                 callback(.success(certRecords))
             } else {
                 callback(.failure(CertRecordAPIError.MappingError))

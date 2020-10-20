@@ -80,8 +80,8 @@ class UserSettingsFormViewModel : ObservableObject {
     
     
     func setUserValues(user: User?) {
-        currentUser = user
         guard let user = user else { return }
+        currentUser = user
         self.username = user.userName ?? ""
         self.firstName = user.firstName ?? ""
         self.lastName = user.lastName ?? ""
@@ -92,9 +92,10 @@ class UserSettingsFormViewModel : ObservableObject {
 
 struct SettingsView: View {
     
-    @ObservedObject var viewModel = UserSettingsFormViewModel()
-    @ObservedObject var userImageLoader = UserImageLoader()
     @EnvironmentObject var userLoginState : UserLoginState
+    
+    @ObservedObject var viewModel : UserSettingsFormViewModel
+    @ObservedObject var userImageLoader = UserImageLoader()
     @State var image: UIImage?
     @State var showImagePicker : Bool = false
     @State var isLoading: Bool = false
@@ -105,7 +106,6 @@ struct SettingsView: View {
     let buildNumber: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
 
     let authUtil = AuthUtils()
-    
     
     var placeHolderImage : some View {
         return Image(systemName: "person.crop.circle.badge.plus")
@@ -140,18 +140,15 @@ struct SettingsView: View {
     
     func submit() {
         UIApplication.shared.endEditing()
-        let user = viewModel.allUserValues
         isLoading = true
-        self.userLoginState.updateUser(user: user) {
+        self.userLoginState.updateUser(user: viewModel.allUserValues) {
             result in
             self.isLoading = false
             switch result {
-            case .success(user?):
-                print("User successfully updated \(user)")
+            case .success(let user):
+                print("User successfully updated \(String(describing: user))")
                 self.viewModel.setUserValues(user: user)
                 self.viewModel.formIsDirty = false
-            case .success(let user):
-                print("Success, but no mapped data \(String(describing: user))")
             case .failure(let error):
                 self.showAlert = true
                 self.errorMessage = "An error occurred while updating user information."
@@ -231,8 +228,10 @@ struct SettingsView: View {
     }
 }
 
+/*
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
     }
 }
+*/

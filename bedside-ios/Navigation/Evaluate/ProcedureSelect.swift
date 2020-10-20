@@ -20,7 +20,6 @@ class ProcedureSelectViewModel : ObservableObject {
     
     var cancelableSet : Set<AnyCancellable> = []
     
-    
     init() {
         Publishers.CombineLatest($procedures, $filterText)
             .receive(on: RunLoop.main)
@@ -40,9 +39,9 @@ class ProcedureSelectViewModel : ObservableObject {
     }
     
     //TODO: refactor into API module.
-    func fetchProcedures() {
+    func fetchProcedures(nextToken: String? = nil, procedureList: [Procedure] = []) {
         
-        let query = ListProceduresQuery(limit:1000)
+        let query = ListProceduresQuery(limit:1000, nextToken: nextToken)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let appSyncClient = appDelegate.appSyncClient
         appSyncClient?.fetch(query: query, cachePolicy: .returnCacheDataAndFetch) {
@@ -50,8 +49,10 @@ class ProcedureSelectViewModel : ObservableObject {
             if let procedureItems = result?.data?.listProcedures?.items {
                 let compactProcs = procedureItems.compactMap {
                     Procedure(id: ($0?.id)! , name: $0!.name, description: $0?.description)
+                } + procedureList
+                if let next = result?.data?.listProcedures?.nextToken {
+                    self.fetchProcedures(nextToken: next, procedureList: compactProcs)
                 }
-                
                 //TODO: remove this hack when we have editable procedures.
                 self.procedures = compactProcs.filter({ (procedure) -> Bool in
                     !procedure.name.starts(with: "Invalid -")
@@ -59,6 +60,7 @@ class ProcedureSelectViewModel : ObservableObject {
             }
         }
     }
+    
 }
 
 struct ProcedureSelect: View {
@@ -66,7 +68,7 @@ struct ProcedureSelect: View {
     
     @Binding var isPresented : Bool
     
-    @ObservedObject var viewModel = ProcedureSelectViewModel()
+    @ObservedObject var viewModel : ProcedureSelectViewModel
     
     func selectProcedure(_ procedure: Procedure) {
         selectedProcedure = procedure
@@ -75,6 +77,10 @@ struct ProcedureSelect: View {
     
     func fetchProcedures() {
         self.viewModel.fetchProcedures()
+    }
+    
+    func doNothing() {
+        return
     }
     
     var body: some View {
@@ -97,11 +103,7 @@ struct ProcedureSelect: View {
             self.isPresented = false
         }
         .navigationBarTitle("Procedures")
+        
     }
 }
 
-struct ProcedureSelect_Previews: PreviewProvider {
-    static var previews: some View {
-        ProcedureSelect(selectedProcedure: .constant(nil), isPresented: .constant(false))
-    }
-}

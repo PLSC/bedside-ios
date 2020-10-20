@@ -61,6 +61,12 @@ public struct AmplifyConfiguration: Codable {
         self.predictions = predictions
         self.storage = storage
     }
+
+    /// Initialize `AmplifyConfiguration` by loading it from a URL representing the configuration file.
+    public init(configurationFile url: URL) throws {
+        self = try AmplifyConfiguration.loadAmplifyConfiguration(from: url)
+    }
+
 }
 
 // MARK: - Configure
@@ -148,17 +154,19 @@ extension Amplify {
 
     /// Configures a list of plugins with the specified CategoryConfiguration. If any configurations do not match the
     /// specified plugins, emits a log warning.
-    static func configure(plugins: [Plugin], using configuration: CategoryConfiguration) throws {
-        var pluginConfigurations = configuration.plugins
+    static func configure(plugins: [Plugin], using configuration: CategoryConfiguration?) throws {
+        var pluginConfigurations = configuration?.plugins
 
         for plugin in plugins {
-            let pluginConfiguration = pluginConfigurations[plugin.key]
+            let pluginConfiguration = pluginConfigurations?[plugin.key]
             try plugin.configure(using: pluginConfiguration)
-            pluginConfigurations.removeValue(forKey: plugin.key)
+            pluginConfigurations?.removeValue(forKey: plugin.key)
         }
 
-        for unusedPluginKey in pluginConfigurations.keys {
-            log.warn("No plugin found for configuration key `\(unusedPluginKey)`. Add a plugin for that key.")
+        if let pluginKeys = pluginConfigurations?.keys {
+            for unusedPluginKey in pluginKeys {
+                log.warn("No plugin found for configuration key `\(unusedPluginKey)`. Add a plugin for that key.")
+            }
         }
     }
 
