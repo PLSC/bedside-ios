@@ -64,15 +64,14 @@ class ProcedureSelectViewModel : ObservableObject {
 }
 
 struct ProcedureSelect: View {
+    @Environment(\.presentationMode) var presentationMode
     @Binding var selectedProcedure : Procedure?
-    
-    @Binding var isPresented : Bool
     
     @ObservedObject var viewModel : ProcedureSelectViewModel
     
     func selectProcedure(_ procedure: Procedure) {
         selectedProcedure = procedure
-        isPresented = false
+        self.presentationMode.wrappedValue.dismiss()
     }
     
     func fetchProcedures() {
@@ -99,8 +98,6 @@ struct ProcedureSelect: View {
             }
         }.onAppear {
             self.fetchProcedures()
-        }.onDisappear {
-            self.isPresented = false
         }
         .navigationBarTitle("Procedures")
         

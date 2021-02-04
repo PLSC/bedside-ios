@@ -35,9 +35,10 @@ struct AddRaterRow: View {
 }
 
 struct RaterSelect: View {
+    @Environment(\.presentationMode) var presentationMode
+    
     @State var presentNewRaterScreen : Bool = false
     @Binding var selectedRater : User?
-    @Binding var isPresented : Bool
     
     @EnvironmentObject var userLoginState : UserLoginState
     
@@ -45,7 +46,7 @@ struct RaterSelect: View {
     
     func selectRater(rater: User) {
         self.selectedRater = rater
-        self.isPresented = false
+        self.presentationMode.wrappedValue.dismiss()
     }
     
     func fetchRaters() {
@@ -91,10 +92,6 @@ struct RaterSelect: View {
                 .padding(.leading, 20)
         }).onAppear(perform:{
             self.fetchRaters()
-        }).onDisappear(perform: {
-            if self.isPresented {
-                self.isPresented = false
-            }
         }).sheet(isPresented: self.$presentNewRaterScreen) {
             NewRater(viewModel:
                 NewRaterViewModel(

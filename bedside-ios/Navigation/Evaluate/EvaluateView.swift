@@ -65,7 +65,6 @@ struct EvaluateView: View {
         NavigationLink(
             destination: ProcedureSelect(
                 selectedProcedure: self.$evaluation.procedure,
-                isPresented: self.$presentProcedures,
                 viewModel: self.procedureViewModel),
             isActive: self.$presentProcedures) {
                 ProcedureSelectRow(selectedProcedure: self.$evaluation.procedure)
@@ -81,7 +80,6 @@ struct EvaluateView: View {
     var raterSelectRow: some View {
         NavigationLink(destination:
             RaterSelect(selectedRater: self.$evaluation.rater,
-                        isPresented: self.$presentRaterSelect,
                         ratersViewModel: self.ratersViewModel), isActive:self.$presentRaterSelect) {
                             RaterSelectRow(selectedRater: self.$evaluation.rater).padding()
         }
