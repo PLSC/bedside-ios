@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -30,16 +30,6 @@ extension QueryOperator {
         case .beginsWith, .contains:
             return "like ?"
         }
-    }
-
-    func columnFor(field: String, namespace: Substring? = nil) -> String {
-        var tokens = field.split(separator: ".")
-        if tokens.count == 1, let namespace = namespace {
-            tokens.insert(namespace, at: 0)
-        }
-        return tokens
-            .map { String($0).quoted() }
-            .joined(separator: ".")
     }
 
     var bindings: [Binding?] {

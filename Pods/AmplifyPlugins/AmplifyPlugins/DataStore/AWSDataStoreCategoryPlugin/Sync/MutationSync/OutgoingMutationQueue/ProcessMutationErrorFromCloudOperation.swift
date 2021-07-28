@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -88,6 +88,13 @@ class ProcessMutationErrorFromCloudOperation: AsynchronousOperation {
                 finish(result: .success(nil))
             case .conflictUnhandled:
                 processConflictUnhandled(extensions)
+            case .unauthorized:
+                // TODO: dispatch Hub event
+                log.debug("Unauthorized mutation \(errorType)")
+                finish(result: .success(nil))
+            case .operationDisabled:
+                log.debug("Operation disabled \(errorType)")
+                finish(result: .success(nil))
             case .unknown(let errorType):
                 log.debug("Unhandled error with errorType \(errorType)")
                 finish(result: .success(nil))
@@ -184,12 +191,19 @@ class ProcessMutationErrorFromCloudOperation: AsynchronousOperation {
             case .applyRemote:
                 self.saveCreateOrUpdateMutation(remoteModel: remoteModel)
             case .retryLocal:
-                let request = GraphQLRequest<MutationSyncResult>.deleteMutation(modelName: localModel.modelName,
-                                                                                id: localModel.id,
+                let request = GraphQLRequest<MutationSyncResult>.deleteMutation(of: localModel,
+                                                                                modelSchema: localModel.schema,
                                                                                 version: latestVersion)
                 self.makeAPIRequest(request)
             case .retry(let model):
+                guard let modelSchema = ModelRegistry.modelSchema(from: self.mutationEvent.modelName) else {
+                    preconditionFailure("""
+                    Could not retrieve schema for the model \(self.mutationEvent.modelName), verify that datastore is
+                    initialized.
+                    """)
+                }
                 let request = GraphQLRequest<MutationSyncResult>.updateMutation(of: model,
+                                                                                modelSchema: modelSchema,
                                                                                 version: latestVersion)
                 self.makeAPIRequest(request)
             }
@@ -210,11 +224,25 @@ class ProcessMutationErrorFromCloudOperation: AsynchronousOperation {
             case .applyRemote:
                 self.saveCreateOrUpdateMutation(remoteModel: remoteModel)
             case .retryLocal:
+                guard let modelSchema = ModelRegistry.modelSchema(from: self.mutationEvent.modelName) else {
+                    preconditionFailure("""
+                    Could not retrieve schema for the model \(self.mutationEvent.modelName), verify that datastore is
+                    initialized.
+                    """)
+                }
                 let request = GraphQLRequest<MutationSyncResult>.updateMutation(of: localModel,
+                                                                                modelSchema: modelSchema,
                                                                                 version: latestVersion)
                 self.makeAPIRequest(request)
             case .retry(let model):
+                guard let modelSchema = ModelRegistry.modelSchema(from: self.mutationEvent.modelName) else {
+                    preconditionFailure("""
+                    Could not retrieve schema for the model \(self.mutationEvent.modelName), verify that datastore is
+                    initialized.
+                    """)
+                }
                 let request = GraphQLRequest<MutationSyncResult>.updateMutation(of: model,
+                                                                                modelSchema: modelSchema,
                                                                                 version: latestVersion)
                 self.makeAPIRequest(request)
             }
@@ -270,12 +298,21 @@ class ProcessMutationErrorFromCloudOperation: AsynchronousOperation {
         let id = remoteModel.model.id
 
         guard let modelType = ModelRegistry.modelType(from: modelName) else {
-            let error = DataStoreError.unknown("Invalid Model \(modelName)", "")
+            let error = DataStoreError.invalidModelName("Invalid Model \(modelName)")
             finish(result: .failure(error))
             return
         }
 
-        storageAdapter.delete(untypedModelType: modelType, withId: id) { response in
+        guard let modelSchema = ModelRegistry.modelSchema(from: modelName) else {
+            let error = DataStoreError.invalidModelName("Invalid Model \(modelName)")
+            finish(result: .failure(error))
+            return
+        }
+
+        storageAdapter.delete(untypedModelType: modelType,
+                              modelSchema: modelSchema,
+                              withId: id,
+                              predicate: nil) { response in
             switch response {
             case .failure(let dataStoreError):
                 let error = DataStoreError.unknown("Delete failed \(dataStoreError)", "")

@@ -1,10 +1,19 @@
 #!/bin/sh
 
-# Copyright 2018-2020 Amazon.com,
-# Inc. or its affiliates. All Rights Reserved.
+# Copyright Amazon.com Inc. or its affiliates.
+# All Rights Reserved.
 #
 # SPDX-License-Identifier: Apache-2.0
 
+###########################################################################################
+#                                                                                         #
+# WARNING: AmplifyTools has been deprecated.                                              #
+#                                                                                         #
+# More info: https://github.com/aws-amplify/amplify-ios/blob/main/AmplifyTools/README.md  #
+#                                                                                         #
+###########################################################################################
+
+echo "warning: AmplifyTools has been deprecated. More info: https://github.com/aws-amplify/amplify-ios/blob/main/AmplifyTools/README.md"
 
 if ! which node >/dev/null; then
   echo "warning: Node is not installed. Visit https://nodejs.org/en/download/ to install it"

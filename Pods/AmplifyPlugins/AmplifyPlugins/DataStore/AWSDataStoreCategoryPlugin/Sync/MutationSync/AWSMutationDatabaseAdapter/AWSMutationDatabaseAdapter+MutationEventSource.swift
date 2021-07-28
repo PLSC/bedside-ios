@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -20,10 +20,10 @@ extension AWSMutationDatabaseAdapter: MutationEventSource {
 
         let fields = MutationEvent.keys
         let predicate = fields.inProcess == false || fields.inProcess == nil
-
+        let sort = QuerySortDescriptor(fieldName: MutationEvent.keys.createdAt.stringValue, order: .ascending)
         storageAdapter.query(MutationEvent.self,
                              predicate: predicate,
-                             sort: .ascending(MutationEvent.keys.createdAt),
+                             sort: [sort],
                              paginationInput: nil) { result in
                                 switch result {
                                 case .failure(let dataStoreError):

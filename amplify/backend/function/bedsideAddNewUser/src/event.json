@@ -1,19 +1,17 @@
 {
-    "version": 1,
-    "triggerSource": "string",
-    "region": "AWSRegion",
-    "userPoolId": "string",
-    "userName": "test-username",
-    "callerContext": 
-        {
-            "awsSdkVersion": "string",
-            "clientId": "string"
-        },
-    "request":
-        {
-            "userAttributes": {
-                "email": "andy+localtest@simpl.org"
-            }
-        },
-    "response": {}
+  "version": 1,
+  "region": "us-east-1",
+  "userPoolId": "us-east-1_pvuoqKPVQ",
+  "userName": "test-username",
+  "callerContext": {
+    "awsSdkVersion": "aws-sdk-unknown-unknown",
+    "clientId": "1epbge5lf82qdddtkfru6q0rco"
+  },
+  "request": {
+    "userAttributes": {
+      "email": "andy+localtest@simpl.org",
+      "custom:npi": "1111111111"
+    }
+  },
+  "response": {}
 }

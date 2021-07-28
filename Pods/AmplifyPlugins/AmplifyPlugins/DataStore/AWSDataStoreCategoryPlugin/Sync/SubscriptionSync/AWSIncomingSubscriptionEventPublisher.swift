@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -8,6 +8,7 @@
 import Amplify
 import AWSPluginsCore
 import Combine
+import Foundation
 
 /// Facade to hide the AsyncEventQueue/ModelMapper structures from the ModelReconciliationQueue.
 /// Provides a publisher for all incoming subscription types (onCreate, onUpdate, onDelete) for a single Model type.
@@ -22,11 +23,17 @@ final class AWSIncomingSubscriptionEventPublisher: IncomingSubscriptionEventPubl
         return subscriptionEventSubject.eraseToAnyPublisher()
     }
 
-    init(modelType: Model.Type, api: APICategoryGraphQLBehavior, auth: AuthCategoryBehavior?) {
+    init(modelSchema: ModelSchema,
+         api: APICategoryGraphQLBehavior,
+         modelPredicate: QueryPredicate?,
+         auth: AuthCategoryBehavior?,
+         authModeStrategy: AuthModeStrategy) {
         self.subscriptionEventSubject = PassthroughSubject<IncomingSubscriptionEventPublisherEvent, DataStoreError>()
-        self.asyncEvents = IncomingAsyncSubscriptionEventPublisher(modelType: modelType,
+        self.asyncEvents = IncomingAsyncSubscriptionEventPublisher(modelSchema: modelSchema,
                                                                    api: api,
-                                                                   auth: auth)
+                                                                   modelPredicate: modelPredicate,
+                                                                   auth: auth,
+                                                                   authModeStrategy: authModeStrategy)
 
         let mapper = IncomingAsyncSubscriptionEventToAnyModelMapper()
         self.mapper = mapper
@@ -58,6 +65,7 @@ final class AWSIncomingSubscriptionEventPublisher: IncomingSubscriptionEventPubl
     }
 }
 
+// MARK: Resettable
 @available(iOS 13.0, *)
 extension AWSIncomingSubscriptionEventPublisher: Resettable {
 

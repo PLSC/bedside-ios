@@ -1,34 +1,39 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
-/// - Warning: Although this has `public` access, it is intended for internal use and should not be used directly
-///   by host applications. The behavior of this may change without warning.
-public enum ModelAttribute {
+/// - Warning: Although this has `public` access, it is intended for internal & codegen use and should not be used
+///   directly by host applications. The behavior of this may change without warning.
+public typealias ModelFieldName = String
+
+/// - Warning: Although this has `public` access, it is intended for internal & codegen use and should not be used
+///   directly by host applications. The behavior of this may change without warning.
+public enum ModelAttribute: Equatable {
 
     /// Represents a database index, often used for frequent query optimizations.
-    case index
+    case index(fields: [ModelFieldName], name: String?)
 
     /// This model is used by the Amplify system or a plugin, and should not be used by the app developer
     case isSystem
 }
 
-/// - Warning: Although this has `public` access, it is intended for internal use and should not be used directly
-///   by host applications. The behavior of this may change without warning.
+/// - Warning: Although this has `public` access, it is intended for internal & codegen use and should not be used
+///   directly by host applications. The behavior of this may change without warning.
 public enum ModelFieldAttribute {
     case primaryKey
 }
 
-/// - Warning: Although this has `public` access, it is intended for internal use and should not be used directly
-///   by host applications. The behavior of this may change without warning.
+/// - Warning: Although this has `public` access, it is intended for internal & codegen use and should not be used
+///   directly by host applications. The behavior of this may change without warning.
 public struct ModelField {
 
-    public let name: String
+    public let name: ModelFieldName
     public let type: ModelFieldType
     public let isRequired: Bool
+    public let isReadOnly: Bool
     public let isArray: Bool
     public let attributes: [ModelFieldAttribute]
     public let association: ModelAssociation?
@@ -38,16 +43,18 @@ public struct ModelField {
         return name == "id"
     }
 
-    init(name: String,
-         type: ModelFieldType,
-         isRequired: Bool = false,
-         isArray: Bool = false,
-         attributes: [ModelFieldAttribute] = [],
-         association: ModelAssociation? = nil,
-         authRules: AuthRules = []) {
+    public init(name: String,
+                type: ModelFieldType,
+                isRequired: Bool = false,
+                isReadOnly: Bool = false,
+                isArray: Bool = false,
+                attributes: [ModelFieldAttribute] = [],
+                association: ModelAssociation? = nil,
+                authRules: AuthRules = []) {
         self.name = name
         self.type = type
         self.isRequired = isRequired
+        self.isReadOnly = isReadOnly
         self.isArray = isArray
         self.attributes = attributes
         self.association = association
@@ -55,12 +62,16 @@ public struct ModelField {
     }
 }
 
-/// - Warning: Although this has `public` access, it is intended for internal use and should not be used directly
-///   by host applications. The behavior of this may change without warning.
+/// - Warning: Although this has `public` access, it is intended for internal & codegen use and should not be used
+///   directly by host applications. The behavior of this may change without warning.
 public typealias ModelFields = [String: ModelField]
 
-/// - Warning: Although this has `public` access, it is intended for internal use and should not be used directly
-///   by host applications. The behavior of this may change without warning.
+/// - Warning: Although this has `public` access, it is intended for internal & codegen use and should not be used
+///   directly by host applications. The behavior of this may change without warning.
+public typealias ModelName = String
+
+/// - Warning: Although this has `public` access, it is intended for internal & codegen use and should not be used
+///   directly by host applications. The behavior of this may change without warning.
 public struct ModelSchema {
 
     public let name: String
@@ -78,11 +89,11 @@ public struct ModelSchema {
         return primaryKey.value
     }
 
-    init(name: String,
-         pluralName: String? = nil,
-         authRules: AuthRules = [],
-         attributes: [ModelAttribute] = [],
-         fields: ModelFields = [:]) {
+    public init(name: String,
+                pluralName: String? = nil,
+                authRules: AuthRules = [],
+                attributes: [ModelAttribute] = [],
+                fields: ModelFields = [:]) {
         self.name = name
         self.pluralName = pluralName
         self.authRules = authRules
@@ -97,6 +108,37 @@ public struct ModelSchema {
     }
 
 }
+
+// MARK: - ModelAttribute + Index
+
+/// - Warning: Although this has `public` access, it is intended for internal & codegen use and should not be used
+///   directly by host applications. The behavior of this may change without warning.
+public extension ModelSchema {
+    var indexes: [ModelAttribute] {
+        attributes.filter {
+            switch $0 {
+            case .index:
+                return true
+            default:
+                return false
+            }
+        }
+    }
+
+    /// Returns the list of fields that make up the primary key for the model.
+    /// In case of a custom primary key, the model has a `@key` directive
+    /// without a name and at least 1 field
+    var customPrimaryIndexFields: [ModelFieldName]? {
+        attributes.compactMap {
+            if case let .index(fields, name) = $0, name == nil, fields.count >= 1 {
+                return fields
+            }
+            return nil
+        }.first
+    }
+}
+
+// MARK: - Dictionary + ModelField
 
 extension Dictionary where Key == String, Value == ModelField {
 

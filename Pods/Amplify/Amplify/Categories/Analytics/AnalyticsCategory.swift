@@ -1,14 +1,16 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 /// The Analytics category enables you to collect analytics data for your app.
 final public class AnalyticsCategory: Category {
+    /// Analytics category type
     public let categoryType = CategoryType.analytics
 
+    /// Analytics category plugins
     var plugins = [PluginKey: AnalyticsCategoryPlugin]()
 
     /// Returns the plugin added to the category, if only one plugin is added. Accessing this property if no plugins
@@ -55,6 +57,15 @@ final public class AnalyticsCategory: Category {
             let error = AnalyticsError.configuration(
                 "Plugin \(pluginDescription) has an empty `key`.",
                 "Set the `key` property for \(String(describing: plugin))")
+            throw error
+        }
+
+        guard !isConfigured else {
+            let pluginDescription = String(describing: plugin)
+            let error = ConfigurationError.amplifyAlreadyConfigured(
+                "\(pluginDescription) cannot be added after `Amplify.configure()`.",
+                "Do not add plugins after calling `Amplify.configure()`."
+            )
             throw error
         }
 

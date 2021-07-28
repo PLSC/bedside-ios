@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -29,11 +29,7 @@ final class RESTOperationRequestUtils {
             components.path.append(path)
         }
 
-        if let queryParameters = queryParameters {
-            components.queryItems = queryParameters.map { (name, value) -> URLQueryItem in
-                URLQueryItem(name: name, value: value)
-            }
-        }
+        try components.encodeQueryItemsPerSigV4Rules(queryParameters)
 
         guard let url = components.url else {
             throw APIError.invalidURL(

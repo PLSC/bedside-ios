@@ -1,5 +1,5 @@
 //
-// Copyright 2018-2020 Amazon.com,
+// Copyright 2018-2021 Amazon.com,
 // Inc. or its affiliates. All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -13,7 +13,7 @@ public struct AppSyncJSONHelper {
         let jsonEncoder = JSONEncoder()
         do {
             let jsonHeader = try jsonEncoder.encode(header)
-            AppSyncLogger.verbose("Header - \(String(describing: String(data: jsonHeader, encoding: .utf8)))")
+            AppSyncLogger.verbose("Generated Header for request - \(String(describing: String(data: jsonHeader, encoding: .utf8)))")
             return jsonHeader.base64EncodedString()
         } catch {
             AppSyncLogger.error(error.localizedDescription)

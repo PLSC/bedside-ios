@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -10,7 +10,7 @@
 /// but clients can access specific plugins by invoking `getPlugin` on a category and issuing methods directly to
 /// that plugin.
 ///
-/// - Warning: It is a serious programmer to invoke any of the category APIs (like `Analytics.record()` or
+/// - Warning: It is a serious error to invoke any of the category APIs (like `Analytics.record()` or
 /// `API.mutate()`) without first registering plugins via `Amplify.add(plugin:)` and configuring Amplify via
 /// `Amplify.configure()`. Such access will cause a preconditionFailure.
 ///
@@ -62,7 +62,6 @@ public class Amplify {
                 "Verify that the library version is correct and supports the plugin's category.")
         }
     }
-
 }
 
 extension Amplify: DefaultLogger { }

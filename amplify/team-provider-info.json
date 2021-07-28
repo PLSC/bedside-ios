@@ -18,11 +18,26 @@
       },
       "function": {
         "bedside18eb32ebPostConfirmation": {
-          "GROUP": "Users"
+          "GROUP": "Users",
+          "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
+          "s3Key": "amplify-builds/bedside18eb32ebPostConfirmation-6a2b38666d4c2f61544e-build.zip"
         },
-        "AdminQueriesc8c14260": {},
-        "bedsideAddNewUser": {},
-        "newEvaluationFunction": {}
+        "AdminQueriesc8c14260": {
+          "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
+          "s3Key": "amplify-builds/AdminQueriesc8c14260-4647737663344d61516f-build.zip"
+        },
+        "bedsideAddNewUser": {
+          "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
+          "s3Key": "amplify-builds/bedsideAddNewUser-7073524f32706a557658-build.zip"
+        },
+        "newEvaluationFunction": {
+          "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
+          "s3Key": "amplify-builds/newEvaluationFunction-71323433524e652f3666-build.zip"
+        },
+        "newUserInvitation": {
+          "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
+          "s3Key": "amplify-builds/newUserInvitation-75462f31796770355964-build.zip"
+        }
       }
     }
   },

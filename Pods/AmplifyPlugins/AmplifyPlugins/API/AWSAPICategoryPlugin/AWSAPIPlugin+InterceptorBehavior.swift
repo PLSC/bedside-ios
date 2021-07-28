@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -14,6 +14,6 @@ public extension AWSAPIPlugin {
                                                        "")
         }
 
-        pluginConfig.endpoints[apiName]?.addInterceptor(interceptor: interceptor)
+        pluginConfig.addInterceptor(interceptor, toEndpoint: apiName)
     }
 }

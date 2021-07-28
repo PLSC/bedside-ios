@@ -1,13 +1,13 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 /// An Amplify Category stores certain global states, holds references to plugins for the category, and routes method
 /// requests to those plugins appropriately.
-public protocol Category: class, CategoryTypeable, DefaultLogger {
+public protocol Category: AnyObject, CategoryTypeable, DefaultLogger {
 
     // NOTE: `add(plugin:)` and `getPlugin(for key:)` must be implemented in the actual category classes, since they
     // operate on specific plugin types

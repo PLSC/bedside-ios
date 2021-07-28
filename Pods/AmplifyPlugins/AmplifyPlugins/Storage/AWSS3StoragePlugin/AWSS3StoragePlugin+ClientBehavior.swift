@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -40,7 +40,7 @@ extension AWSS3StoragePlugin {
         return getURLOperation
     }
 
-    /// Downloads to memory of the S3 object.
+    /// Downloads S3 object into memory.
     ///
     /// Stores the input in a storage request, constructs an operation to perform the work, queues it in the
     /// OperationQueue to perform the work asychronously.

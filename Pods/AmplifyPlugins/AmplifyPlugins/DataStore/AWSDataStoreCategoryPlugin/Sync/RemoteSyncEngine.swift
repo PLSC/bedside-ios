@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -8,6 +8,7 @@
 import Amplify
 import Combine
 import Foundation
+import AWSPluginsCore
 
 @available(iOS 13.0, *)
 class RemoteSyncEngine: RemoteSyncEngineBehavior {
@@ -16,6 +17,9 @@ class RemoteSyncEngine: RemoteSyncEngineBehavior {
 
     private var dataStoreConfiguration: DataStoreConfiguration
 
+    // Authorization mode strategy
+    private var authModeStrategy: AuthModeStrategy
+
     // Assigned at `start`
     weak var api: APICategoryGraphQLBehavior?
     weak var auth: AuthCategoryBehavior?
@@ -23,6 +27,9 @@ class RemoteSyncEngine: RemoteSyncEngineBehavior {
     // Assigned and released inside `performInitialQueries`, but we maintain a reference so we can `reset`
     private var initialSyncOrchestrator: InitialSyncOrchestrator?
     private let initialSyncOrchestratorFactory: InitialSyncOrchestratorFactory
+
+    private var syncEventEmitter: SyncEventEmitter?
+    private var readyEventEmitter: ReadyEventEmitter?
 
     private let mutationEventIngester: MutationEventIngester
     let mutationEventPublisher: MutationEventPublisher
@@ -48,6 +55,7 @@ class RemoteSyncEngine: RemoteSyncEngineBehavior {
     private var stateMachineSink: AnyCancellable?
 
     var networkReachabilityPublisher: AnyPublisher<ReachabilityUpdate, Never>?
+    private var networkReachabilitySink: AnyCancellable?
     var mutationRetryNotifier: MutationRetryNotifier?
     let requestRetryablePolicy: RequestRetryablePolicy
     var currentAttemptNumber: Int
@@ -65,21 +73,33 @@ class RemoteSyncEngine: RemoteSyncEngineBehavior {
                      stateMachine: StateMachine<State, Action>? = nil,
                      networkReachabilityPublisher: AnyPublisher<ReachabilityUpdate, Never>? = nil,
                      requestRetryablePolicy: RequestRetryablePolicy? = nil) throws {
+
         let mutationDatabaseAdapter = try AWSMutationDatabaseAdapter(storageAdapter: storageAdapter)
         let awsMutationEventPublisher = AWSMutationEventPublisher(eventSource: mutationDatabaseAdapter)
+
+        // initialize auth strategy
+        let resolvedAuthStrategy: AuthModeStrategy = dataStoreConfiguration.authModeStrategyType.resolveStrategy()
+
         let outgoingMutationQueue = outgoingMutationQueue ??
-            OutgoingMutationQueue(storageAdapter: storageAdapter, dataStoreConfiguration: dataStoreConfiguration)
+            OutgoingMutationQueue(storageAdapter: storageAdapter,
+                                  dataStoreConfiguration: dataStoreConfiguration,
+                                  authModeStrategy: resolvedAuthStrategy)
+
         let reconciliationQueueFactory = reconciliationQueueFactory ??
-            AWSIncomingEventReconciliationQueue.init(modelTypes:api:storageAdapter:auth:modelReconciliationQueueFactory:)
+            AWSIncomingEventReconciliationQueue.init(modelSchemas:api:storageAdapter:syncExpressions:auth:authModeStrategy:modelReconciliationQueueFactory:)
+
         let initialSyncOrchestratorFactory = initialSyncOrchestratorFactory ??
-            AWSInitialSyncOrchestrator.init(dataStoreConfiguration:api:reconciliationQueue:storageAdapter:)
+        AWSInitialSyncOrchestrator.init(dataStoreConfiguration:authModeStrategy:api:reconciliationQueue:storageAdapter:)
+
         let resolver = RemoteSyncEngine.Resolver.resolve(currentState:action:)
         let stateMachine = stateMachine ?? StateMachine(initialState: .notStarted,
                                                         resolver: resolver)
+
         let requestRetryablePolicy = requestRetryablePolicy ?? RequestRetryablePolicy()
 
         self.init(storageAdapter: storageAdapter,
                   dataStoreConfiguration: dataStoreConfiguration,
+                  authModeStrategy: resolvedAuthStrategy,
                   outgoingMutationQueue: outgoingMutationQueue,
                   mutationEventIngester: mutationDatabaseAdapter,
                   mutationEventPublisher: awsMutationEventPublisher,
@@ -92,6 +112,7 @@ class RemoteSyncEngine: RemoteSyncEngineBehavior {
 
     init(storageAdapter: StorageEngineAdapter,
          dataStoreConfiguration: DataStoreConfiguration,
+         authModeStrategy: AuthModeStrategy,
          outgoingMutationQueue: OutgoingMutationQueueBehavior,
          mutationEventIngester: MutationEventIngester,
          mutationEventPublisher: MutationEventPublisher,
@@ -102,6 +123,7 @@ class RemoteSyncEngine: RemoteSyncEngineBehavior {
          requestRetryablePolicy: RequestRetryablePolicy) {
         self.storageAdapter = storageAdapter
         self.dataStoreConfiguration = dataStoreConfiguration
+        self.authModeStrategy = authModeStrategy
         self.mutationEventIngester = mutationEventIngester
         self.mutationEventPublisher = mutationEventPublisher
         self.outgoingMutationQueue = outgoingMutationQueue
@@ -126,9 +148,7 @@ class RemoteSyncEngine: RemoteSyncEngineBehavior {
                 }
         }
 
-        self.outgoingMutationQueueSink = self.outgoingMutationQueue.publisher.sink { mutationEvent in
-            self.remoteSyncTopicPublisher.send(.mutationEvent(mutationEvent))
-        }
+        self.authModeStrategy.authDelegate = self
     }
 
     // swiftlint:disable cyclomatic_complexity
@@ -184,6 +204,17 @@ class RemoteSyncEngine: RemoteSyncEngineBehavior {
         self.api = api
         self.auth = auth
 
+        if networkReachabilityPublisher == nil,
+            let reachability = api as? APICategoryReachabilityBehavior {
+            do {
+                networkReachabilityPublisher = try reachability.reachabilityPublisher()
+                networkReachabilitySink = networkReachabilityPublisher?
+                    .sink(receiveValue: onReceiveNetworkStatus(networkStatus:))
+            } catch {
+                log.error("\(#function): Unable to listen on reachability: \(error)")
+            }
+        }
+
         remoteSyncTopicPublisher.send(.storageAdapterAvailable)
         stateMachine.notify(action: .receivedStart)
     }
@@ -197,6 +228,7 @@ class RemoteSyncEngine: RemoteSyncEngineBehavior {
 
     func terminate() {
         remoteSyncTopicPublisher.send(completion: .finished)
+        cancelEmitters()
         if let completionBlock = finishedCompletionBlock {
             completionBlock(.successfulVoid)
             finishedCompletionBlock = nil
@@ -240,8 +272,14 @@ class RemoteSyncEngine: RemoteSyncEngineBehavior {
     private func initializeSubscriptions(api: APICategoryGraphQLBehavior,
                                          storageAdapter: StorageEngineAdapter) {
         log.debug(#function)
-        let syncableModelTypes = ModelRegistry.models.filter { $0.schema.isSyncable }
-        reconciliationQueue = reconciliationQueueFactory(syncableModelTypes, api, storageAdapter, auth, nil)
+        let syncableModelSchemas = ModelRegistry.modelSchemas.filter { $0.isSyncable }
+        reconciliationQueue = reconciliationQueueFactory(syncableModelSchemas,
+                                                         api,
+                                                         storageAdapter,
+                                                         dataStoreConfiguration.syncExpressions,
+                                                         auth,
+                                                         authModeStrategy,
+                                                         nil)
         reconciliationQueueSink = reconciliationQueue?.publisher.sink(
             receiveCompletion: onReceiveCompletion(receiveCompletion:),
             receiveValue: onReceive(receiveValue:))
@@ -251,12 +289,19 @@ class RemoteSyncEngine: RemoteSyncEngineBehavior {
         log.debug(#function)
 
         let initialSyncOrchestrator = initialSyncOrchestratorFactory(dataStoreConfiguration,
+                                                                     authModeStrategy,
                                                                      api,
                                                                      reconciliationQueue,
                                                                      storageAdapter)
 
         // Hold a reference so we can `reset` while initial sync is in process
         self.initialSyncOrchestrator = initialSyncOrchestrator
+
+        syncEventEmitter = SyncEventEmitter(initialSyncOrchestrator: initialSyncOrchestrator,
+                                            reconciliationQueue: reconciliationQueue)
+
+        readyEventEmitter = ReadyEventEmitter(remoteSyncEnginePublisher: publisher,
+                                              completion: { self.cancelEmitters() })
 
         // TODO: This should be an AsynchronousOperation, not a semaphore-waited block
         let semaphore = DispatchSemaphore(value: 0)
@@ -327,6 +372,18 @@ class RemoteSyncEngine: RemoteSyncEngineBehavior {
         stateMachine.notify(action: .notifiedSyncStarted)
     }
 
+    private func onReceiveNetworkStatus(networkStatus: ReachabilityUpdate) {
+        let networkStatusEvent = NetworkStatusEvent(active: networkStatus.isOnline)
+        let networkStatusEventPayload = HubPayload(eventName: HubPayload.EventName.DataStore.networkStatus,
+                                                   data: networkStatusEvent)
+        Amplify.Hub.dispatch(to: .dataStore, payload: networkStatusEventPayload)
+    }
+
+    func cancelEmitters() {
+        syncEventEmitter = nil
+        readyEventEmitter = nil
+    }
+
     func reset(onComplete: () -> Void) {
         let group = DispatchGroup()
 
@@ -350,3 +407,22 @@ class RemoteSyncEngine: RemoteSyncEngineBehavior {
 
 @available(iOS 13.0, *)
 extension RemoteSyncEngine: DefaultLogger { }
+
+@available(iOS 13.0, *)
+extension RemoteSyncEngine: AuthModeStrategyDelegate {
+    func isUserLoggedIn() -> Bool {
+        // if OIDC is used as authentication provider
+        // use `getLatestAuthToken`
+        if let authProviderFactory = api as? APICategoryAuthProviderFactoryBehavior,
+           let oidcAuthProvider = authProviderFactory.apiAuthProviderFactory().oidcAuthProvider() {
+            switch oidcAuthProvider.getLatestAuthToken() {
+            case .failure:
+                return false
+            case .success:
+                return true
+            }
+        }
+
+        return auth?.getCurrentUser() != nil
+    }
+}

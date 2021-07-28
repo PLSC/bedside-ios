@@ -1,16 +1,21 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
 
+/// Request for confirming sign in flow
 public struct AuthConfirmSignInRequest: AmplifyOperationRequest {
 
+    /// Challenge response as part of sign in flow.
+    ///
+    /// The value of `challengeResponse` varies based on the sign in next step defined in `AuthSignInStep`
     public let challengeResponse: String
 
+    /// Extra request options defined in `AuthConfirmSignInRequest.Options`
     public var options: Options
 
     public init(challengeResponse: String, options: Options) {

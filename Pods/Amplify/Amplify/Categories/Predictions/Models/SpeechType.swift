@@ -1,10 +1,12 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
+/// Parts of speech returned
+/// as a result of interpret() API
 public enum SpeechType: String {
     case adjective
     case adposition

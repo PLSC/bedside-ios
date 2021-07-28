@@ -1,12 +1,13 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Amplify
 import AWSPluginsCore
+import Foundation
 
 final public class AWSAPIPlugin: NSObject, APICategoryPlugin {
     /// The unique key of the plugin within the API category.
@@ -41,6 +42,8 @@ final public class AWSAPIPlugin: NSObject, APICategoryPlugin {
     /// to work around @available for use on stored properties
     var iReachabilityMap: [String: Any]?
 
+    var authProviderFactory: APIAuthProviderFactory
+
     @available(iOS 13.0, *)
     var reachabilityMap: [String: NetworkReachabilityNotifier] {
         get {
@@ -54,17 +57,22 @@ final public class AWSAPIPlugin: NSObject, APICategoryPlugin {
         }
     }
 
+    /// Lock used for performing operations atomically when getting and setting `reachabilityMap`.
+    let reachabilityMapLock: NSLock
+
     public init(
         modelRegistration: AmplifyModelRegistration? = nil,
-        sessionFactory: URLSessionBehaviorFactory? = nil
+        sessionFactory: URLSessionBehaviorFactory? = nil,
+        apiAuthProviderFactory: APIAuthProviderFactory? = nil
     ) {
         self.mapper = OperationTaskMapper()
         self.queue = OperationQueue()
-
+        self.authProviderFactory = apiAuthProviderFactory ?? APIAuthProviderFactory()
+        self.reachabilityMapLock = NSLock()
         super.init()
 
         modelRegistration?.registerModels(registry: ModelRegistry.self)
-
+        ModelListDecoderRegistry.registerDecoder(AppSyncListDecoder.self)
         let sessionFactory = sessionFactory
             ?? URLSessionFactory.makeDefault()
         self.session = sessionFactory.makeSession(withDelegate: self)
@@ -78,3 +86,5 @@ extension URLSessionFactory {
         return factory
     }
 }
+
+extension AWSAPIPlugin: AmplifyVersionable { }

@@ -89,6 +89,8 @@ exports.handler = async (event) => {
     certificationRecordTypename
   );
 
+  console.log("certTableName", certificationRecordTableName);
+
   let certRecord = await upsertCertRecord(
     certificationRecordTableName,
     subjectId,

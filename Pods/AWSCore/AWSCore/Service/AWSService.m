@@ -21,7 +21,7 @@
 #import "AWSCocoaLumberjack.h"
 #import "AWSCategory.h"
 
-NSString *const AWSiOSSDKVersion = @"2.15.3";
+NSString *const AWSiOSSDKVersion = @"2.24.4";
 NSString *const AWSServiceErrorDomain = @"com.amazonaws.AWSServiceErrorDomain";
 
 static NSString *const AWSServiceConfigurationUnknown = @"Unknown";
@@ -122,36 +122,45 @@ static NSString *const AWSServiceConfigurationUnknown = @"Unknown";
                    serviceType:(AWSServiceType)serviceType
            credentialsProvider:(id<AWSCredentialsProvider>)credentialsProvider
            localTestingEnabled:(BOOL)localTestingEnabled {
-    if(self = [self initWithRegion:regionType credentialsProvider:credentialsProvider]){
-        _localTestingEnabled = localTestingEnabled;
-        if(localTestingEnabled) {
-            _endpoint = [[AWSEndpoint alloc] initLocalEndpointWithRegion:regionType
-                                                                 service:serviceType
-                                                            useUnsafeURL:YES];
-        }
+    AWSEndpoint *endpoint;
+    if (localTestingEnabled) {
+        endpoint = [[AWSEndpoint alloc] initLocalEndpointWithRegion:regionType
+                                                            service:serviceType
+                                                       useUnsafeURL:YES];
     }
-    
-    return self;
+    return [self initWithRegion:regionType
+                       endpoint:endpoint
+            credentialsProvider:credentialsProvider
+            localTestingEnabled:localTestingEnabled];
 }
 
 - (instancetype)initWithRegion:(AWSRegionType)regionType
            credentialsProvider:(id<AWSCredentialsProvider>)credentialsProvider {
-    if (self = [super init]) {
-        _regionType = regionType;
-        _credentialsProvider = credentialsProvider;
-        _localTestingEnabled = NO;
-    }
-
-    return self;
+    return [self initWithRegion:regionType
+                       endpoint:nil
+            credentialsProvider:credentialsProvider
+            localTestingEnabled:NO];
 }
 
 - (instancetype)initWithRegion:(AWSRegionType)regionType
                       endpoint:(AWSEndpoint *)endpoint
            credentialsProvider:(id<AWSCredentialsProvider>)credentialsProvider {
-    if(self = [self initWithRegion:regionType credentialsProvider:credentialsProvider]){
+    return [self initWithRegion:regionType
+                       endpoint:endpoint
+            credentialsProvider:credentialsProvider
+            localTestingEnabled:NO];
+}
+
+- (instancetype)initWithRegion:(AWSRegionType)regionType
+                      endpoint:(AWSEndpoint *)endpoint
+           credentialsProvider:(id<AWSCredentialsProvider>)credentialsProvider
+           localTestingEnabled:(BOOL)localTestingEnabled {
+    if (self = [super init]) {
+        _regionType = regionType;
         _endpoint = endpoint;
+        _credentialsProvider = credentialsProvider;
+        _localTestingEnabled = localTestingEnabled;
     }
-    
     return self;
 }
 
@@ -298,6 +307,7 @@ static NSString *const AWSServiceNameTextract = @"textract";
 static NSString *const AWSServiceNameTranscribe = @"transcribe";
 static NSString *const AWSServiceNameTranscribeStreaming = @"transcribe";
 static NSString *const AWSServiceNameTranslate = @"translate";
+static NSString *const AWSServiceNameLocation = @"location";
 
 @interface AWSEndpoint()
 
@@ -564,6 +574,8 @@ static NSString *const AWSServiceNameTranslate = @"translate";
             return AWSServiceNameTranscribeStreaming;
         case AWSServiceTranslate:
             return AWSServiceNameTranslate;
+        case AWSServiceLocation:
+            return AWSServiceNameLocation;
         default:
             return nil;
     }
@@ -607,33 +619,12 @@ static NSString *const AWSServiceNameTranslate = @"translate";
             useUnsafeURL:(BOOL)useUnsafeURL {
     NSURL *URL = nil;
 
-    NSString *separator = @".";
-    if (serviceType == AWSServiceS3
-        && (regionType == AWSRegionUSEast1
-            || regionType == AWSRegionUSWest1
-            || regionType == AWSRegionUSWest2
-            || regionType == AWSRegionEUWest1
-            || regionType == AWSRegionAPEast1
-            || regionType == AWSRegionAPSoutheast1
-            || regionType == AWSRegionAPNortheast1
-            || regionType == AWSRegionAPNortheast2
-            || regionType == AWSRegionAPSoutheast2
-            || regionType == AWSRegionAPSouth1
-            || regionType == AWSRegionSAEast1
-            || regionType == AWSRegionUSGovWest1
-            || regionType == AWSRegionMESouth1
-            )) {
-            separator = @"-";
-        }
-
     NSString *HTTPType = @"https";
     if (useUnsafeURL) {
         HTTPType = @"http";
     }
 
-    if (serviceType == AWSServiceS3 && regionType == AWSRegionUSEast1) {
-        URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://s3.amazonaws.com", HTTPType]];
-    } else if (serviceType == AWSServiceSTS) {
+    if (serviceType == AWSServiceSTS) {
         if (regionType == AWSRegionCNNorth1) {
             URL = [NSURL URLWithString:@"https://sts.cn-north-1.amazonaws.com"];
         } else if (regionType == AWSRegionUSGovWest1) {
@@ -644,19 +635,21 @@ static NSString *const AWSServiceNameTranslate = @"translate";
     } else if (serviceType == AWSServiceSimpleDB && regionType == AWSRegionUSEast1) {
         URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://sdb.amazonaws.com", HTTPType]];
     } else if (serviceType == AWSServiceIoT) {
-        URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://iot%@%@.amazonaws.com", HTTPType, separator, regionName]];
+        URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://iot.%@.amazonaws.com", HTTPType, regionName]];
     } else if (serviceType == AWSServiceIoTData) {
-        URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://data%@iot%@%@.amazonaws.com", HTTPType, separator, separator, regionName]];
+        URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://data.iot.%@.amazonaws.com", HTTPType, regionName]];
     } else if (serviceType == AWSServiceMobileTargeting) {
-        URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://pinpoint%@%@.amazonaws.com", HTTPType, separator, regionName]];
+        URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://pinpoint.%@.amazonaws.com", HTTPType, regionName]];
     } else if (serviceType == AWSServiceSageMakerRuntime) {
-        URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://runtime.%@%@%@.amazonaws.com", HTTPType, serviceName, separator, regionName]];
+        URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://runtime.%@.%@.amazonaws.com", HTTPType, serviceName, regionName]];
     } else if (serviceType == AWSServiceTranscribeStreaming) {
-        URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://transcribestreaming%@%@.amazonaws.com", HTTPType, separator, regionName]];
+        URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://transcribestreaming.%@.amazonaws.com", HTTPType, regionName]];
     }  else if (serviceType == AWSServiceConnectParticipant) {
-        URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://participant.connect%@%@.amazonaws.com", HTTPType, separator, regionName]];
+        URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://participant.connect.%@.amazonaws.com", HTTPType, regionName]];
+    } else if (serviceType == AWSServiceLocation) {
+        URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://geo.%@.amazonaws.com", HTTPType, regionName]];
     } else {
-        URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@%@%@.amazonaws.com", HTTPType, serviceName, separator, regionName]];
+        URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@.%@.amazonaws.com", HTTPType, serviceName, regionName]];
     }
 
     //need to add ".cn" at end of URL if it is in China Region
@@ -666,6 +659,13 @@ static NSString *const AWSServiceNameTranslate = @"translate";
     }
     
     return URL;
+}
+
+- (NSString *)signingName {
+    if (self.serviceType == AWSServiceLocation) {
+        return @"geo";
+    }
+    return self.serviceName;
 }
 
 @end

@@ -5,89 +5,47 @@ var region = process.env.REGION
 
 Amplify Params - DO NOT EDIT */
 var AWS = require("aws-sdk");
-var dynamodb = new AWS.DynamoDB();
-var crypto = require("crypto");
-
-async function readAllTables() {
-  var params = {};
-  var tables = [];
-
-  while (true) {
-    var response = await dynamodb.listTables(params).promise();
-    tables = tables.concat(response.TableNames);
-
-    if (undefined === response.LastEvaluatedTableName) {
-      break;
-    } else {
-      params.ExclusiveStartTableName = response.LastEvaluatedTableName;
-    }
-  }
-
-  return tables;
-}
-
-async function getTableNameFn() {
-  let data = await readAllTables();
-  console.log("all tables:", data);
-
-  return function getTableName(name) {
-    let tableNames = data.filter(
-      (tableName) =>
-        tableName.startsWith(name + "-") && tableName.endsWith(process.env.ENV)
-    );
-    if (tableNames.length > 1) {
-      throw (
-        "Ambiguous table names: " +
-        tableNames.reduce((prev, curr, index) => {
-          prev + ", " + curr;
-        })
-      );
-    }
-    if (tableNames.length === 0) {
-      throw "Table not found";
-    }
-
-    return tableNames[0];
-  };
-}
+var dbAPI = require("./dbAPI");
+var tablesUtils = require("./tablesUtils");
 
 exports.handler = async (event, context, callback) => {
-  var getTableName = await getTableNameFn();
-  var tableName = getTableName("User");
-  console.log(event);
+  var userTypeName = "User";
+  var invitationTypeName = "UserInvitation";
+  var getTableName = await tablesUtils.getTableNameFn();
+  var userTableName = getTableName(userTypeName);
   var userName = event.userName;
+  var invitationTableName = getTableName(invitationTypeName);
+  console.log(event);
   var email = event.request.userAttributes.email;
-  var userPoolId = event.userPoolId;
-  var region = event.region;
-  var userId = crypto
-    .createHash("md5")
-    .update(`${userName}-${userPoolId}-${region}`)
-    .digest("hex");
+  var userId;
+  try {
+    invitation = await dbAPI.invitationExists(invitationTableName, email);
+    userId = invitation.inviteeId;
 
-  if (userName) {
-    console.log("Adding to DB: username: " + userName);
-    console.log("Adding to DB: email: " + email);
-    console.log("Adding to DB: id: " + userId);
-    let creationDateString = new Date().toISOString();
+    let userExists = await dbAPI.userExists(userTableName, userId);
+    console.log("User Exists: ", userExists);
 
-    let tableInsert = {
-      TableName: tableName,
-      Item: {
-        id: { S: userId },
-        email: { S: email },
-        userName: { S: userName },
-        createdAt: { S: creationDateString },
-      },
+    const userData = {
+      id: userId,
+      typeName: userTypeName,
+      userName: userName,
+      email: email,
+      orgID: event.request.userAttributes["custom:orgId"],
     };
 
-    try {
-      let dataReq = dynamodb.putItem(tableInsert);
-      data = await dataReq.promise();
-    } catch (e) {
-      console.log("error caught:");
-      console.log(e);
-      callback(e);
-    }
+    let newUser = await dbAPI.updateUser(userTableName, userData);
+    console.log("New User: ", newUser);
+
+    await dbAPI.setInvitationStatus(
+      invitationTableName,
+      invitation.id,
+      dbAPI.InvitationStatus.Resolved
+    );
+    console.log("User Invitation Resolved.");
+  } catch (e) {
+    console.log("error caught:", e);
+    callback(e);
   }
+
   context.done(null, event);
 };

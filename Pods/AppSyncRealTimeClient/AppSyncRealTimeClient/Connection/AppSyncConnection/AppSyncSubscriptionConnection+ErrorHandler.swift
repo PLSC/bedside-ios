@@ -1,5 +1,5 @@
 //
-// Copyright 2018-2020 Amazon.com,
+// Copyright 2018-2021 Amazon.com,
 // Inc. or its affiliates. All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -10,6 +10,11 @@ import Starscream
 
 extension AppSyncSubscriptionConnection {
     func handleError(error: Error) {
+        guard let subscriptionItem = subscriptionItem else {
+            AppSyncLogger.warn("[AppSyncSubscriptionConnection] \(#function): missing subscription item")
+            return
+        }
+
         // If the error identifier is not for the this connection
         // we return immediately without handling the error.
         if case let ConnectionProviderError.subscription(identifier, _) = error,
@@ -29,7 +34,7 @@ extension AppSyncSubscriptionConnection {
 
         let retryAdvice = retryHandler.shouldRetryRequest(for: connectionError)
         if retryAdvice.shouldRetry, let retryInterval = retryAdvice.retryInterval {
-            AppSyncLogger.debug("Retrying subscription \(subscriptionItem.identifier) after \(retryInterval)")
+            AppSyncLogger.debug("[AppSyncSubscriptionConnection] Retrying subscription \(subscriptionItem.identifier) after \(retryInterval)")
             DispatchQueue.global().asyncAfter(deadline: .now() + retryInterval) {
                 self.connectionProvider?.connect()
             }

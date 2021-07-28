@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -9,7 +9,7 @@ import Foundation
 import AWSCore
 
 public class AmplifyAWSServiceConfiguration: AWSServiceConfiguration {
-    private static let version = "1.2.0"
+    static let version = "1.12.0"
 
     override public class func baseUserAgent() -> String! {
         //TODO: Retrieve this version from a centralized location:
@@ -41,23 +41,14 @@ public class AmplifyAWSServiceConfiguration: AWSServiceConfiguration {
     public init(region regionType: AWSRegionType) {
         super.init(region: regionType, credentialsProvider: nil)
     }
-}
 
-extension AmplifyAWSServiceConfiguration {
-
-    static var platformMapping: [Platform: String] = [:]
-
-    public static func addUserAgentPlatform(_ platform: Platform, version: String) {
-        platformMapping[platform] = version
-    }
-
-    public enum Platform: String {
-        case flutter = "amplify-flutter"
-    }
-
-    static func platformInformation() -> String {
-        var platformTokens = platformMapping.map { "\($0.rawValue)/\($1)" }
-        platformTokens.append("amplify-iOS/\(version)")
-        return platformTokens.joined(separator: " ")
+    override public init(region regionType: AWSRegionType,
+                         endpoint: AWSEndpoint,
+                         credentialsProvider: AWSCredentialsProvider,
+                         localTestingEnabled: Bool) {
+        super.init(region: regionType,
+                   endpoint: endpoint,
+                   credentialsProvider: credentialsProvider,
+                   localTestingEnabled: localTestingEnabled)
     }
 }

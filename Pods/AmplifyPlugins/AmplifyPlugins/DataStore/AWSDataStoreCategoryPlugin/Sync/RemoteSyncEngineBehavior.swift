@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -24,7 +24,7 @@ enum RemoteSyncEngineEvent {
 }
 
 /// Behavior to sync mutation events to the remote API, and to subscribe to mutations from the remote API
-protocol RemoteSyncEngineBehavior: class {
+protocol RemoteSyncEngineBehavior: AnyObject {
 
     /// Start the sync process with a "delta sync" merge
     ///

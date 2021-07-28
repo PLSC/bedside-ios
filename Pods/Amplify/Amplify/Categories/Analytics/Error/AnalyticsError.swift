@@ -1,18 +1,22 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
 
+/// Analytics Error
 public enum AnalyticsError {
+    /// Configuration Error
     case configuration(ErrorDescription, RecoverySuggestion, Error? = nil)
+    /// Unknown Error
     case unknown(ErrorDescription, Error? = nil)
 }
 
 extension AnalyticsError: AmplifyError {
+    /// Error Description
     public var errorDescription: ErrorDescription {
         switch self {
         case .configuration(let errorDescription, _, _):
@@ -22,6 +26,7 @@ extension AnalyticsError: AmplifyError {
         }
     }
 
+    /// Recovery Suggestion
     public var recoverySuggestion: RecoverySuggestion {
         switch self {
         case .configuration(_, let recoverySuggestion, _):
@@ -31,6 +36,7 @@ extension AnalyticsError: AmplifyError {
         }
     }
 
+    /// Underlying Error
     public var underlyingError: Error? {
         switch self {
         case .configuration(_, _, let error):
@@ -40,6 +46,11 @@ extension AnalyticsError: AmplifyError {
         }
     }
 
+    /// Initializer
+    /// - Parameters:
+    ///   - errorDescription: Error Description
+    ///   - recoverySuggestion: Recovery Suggestion
+    ///   - error: Underlying Error
     public init(
         errorDescription: ErrorDescription = "An unknown error occurred",
         recoverySuggestion: RecoverySuggestion = "(Ignored)",

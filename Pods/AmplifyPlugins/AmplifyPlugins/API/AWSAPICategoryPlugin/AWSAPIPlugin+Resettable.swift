@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -26,7 +26,9 @@ extension AWSAPIPlugin: Resettable {
         authService = nil
 
         if #available(iOS 13.0, *) {
+            reachabilityMapLock.lock()
             reachabilityMap.removeAll()
+            reachabilityMapLock.unlock()
         }
 
         subscriptionConnectionFactory = nil

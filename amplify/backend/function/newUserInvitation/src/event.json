@@ -1,0 +1,70 @@
+{
+  "typeName": "Mutation",
+  "fieldName": "newUserInvitation",
+  "arguments": {
+    "userInvitation": {
+      "inviteeId": "1",
+      "invitationStatus": "Started",
+      "email": "andy@simpl.org"
+    }
+  },
+  "identity": {
+    "claims": {
+      "sub": "10d80ab2-6579-4acb-9c1b-f7378b552b61",
+      "cognito:groups": ["Sysadmins", "Users", "Admins"],
+      "email_verified": true,
+      "cognito:preferred_role": "arn:aws:iam::597534837657:role/us-east-1_XBnRqcQ8D-SysadminsGroupRole",
+      "iss": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_XBnRqcQ8D",
+      "phone_number_verified": true,
+      "cognito:username": "andy",
+      "cognito:roles": [
+        "arn:aws:iam::597534837657:role/us-east-1_XBnRqcQ8D-AdminsGroupRole",
+        "arn:aws:iam::597534837657:role/us-east-1_XBnRqcQ8D-SysadminsGroupRole",
+        "arn:aws:iam::597534837657:role/us-east-1_XBnRqcQ8D-UsersGroupRole"
+      ],
+      "aud": "2utg3b29uuolf0o3gjoj4g7630",
+      "event_id": "8009f5ef-1bf9-43d8-b666-e0b5599a90f6",
+      "token_use": "id",
+      "auth_time": 1593696586,
+      "phone_number": "+018108757864",
+      "exp": 1593700186,
+      "iat": 1593696586,
+      "email": "andy+invitation@simpl.org"
+    },
+    "defaultAuthStrategy": "ALLOW",
+    "groups": ["Sysadmins", "Users", "Admins"],
+    "issuer": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_XBnRqcQ8D",
+    "sourceIp": ["71.82.99.142"],
+    "sub": "10d80ab2-6579-4acb-9c1b-f7378b552b61",
+    "username": "andy"
+  },
+  "source": null,
+  "request": {
+    "headers": {
+      "x-forwarded-for": "71.82.99.142, 70.132.57.83",
+      "accept-encoding": "gzip, deflate, br",
+      "cloudfront-viewer-country": "US",
+      "cloudfront-is-tablet-viewer": "false",
+      "referer": "https://console.aws.amazon.com/",
+      "via": "2.0 d86a278943c32398c969905c38681025.cloudfront.net (CloudFront)",
+      "cloudfront-forwarded-proto": "https",
+      "origin": "https://console.aws.amazon.com",
+      "content-type": "application/json",
+      "x-amzn-trace-id": "Root=1-5efde3dc-1c6517bf41d8aea3abb52f0e",
+      "x-amz-cf-id": "S9XG1AwGJkIHXDSPX8CDb2RcbuJljNmn79srT8ibObOuoysc7EkBtg==",
+      "authorization": "eyJraWQiOiJWM0NYZ2E2YmtwQ3lldWs5WVVrQ1ZiN2xIdmZxcUxHOHBTUGIxXC93TXJBND0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIxMGQ4MGFiMi02NTc5LTRhY2ItOWMxYi1mNzM3OGI1NTJiNjEiLCJjb2duaXRvOmdyb3VwcyI6WyJTeXNhZG1pbnMiLCJVc2VycyIsIkFkbWlucyJdLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiY29nbml0bzpwcmVmZXJyZWRfcm9sZSI6ImFybjphd3M6aWFtOjo1OTc1MzQ4Mzc2NTc6cm9sZVwvdXMtZWFzdC0xX1hCblJxY1E4RC1TeXNhZG1pbnNHcm91cFJvbGUiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMV9YQm5ScWNROEQiLCJwaG9uZV9udW1iZXJfdmVyaWZpZWQiOnRydWUsImNvZ25pdG86dXNlcm5hbWUiOiJhbmR5IiwiY29nbml0bzpyb2xlcyI6WyJhcm46YXdzOmlhbTo6NTk3NTM0ODM3NjU3OnJvbGVcL3VzLWVhc3QtMV9YQm5ScWNROEQtQWRtaW5zR3JvdXBSb2xlIiwiYXJuOmF3czppYW06OjU5NzUzNDgzNzY1Nzpyb2xlXC91cy1lYXN0LTFfWEJuUnFjUThELVN5c2FkbWluc0dyb3VwUm9sZSIsImFybjphd3M6aWFtOjo1OTc1MzQ4Mzc2NTc6cm9sZVwvdXMtZWFzdC0xX1hCblJxY1E4RC1Vc2Vyc0dyb3VwUm9sZSJdLCJhdWQiOiIydXRnM2IyOXV1b2xmMG8zZ2pvajRnNzYzMCIsImV2ZW50X2lkIjoiODAwOWY1ZWYtMWJmOS00M2Q4LWI2NjYtZTBiNTU5OWE5MGY2IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1OTM2OTY1ODYsInBob25lX251bWJlciI6IiswMTgxMDg3NTc4NjQiLCJleHAiOjE1OTM3MDAxODYsImlhdCI6MTU5MzY5NjU4NiwiZW1haWwiOiJhbmR5K2ludml0YXRpb25Ac2ltcGwub3JnIn0.jr5izTbdHUMeDzNp1o3vfSQMk_vheqy64MBajI8RYS505fJiEqECpViCAs6MaQPnQ1dtd4hWmbnvhUHdB4aD2Mx_q7eQxoU6O5yjfvTynLW-vo0Mnwka4Vll8LGwd5LF_EaQ7Q77i9PzpnozU6XS34thwSprvJHrn7iwiwDwVJ4TqpI0MkBuOcu5y0g2pZDdNm9xi9mJfo20iE1xTWnRciqRXWaIJNKGIXi_Z-xtSAZiY5worwJrGveEG5rySzc9n5vtEg2C_0B0a4BJVOcikgMed6bhsdaGUd4N55eAcz6H5_hVH_lgEoDA3_J-sRyBSlgk6V90psBOy2Ew2fdaOQ",
+      "content-length": "1503",
+      "x-amz-user-agent": "AWS-Console-AppSync/",
+      "x-forwarded-proto": "https",
+      "host": "bjayiyas3bhitifx4shhk3tq5q.appsync-api.us-east-1.amazonaws.com",
+      "accept-language": "en-us",
+      "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Safari/605.1.15",
+      "cloudfront-is-desktop-viewer": "true",
+      "cloudfront-is-mobile-viewer": "false",
+      "accept": "*/*",
+      "x-forwarded-port": "443",
+      "cloudfront-is-smarttv-viewer": "false"
+    }
+  },
+  "prev": { "result": {} }
+}

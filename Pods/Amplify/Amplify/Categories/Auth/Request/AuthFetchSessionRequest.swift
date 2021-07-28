@@ -1,17 +1,19 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
 
+/// Request to fetch the current auth session
 public struct AuthFetchSessionRequest: AmplifyOperationRequest {
 
+    /// Extra request options defined in `AuthFetchSessionRequest.Options`
     public var options: Options
 
-    public init( options: Options) {
+    public init(options: Options) {
 
         self.options = options
     }

@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -8,6 +8,9 @@
 import Foundation
 import CoreGraphics
 
+/// Describes a celebrity identified in an image
+/// with information about its location(bounding box) and
+/// facial features(landmarks)
 public struct Celebrity {
     public let metadata: CelebrityMetadata
     public let boundingBox: CGRect
@@ -20,6 +23,7 @@ public struct Celebrity {
     }
 }
 
+/// Celebrity metadata identified as a result of identify() API
 public struct CelebrityMetadata {
     public let name: String
     public let identifier: String

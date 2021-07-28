@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -19,22 +19,10 @@ extension ReconcileAndLocalSaveOperation {
         static func resolve(currentState: State, action: Action) -> State {
             switch (currentState, action) {
 
-            case (.waiting, .started(let remoteModel)):
-                return .querying(remoteModel)
+            case (.waiting, .started(let remoteModels)):
+                return .reconciling(remoteModels)
 
-            case (.querying, .queried(let remoteModel, let localModel)):
-                return .reconciling(remoteModel, localModel)
-
-            case (.reconciling, .reconciled(let disposition)):
-                return .executing(disposition)
-
-            case (.executing, .dropped):
-                return .finished
-
-            case (.executing, .applied(let savedModel)):
-                return .notifying(savedModel)
-
-            case (.notifying, .notified):
+            case (.reconciling, .reconciled):
                 return .finished
 
             case (_, .errored(let amplifyError)):

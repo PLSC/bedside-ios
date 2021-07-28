@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -77,7 +77,7 @@ extension HubChannelDispatcher: HubDispatchOperationDelegate {
     }
 }
 
-protocol HubDispatchOperationDelegate: class {
+protocol HubDispatchOperationDelegate: AnyObject {
     /// Used to let a dispatch operation retrieve the list of listeners at the time of invocation, rather than the time
     /// of queuing.
     var listeners: [FilteredListener] { get }

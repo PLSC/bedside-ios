@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -9,7 +9,11 @@ import Foundation
 
 /// Errors specific to the API Category
 public enum APIError {
+
+    /// Dictionary used to store additional information
     public typealias UserInfo = [String: Any]
+
+    /// Status code Int
     public typealias StatusCode = Int
 
     /// An unknown error

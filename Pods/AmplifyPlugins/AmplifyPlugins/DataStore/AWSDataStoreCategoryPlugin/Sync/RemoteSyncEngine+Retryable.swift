@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -21,6 +21,7 @@ extension RemoteSyncEngine {
             scheduleRestart(advice: advice)
         } else {
             remoteSyncTopicPublisher.send(completion: .failure(DataStoreError.api(error)))
+            cancelEmitters()
             if let completionBlock = finishedCompletionBlock {
                 completionBlock(.failure(causedBy: error))
                 finishedCompletionBlock = nil

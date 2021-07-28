@@ -1,14 +1,14 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import CoreGraphics
 
-/// Struct that holds the result for an entity matched from an entity collection
-/// created on Rekogniton and detected from Predictions Identify methods.
+/// Describes the result for an entity matched in an entity collection
+/// created on AWS Rekogniton and detected from identify() API call
 public struct EntityMatch {
     public let boundingBox: CGRect
     public let metadata: EntityMatchMetadata

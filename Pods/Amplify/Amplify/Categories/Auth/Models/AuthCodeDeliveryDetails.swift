@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -9,6 +9,7 @@ import Foundation
 
 public typealias AdditionalInfo = [String: String]
 
+/// Details on where the code has been delivered
 public struct AuthCodeDeliveryDetails {
 
     /// Destination to which the code was delivered.

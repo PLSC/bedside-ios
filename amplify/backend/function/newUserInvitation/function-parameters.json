@@ -1,0 +1,12 @@
+{
+    "permissions": {
+        "api": {
+            "bedside": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ]
+        }
+    }
+}

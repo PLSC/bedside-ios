@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -19,6 +19,8 @@ public struct AuthSignUpResult {
         }
     }
 
+    /// Shows the next step required to complete the signUp flow.
+    ///
     public let nextStep: AuthSignUpStep
 
     public init(_ nextStep: AuthSignUpStep) {

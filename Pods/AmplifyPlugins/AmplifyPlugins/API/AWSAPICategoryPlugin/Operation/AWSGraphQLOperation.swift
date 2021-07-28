@@ -1,11 +1,12 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Amplify
+import AWSPluginsCore
 import Foundation
 
 final public class AWSGraphQLOperation<R: Decodable>: GraphQLOperation<R> {
@@ -13,8 +14,7 @@ final public class AWSGraphQLOperation<R: Decodable>: GraphQLOperation<R> {
     let session: URLSessionBehavior
     let mapper: OperationTaskMapper
     let pluginConfig: AWSAPICategoryPluginConfiguration
-
-    var graphQLResponseData = Data()
+    let graphQLResponseDecoder: GraphQLResponseDecoder<R>
 
     init(request: GraphQLOperationRequest<R>,
          session: URLSessionBehavior,
@@ -25,6 +25,7 @@ final public class AWSGraphQLOperation<R: Decodable>: GraphQLOperation<R> {
         self.session = session
         self.mapper = mapper
         self.pluginConfig = pluginConfig
+        self.graphQLResponseDecoder = GraphQLResponseDecoder(request: request)
 
         super.init(categoryType: .api,
                    eventName: request.operationType.hubEventName,
@@ -55,8 +56,16 @@ final public class AWSGraphQLOperation<R: Decodable>: GraphQLOperation<R> {
 
         // Retrieve endpoint configuration
         let endpointConfig: AWSAPICategoryPluginConfiguration.EndpointConfig
+        let requestInterceptors: [URLRequestInterceptor]
+
         do {
             endpointConfig = try pluginConfig.endpoints.getConfig(for: request.apiName, endpointType: .graphQL)
+
+            if let pluginOptions = request.options.pluginOptions as? AWSPluginOptions, let authType = pluginOptions.authType {
+                requestInterceptors = try pluginConfig.interceptorsForEndpoint(withConfig: endpointConfig, authType: authType)
+            } else {
+                requestInterceptors = try pluginConfig.interceptorsForEndpoint(withConfig: endpointConfig)
+            }
         } catch let error as APIError {
             dispatch(result: .failure(error))
             finish()
@@ -70,6 +79,12 @@ final public class AWSGraphQLOperation<R: Decodable>: GraphQLOperation<R> {
         // Prepare request payload
         let queryDocument = GraphQLOperationRequestUtils.getQueryDocument(document: request.document,
                                                                           variables: request.variables)
+        if Amplify.API.log.logLevel == .verbose,
+           let serializedJSON = try? JSONSerialization.data(withJSONObject: queryDocument,
+                                                            options: .prettyPrinted),
+           let prettyPrintedQueryDocument = String(data: serializedJSON, encoding: .utf8) {
+            Amplify.API.log.verbose("\(prettyPrintedQueryDocument)")
+        }
         let requestPayload: Data
         do {
             requestPayload = try JSONSerialization.data(withJSONObject: queryDocument)
@@ -86,7 +101,7 @@ final public class AWSGraphQLOperation<R: Decodable>: GraphQLOperation<R> {
                                                                        requestPayload: requestPayload)
 
         // Intercept request
-        let finalRequest = endpointConfig.interceptors.reduce(urlRequest) { (request, interceptor) -> URLRequest in
+        let finalRequest = requestInterceptors.reduce(urlRequest) { (request, interceptor) -> URLRequest in
             do {
                 return try interceptor.intercept(request)
             } catch let error as APIError {

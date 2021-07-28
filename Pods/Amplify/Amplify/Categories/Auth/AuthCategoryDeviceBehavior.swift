@@ -1,13 +1,13 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
 
-public protocol AuthCategoryDeviceBehavior: class {
+public protocol AuthCategoryDeviceBehavior: AnyObject {
 
     /// Fetch devices assigned to the current device
     /// - Parameters:

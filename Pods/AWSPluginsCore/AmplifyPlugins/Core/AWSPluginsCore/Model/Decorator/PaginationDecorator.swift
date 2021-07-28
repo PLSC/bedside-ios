@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -21,6 +21,11 @@ public struct PaginationDecorator: ModelBasedGraphQLDocumentDecorator {
 
     public func decorate(_ document: SingleDirectiveGraphQLDocument,
                          modelType: Model.Type) -> SingleDirectiveGraphQLDocument {
+        decorate(document, modelSchema: modelType.schema)
+    }
+
+    public func decorate(_ document: SingleDirectiveGraphQLDocument,
+                         modelSchema: ModelSchema) -> SingleDirectiveGraphQLDocument {
         var inputs = document.inputs
 
         if let limit = limit {

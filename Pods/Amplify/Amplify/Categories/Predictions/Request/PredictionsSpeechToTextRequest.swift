@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -28,7 +28,7 @@ extension PredictionsSpeechToTextRequest {
             /// The default NetworkPolicy for the operation. The default value will be `auto`.
             public let defaultNetworkPolicy: DefaultNetworkPolicy
 
-            ///the language of the audio file you are transcribing
+            /// The language of the audio file you are transcribing
             public let language: LanguageType?
 
             /// Extra plugin specific options, only used in special circumstances when the existing options do not

@@ -1,16 +1,18 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
 
+/// Request to reset password of a user
 public struct AuthResetPasswordRequest: AmplifyOperationRequest {
 
     public let username: String
 
+    /// Extra request options defined in `AuthResetPasswordRequest.Options`
     public var options: Options
 
     public init(username: String,

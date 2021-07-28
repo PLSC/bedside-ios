@@ -1,10 +1,11 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
+/// Describes the pose of a person identified in an image from identify() API
 public struct Pose {
     public let pitch: Double
     public let roll: Double

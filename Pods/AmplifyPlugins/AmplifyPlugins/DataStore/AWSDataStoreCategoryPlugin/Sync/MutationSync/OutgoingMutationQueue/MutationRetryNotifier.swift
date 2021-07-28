@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -22,10 +22,10 @@ final class MutationRetryNotifier {
          retryMutationCallback: @escaping BasicClosure) {
         self.retryMutationCallback = retryMutationCallback
 
-        networkReachabilityPublisher?.subscribe(self)
-
         let deadline = DispatchTime.now() + advice.retryInterval
         scheduleTimer(at: deadline)
+
+        networkReachabilityPublisher?.dropFirst().subscribe(self)
     }
 
     deinit {
