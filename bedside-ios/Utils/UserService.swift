@@ -35,21 +35,7 @@ protocol UserService {
 
 class AppSyncUserService: UserService {
     func fetchUsers(orgId: String, withFilterText filter: String?, completion: @escaping Handler) {
-        if let filter = filter {
-            fetchRatersWithFilter(orgId: orgId, filterText: filter, completion: completion)
-        } else {
             fetchRaters(orgId: orgId, completion: completion)
-        }
-    }
-    
-    func fetchRatersWithFilter(orgId: String, filterText: String, completion: @escaping Handler) {
-        let modelIDInput = ModelIDInput(eq: orgId)
-        let filterStringInput = ModelStringInput(contains: filterText)
-        let firstNameFilter = ModelUserFilterInput(orgId: modelIDInput, firstName: filterStringInput)
-        let lastNameFilter = ModelUserFilterInput(orgId: modelIDInput, lastName: filterStringInput)
-        let emailFilter = ModelUserFilterInput(orgId: modelIDInput, email: filterStringInput)
-        let orFilter = ModelUserFilterInput(or:[firstNameFilter, lastNameFilter, emailFilter])
-        fetchUsers(filter: orFilter, completion: completion)
     }
     
     func fetchRaters(orgId: String, completion: @escaping Handler)  {

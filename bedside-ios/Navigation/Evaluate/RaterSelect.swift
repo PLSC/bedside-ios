@@ -56,10 +56,6 @@ struct RaterSelect: View {
             return
         }
         
-        if let id = self.userLoginState.currentUser?.id {
-            self.ratersViewModel.filterIds = [id]
-        }
-        
         ratersViewModel.fetchRaters(orgId: org)
     }
     
