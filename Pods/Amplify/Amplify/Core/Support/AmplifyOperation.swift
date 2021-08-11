@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -17,8 +17,6 @@ import Foundation
 ///
 /// Pausable/resumable tasks that do not require Hub dispatching should use AsynchronousOperation instead.
 open class AmplifyOperation<Request: AmplifyOperationRequest, Success, Failure: AmplifyError>: AsynchronousOperation {
-
-    struct OperationCancelledError: Error { }
 
     /// The concrete Request associated with this operation
     public typealias Request = Request

@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -8,7 +8,6 @@
 import Foundation
 import AWSS3
 import Amplify
-import AWSMobileClient
 import AWSPluginsCore
 
 class AWSS3StorageService: AWSS3StorageServiceBehaviour {

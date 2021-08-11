@@ -19,54 +19,27 @@ class RatersViewModel : ObservableObject {
     @Published var showError : Bool = false
     @Published var errorMessage : String = ""
     
-    var filterIds : [String] = []
     var cancellableSet : Set<AnyCancellable> = []
     let userService : UserService
     
-    init(filterIds: [String], userService: UserService = AppSyncUserService()) {
-        self.filterIds = filterIds
+    init(userService: UserService = AppSyncUserService()) {
         self.userService = userService
-        
-        $raters.receive(on: RunLoop.main).map { users in
-                users.filter(self.userSearchFilter(_:)).sorted { (user1, user2) -> Bool in
-                    return user1.sortName < user2.sortName
+        Publishers.CombineLatest($raters, $filterText)
+            .receive(on: RunLoop.main)
+            .map {
+                raters, filterText in
+                let sortedRaters = raters.sorted {  $0.sortName < $1.sortName }
+                if filterText.isEmpty {
+                    return sortedRaters
+                } else {
+                    return sortedRaters.filter { rater in
+                        rater.displayName.lowercased().contains(filterText.lowercased())
+                    }
                 }
             }
             .assign(to: \.filteredUsers, on: self)
             .store(in: &cancellableSet)
-        
-        $filterText.receive(on: RunLoop.main)
-            .dropFirst()
-            .debounce(for: 0.5, scheduler: RunLoop.main)
-            .sink {
-                [weak self] filterText in
-                guard let s = self else {return}
-                if !filterText.isEmpty {
-                    s.fetchRatersWithFilter(orgId: s.orgId, filterText: filterText)
-                } else {
-                    s.fetchRaters(orgId: s.orgId)
-                }
-            }.store(in: &cancellableSet)
-        
     }
-    
-    private func userSearchFilter(_ user: User) -> Bool {
-        return !filterIds.contains(user.id)
-    }
-    
-    func fetchRatersWithFilter(orgId: String, filterText: String) {
-        self.orgId = orgId
-        self.userService.fetchUsers(orgId: orgId, withFilterText: filterText) { (result) in
-            switch result {
-            case .success(let users):
-                self.raters = users
-            case .failure(let error):
-                self.showError = true
-                self.errorMessage = error.localizedDescription
-            }
-        }
-    }
-    
 
     func fetchRaters(orgId: String)  {
         self.orgId = orgId

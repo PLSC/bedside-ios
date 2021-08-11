@@ -1,12 +1,13 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
 
+/// Analytics event
 public protocol AnalyticsEvent {
 
     /// Name of the event

@@ -1,10 +1,12 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
+/// Describes a key phrase identified in a text as
+/// a result of interpret() API call
 public struct KeyPhrase {
 
     public let score: Float?

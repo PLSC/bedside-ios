@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -108,6 +108,8 @@ extension DataStoreError: AmplifyError {
             self = error
         } else if let amplifyError = error as? AmplifyError {
             self = .api(amplifyError)
+        } else if error.isOperationCancelledError {
+            self = .unknown("Operation cancelled", "", error)
         } else {
             self = .unknown(errorDescription, recoverySuggestion, error)
         }

@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -8,6 +8,7 @@
 import Amplify
 import AWSPluginsCore
 import Combine
+import Foundation
 
 /// Facade to hide the AsyncEventQueue/ModelMapper structures from the ModelReconciliationQueue.
 /// Provides a publisher for all incoming subscription types (onCreate, onUpdate, onDelete) for a single Model type.
@@ -22,18 +23,28 @@ final class AWSIncomingSubscriptionEventPublisher: IncomingSubscriptionEventPubl
         return subscriptionEventSubject.eraseToAnyPublisher()
     }
 
-    init(modelType: Model.Type, api: APICategoryGraphQLBehavior, auth: AuthCategoryBehavior?) {
+    init(modelSchema: ModelSchema,
+         api: APICategoryGraphQLBehavior,
+         modelPredicate: QueryPredicate?,
+         auth: AuthCategoryBehavior?,
+         authModeStrategy: AuthModeStrategy) {
         self.subscriptionEventSubject = PassthroughSubject<IncomingSubscriptionEventPublisherEvent, DataStoreError>()
-        self.asyncEvents = IncomingAsyncSubscriptionEventPublisher(modelType: modelType,
+        self.asyncEvents = IncomingAsyncSubscriptionEventPublisher(modelSchema: modelSchema,
                                                                    api: api,
-                                                                   auth: auth)
+                                                                   modelPredicate: modelPredicate,
+                                                                   auth: auth,
+                                                                   authModeStrategy: authModeStrategy)
 
         let mapper = IncomingAsyncSubscriptionEventToAnyModelMapper()
         self.mapper = mapper
 
         asyncEvents.subscribe(subscriber: mapper)
-        self.mapperSink = mapper.publisher.sink(receiveCompletion: onReceiveCompletion(receiveCompletion:),
-                                                receiveValue: onReceive(receiveValue:))
+        self.mapperSink = mapper
+            .publisher
+            .sink(
+                receiveCompletion: { [weak self] in self?.onReceiveCompletion(receiveCompletion: $0) },
+                receiveValue: { [weak self] in self?.onReceive(receiveValue: $0) }
+            )
     }
 
     private func onReceiveCompletion(receiveCompletion: Subscribers.Completion<DataStoreError>) {
@@ -58,6 +69,7 @@ final class AWSIncomingSubscriptionEventPublisher: IncomingSubscriptionEventPubl
     }
 }
 
+// MARK: Resettable
 @available(iOS 13.0, *)
 extension AWSIncomingSubscriptionEventPublisher: Resettable {
 
@@ -65,13 +77,19 @@ extension AWSIncomingSubscriptionEventPublisher: Resettable {
         let group = DispatchGroup()
 
         group.enter()
-        DispatchQueue.global().async {
-            self.asyncEvents.reset { group.leave() }
+        Amplify.log.verbose("Resetting asyncEvents")
+        asyncEvents.reset {
+            Amplify.log.verbose("Resetting asyncEvents: finished")
+            group.leave()
         }
 
-        group.enter()
-        DispatchQueue.global().async {
-            self.mapper?.reset { group.leave() }
+        if let mapper = mapper {
+            Amplify.log.verbose("Resetting mapper")
+            group.enter()
+            mapper.reset {
+                Amplify.log.verbose("Resetting mapper: finished")
+                group.leave()
+            }
         }
 
         group.wait()

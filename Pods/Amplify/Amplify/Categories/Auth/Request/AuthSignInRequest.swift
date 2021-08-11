@@ -1,18 +1,22 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
 
+/// Request to sign in a user
 public struct AuthSignInRequest: AmplifyOperationRequest {
 
+    /// User name to use for the sign in flow
     public let username: String?
 
+    /// Password to use for the sign in flow
     public let password: String?
 
+    /// Extra request options defined in `AuthSignInRequest.Options`
     public var options: Options
 
     public init(username: String?, password: String?, options: Options) {

@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -27,7 +27,7 @@ extension RemoteSyncEngine {
         case cleanedUp(AmplifyError)
         case cleanedUpForTermination
         case scheduleRestart(AmplifyError)
-        case scheduleRestartFinished
+        case scheduledRestartTriggered
 
         // Terminal actions
         case receivedCancel
@@ -60,8 +60,8 @@ extension RemoteSyncEngine {
                 return "cleanedUpForTermination"
             case .scheduleRestart:
                 return "scheduleRestart"
-            case .scheduleRestartFinished:
-                return "scheduleRestartFinished"
+            case .scheduledRestartTriggered:
+                return "scheduledRestartTriggered"
             case .receivedCancel:
                 return "receivedCancel"
             case .errored:

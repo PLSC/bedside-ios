@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -9,22 +9,20 @@ import Amplify
 import Foundation
 
 /// Represents a `create table` SQL statement. The table is created based on the `ModelSchema`
-/// associated with the passed `Model.Type`.
 struct CreateTableStatement: SQLStatement {
 
-    let modelType: Model.Type
+    let modelSchema: ModelSchema
 
-    init(modelType: Model.Type) {
-        self.modelType = modelType
+    init(modelSchema: ModelSchema) {
+        self.modelSchema = modelSchema
     }
 
     var stringValue: String {
-        let schema = modelType.schema
-        let name = schema.name
-        var statement = "create table if not exists \(name) (\n"
+        let name = modelSchema.name
+        var statement = #"create table if not exists "\#(name)" (\#n"#
 
-        let columns = schema.columns
-        let foreignKeys = schema.foreignKeys
+        let columns = modelSchema.columns
+        let foreignKeys = modelSchema.foreignKeys
 
         for (index, column) in columns.enumerated() {
             statement += "  \"\(column.sqlName)\" \(column.sqlType.rawValue)"
@@ -51,9 +49,14 @@ struct CreateTableStatement: SQLStatement {
 
         for (index, foreignKey) in foreignKeys.enumerated() {
             statement += "  foreign key(\"\(foreignKey.sqlName)\") "
-            let associatedModel = foreignKey.requiredAssociatedModel
-            let associatedId = associatedModel.schema.primaryKey
-            let associatedModelName = associatedModel.schema.name
+            let associatedModel = foreignKey.requiredAssociatedModelName
+            guard let schema = ModelRegistry.modelSchema(from: associatedModel) else {
+                preconditionFailure("""
+                Could not retrieve schema for the model \(associatedModel), verify that datastore is initialized.
+                """)
+            }
+            let associatedId = schema.primaryKey
+            let associatedModelName = schema.name
             statement += "references \(associatedModelName)(\"\(associatedId.sqlName)\")\n"
             statement += "    on delete cascade"
             let isNotLastKey = index < foreignKeys.endIndex - 1

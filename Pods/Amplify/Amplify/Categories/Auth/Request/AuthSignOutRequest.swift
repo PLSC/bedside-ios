@@ -1,14 +1,16 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
 
+/// Request for sign out user
 public struct AuthSignOutRequest: AmplifyOperationRequest {
 
+    /// Extra request options defined in `AuthSignOutRequest.Options`
     public var options: Options
 
     public init(options: Options) {

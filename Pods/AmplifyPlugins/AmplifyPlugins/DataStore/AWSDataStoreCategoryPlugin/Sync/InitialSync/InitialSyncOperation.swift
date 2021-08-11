@@ -1,12 +1,14 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Amplify
 import AWSPluginsCore
+import Combine
+import Foundation
 
 @available(iOS 13.0, *)
 final class InitialSyncOperation: AsynchronousOperation {
@@ -16,9 +18,9 @@ final class InitialSyncOperation: AsynchronousOperation {
     private weak var reconciliationQueue: IncomingEventReconciliationQueue?
     private weak var storageAdapter: StorageEngineAdapter?
     private let dataStoreConfiguration: DataStoreConfiguration
+    private let authModeStrategy: AuthModeStrategy
 
-    private let modelType: Model.Type
-    private let completion: AWSInitialSyncOrchestrator.SyncOperationResultHandler
+    private let modelSchema: ModelSchema
 
     private var recordsReceived: UInt
 
@@ -29,35 +31,44 @@ final class InitialSyncOperation: AsynchronousOperation {
         return dataStoreConfiguration.syncPageSize
     }
 
-    init(modelType: Model.Type,
+    private let initialSyncOperationTopic: PassthroughSubject<InitialSyncOperationEvent, DataStoreError>
+    var publisher: AnyPublisher<InitialSyncOperationEvent, DataStoreError> {
+        return initialSyncOperationTopic.eraseToAnyPublisher()
+    }
+
+    init(modelSchema: ModelSchema,
          api: APICategoryGraphQLBehavior?,
          reconciliationQueue: IncomingEventReconciliationQueue?,
          storageAdapter: StorageEngineAdapter?,
          dataStoreConfiguration: DataStoreConfiguration,
-         completion: @escaping AWSInitialSyncOrchestrator.SyncOperationResultHandler) {
-        self.modelType = modelType
+         authModeStrategy: AuthModeStrategy) {
+        self.modelSchema = modelSchema
         self.api = api
         self.reconciliationQueue = reconciliationQueue
         self.storageAdapter = storageAdapter
         self.dataStoreConfiguration = dataStoreConfiguration
-        self.completion = completion
+        self.authModeStrategy = authModeStrategy
+
         self.recordsReceived = 0
+        self.initialSyncOperationTopic = PassthroughSubject<InitialSyncOperationEvent, DataStoreError>()
     }
 
     override func main() {
         guard !isCancelled else {
-            super.finish()
+            finish(result: .successfulVoid)
             return
         }
 
-        log.info("Beginning sync for \(modelType.modelName)")
+        log.info("Beginning sync for \(modelSchema.name)")
         let lastSyncTime = getLastSyncTime()
+        let syncType: SyncType = lastSyncTime == nil ? .fullSync : .deltaSync
+        initialSyncOperationTopic.send(.started(modelName: modelSchema.name, syncType: syncType))
         query(lastSyncTime: lastSyncTime)
     }
 
     private func getLastSyncTime() -> Int? {
         guard !isCancelled else {
-            super.finish()
+            finish(result: .successfulVoid)
             return nil
         }
 
@@ -81,7 +92,7 @@ final class InitialSyncOperation: AsynchronousOperation {
 
     private func getLastSyncMetadata() -> ModelSyncMetadata? {
         guard !isCancelled else {
-            super.finish()
+            finish(result: .successfulVoid)
             return nil
         }
 
@@ -91,18 +102,17 @@ final class InitialSyncOperation: AsynchronousOperation {
         }
 
         do {
-            let modelSyncMetadata = try storageAdapter.queryModelSyncMetadata(for: modelType)
+            let modelSyncMetadata = try storageAdapter.queryModelSyncMetadata(for: modelSchema)
             return modelSyncMetadata
         } catch {
             log.error(error: error)
             return nil
         }
-
     }
 
     private func query(lastSyncTime: Int?, nextToken: String? = nil) {
         guard !isCancelled else {
-            super.finish()
+            finish(result: .successfulVoid)
             return
         }
 
@@ -112,12 +122,12 @@ final class InitialSyncOperation: AsynchronousOperation {
         }
         let minSyncPageSize = Int(min(syncMaxRecords - recordsReceived, syncPageSize))
         let limit = minSyncPageSize < 0 ? Int(syncPageSize) : minSyncPageSize
-        let request = GraphQLRequest<SyncQueryResult>.syncQuery(modelType: modelType,
-                                                                limit: limit,
-                                                                nextToken: nextToken,
-                                                                lastSync: lastSyncTime)
+        let syncExpression = dataStoreConfiguration.syncExpressions.first {
+            $0.modelSchema.name == modelSchema.name
+        }
+        let queryPredicate = syncExpression?.modelPredicate()
 
-        _ = api.query(request: request) { result in
+        let completionListener: GraphQLOperation<SyncQueryResult>.ResultListener = { result in
             switch result {
             case .failure(let apiError):
                 if self.isAuthSignedOutError(apiError: apiError) {
@@ -129,6 +139,22 @@ final class InitialSyncOperation: AsynchronousOperation {
                 self.handleQueryResults(lastSyncTime: lastSyncTime, graphQLResult: graphQLResult)
             }
         }
+
+        var authTypes = authModeStrategy.authTypesFor(schema: modelSchema,
+                                                                             operation: .read)
+
+        RetryableGraphQLOperation(requestFactory: {
+            GraphQLRequest<SyncQueryResult>.syncQuery(modelSchema: self.modelSchema,
+                                                      where: queryPredicate,
+                                                      limit: limit,
+                                                      nextToken: nextToken,
+                                                      lastSync: lastSyncTime,
+                                                      authType: authTypes.next())
+        },
+                                  maxRetries: authTypes.count,
+                                  resultListener: completionListener) { nextRequest, wrappedCompletionListener in
+            api.query(request: nextRequest, listener: wrappedCompletionListener)
+        }.main()
     }
 
     /// Disposes of the query results: Stops if error, reconciles results if success, and kick off a new query if there
@@ -136,7 +162,7 @@ final class InitialSyncOperation: AsynchronousOperation {
     private func handleQueryResults(lastSyncTime: Int?,
                                     graphQLResult: Result<SyncQueryResult, GraphQLResponseError<SyncQueryResult>>) {
         guard !isCancelled else {
-            super.finish()
+            finish(result: .successfulVoid)
             return
         }
 
@@ -157,8 +183,9 @@ final class InitialSyncOperation: AsynchronousOperation {
         let items = syncQueryResult.items
         recordsReceived += UInt(items.count)
 
+        reconciliationQueue.offer(items, modelSchema: modelSchema)
         for item in items {
-            reconciliationQueue.offer(item)
+            initialSyncOperationTopic.send(.enqueued(item))
         }
 
         if let nextToken = syncQueryResult.nextToken, recordsReceived < syncMaxRecords {
@@ -166,14 +193,14 @@ final class InitialSyncOperation: AsynchronousOperation {
                 self.query(lastSyncTime: lastSyncTime, nextToken: nextToken)
             }
         } else {
+            initialSyncOperationTopic.send(.finished(modelName: modelSchema.name))
             updateModelSyncMetadata(lastSyncTime: syncQueryResult.startedAt)
         }
-
     }
 
     private func updateModelSyncMetadata(lastSyncTime: Int?) {
         guard !isCancelled else {
-            super.finish()
+            finish(result: .successfulVoid)
             return
         }
 
@@ -182,7 +209,7 @@ final class InitialSyncOperation: AsynchronousOperation {
             return
         }
 
-        let syncMetadata = ModelSyncMetadata(id: modelType.modelName, lastSync: lastSyncTime)
+        let syncMetadata = ModelSyncMetadata(id: modelSchema.name, lastSync: lastSyncTime)
         storageAdapter.save(syncMetadata, condition: nil) { result in
             switch result {
             case .failure(let dataStoreError):
@@ -204,7 +231,12 @@ final class InitialSyncOperation: AsynchronousOperation {
     }
 
     private func finish(result: AWSInitialSyncOrchestrator.SyncOperationResult) {
-        completion(result)
+        switch result {
+        case .failure(let error):
+            initialSyncOperationTopic.send(completion: .failure(error))
+        case .success:
+            initialSyncOperationTopic.send(completion: .finished)
+        }
         super.finish()
     }
 

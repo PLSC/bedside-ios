@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -12,9 +12,11 @@ import AWSPluginsCore
 
 extension StorageEngine {
 
-    func startSync() {
+    func startSync(completion: @escaping DataStoreCallback<Void>) {
         guard let api = tryGetAPIPlugin() else {
             log.info("Unable to find suitable API plugin for syncEngine. syncEngine will not be started")
+            completion(.failure(.configuration("Unable to find suitable API plugin for syncEngine. syncEngine will not be started",
+                                               "Ensure the API category has been setup and configured for your project", nil)))
             return
         }
 
@@ -22,15 +24,18 @@ extension StorageEngine {
 
         guard authPluginRequired else {
             syncEngine?.start(api: api, auth: nil)
+            completion(.successfulVoid)
             return
         }
 
         guard let auth = tryGetAuthPlugin() else {
             log.warn("Unable to find suitable Auth plugin for syncEngine. Models require auth")
+            completion(.failure(.configuration("Unable to find suitable Auth plugin for syncEngine. Models require auth",
+                                               "Ensure the Auth category has been setup and configured for your project", nil)))
             return
         }
-
         syncEngine?.start(api: api, auth: auth)
+        completion(.successfulVoid)
     }
 
     private func tryGetAPIPlugin() -> APICategoryGraphQLBehavior? {
@@ -50,10 +55,30 @@ extension StorageEngine {
     }
 
     private func requiresAuthPlugin() -> Bool {
-        let containsAuthEnabledSyncableModels = ModelRegistry.models.contains {
-            $0.schema.isSyncable && $0.schema.hasAuthenticationRules
+        let modelsRequireAuthPlugin = ModelRegistry.modelSchemas.contains {
+            $0.isSyncable && $0.hasAuthenticationRules && $0.authRules.requireAuthPlugin
         }
+        return modelsRequireAuthPlugin
+    }
+}
 
-        return containsAuthEnabledSyncableModels
+internal extension AuthRule {
+    var requiresAuthPlugin: Bool {
+        switch provider {
+        // OIDC, Function and API key providers don't need
+        // Auth plugin
+        case .oidc, .function, .apiKey, .none:
+            return false
+        case .userPools, .iam:
+            return true
+        }
+    }
+}
+
+internal extension AuthRules {
+    /// Convenience method to check whether we need Auth plugin
+    /// - Returns: true  If **any** of the rules uses a provider that requires the Auth plugin
+    var requireAuthPlugin: Bool {
+        contains { $0.requiresAuthPlugin }
     }
 }

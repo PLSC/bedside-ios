@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -15,12 +15,21 @@ extension MutationEvent {
             throw dataStoreError
         }
 
+        try self.init(untypedModel: model,
+                      modelName: modelType.schema.name,
+                      mutationType: mutationType,
+                      version: version)
+    }
+
+    public init(untypedModel model: Model,
+                modelName: ModelName,
+                mutationType: MutationType,
+                version: Int? = nil) throws {
         let json = try model.toJSON()
         self.init(modelId: model.id,
-                  modelName: modelType.schema.name,
+                  modelName: modelName,
                   json: json,
                   mutationType: mutationType,
                   version: version)
     }
-
 }

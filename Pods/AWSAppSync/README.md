@@ -18,12 +18,24 @@ The AWS AppSync SDK for iOS enables you to access your AWS AppSync backend and p
 
 ### Installing the SDK
 
+#### Via Swift Package Manager
+
+1. Swift Package Manager is distributed with Xcode. To start adding the AWS SDK to your iOS project, open your project in Xcode and select **File > Swift Packages > Add Package Dependency**.
+
+1. Enter the URL for the AWS AppSync SDK for iOS GitHub repo (`https://github.com/awslabs/aws-mobile-appsync-sdk-ios`) into the search bar and click **Next**.
+
+1. You'll see the repository rules for which version of the SDK you want Swift Package Manager to install. Choose the first rule, **Version**, and select **Up to Next Major** as it will use the latest compatible version of the dependency that can be detected from the `main` branch, then click **Next**.
+
+1. Choose the **AWSAppSync** package product and click **Finish**.
+
+1. In your source file, import the SDK using `import AWSAppSync`.
+
 #### Via CocoaPods
 
 1. Add the following line to your Podfile:
 
     ```ruby
-    pod 'AWSAppSync', '~> 3.1.5'
+    pod 'AWSAppSync', '~> 3.3.0'
     ```
 
     Example:
@@ -37,7 +49,7 @@ The AWS AppSync SDK for iOS enables you to access your AWS AppSync backend and p
       use_frameworks!
 
       # Pods for EventsApp
-      pod 'AWSAppSync', '~> 3.1.5'
+      pod 'AWSAppSync', '~> 3.3.0'
     end
     ```
 
@@ -48,6 +60,36 @@ The AWS AppSync SDK for iOS enables you to access your AWS AppSync backend and p
 1. In your source file, import the SDK using `import AWSAppSync`.
 
 #### Via Carthage
+
+##### XCFrameworks (recommended)
+
+Carthage supports XCFrameworks in Xcode 12 or above. Follow the steps below to consume the AWS SDK for iOS using XCFrameworks:
+
+1. Install Carthage 0.37.0 or greater.
+
+2. Add the following to your `Cartfile`:
+
+    ```
+    github "awslabs/aws-mobile-appsync-sdk-ios"
+    ```
+
+3. Then run the following command:
+    
+        $ carthage update --use-xcframeworks
+
+4. On your application targets’ General settings tab, in the Embedded Binaries section, drag and drop each xcframework you want to use from the Carthage/Build folder on disk.
+
+> Note: If you are using XCFrameworks (i.e., either Carthage or Dynamic Frameworks), the module `AWSMobileClient` is named as `AWSMobileClientXCF` to work around a [Swift issue](https://bugs.swift.org/browse/SR-11704). To use `AWSMobileClient`, import it as:
+        
+        import AWSMobileClientXCF
+
+and use it your app code without the `XCF` suffix.
+
+        AWSMobileClient.default.initialize() 
+
+##### Frameworks with "fat libraries" (not recommended)
+
+To build platform-specific framework bundles with multiple architectures in the binary, (Xcode 11 and below)
 
 1. Add the following to your Cartfile:
 
@@ -83,13 +125,13 @@ The AWS AppSync SDK for iOS enables you to access your AWS AppSync backend and p
 
 1. Now **Build** your project to start using the SDK. Whenever a new version of the SDK is released you can update by running `carthage update` and rebuilding your project to use the new features.
 
-    > Note: Currently, the AWSAppSync SDK for iOS builds the Carthage binaries using Xcode 11.5. To consume the pre-built binaries your Xcode version needs to be the same. Otherwise you will have to build the frameworks on your machine by passing `--no-use-binaries` flag to `carthage update` command.
+    > Note: Currently, the AWSAppSync SDK for iOS builds the Carthage binaries using Xcode 12.0. To consume the pre-built binaries your Xcode version needs to be the same. Otherwise you will have to build the frameworks on your machine by passing `--no-use-binaries` flag to `carthage update` command.
 
 1. In your source file, import the SDK using `import AWSAppSync`.
 
 ### Codegen
 
-    To use the AppSync SDK, you will need to use `amplify codegen` from the [AWS Amplify CLI](https://aws-amplify.github.io/docs/cli/codegen?sdk=ios) which helps generate a strongly typed API for your schema. You can find the instructions to use the codegen here: https://aws-amplify.github.io/docs/ios/api
+To use the AppSync SDK, you will need to use `amplify codegen` from the [AWS Amplify CLI](https://aws-amplify.github.io/docs/cli/codegen?sdk=ios). This command will generate Swift-language files corresponding to your schema. You can interact with these classes instead of operating on GraphQL query documents, directly. You can find the instructions to use the codegen [here](https://aws-amplify.github.io/docs/ios/api).
 
 ## Sample
 
@@ -97,7 +139,8 @@ You can find a sample app which uses the AppSync SDK here: https://github.com/aw
 
 ## Documentation
 
-You can find a step by step walk through of setting up codegen backend and accessing it via the iOS client here: https://aws-amplify.github.io/docs/ios/api
+You can find a step by step walk through of setting up codegen backend and accessing it via the iOS client here: https://docs.amplify.aws/sdk/api/graphql/q/platform/ios
+
 
 ## Contributing
 
@@ -150,6 +193,16 @@ You can get the backend setup by following the steps below:
         - `BucketName`
         - `BucketRegion`
         - `AppSyncMultiAuthAPIKey`
+1. Create another CloudFormation Stack following step 1-6 above with `API Key` as the Auth type (we'll change that later)
+   1. Create a Lambda function using the template provided in this project at `AWSAppSyncIntegrationTests/ConsoleResources/appsync-lambda-authorize
+r.js` 
+   1. Once the stack is complete click on the __Outputs__ tab
+   1. Copy the appropriate values to the test configuration file `AppSyncIntegrationTests/appsync_test_credentials.json`:
+        - `AppSyncEndpointAPIKeyLambda`
+        - `AppSyncEndpointAPIKeyLambdaRegion`
+
+   1. Go to the [AWS AppSync console](https://console.aws.amazon.com/appsync/home), select the newly created AppSync instance
+   1. In the `Settings` section, change the default authentication type to `AWS Lambda` and select the Lambda function created at the previous step
 
 > Note: You must either provide all values in the `AppSyncIntegrationTests/appsync_test_credentials.json` or in code. There is no mechanism to handle partial overrides of one source with the other. All values must be specified before running the integration tests.
 

@@ -1,12 +1,13 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
 
+/// REST Operation Request
 public struct RESTOperationRequest: AmplifyOperationRequest {
 
     /// The name of the API to perform the request against
@@ -30,6 +31,7 @@ public struct RESTOperationRequest: AmplifyOperationRequest {
     /// Options to adjust the behavior of this request, including plugin-options
     public let options: Options
 
+    /// Initializer with all properties
     public init(apiName: String?,
                 operationType: RESTOperationType,
                 path: String? = nil,
@@ -47,8 +49,11 @@ public struct RESTOperationRequest: AmplifyOperationRequest {
     }
 }
 
+/// REST Operation Request options extension
 public extension RESTOperationRequest {
     struct Options {
+
+        /// Empty initializer
         public init() { }
     }
 }

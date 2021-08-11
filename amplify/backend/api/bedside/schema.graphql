@@ -40,23 +40,26 @@ type User
   @model
   @auth(rules: [{ allow: private }])
   @key(name: "ByEmail", fields: ["email"], queryField: "usersByEmail")
+  @key(name: "ByNPI", fields: ["npi"], queryField: "usersByNPI")
   @key(name: "ByOrg", fields: ["orgID"]) {
   id: ID!
   orgID: ID
   userName: String
-  email: String!
+  email: String
   phone: String
   firstName: String
   lastName: String
   npi: Int
+  pgy: Int
   isRater: Boolean
   memberships: [Membership] @connection(keyName: "byUser", fields: ["id"])
 }
 
-# TODO: Change to EvaluationResponse
 type EvaluationResponse
   @model(mutations: null)
-  @key(name: "byCertificationRecord", fields: ["certificationRecordId"]) {
+  @auth(rules: [{ allow: private }])
+  @key(name: "byCertificationRecord", fields: ["certificationRecordId"])
+  @key(name: "bySubject", fields: ["subjectId"], queryField: "evalsBySubject") {
   id: ID!
   subject: User! @connection(fields: ["subjectId"])
   subjectId: ID!
@@ -71,7 +74,13 @@ type EvaluationResponse
 
 type CertificationRecord
   @model
-  @key(name: "bySubjectProcedure", fields: ["subjectId", "procedureId"]) {
+  @auth(rules: [{ allow: private }])
+  @key(name: "bySubjectProcedure", fields: ["subjectId", "procedureId"])
+  @key(
+    name: "bySubject"
+    fields: ["subjectId"]
+    queryField: "certRecordsBySubject"
+  ) {
   id: ID!
   procedureId: ID!
   procedure: Procedure! @connection(fields: ["procedureId"])
@@ -84,9 +93,43 @@ type CertificationRecord
   totalProcedureEvals: Int
 }
 
+type UserInvitation
+  @model(mutations: { create: null })
+  @auth(
+    rules: [
+      # Defaults to use the "owner" field.
+      { allow: private, provider: userPools }
+      # Next allow public access with an API Key
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
+  @key(name: "byEmail", fields: ["email"], queryField: "invitationsByEmail") {
+  id: ID!
+  orgID: ID!
+  invitee: User! @connection(fields: ["inviteeId"])
+  inviteeId: ID!
+  invitationStatus: InvitationStatus!
+  email: String!
+  programAdminId: ID
+  permission: Permission
+}
+
+# Correlates 1:1 with cognito user groups.
+enum Permission {
+  Users
+  Admins
+  Sysadmins
+}
+
+enum InvitationStatus {
+  Started
+  Notified
+  Resolved
+}
+
 enum CertificationMethod {
   Manual
-  RollingS
+  CertificationRule
 }
 
 type CertificationRule {
@@ -103,6 +146,16 @@ enum Role {
   Admin
 }
 
+input CreateUserInvitationInput {
+  id: ID
+  inviteeId: ID!
+  orgID: ID!
+  programAdminId: ID
+  invitationStatus: InvitationStatus!
+  email: String!
+  permission: Permission
+}
+
 input CreateEvaluationResponseInput {
   id: ID
   subjectId: ID!
@@ -111,6 +164,13 @@ input CreateEvaluationResponseInput {
   evaluationDate: AWSDateTime!
   ratingLevel: Int
   certificationRecordId: ID
+}
+
+type Mutation {
+  newUserInvitation(userInvitation: CreateUserInvitationInput): String
+    @function(name: "newUserInvitation-${env}")
+    @aws_cognito_user_pools
+    @aws_api_key
 }
 
 type Query {

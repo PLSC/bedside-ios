@@ -1,14 +1,16 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
 
+/// Request to fetch the user attributes of the current user
 public struct AuthFetchUserAttributesRequest: AmplifyOperationRequest {
 
+    /// Extra request options defined in `AuthFetchUserAttributesRequest.Options`
     public var options: Options
 
     public init(options: Options) {

@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -8,7 +8,7 @@
 import Foundation
 
 /// Defines URLSession behaviors used during fulfillment of API tasks
-public protocol URLSessionBehaviorDelegate: class {
+public protocol URLSessionBehaviorDelegate: AnyObject {
     func urlSessionBehavior(_ session: URLSessionBehavior,
                             dataTaskBehavior: URLSessionDataTaskBehavior,
                             didCompleteWithError error: Error?)

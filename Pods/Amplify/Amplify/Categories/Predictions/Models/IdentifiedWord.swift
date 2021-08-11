@@ -1,12 +1,14 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import CoreGraphics
 
+/// Describes a word identified in an image as a result of
+/// identify() API call
 public struct IdentifiedWord: IdentifiedText {
     public let text: String
     public let boundingBox: CGRect

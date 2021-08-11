@@ -12,7 +12,7 @@ import Combine
 struct EvaluateView: View {
     @ObservedObject var evaluation : EvaluationFormData = EvaluationFormData()
     @ObservedObject var procedureViewModel = ProcedureSelectViewModel()
-    @ObservedObject var ratersViewModel = RatersViewModel(filterIds:[])
+    @ObservedObject var ratersViewModel = RatersViewModel()
     
     @State var presentProcedures: Bool = false
     @State var presentRaterSelect: Bool = false

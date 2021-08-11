@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -13,11 +13,18 @@ extension AmplifyAPICategory: Resettable {
         let group = DispatchGroup()
 
         for plugin in plugins.values {
+            log.verbose("Resetting \(categoryType) plugin")
             group.enter()
-            plugin.reset { group.leave() }
+            plugin.reset {
+                self.log.verbose("Resetting \(self.categoryType) plugin: finished")
+                group.leave()
+            }
         }
 
+        log.verbose("Resetting ModelRegistry and ModelListDecoderRegistry")
         ModelRegistry.reset()
+        ModelListDecoderRegistry.reset()
+        log.verbose("Resetting ModelRegistry and ModelListDecoderRegistry: finished")
 
         group.wait()
 

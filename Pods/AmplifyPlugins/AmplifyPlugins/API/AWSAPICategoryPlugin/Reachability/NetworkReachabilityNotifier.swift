@@ -1,13 +1,12 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Amplify
 import Foundation
-import Reachability
 import Combine
 
 @available(iOS 13.0, *)
@@ -15,7 +14,8 @@ class NetworkReachabilityNotifier {
     private var reachability: NetworkReachabilityProviding?
     private var allowsCellularAccess = true
 
-    let reachabilityPublisher = PassthroughSubject<ReachabilityUpdate, Never>()
+    // This is a CurrentValueSubject.  Please do not change this unless you talk to wooj2@ or palpatim@ before changing this.
+    let reachabilityPublisher = CurrentValueSubject<ReachabilityUpdate, Never>(ReachabilityUpdate(isOnline: false))
     var publisher: AnyPublisher<ReachabilityUpdate, Never> {
         return reachabilityPublisher.eraseToAnyPublisher()
     }
@@ -67,10 +67,10 @@ class NetworkReachabilityNotifier {
 }
 
 // MARK: - Reachability
-extension Reachability: NetworkReachabilityProvidingFactory {
+extension AmplifyReachability: NetworkReachabilityProvidingFactory {
     public static func make(for hostname: String) -> NetworkReachabilityProviding? {
-        return try? Reachability(hostname: hostname)
+        return try? AmplifyReachability(hostname: hostname)
     }
 }
 
-extension Reachability: NetworkReachabilityProviding { }
+extension AmplifyReachability: NetworkReachabilityProviding { }

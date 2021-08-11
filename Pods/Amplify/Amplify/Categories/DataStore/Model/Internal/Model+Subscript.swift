@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -12,9 +12,17 @@
 /// ```
 extension Model {
 
-    /// - Warning: Although this has `public` access, it is intended for internal use and should not be used directly
-    ///   by host applications. The behavior of this may change without warning.
+    /// - Warning: Although this has `public` access, it is intended for internal & codegen use and should not be used
+    ///   directly by host applications. The behavior of this may change without warning. Though it is not used by host
+    ///   application making any change to these `public` types should be backward compatible, otherwise it will be a
+    ///   breaking change.
     public subscript(_ key: String) -> Any?? {
+
+        if let jsonModel = self as? JSONValueHolder {
+            let value = jsonModel.jsonValue(for: key)
+            return value
+        }
+
         let mirror = Mirror(reflecting: self)
         let firstChild = mirror.children.first { $0.label == key }
         guard let property = firstChild else {

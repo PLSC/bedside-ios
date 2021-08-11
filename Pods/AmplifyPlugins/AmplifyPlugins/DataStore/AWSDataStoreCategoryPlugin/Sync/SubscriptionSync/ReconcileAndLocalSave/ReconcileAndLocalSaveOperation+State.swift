@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -15,17 +15,8 @@ extension ReconcileAndLocalSaveOperation {
         /// Waiting to be started by the queue
         case waiting
 
-        /// Querying the local database for model data and sync metadata
-        case querying(RemoteModel)
-
-        /// Reconciling incoming remote model with local model and sync metadata
-        case reconciling(RemoteModel, LocalMetadata?)
-
-        /// Executing the reconciled disposition
-        case executing(RemoteSyncReconciler.Disposition)
-
-        /// Notifying listeners and callbacks of completion
-        case notifying(AppliedModel)
+        /// Reconciling remote models with local data
+        case reconciling([RemoteModel])
 
         /// Operation has successfully completed
         case finished

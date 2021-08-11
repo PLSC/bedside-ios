@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -16,10 +16,15 @@ class AWSS3PreSignedURLBuilderAdapter: AWSS3PreSignedURLBuilderBehavior {
 
     let preSignedURLBuilder: AWSS3PreSignedURLBuilder
 
+    /// Creates a pre-signed URL builder.
+    /// - Parameter preSignedURLBuilder: Builder which can create a pre-signed URL.
     public init(_ preSignedURLBuilder: AWSS3PreSignedURLBuilder) {
         self.preSignedURLBuilder = preSignedURLBuilder
     }
 
+    /// Gets pre-signed URL.
+    /// - Parameter getPreSignedURLRequest: Request.
+    /// - Returns: Task.
     public func getPreSignedURL(_ getPreSignedURLRequest: AWSS3GetPreSignedURLRequest) -> AWSTask<NSURL> {
         return preSignedURLBuilder.getPreSignedURL(getPreSignedURLRequest)
     }

@@ -1,10 +1,11 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
+/// Subscription Connection State
 public enum SubscriptionConnectionState {
 
      /// The subscription is in process of connecting

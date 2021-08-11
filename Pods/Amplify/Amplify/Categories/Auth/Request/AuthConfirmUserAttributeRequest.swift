@@ -1,18 +1,22 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
 
+/// Request to confirm a user attribute update
 public struct AuthConfirmUserAttributeRequest: AmplifyOperationRequest {
 
+    /// Attribute to be confirmed
     public let attributeKey: AuthUserAttributeKey
 
+    /// Confirmation code received by the user
     public let confirmationCode: String
 
+    /// Extra request options defined in `AuthConfirmUserAttributeRequest.Options`
     public var options: Options
 
     public init(attributeKey: AuthUserAttributeKey,

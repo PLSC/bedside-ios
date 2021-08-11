@@ -1,16 +1,19 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
 
+/// Request to update multiple user attributes of the signed in user
 public struct AuthUpdateUserAttributesRequest: AmplifyOperationRequest {
 
+    /// List of user attributes to update
     public let userAttributes: [AuthUserAttribute]
 
+    /// Extra request options defined in `AuthUpdateUserAttributesRequest.Options`
     public var options: Options
 
     public init(userAttributes: [AuthUserAttribute],

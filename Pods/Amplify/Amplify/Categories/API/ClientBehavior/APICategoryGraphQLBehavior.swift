@@ -1,12 +1,12 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 /// Behavior of the API category related to GraphQL operations
-public protocol APICategoryGraphQLBehavior: class {
+public protocol APICategoryGraphQLBehavior: AnyObject {
 
     // MARK: - Request-based GraphQL Operations
 

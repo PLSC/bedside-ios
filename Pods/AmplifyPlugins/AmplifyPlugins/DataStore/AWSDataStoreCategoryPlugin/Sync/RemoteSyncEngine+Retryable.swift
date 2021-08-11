@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -8,6 +8,7 @@
 import Amplify
 import Foundation
 
+/// All methods in this extension must be invoked from workQueue (as in during a `respond` call
 @available(iOS 13.0, *)
 extension RemoteSyncEngine {
 
@@ -21,6 +22,7 @@ extension RemoteSyncEngine {
             scheduleRestart(advice: advice)
         } else {
             remoteSyncTopicPublisher.send(completion: .failure(DataStoreError.api(error)))
+            cancelEmitters()
             if let completionBlock = finishedCompletionBlock {
                 completionBlock(.failure(causedBy: error))
                 finishedCompletionBlock = nil
@@ -41,10 +43,14 @@ extension RemoteSyncEngine {
     private func scheduleRestart(advice: RequestRetryAdvice) {
         log.verbose("\(#function) scheduling retry for restarting remote sync engine")
         resolveReachabilityPublisher()
-        mutationRetryNotifier = MutationRetryNotifier(advice: advice,
-                                                      networkReachabilityPublisher: networkReachabilityPublisher) {
-                                                        self.mutationRetryNotifier = nil
-                                                        self.stateMachine.notify(action: .scheduleRestartFinished)
+        mutationRetryNotifier = MutationRetryNotifier(
+            advice: advice,
+            networkReachabilityPublisher: networkReachabilityPublisher
+        ) {
+            self.workQueue.async {
+                self.mutationRetryNotifier = nil
+                self.stateMachine.notify(action: .scheduledRestartTriggered)
+            }
         }
         currentAttemptNumber += 1
     }

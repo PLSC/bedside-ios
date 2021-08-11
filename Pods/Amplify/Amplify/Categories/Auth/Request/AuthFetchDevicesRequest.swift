@@ -1,14 +1,16 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
 
+/// Request to fetch the devices associated with the signed in user.
 public struct AuthFetchDevicesRequest: AmplifyOperationRequest {
 
+    /// Extra request options defined in `AuthFetchDevicesRequest.Options`
     public var options: Options
 
     public init(options: Options) {

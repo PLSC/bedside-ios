@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -56,6 +56,15 @@ final public class DataStoreCategory: Category {
             let pluginDescription = String(describing: plugin)
             let error = DataStoreError.configuration("Plugin \(pluginDescription) has an empty `key`.",
                 "Set the `key` property for \(String(describing: plugin))")
+            throw error
+        }
+
+        guard !isConfigured else {
+            let pluginDescription = String(describing: plugin)
+            let error = ConfigurationError.amplifyAlreadyConfigured(
+                "\(pluginDescription) cannot be added after `Amplify.configure()`.",
+                "Do not add plugins after calling `Amplify.configure()`."
+            )
             throw error
         }
 

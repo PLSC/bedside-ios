@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -12,91 +12,93 @@ import Foundation
 /// loaded when it's needed.
 extension List {
 
-    /// Represents the data state of the `List`.
-    internal enum LoadState {
-        case pending
-        case loaded
-    }
-
     // MARK: - Asynchronous API
 
-    /// Trigger `DataStore` query to initialize the collection. This function always
-    /// fetches data from the `DataStore.query`.
+    /// Call this to initialize the collection if you have retrieved the list by traversing from your model objects
+    /// to its associated children objects. For example, a Post model may contain a list of Comments. By retrieving the
+    /// post object and traversing to the comments, the comments are not retrieved from the data source until this
+    /// method is called. Data will be retrieved based on the plugin's data source and may have different failure
+    /// conditions--for example, a data source that requires network connectivity may fail if the network is
+    /// unavailable. Alternately, you can trigger an implicit `fetch` by invoking the Collection methods (such as using
+    /// `map`, or iterating in a `for/in` loop) on the List, which will retrieve data if it hasn't already been
+    /// retrieved. In such cases, the time to perform that operation will include the time required to request data
+    /// from the underlying data source.
     ///
-    /// - seealso: `load()`
-    public func load(_ completion: DataStoreCallback<Elements>) {
-        lazyLoad(completion)
-    }
-
-    internal func lazyLoad(_ completion: DataStoreCallback<Elements>) {
-
-        // if the collection has no associated field, return the current elements
-        guard let associatedId = self.associatedId,
-              let associatedField = self.associatedField else {
-            completion(.success(elements))
+    /// If you have directly created this list object (for example, by calling `List(elements:)`) then the collection
+    /// has already been initialized and calling this method will have no effect.
+    public func fetch(_ completion: @escaping (Result<Void, CoreError>) -> Void) {
+        guard case .notLoaded = loadedState else {
+            completion(.successfulVoid)
             return
         }
 
-        // TODO: this is currently done by specific plugin implementations (API or DataStore)
-        // How to add this name resolution to Amplify?
-        let modelName = Element.modelName
-        var name = modelName.camelCased() + associatedField.name.pascalCased() + "Id"
-        if case let .belongsTo(_, targetName) = associatedField.association {
-            name = targetName ?? name
-        }
-
-        let predicate: QueryPredicate = field(name) == associatedId
-        Amplify.DataStore.query(Element.self, where: predicate) {
-            switch $0 {
+        listProvider.load { result in
+            switch result {
             case .success(let elements):
                 self.elements = elements
-                self.state = .loaded
-                completion(.success(elements))
-            case .failure(let error):
-                completion(.failure(causedBy: error))
+                completion(.success(()))
+            case .failure(let coreError):
+                completion(.failure(coreError))
+            }
+        }
+    }
+
+    /// Call this to initialize the collection if you have retrieved the list by traversing from your model objects
+    /// to its associated children objects. For example, a Post model may contain a list of Comments. By retrieving the
+    /// post object and traversing to the comments, the comments are not retrieved from the data source until this
+    /// method is called. Data will be retrieved based on the plugin's data source and may have different failure
+    /// conditions--for example, a data source that requires network connectivity may fail if the network is
+    /// unavailable. Alternately, you can trigger an implicit `load` by invoking the Collection methods (such as using
+    /// `map`, or iterating in a `for/in` loop) on the List, which will retrieve data if it hasn't already been
+    /// retrieved. In such cases, the time to perform that operation will include the time required to request data
+    /// from the underlying data source.
+    ///
+    /// If you have directly created this list object (for example, by calling `List(elements:)`) then the collection
+    /// has already been initialized and calling this method will have no effect.
+    @available(*, deprecated, message: "Use fetch(completion:) instead.")
+    public func load(_ completion: DataStoreCallback<[Element]>) {
+        if case .loaded(let elements) = loadedState {
+            completion(.success(elements))
+            return
+        }
+        let result = listProvider.load()
+        switch result {
+        case .success(let elements):
+            self.elements = elements
+            completion(.success(elements))
+        case .failure(let coreError):
+            switch coreError {
+            case .listOperation(_, _, let error),
+                 .clientValidation(_, _, let error):
+                completion(.failure(causedBy: error ?? coreError))
             }
         }
     }
 
     // MARK: - Synchronous API
 
-    /// Trigger `DataStore` query to initialize the collection. This function always
-    /// fetches data from the `DataStore.query`. However, consumers must be aware of
+    /// This method has been deprecated, Use load(completion:) instead.
+    ///
+    /// Load data into the collection from the data source. Consumers must be aware of
     /// the internal behavior which relies on `DispatchSemaphore` and will block the
     /// current `DispatchQueue` until data is ready. When operating on large result
     /// sets, prefer using the asynchronous `load(completion:)` instead.
     ///
     /// - Returns: the current instance after data was loaded.
     /// - seealso: `load(completion:)`
+    @available(*, deprecated, message: "Use fetch(completion:) instead.")
     public func load() -> Self {
-        lazyLoad()
+        guard case .notLoaded = loadedState else {
+            return self
+        }
+        let result = listProvider.load()
+        switch result {
+        case .success(let elements):
+            self.elements = elements
+        case .failure(let error):
+            Amplify.log.error(error: error)
+            assert(false, error.errorDescription)
+        }
         return self
     }
-
-    /// Internal function that only calls `lazyLoad()` if the `state` is not `.loaded`.
-    /// - seealso: `lazyLoad()`
-    internal func loadIfNeeded() {
-        if state != .loaded {
-            lazyLoad()
-        }
-    }
-
-    /// The synchronized version of `lazyLoad(completion:)`. This function is useful so
-    /// instances of `List<ModelType>` behave like any other `Collection`.
-    internal func lazyLoad() {
-        let semaphore = DispatchSemaphore(value: 0)
-        lazyLoad {
-            switch $0 {
-            case .success(let elements):
-                self.elements = elements
-                semaphore.signal()
-            case .failure(let error):
-                semaphore.signal()
-                // TODO how to handle this failure? should it crash? just log the error?
-                fatalError(error.errorDescription)
-            }
-        }
-        semaphore.wait()
-    }
-
 }

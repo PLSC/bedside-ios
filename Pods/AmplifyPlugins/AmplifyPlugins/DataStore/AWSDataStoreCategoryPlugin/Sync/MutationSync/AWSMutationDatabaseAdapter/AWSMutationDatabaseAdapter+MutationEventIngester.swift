@@ -1,12 +1,13 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Amplify
 import Combine
+import Foundation
 
 @available(iOS 13.0, *)
 extension AWSMutationDatabaseAdapter: MutationEventIngester {
@@ -48,7 +49,7 @@ extension AWSMutationDatabaseAdapter: MutationEventIngester {
         }
 
         MutationEvent.pendingMutationEvents(
-            forModelId: mutationEvent.modelId,
+            for: mutationEvent.modelId,
             storageAdapter: storageAdapter) { result in
                 switch result {
                 case .failure(let dataStoreError):
@@ -145,7 +146,10 @@ extension AWSMutationDatabaseAdapter: MutationEventIngester {
             let group = DispatchGroup()
             localEvents.forEach {
                 group.enter()
-                storageAdapter.delete(MutationEvent.self, withId: $0.id) { _ in group.leave() }
+                storageAdapter.delete(MutationEvent.self,
+                                      modelSchema: MutationEvent.schema,
+                                      withId: $0.id,
+                                      predicate: nil) { _ in group.leave() }
             }
             group.wait()
             completionPromise(.success(candidate))
@@ -166,7 +170,10 @@ extension AWSMutationDatabaseAdapter: MutationEventIngester {
                 // TODO: Handle errors from delete
                 localEvents
                     .suffix(from: 1)
-                    .forEach { storageAdapter.delete(MutationEvent.self, withId: $0.id) { _ in } }
+                    .forEach { storageAdapter.delete(MutationEvent.self,
+                                                     modelSchema: MutationEvent.schema,
+                                                     withId: $0.id,
+                                                     predicate: nil) { _ in } }
             }
 
             let resolvedEvent = getResolvedEvent(for: eventToUpdate, applying: candidate)

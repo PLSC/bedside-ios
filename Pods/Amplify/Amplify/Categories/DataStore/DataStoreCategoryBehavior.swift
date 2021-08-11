@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -32,8 +32,31 @@ public protocol DataStoreBaseBehavior {
 
     func delete<M: Model>(_ modelType: M.Type,
                           withId id: String,
+                          where predicate: QueryPredicate?,
                           completion: @escaping DataStoreCallback<Void>)
+    /**
+     Synchronization starts automatically whenever you run any DataStore operation (query(), save(), delete())
+     however, you can explicitly begin the process with DatasStore.start()
 
+     - parameter completion: callback to be invoked on success or failure
+     */
+    func start(completion: @escaping DataStoreCallback<Void>)
+
+    /**
+     To stop the DataStore sync process, you can use DataStore.stop(). This ensures the real time subscription
+     connection is closed when your app is no longer interested in updates, such as when you application is closed.
+     This can also be used to modify DataStore sync expressions at runtime by calling stop(), then start()
+     to force your sync expressions to be re-evaluated.
+
+     - parameter completion: callback to be invoked on success or failure
+     */
+    func stop(completion: @escaping DataStoreCallback<Void>)
+
+    /**
+     To clear local data from DataStore, use the clear method.
+
+     - parameter completion: callback to be invoked on success or failure
+     */
     func clear(completion: @escaping DataStoreCallback<Void>)
 }
 

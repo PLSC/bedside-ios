@@ -1,12 +1,11 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Foundation
-import Reachability
 
 /// Defines a factory to return a NetworkReachabilityProviding instance
 public protocol NetworkReachabilityProvidingFactory {
@@ -16,12 +15,12 @@ public protocol NetworkReachabilityProvidingFactory {
 }
 
 /// Wraps methods and properties of Reachability
-public protocol NetworkReachabilityProviding: class {
+public protocol NetworkReachabilityProviding: AnyObject {
     /// If `true`, device can attempt to reach the host using a cellular connection (WAN). If `false`, host is only
     /// considered reachable if it can be accessed via WiFi
     var allowsCellularConnection: Bool { get set }
 
-    var connection: Reachability.Connection { get }
+    var connection: AmplifyReachability.Connection { get }
 
     /// The notification center on which "reachability changed" events are being posted
     var notificationCenter: NotificationCenter { get set }

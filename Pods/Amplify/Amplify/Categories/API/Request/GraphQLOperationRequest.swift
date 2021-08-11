@@ -1,12 +1,12 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
+/// GraphQL Operation Request
 public struct GraphQLOperationRequest<R: Decodable>: AmplifyOperationRequest {
-
     /// The name of the API to perform the request against
     public let apiName: String?
 
@@ -28,6 +28,7 @@ public struct GraphQLOperationRequest<R: Decodable>: AmplifyOperationRequest {
     /// Options to adjust the behavior of this request, including plugin-options
     public let options: Options
 
+    /// Initializer for GraphQLOperationRequest
     public init(apiName: String?,
                 operationType: GraphQLOperationType,
                 document: String,
@@ -45,8 +46,13 @@ public struct GraphQLOperationRequest<R: Decodable>: AmplifyOperationRequest {
     }
 }
 
+// MARK:  GraphQLOperationRequest + Options
 public extension GraphQLOperationRequest {
     struct Options {
-        public init() { }
+        public let pluginOptions: Any?
+
+        public init(pluginOptions: Any?) {
+            self.pluginOptions = pluginOptions
+        }
     }
 }

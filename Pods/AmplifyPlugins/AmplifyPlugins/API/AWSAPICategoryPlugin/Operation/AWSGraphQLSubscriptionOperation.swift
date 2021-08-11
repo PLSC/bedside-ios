@@ -1,6 +1,6 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -19,17 +19,20 @@ final public class AWSGraphQLSubscriptionOperation<R: Decodable>: GraphQLSubscri
 
     var subscriptionConnection: SubscriptionConnection?
     var subscriptionItem: SubscriptionItem?
+    var apiAuthProviderFactory: APIAuthProviderFactory
 
     init(request: GraphQLOperationRequest<R>,
          pluginConfig: AWSAPICategoryPluginConfiguration,
          subscriptionConnectionFactory: SubscriptionConnectionFactory,
          authService: AWSAuthServiceBehavior,
+         apiAuthProviderFactory: APIAuthProviderFactory,
          inProcessListener: AWSGraphQLSubscriptionOperation.InProcessListener?,
          resultListener: AWSGraphQLSubscriptionOperation.ResultListener?) {
 
         self.pluginConfig = pluginConfig
         self.subscriptionConnectionFactory = subscriptionConnectionFactory
         self.authService = authService
+        self.apiAuthProviderFactory = apiAuthProviderFactory
 
         super.init(categoryType: .api,
                    eventName: HubPayload.EventName.API.subscribe,
@@ -82,10 +85,17 @@ final public class AWSGraphQLSubscriptionOperation<R: Decodable>: GraphQLSubscri
             return
         }
 
+        // Retrieve request plugin option and
+        // auth type in case of a multi-auth setup
+        let pluginOptions = request.options.pluginOptions as? AWSPluginOptions
+
         // Retrieve the subscription connection
         do {
-            subscriptionConnection = try subscriptionConnectionFactory.getOrCreateConnection(for: endpointConfig,
-                                                                                             authService: authService)
+            subscriptionConnection = try subscriptionConnectionFactory
+                .getOrCreateConnection(for: endpointConfig,
+                                       authService: authService,
+                                       authType: pluginOptions?.authType,
+                                       apiAuthProviderFactory: apiAuthProviderFactory)
         } catch {
             let error = APIError.operationError("Unable to get connection for api \(endpointConfig.name)", "", error)
             dispatch(result: .failure(error))
@@ -110,8 +120,7 @@ final public class AWSGraphQLSubscriptionOperation<R: Decodable>: GraphQLSubscri
         case .data(let data):
             onGraphQLResponseData(data)
         case .failed(let error):
-            dispatch(result: .failure(APIError.operationError("subscription item event failed with error", "", error)))
-            finish()
+            onSubscriptionFailure(error)
         }
     }
 
@@ -143,11 +152,8 @@ final public class AWSGraphQLSubscriptionOperation<R: Decodable>: GraphQLSubscri
 
     private func onGraphQLResponseData(_ graphQLResponseData: Data) {
         do {
-            let graphQLServiceResponse = try GraphQLResponseDecoder.deserialize(graphQLResponse: graphQLResponseData)
-            let graphQLResponse = try GraphQLResponseDecoder.decode(graphQLServiceResponse: graphQLServiceResponse,
-                                                                    responseType: request.responseType,
-                                                                    decodePath: request.decodePath,
-                                                                    rawGraphQLResponse: graphQLResponseData)
+            let graphQLResponseDecoder = GraphQLResponseDecoder(request: request, response: graphQLResponseData)
+            let graphQLResponse = try graphQLResponseDecoder.decodeToGraphQLResponse()
             dispatchInProcess(data: .data(graphQLResponse))
         } catch let error as APIError {
             dispatch(result: .failure(error))
@@ -159,6 +165,21 @@ final public class AWSGraphQLSubscriptionOperation<R: Decodable>: GraphQLSubscri
             dispatch(result: .failure(APIError.operationError("Failed to deserialize", "", error)))
             finish()
         }
+    }
+
+    private func onSubscriptionFailure(_ error: Error) {
+        let errorDescription = "Subscription item event failed with error"
+        if case let ConnectionProviderError.subscription(_, payload) = error,
+           let errors = payload?["errors"] as? AppSyncJSONValue,
+           let graphQLErrors = try? GraphQLErrorDecoder.decodeAppSyncErrors(errors) {
+            let graphQLResponseError = GraphQLResponseError<R>.error(graphQLErrors)
+            dispatch(result: .failure(APIError.operationError(errorDescription, "", graphQLResponseError)))
+            finish()
+            return
+        }
+
+        dispatch(result: .failure(APIError.operationError(errorDescription, "", error)))
+        finish()
     }
 
 }

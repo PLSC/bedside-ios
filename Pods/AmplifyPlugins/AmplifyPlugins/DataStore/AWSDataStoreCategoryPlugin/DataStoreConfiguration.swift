@@ -1,12 +1,13 @@
 //
-// Copyright 2018-2020 Amazon.com,
-// Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
 // SPDX-License-Identifier: Apache-2.0
 //
 
 import Amplify
 import Foundation
+import AWSPluginsCore
 
 /// Error Handler function typealias
 public typealias DataStoreErrorHandler = (AmplifyError) -> Void
@@ -63,16 +64,26 @@ public struct DataStoreConfiguration {
     /// The page size of each sync execution
     public let syncPageSize: UInt
 
+    /// Selective sync expressions
+    public let syncExpressions: [DataStoreSyncExpression]
+
+    /// Authorization mode strategy
+    public var authModeStrategyType: AuthModeStrategyType
+
     init(errorHandler: @escaping DataStoreErrorHandler,
          conflictHandler: @escaping DataStoreConflictHandler,
          syncInterval: TimeInterval,
          syncMaxRecords: UInt,
-         syncPageSize: UInt) {
+         syncPageSize: UInt,
+         syncExpressions: [DataStoreSyncExpression],
+         authModeStrategy: AuthModeStrategyType = .default) {
         self.errorHandler = errorHandler
         self.conflictHandler = conflictHandler
         self.syncInterval = syncInterval
         self.syncMaxRecords = syncMaxRecords
         self.syncPageSize = syncPageSize
+        self.syncExpressions = syncExpressions
+        self.authModeStrategyType = authModeStrategy
     }
 
 }
@@ -91,6 +102,7 @@ extension DataStoreConfiguration {
     ///   - syncInterval: how often the sync engine will run (in seconds)
     ///   - syncMaxRecords: the number of records to sync per execution
     ///   - syncPageSize: the page size of each sync execution
+    ///   - authModeStrategy: authorization strategy (.default | multiauth)
     /// - Returns: an instance of `DataStoreConfiguration` with the passed parameters.
     public static func custom(
         errorHandler: @escaping DataStoreErrorHandler = { error in
@@ -101,13 +113,17 @@ extension DataStoreConfiguration {
         },
         syncInterval: TimeInterval = DataStoreConfiguration.defaultSyncInterval,
         syncMaxRecords: UInt = DataStoreConfiguration.defaultSyncMaxRecords,
-        syncPageSize: UInt = DataStoreConfiguration.defaultSyncPageSize
+        syncPageSize: UInt = DataStoreConfiguration.defaultSyncPageSize,
+        syncExpressions: [DataStoreSyncExpression] = [],
+        authModeStrategy: AuthModeStrategyType = .default
     ) -> DataStoreConfiguration {
         return DataStoreConfiguration(errorHandler: errorHandler,
                                       conflictHandler: conflictHandler,
                                       syncInterval: syncInterval,
                                       syncMaxRecords: syncMaxRecords,
-                                      syncPageSize: syncPageSize)
+                                      syncPageSize: syncPageSize,
+                                      syncExpressions: syncExpressions,
+                                      authModeStrategy: authModeStrategy)
     }
 
     /// The default configuration.
