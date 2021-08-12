@@ -21,6 +21,7 @@ class UserLoginState: ObservableObject {
     @Published var currentUser : User?
     @Published var organizations : [Organization] = []
     @Published var certRecordViewModel: CertRecordViewModel = CertRecordViewModel()
+    @Published var ratersViewModel: RatersViewModel = RatersViewModel()
     
     
     let certRecordApi = CertRecordAPI()
@@ -90,9 +91,14 @@ class UserLoginState: ObservableObject {
                     self.currentUser = userItem.mapToUser()
                     self.updateUserPrograms(userItem: userItem)
                     self.fetchCertRecords(user: self.currentUser!)
+                    self.fetchRaters(user: self.currentUser!)
                 }
             }
         }
+    }
+    
+    func fetchRaters(user: User){
+        self.ratersViewModel.fetchRaters(orgId: user.orgId!)
     }
     
     func fetchCurrentUserCertRecords() {

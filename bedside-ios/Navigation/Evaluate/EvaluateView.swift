@@ -12,7 +12,7 @@ import Combine
 struct EvaluateView: View {
     @ObservedObject var evaluation : EvaluationFormData = EvaluationFormData()
     @ObservedObject var procedureViewModel = ProcedureSelectViewModel()
-    @ObservedObject var ratersViewModel = RatersViewModel()
+    //@ObservedObject var ratersViewModel = RatersViewModel()
     
     @State var presentProcedures: Bool = false
     @State var presentRaterSelect: Bool = false
@@ -79,9 +79,9 @@ struct EvaluateView: View {
     
     var raterSelectRow: some View {
         NavigationLink(destination:
-            RaterSelect(selectedRater: self.$evaluation.rater,
-                        ratersViewModel: self.ratersViewModel), isActive:self.$presentRaterSelect) {
-                            RaterSelectRow(selectedRater: self.$evaluation.rater).padding()
+            RaterSelect(selectedRater: self.$evaluation.rater),
+            isActive:self.$presentRaterSelect) {
+                RaterSelectRow(selectedRater: self.$evaluation.rater).padding()
         }
     }
     

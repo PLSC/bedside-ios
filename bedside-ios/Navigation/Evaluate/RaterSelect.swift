@@ -42,7 +42,7 @@ struct RaterSelect: View {
     
     @EnvironmentObject var userLoginState : UserLoginState
     
-    @ObservedObject var ratersViewModel : RatersViewModel
+    //@ObservedObject var ratersViewModel : RatersViewModel
     
     func selectRater(rater: User) {
         self.selectedRater = rater
@@ -56,14 +56,14 @@ struct RaterSelect: View {
             return
         }
         
-        ratersViewModel.fetchRaters(orgId: org)
+        userLoginState.ratersViewModel.fetchRaters(orgId: org)
     }
     
     var body: some View {
         VStack {
-            SearchBar(text: $ratersViewModel.filterText, placeholder: "Search Raters")
+            SearchBar(text: $userLoginState.ratersViewModel.filterText, placeholder: "Search Raters")
             List {
-                ForEach(ratersViewModel.filteredUsers, id: \.id) { user in
+                ForEach(userLoginState.ratersViewModel.filteredUsers, id: \.id) { user in
                     RaterRow(user: user)
                     .contentShape(Rectangle())
                     .onTapGesture {
