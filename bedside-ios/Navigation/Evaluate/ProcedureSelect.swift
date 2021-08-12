@@ -67,7 +67,7 @@ struct ProcedureSelect: View {
     @Environment(\.presentationMode) var presentationMode
     @Binding var selectedProcedure : Procedure?
     
-    @ObservedObject var viewModel : ProcedureSelectViewModel
+    @EnvironmentObject var userLoginState : UserLoginState
     
     func selectProcedure(_ procedure: Procedure) {
         selectedProcedure = procedure
@@ -75,7 +75,7 @@ struct ProcedureSelect: View {
     }
     
     func fetchProcedures() {
-        self.viewModel.fetchProcedures()
+        self.userLoginState.procedureSelectViewModel.fetchProcedures()
     }
     
     func doNothing() {
@@ -84,8 +84,8 @@ struct ProcedureSelect: View {
     
     var body: some View {
         return VStack {
-            SearchBar(text: $viewModel.filterText, placeholder: "Search Procedures")
-            List(viewModel.filteredProcedures, id: \.id) { procedure in
+            SearchBar(text: $userLoginState.procedureSelectViewModel.filterText, placeholder: "Search Procedures")
+            List(userLoginState.procedureSelectViewModel.filteredProcedures, id: \.id) { procedure in
                 HStack {
                     Text("\(procedure.name)")
                         .frame(alignment: .leading)

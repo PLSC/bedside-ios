@@ -46,7 +46,6 @@ class RatersViewModel : ObservableObject {
         self.userService.fetchUsers(orgId: orgId, withFilterText: nil) { (result) in
             switch result {
             case .success(let users):
-                print("Raters gathered")
                 self.raters = users
             case .failure(let error):
                 self.showError = true

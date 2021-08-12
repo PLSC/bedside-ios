@@ -42,8 +42,6 @@ struct RaterSelect: View {
     
     @EnvironmentObject var userLoginState : UserLoginState
     
-    //@ObservedObject var ratersViewModel : RatersViewModel
-    
     func selectRater(rater: User) {
         self.selectedRater = rater
         self.presentationMode.wrappedValue.dismiss()

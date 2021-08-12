@@ -22,6 +22,7 @@ class UserLoginState: ObservableObject {
     @Published var organizations : [Organization] = []
     @Published var certRecordViewModel: CertRecordViewModel = CertRecordViewModel()
     @Published var ratersViewModel: RatersViewModel = RatersViewModel()
+    @Published var procedureSelectViewModel: ProcedureSelectViewModel = ProcedureSelectViewModel()
     
     
     let certRecordApi = CertRecordAPI()
@@ -89,12 +90,17 @@ class UserLoginState: ObservableObject {
                 
                 if let userItem = result?.data?.usersByEmail?.items?.compactMap({ $0 }).first {
                     self.currentUser = userItem.mapToUser()
+                    self.fetchProcedures()
+                    self.fetchRaters(user: self.currentUser!)
                     self.updateUserPrograms(userItem: userItem)
                     self.fetchCertRecords(user: self.currentUser!)
-                    self.fetchRaters(user: self.currentUser!)
                 }
             }
         }
+    }
+    
+    func fetchProcedures(){
+        self.procedureSelectViewModel.fetchProcedures()
     }
     
     func fetchRaters(user: User){
