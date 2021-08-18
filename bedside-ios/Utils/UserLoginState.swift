@@ -24,9 +24,6 @@ class UserLoginState: ObservableObject {
     @Published var ratersViewModel: RatersViewModel = RatersViewModel()
     @Published var procedureSelectViewModel: ProcedureSelectViewModel = ProcedureSelectViewModel()
     
-    
-    let certRecordApi = CertRecordAPI()
-    
     //TODO: have intermediate states for loading user data to display intermediate UIs
     func setIsSignedIn(userState: UserState) {
         switch (userState) {
@@ -107,22 +104,13 @@ class UserLoginState: ObservableObject {
         self.ratersViewModel.fetchRaters(orgId: user.orgId!)
     }
     
+    func fetchCertRecords(user: User){
+        self.certRecordViewModel.fetchCertRecords(user: user)
+    }
+    
     func fetchCurrentUserCertRecords() {
         guard let currentUser = self.currentUser else { return }
         fetchCertRecords(user: currentUser)
-    }
-    
-    func fetchCertRecords(user: User) {
-        
-        certRecordApi.getCertRecords(subjectId:user.id) {
-            result in
-            switch result {
-            case .success(let certRecords):
-                self.certRecordViewModel.allCertificationRecords = certRecords
-            case .failure(let error):
-                print("Error fetching certRecords: \(error)")
-            }
-        }
     }
     
     func fetchOrganizationInfo(orgId: String) {

@@ -121,33 +121,33 @@ struct CertRecordListView: View {
     }
     
     var body: some View {
-        let certifiedRecords = viewModel.certified
-        
-        let notCertified = viewModel.notCertified
-    
-        return List {
-            if !certifiedRecords.isEmpty {
-                Section(header: CertifiedHeaderView()) {
-                    ForEach(certifiedRecords) { certRecord in
-                        NavigationLink(destination: CertRecordDetailView(certRecord: certRecord)) {
-                            CertRecordRowView(certificationRecord: certRecord)
+        LoadingView(isShowing: $viewModel.loading) {
+            List {
+                let certifiedRecords = viewModel.certified
+                let notCertified = viewModel.notCertified
+                if !certifiedRecords.isEmpty {
+                    Section(header: CertifiedHeaderView()) {
+                        ForEach(certifiedRecords) { certRecord in
+                            NavigationLink(destination: CertRecordDetailView(certRecord: certRecord)) {
+                                CertRecordRowView(certificationRecord: certRecord)
+                            }
                         }
                     }
                 }
-            }
-            
-            if !notCertified.isEmpty {
-                Section(header:InProgressHeaderView()) {
-                    ForEach(notCertified) {
-                        certRecord in
-                        NavigationLink(destination: CertRecordDetailView(certRecord: certRecord)) {
-                            CertRecordRowView(certificationRecord: certRecord)
+                
+                if !notCertified.isEmpty {
+                    Section(header:InProgressHeaderView()) {
+                        ForEach(notCertified) {
+                            certRecord in
+                            NavigationLink(destination: CertRecordDetailView(certRecord: certRecord)) {
+                                CertRecordRowView(certificationRecord: certRecord)
+                            }
                         }
                     }
                 }
+            }.onAppear {
+                UITableViewHeaderFooterView.appearance().tintColor = UIColor.clear
             }
-        }.onAppear {
-            UITableViewHeaderFooterView.appearance().tintColor = UIColor.clear
         }
     }
 }
@@ -171,4 +171,5 @@ struct CertifiedHeaderView: View {
         }
     }
 }
+
     

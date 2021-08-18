@@ -14,6 +14,9 @@ class CertRecordViewModel : ObservableObject {
     @Published var certified: [CertificationRecord] = []
     @Published var notCertified: [CertificationRecord] = []
     @Published var showEmptyView: Bool = true
+    @Published var loading: Bool = false
+    
+    let certRecordApi = CertRecordAPI()
     
     private var cancellableSet : Set<AnyCancellable> = []
     
@@ -35,5 +38,19 @@ class CertRecordViewModel : ObservableObject {
         }
         .assign(to: \.showEmptyView, on: self)
         .store(in: &cancellableSet)
+    }
+    
+    func fetchCertRecords(user: User) {
+        self.loading = true
+        certRecordApi.getCertRecords(subjectId:user.id) {
+            result in
+                self.loading = false
+                switch result {
+                case .success(let certRecords):
+                    self.allCertificationRecords = certRecords
+                case .failure(let error):
+                    print("Error fetching certRecords: \(error)")
+                }
+        }
     }
 }
