@@ -36,7 +36,9 @@ class CertRecordAPI  {
                 if let next = result?.data?.listCertificationRecords?.nextToken {
                     self.getCertRecords(subjectId: subjectId, nextToken: next, callback: callback, certRecordList: certRecords)
                 }
-                callback(.success(certRecords))
+                else {
+                    callback(.success(certRecords))
+                }
             } else {
                 callback(.failure(CertRecordAPIError.MappingError))
             }
