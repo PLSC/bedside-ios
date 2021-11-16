@@ -8,7 +8,11 @@ type Organization @model @auth(rules: [{ allow: private }]) {
 type Program
   @model
   @auth(rules: [{ allow: private }])
-  @key(name: "byOrganization", fields: ["orgID", "name"]) {
+  @key(
+    name: "byOrganization"
+    fields: ["orgID", "name"]
+    queryField: "programsByOrganization"
+  ) {
   id: ID!
   name: String!
   orgID: ID!
@@ -34,6 +38,8 @@ type Procedure @model @auth(rules: [{ allow: private }]) {
   id: ID!
   name: String!
   description: String
+  programs: [ProgramProcedure]
+    @connection(keyName: "byProcedure", fields: ["id"])
 }
 
 type User
@@ -83,7 +89,7 @@ type CertificationRecord
   ) {
   id: ID!
   procedureId: ID!
-  procedure: Procedure! @connection(fields: ["procedureId"])
+  procedure: Procedure @connection(fields: ["procedureId"])
   isCertified: Boolean
   certificationMethod: CertificationMethod
   subjectId: ID!
@@ -114,9 +120,26 @@ type UserInvitation
   permission: Permission
 }
 
+type ProgramProcedure
+  @model
+  @auth(rules: [{ allow: private }])
+  @key(
+    name: "byProgram"
+    fields: ["programId"]
+    queryField: "proceduresByProgram"
+  )
+  @key(name: "byProcedure", fields: ["procedureId", "programId"]) {
+  id: ID!
+  procedureId: ID!
+  procedure: Procedure! @connection(fields: ["procedureId"])
+  programId: ID!
+  program: Program! @connection(fields: ["programId"])
+}
+
 # Correlates 1:1 with cognito user groups.
 enum Permission {
   Users
+  ProgramAdmins
   Admins
   Sysadmins
 }
@@ -143,6 +166,7 @@ type CertificationRule {
 
 enum Role {
   User
+  ProgramAdmin
   Admin
 }
 

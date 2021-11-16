@@ -8,7 +8,11 @@
         "precedence": 2
     },
     {
-        "groupName": "Users",
+        "groupName": "ProgramAdmins",
         "precedence": 3
+    },
+    {
+        "groupName": "Users",
+        "precedence": 4
     }
 ]

@@ -1,16 +1,16 @@
 {
-    "trigger": true,
-    "modules": [
-        "add-to-group"
-    ],
-    "parentResource": "bedside18eb32eb",
-    "functionName": "bedside18eb32ebPostConfirmation",
-    "parentStack": "auth",
-    "triggerEnvs": "[]",
-    "triggerDir": "/Users/alenox/.nvm/versions/node/v13.7.0/lib/node_modules/@aws-amplify/cli/node_modules/amplify-category-auth/provider-utils/awscloudformation/utils/../triggers/PostConfirmation",
-    "roleName": "bedside18eb32ebPostConfirmation",
-    "triggerTemplate": "PostConfirmation.json.ejs",
-    "triggerEventPath": "PostConfirmation.event.json",
-    "skipEdit": true,
-    "resourceName": "bedside18eb32ebPostConfirmation"
+  "trigger": true,
+  "modules": [
+    "add-to-group"
+  ],
+  "parentResource": "bedside18eb32eb",
+  "functionName": "bedside18eb32ebPostConfirmation",
+  "parentStack": "auth",
+  "triggerEnvs": "[]",
+  "triggerDir": "/usr/local/lib/node_modules/@aws-amplify/cli/node_modules/amplify-category-auth/provider-utils/awscloudformation/triggers/PostConfirmation",
+  "roleName": "bedside18eb32ebPostConfirmation",
+  "triggerTemplate": "PostConfirmation.json.ejs",
+  "triggerEventPath": "PostConfirmation.event.json",
+  "skipEdit": true,
+  "resourceName": "bedside18eb32ebPostConfirmation"
 }

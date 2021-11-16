@@ -149,11 +149,65 @@
         },
      
     
+        "ProgramAdminsGroup": {
+          "Type" : "AWS::Cognito::UserPoolGroup",
+          "Properties" : {
+              "GroupName" : "ProgramAdmins",
+              "Precedence" : 3,
+              
+              "RoleArn" : {
+                "Fn::GetAtt": [
+                    "ProgramAdminsGroupRole",
+                    "Arn"
+                ]
+              },
+              
+              "UserPoolId" : {
+                "Ref": "authbedside18eb32ebUserPoolId"
+              }
+            }
+        },
+        
+        "ProgramAdminsGroupRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName":{
+                    "Fn::Join": [
+                        "",
+                        [
+                          {
+                            "Ref": "authbedside18eb32ebUserPoolId"
+                          },
+                          "-ProgramAdminsGroupRole"
+                        ]
+                    ]
+                },
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Federated": "cognito-identity.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authbedside18eb32ebIdentityPoolId"}},
+                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+     
+    
         "UsersGroup": {
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
               "GroupName" : "Users",
-              "Precedence" : 3,
+              "Precedence" : 4,
               
               "RoleArn" : {
                 "Fn::GetAtt": [
@@ -355,7 +409,7 @@
                 },
                 "Handler": "index.handler",
                 "Runtime": "nodejs12.x",
-                "Timeout": "300",
+                "Timeout": 300,
                 "Role": {
                     "Fn::GetAtt": [
                         "LambdaExecutionRole",
@@ -420,6 +474,17 @@
             "Value": {
                 "Fn::GetAtt": [
                     "AdminsGroupRole",
+                    "Arn"
+                ]
+            }
+        
+        },
+        
+      
+        "ProgramAdminsGroupRole": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "ProgramAdminsGroupRole",
                     "Arn"
                 ]
             }

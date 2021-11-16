@@ -20,11 +20,11 @@
         "bedside18eb32ebPostConfirmation": {
           "GROUP": "Users",
           "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
-          "s3Key": "amplify-builds/bedside18eb32ebPostConfirmation-6a2b38666d4c2f61544e-build.zip"
+          "s3Key": "amplify-builds/bedside18eb32ebPostConfirmation-46614e363446486e3172-build.zip"
         },
         "AdminQueriesc8c14260": {
           "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
-          "s3Key": "amplify-builds/AdminQueriesc8c14260-4647737663344d61516f-build.zip"
+          "s3Key": "amplify-builds/AdminQueriesc8c14260-4470323567614e5a692b-build.zip"
         },
         "bedsideAddNewUser": {
           "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
@@ -56,7 +56,9 @@
     "categories": {
       "function": {
         "bedside18eb32ebPostConfirmation": {
-          "GROUP": "Users"
+          "GROUP": "Users",
+          "deploymentBucketName": "amplify-bedside-prod-81932-deployment",
+          "s3Key": "amplify-builds/bedside18eb32ebPostConfirmation-76534730675832793159-build.zip"
         },
         "AdminQueriesc8c14260": {
           "deploymentBucketName": "amplify-bedside-prod-81932-deployment",
