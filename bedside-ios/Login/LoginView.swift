@@ -109,10 +109,6 @@ struct LoginView: View {
                     
                     Spacer()
                     
-                }.padding()
-                    .padding(.bottom, self.keyboardHeight)
-                    .onReceive(Publishers.keyboardHeight) {
-                        self.keyboardHeight = $0
                 }
             }.alert(isPresented: self.$viewModel.isLoginError) {
                 Alert(title: Text("Login Error"), message: Text(self.viewModel.loginErrorMessage), dismissButton: .default(Text("OK")))
