@@ -109,7 +109,7 @@ struct LoginView: View {
                     
                     Spacer()
                     
-                }
+                }.ignoresSafeArea(.keyboard, edges: .bottom)
             }.alert(isPresented: self.$viewModel.isLoginError) {
                 Alert(title: Text("Login Error"), message: Text(self.viewModel.loginErrorMessage), dismissButton: .default(Text("OK")))
             }
