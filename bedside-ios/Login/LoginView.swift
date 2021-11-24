@@ -102,7 +102,9 @@ struct LoginView: View {
                     }) {
                         Text("Forgot Password")
                     }
-                    
+                    NavigationLink(destination: EmptyView()) {
+                        EmptyView()
+                    }
                     NavigationLink(destination: EmailCodeView(showSelf: self.$viewModel.showEmailCodeEnter, username: self.$viewModel.username), isActive: self.$viewModel.showEmailCodeEnter) {
                         Text("")
                     }
