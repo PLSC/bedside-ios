@@ -92,7 +92,7 @@ struct LoginView: View {
                             .cornerRadius(15.0)
                     }.disabled(!self.viewModel.formIsValid)
                     
-                    NavigationLink(destination: ForgotPasswordView(showSelf: self.$viewModel.showForgotPassword, codeSent: self.$viewModel.codeSent, username: self.$viewModel.username), isActive:self.$viewModel.showForgotPassword) {
+                    NavigationLink(destination: ForgotPasswordView(codeSent: self.$viewModel.codeSent, username: self.$viewModel.username), isActive:self.$viewModel.showForgotPassword) {
                         Text("")
                     }
                     

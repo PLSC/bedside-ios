@@ -125,18 +125,15 @@ class ForgotPasswordViewModel : ObservableObject {
 }
 
 struct ForgotPasswordView: View {
-    
-    
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var forgotPasswordViewModel : ForgotPasswordViewModel
-    @Binding var showSelf : Bool
     @Binding var codeSent : Bool
     @Binding var username : String
     @State var keyboardHeight : CGFloat = 0
     @State var codeSentMessage = ""
     @State var showAlert = false
     
-    init(showSelf: Binding<Bool>, codeSent: Binding<Bool>, username: Binding<String>) {
-        self._showSelf = showSelf
+    init(codeSent: Binding<Bool>, username: Binding<String>) {
         self._codeSent = codeSent
         self._username = username
     }
@@ -164,9 +161,9 @@ struct ForgotPasswordView: View {
                 result in
                 switch result {
                 case .success(_):
-                    self.showSelf = false
                     self.codeSent = false
                     self.forgotPasswordViewModel.reset()
+                    self.presentationMode.wrappedValue.dismiss()
                 case .failure(_):
                     print("error in confirmForgotPassword")
                 }
@@ -235,7 +232,7 @@ struct ForgotPasswordView: View {
 struct ForgotPasswordView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ForgotPasswordView(showSelf: .constant(true), codeSent: .constant(false), username: .constant(""))
+            ForgotPasswordView(codeSent: .constant(false), username: .constant(""))
         }
     }
 }
