@@ -79,6 +79,8 @@
 		39FC6A59246EEFA7001BF08B /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39FC6A57246EEFA6001BF08B /* amplifyconfiguration.json */; };
 		39FC6A5A246EEFA7001BF08B /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 39FC6A58246EEFA6001BF08B /* awsconfiguration.json */; };
 		39FC6A5C246F094C001BF08B /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39FC6A5B246F094C001BF08B /* ImagePicker.swift */; };
+		DC2512DC2756920200C78BA0 /* ProcedureAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2512DB2756920200C78BA0 /* ProcedureAPI.swift */; };
+		DC2512DE2756922600C78BA0 /* ProcedureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2512DD2756922600C78BA0 /* ProcedureViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -176,6 +178,8 @@
 		BB2DCC7199BAA76235D104F9 /* Pods-bedside-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bedside-iosTests.release.xcconfig"; path = "Target Support Files/Pods-bedside-iosTests/Pods-bedside-iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		D5E61525FCC44CA4BE0177F4 /* amplifyxc.config */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = amplifyxc.config; path = ./amplifyxc.config; sourceTree = "<group>"; };
 		D68E0ADEB562A759153372F5 /* Pods_bedside_iosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bedside_iosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC2512DB2756920200C78BA0 /* ProcedureAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcedureAPI.swift; sourceTree = "<group>"; };
+		DC2512DD2756922600C78BA0 /* ProcedureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcedureViewModel.swift; sourceTree = "<group>"; };
 		FF47FAD8EF094FB28C1B6F12 /* amplify */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = amplify; path = ./amplify; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -291,6 +295,8 @@
 				39C2DE482492B27500B189E2 /* CertRecordViewModel.swift */,
 				3996E80B24A23B3200C5294D /* NetworkStatusObserver.swift */,
 				393BD8CF24A3921400350695 /* UserService.swift */,
+				DC2512DB2756920200C78BA0 /* ProcedureAPI.swift */,
+				DC2512DD2756922600C78BA0 /* ProcedureViewModel.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -641,6 +647,7 @@
 				397F087F24646CB600A14513 /* UITestModels.swift in Sources */,
 				397F087D24646C3F00A14513 /* EvalResponseListItem.swift in Sources */,
 				39918C742457516D001797F1 /* EvaluationFormData.swift in Sources */,
+				DC2512DC2756920200C78BA0 /* ProcedureAPI.swift in Sources */,
 				3990AB6724805D6C00D6DAD1 /* SwiftUIExtensions.swift in Sources */,
 				3960372C242CD489006B216E /* UserBanner.swift in Sources */,
 				397F087B2464695D00A14513 /* LoadingView.swift in Sources */,
@@ -655,6 +662,7 @@
 				39BFFF7C2409BC7300F3769D /* CertRecordDetailView.swift in Sources */,
 				39B65419240962D300EEA4A2 /* EvaluateView.swift in Sources */,
 				393CF2B22461EC37007BB281 /* ProcedureDetailRowView.swift in Sources */,
+				DC2512DE2756922600C78BA0 /* ProcedureViewModel.swift in Sources */,
 				3942E778240D67520038011D /* StartupContainerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
