@@ -102,9 +102,9 @@ class AuthUtils {
                 if let e = error {
                     print("error with UsersByEmailQuery: \(e.localizedDescription)")
                 }
-                if let userItem = result?.data?.usersByEmail?.items?.compactMap({ $0 }).first {
+                if let userItem = result?.data?.usersByEmail?.items.compactMap({ $0 }).first {
                     callback(userItem)
-                    if let orgId = userItem.memberships?.items?[0]?.program.orgId {
+                    if let orgId = userItem.memberships?.items[0].program.orgId {
                         appSyncClient?.fetch(query: GetOrganizationQuery(id: orgId), cachePolicy: .returnCacheDataAndFetch) {
                             (result, error) in
                             print(result ?? "")

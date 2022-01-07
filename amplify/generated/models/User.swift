@@ -6,7 +6,7 @@ public struct User: Identifiable {
   public let id: String
   public let orgId: String?
   public var userName: String?
-  public var email: String
+  public var email: String?
   public var phone: String?
   public var firstName: String?
   public var lastName: String?
@@ -15,7 +15,7 @@ public struct User: Identifiable {
   
   public init(id: String = UUID().uuidString,
       userName: String? = nil,
-      email: String,
+      email: String?,
       phone: String? = nil,
       firstName: String? = nil,
       lastName: String? = nil,
@@ -40,7 +40,7 @@ extension User {
         get {
             switch (self.firstName, self.lastName, self.email) {
             case let (nil, nil, email):
-                return email
+                return email as! String
             case let (firstName, lastName?, _):
                 return "\(lastName) \(firstName ?? "")"
             default:
@@ -57,7 +57,7 @@ extension User {
             case let (nil, lastName?, _):
                 return "Dr. \(lastName)"
             case let (nil, nil, email):
-                return email
+                return email ?? ""
             default:
                 return ""
             }
@@ -77,7 +77,7 @@ extension User : UserRepresentible {}
 protocol UserRepresentible {
     var id: String { get }
     var userName: String? { get }
-    var email: String { get }
+    var email: String? { get }
     var phone: String? { get }
     var firstName: String? { get }
     var lastName: String? { get }
@@ -87,7 +87,7 @@ protocol UserRepresentible {
 
 extension UserRepresentible {
     func mapToUser() -> User {
-        return User(id: self.id, userName: self.userName, email: self.email, phone: self.phone, firstName: self.firstName, lastName: self.lastName, npi: self.npi, orgId: self.orgId)
+        return User(id: self.id, userName: self.userName, email: self.email ?? "", phone: self.phone, firstName: self.firstName, lastName: self.lastName, npi: self.npi, orgId: self.orgId)
     }
 }
 

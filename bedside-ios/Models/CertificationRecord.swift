@@ -48,7 +48,8 @@ extension CertificationRecord {
     
     init(certificationRecordItem: ListCertificationRecordsQuery.Data.ListCertificationRecord.Item) {
         let p = certificationRecordItem.procedure
-        let procedure = Procedure(id: p.id, name: p.name, description: p.description)
+        let procedureId = p!.id
+        let procedure = Procedure(id: procedureId, name: p?.name ?? "", description: p?.description)
         
         self.id = certificationRecordItem.id
         self.procedure = procedure
@@ -56,6 +57,6 @@ extension CertificationRecord {
         self.certificationMethod = certificationRecordItem.certificationMethod?.rawValue
         self.totalProcedureEvals = certificationRecordItem.totalProcedureEvals ?? 0
         self.certificationLog = []
-        self.certificationLog = certificationRecordItem.certificationLog?.items?.compactMap(mapCertLogItem(_:))
+        self.certificationLog = certificationRecordItem.certificationLog?.items.compactMap(mapCertLogItem(_:))
     }
 }

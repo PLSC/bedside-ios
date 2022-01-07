@@ -58,7 +58,7 @@ class AppSyncUserService: UserService {
             }
             
             if let userItems = result?.data?.listUsers?.items {
-                let users = (userItems.compactMap { $0?.mapToUser() } + userList).uniques
+                let users = (userItems.compactMap { $0.mapToUser() } + userList).uniques
                 if let next = result?.data?.listUsers?.nextToken {
                     strongSelf.fetchUsers(filter: filter, nextToken: next, completion: completion, userList: users)
                 } else {

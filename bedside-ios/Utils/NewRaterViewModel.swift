@@ -105,7 +105,7 @@ class NewRaterViewModel: ObservableObject {
             completion(noUser)
             if let userItem = items.first {
                 //Assign reccomended user
-                self.recommendedUser = userItem?.mapToUser()
+                self.recommendedUser = userItem.mapToUser()
             } else {
                 self.recommendedUser = nil
             }

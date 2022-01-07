@@ -85,7 +85,7 @@ class UserLoginState: ObservableObject {
             appSyncClient?.fetch(query:  UsersByEmailQuery(email: email, limit: 1), cachePolicy: .returnCacheDataAndFetch) {
                 (result, error ) in
                 
-                if let userItem = result?.data?.usersByEmail?.items?.compactMap({ $0 }).first {
+                if let userItem = result?.data?.usersByEmail?.items.compactMap({ $0 }).first {
                     self.currentUser = userItem.mapToUser()
                     self.fetchProcedures()
                     self.fetchRaters(user: self.currentUser!)
@@ -130,8 +130,7 @@ class UserLoginState: ObservableObject {
                 return
             }
             
-            let programs = results.programs?.items?.compactMap({ (programItem) -> Program? in
-                guard let item = programItem else { return nil }
+            let programs = results.programs?.items.compactMap({ (item) -> Program? in
                 return Program(id: item.id, name: item.name, orgID: item.orgId, description: item.description)
             })
             
@@ -148,25 +147,17 @@ class UserLoginState: ObservableObject {
             return
         }
         
-        var orgIds : Set<String> = []
+        let orgIds : Set<String> = []
         
         let memberships : [Membership] = membershipItems.compactMap {
             
-            var program : Program? = nil
+            let program : Program? = Program(id: $0.program.id, name: $0.program.name, orgID: $0.program.orgId, description: $0.program.description)
             
-            if let programId = $0?.program.id,
-                let name = $0?.program.name,
-                let orgID = $0?.program.orgId {
-                orgIds.insert(orgID)
-                program = Program(id: programId, name: name, orgID: orgID, description: $0?.program.description)
-            }
             
-            if let membershipId = $0?.id,
-                let roleString = $0?.role.rawValue,
-                let roleModel = RoleModel(rawValue: roleString),
-                let prog = program,
+            if  let prog = program,
                 let user = self.currentUser {
-                return Membership(id:membershipId, role: roleModel, user: user, program: prog)
+                let roleModel = RoleModel(rawValue: $0.role.rawValue) ?? RoleModel(rawValue: "User")
+                return Membership(id:$0.id, role: roleModel!, user: user, program: prog)
             }
             
             return nil

@@ -85,7 +85,7 @@ class UserSettingsFormViewModel : ObservableObject {
         self.firstName = user.firstName ?? ""
         self.lastName = user.lastName ?? ""
         self.id = user.id
-        self.email = user.email
+        self.email = user.email ?? ""
     }
 }
 
