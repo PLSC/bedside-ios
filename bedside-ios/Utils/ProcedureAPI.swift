@@ -32,10 +32,13 @@ class ProcedureAPI  {
             if let procedureItems = result?.data?.listProcedures?.items {
                 let procedures : [Procedure] = procedureItems.compactMap(self.mapProcedure) + procedureList
                 if let next = result?.data?.listProcedures?.nextToken {
-                    self.getProcedures(nextToken: next, callback: callback, procedureList: procedures)
+                    self.getProcedures(nextToken: next,
+                                       callback: callback,
+                                       procedureList: procedures)
                 }
                 else {
-                    let filteredProcedures = procedures.filter({ (procedure) -> Bool in
+                    let filteredProcedures = procedures.filter({
+                        (procedure) -> Bool in
                         !procedure.name.starts(with: "Invalid -")
                     })
                     callback(.success(filteredProcedures))
@@ -47,10 +50,13 @@ class ProcedureAPI  {
     }
     
     func mapProcedure(procedureItem: ListProceduresQuery.Data.ListProcedure.Item?) -> Procedure? {
-        var programMemberships : [String] = []
-        programMemberships = procedureItem?.programs?.items.map { item in
+        let programMemberships : [String] = procedureItem?.programs?.items.map { item in
             return item.program.id
         } ?? []
-        return Procedure(id: (procedureItem?.id)! , name: procedureItem!.name, description: procedureItem?.description, programs: programMemberships)
+        
+        return Procedure(id: (procedureItem?.id)! ,
+                         name: procedureItem!.name,
+                         description: procedureItem?.description,
+                         programs: programMemberships)
     }
 }

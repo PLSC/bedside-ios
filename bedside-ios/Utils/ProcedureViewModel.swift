@@ -22,6 +22,17 @@ class ProcedureSelectViewModel : ObservableObject {
     
     var cancelableSet : Set<AnyCancellable> = []
     
+    fileprivate func sortAndFilterProcedures(_ optionalProcedures: [Procedure], _ filterText: String) -> [Procedure] {
+        let sortedProcedures = optionalProcedures.sorted { $0.name < $1.name }
+        if filterText.isEmpty {
+            return sortedProcedures
+        } else {
+            return sortedProcedures.filter { procedure in
+                procedure.name.lowercased().contains(filterText.lowercased())
+            }
+        }
+    }
+    
     init() {
         Publishers
             .CombineLatest($allProcedures, $membershipProgramIds)
@@ -52,16 +63,8 @@ class ProcedureSelectViewModel : ObservableObject {
         Publishers
             .CombineLatest($optionalProcedures, $filterText)
             .receive(on: RunLoop.main)
-            .map {
-                optionalProcedures, filterText in
-                let sortedProcedures = optionalProcedures.sorted { $0.name < $1.name }
-                if filterText.isEmpty {
-                    return sortedProcedures
-                } else {
-                    return sortedProcedures.filter { procedure in
-                        procedure.name.lowercased().contains(filterText.lowercased())
-                    }
-                }
+            .map { [self] optionalProcedures, filterText in
+                return self.sortAndFilterProcedures(optionalProcedures, filterText)
             }
             .assign(to: \.searchFilteredOptionalProcedures, on: self)
             .store(in: &cancelableSet)
@@ -69,16 +72,8 @@ class ProcedureSelectViewModel : ObservableObject {
         Publishers
             .CombineLatest($assignedProcedures, $filterText)
             .receive(on: RunLoop.main)
-            .map {
-                assignedProcedures, filterText in
-                let sortedProcedures = assignedProcedures.sorted { $0.name < $1.name }
-                if filterText.isEmpty {
-                    return sortedProcedures
-                } else {
-                    return sortedProcedures.filter { procedure in
-                        procedure.name.lowercased().contains(filterText.lowercased())
-                    }
-                }
+            .map { [self] assignedProcedures, filterText in
+                return self.sortAndFilterProcedures(assignedProcedures, filterText)
             }
             .assign(to: \.searchFilteredAssignedProcedures, on: self)
             .store(in: &cancelableSet)
