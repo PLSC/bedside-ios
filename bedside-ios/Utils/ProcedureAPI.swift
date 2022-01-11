@@ -47,6 +47,10 @@ class ProcedureAPI  {
     }
     
     func mapProcedure(procedureItem: ListProceduresQuery.Data.ListProcedure.Item?) -> Procedure? {
-        return Procedure(id: (procedureItem?.id)! , name: procedureItem!.name, description: procedureItem?.description)
+        var programMemberships : [String] = []
+        programMemberships = procedureItem?.programs?.items.map { item in
+            return item.program.id
+        } ?? []
+        return Procedure(id: (procedureItem?.id)! , name: procedureItem!.name, description: procedureItem?.description, programs: programMemberships)
     }
 }

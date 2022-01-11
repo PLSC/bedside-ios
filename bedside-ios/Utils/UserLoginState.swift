@@ -97,7 +97,8 @@ class UserLoginState: ObservableObject {
     }
     
     func fetchProcedures(){
-        self.procedureSelectViewModel.fetchProcedures()
+        guard let currentUser = self.currentUser else { return }
+        self.procedureSelectViewModel.fetchProcedures(user: currentUser)
     }
     
     func fetchRaters(user: User){

@@ -10,20 +10,51 @@ import Foundation
 import Combine
 
 class ProcedureSelectViewModel : ObservableObject {
-    
     @Published var allProcedures : [Procedure] = []
-    @Published var filteredProcedures : [Procedure] = []
+    @Published var optionalProcedures : [Procedure] = []
+    @Published var searchFilteredOptionalProcedures : [Procedure] = []
+    @Published var assignedProcedures : [Procedure] = []
+    @Published var searchFilteredAssignedProcedures : [Procedure] = []
     @Published var filterText : String = ""
+    @Published var membershipProgramIds : [String] = []
     
     let procedureApi = ProcedureAPI()
+    
     var cancelableSet : Set<AnyCancellable> = []
     
     init() {
-        Publishers.CombineLatest($allProcedures, $filterText)
+        Publishers
+            .CombineLatest($allProcedures, $membershipProgramIds)
             .receive(on: RunLoop.main)
             .map {
-                allProcedures, filterText in
-                let sortedProcedures = allProcedures.sorted { $0.name < $1.name }
+                allProcedures, membershipIds in
+                
+                return allProcedures.filter { proc in
+                    return !proc.belongsToAnyPrograms(ids: membershipIds)
+                }
+            }
+            .assign(to: \.optionalProcedures, on: self)
+            .store(in: &cancelableSet)
+        
+        Publishers
+            .CombineLatest($allProcedures, $membershipProgramIds)
+            .receive(on: RunLoop.main)
+            .map {
+                allProcedures, membershipProgramIds in
+                
+                return allProcedures.filter { proc in
+                    return proc.belongsToAnyPrograms(ids: membershipProgramIds)
+                }
+            }
+            .assign(to: \.assignedProcedures, on: self)
+            .store(in: &cancelableSet)
+        
+        Publishers
+            .CombineLatest($optionalProcedures, $filterText)
+            .receive(on: RunLoop.main)
+            .map {
+                optionalProcedures, filterText in
+                let sortedProcedures = optionalProcedures.sorted { $0.name < $1.name }
                 if filterText.isEmpty {
                     return sortedProcedures
                 } else {
@@ -32,11 +63,31 @@ class ProcedureSelectViewModel : ObservableObject {
                     }
                 }
             }
-            .assign(to: \.filteredProcedures, on: self)
+            .assign(to: \.searchFilteredOptionalProcedures, on: self)
+            .store(in: &cancelableSet)
+        
+        Publishers
+            .CombineLatest($assignedProcedures, $filterText)
+            .receive(on: RunLoop.main)
+            .map {
+                assignedProcedures, filterText in
+                let sortedProcedures = assignedProcedures.sorted { $0.name < $1.name }
+                if filterText.isEmpty {
+                    return sortedProcedures
+                } else {
+                    return sortedProcedures.filter { procedure in
+                        procedure.name.lowercased().contains(filterText.lowercased())
+                    }
+                }
+            }
+            .assign(to: \.searchFilteredAssignedProcedures, on: self)
             .store(in: &cancelableSet)
     }
     
-    func fetchProcedures() {
+    func fetchProcedures(user: User) {
+        self.membershipProgramIds = user.memberships?.compactMap({ membership in
+            return membership.program.id
+        }) ?? []
         procedureApi.getProcedures() {
             result in
                 switch result {

@@ -22,7 +22,8 @@ struct ProcedureSelect: View {
     }
     
     func fetchProcedures() {
-        self.userLoginState.procedureSelectViewModel.fetchProcedures()
+        guard let currentUser = userLoginState.currentUser else { return }
+        self.userLoginState.procedureSelectViewModel.fetchProcedures(user: currentUser)
     }
     
     func doNothing() {
@@ -32,15 +33,34 @@ struct ProcedureSelect: View {
     var body: some View {
         return VStack {
             SearchBar(text: $userLoginState.procedureSelectViewModel.filterText, placeholder: "Search Procedures")
-            List(userLoginState.procedureSelectViewModel.filteredProcedures, id: \.id) { procedure in
-                HStack {
-                    Text("\(procedure.name)")
-                        .frame(alignment: .leading)
-                    Spacer()
+            List {
+                Section(header: Text("Assigned Procedures")) {
+                    ForEach(userLoginState.procedureSelectViewModel.searchFilteredAssignedProcedures, id: \.id) {
+                        procedure in
+                        HStack {
+                            Text("\(procedure.name)")
+                                .frame(alignment: .leading)
+                            Spacer()
+                        }
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            self.selectProcedure(procedure)
+                        }
+                    }
                 }
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    self.selectProcedure(procedure)
+                Section(header: Text("Optional Procedures")) {
+                    ForEach(userLoginState.procedureSelectViewModel.searchFilteredOptionalProcedures, id: \.id) {
+                        procedure in
+                        HStack {
+                            Text("\(procedure.name)")
+                                .frame(alignment: .leading)
+                            Spacer()
+                        }
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            self.selectProcedure(procedure)
+                        }
+                    }
                 }
             }.id(UUID())
         }.onAppear {
