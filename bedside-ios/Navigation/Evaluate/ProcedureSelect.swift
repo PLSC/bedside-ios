@@ -62,6 +62,12 @@ struct ProcedureSelect: View {
                         }
                     }
                 }
+                Section() {
+                    HStack {
+                        Text("Missing Procedure?")
+                    }
+                    .contentShape(Rectangle())
+                }
             }.id(UUID())
         }.onAppear {
             self.fetchProcedures()
