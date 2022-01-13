@@ -62,9 +62,9 @@ struct ProcedureSelect: View {
                         }
                     }
                 }
-                Section() {
+                Section(header:Text("Missing Procedures?")) {
                     HStack {
-                        Text("Missing Procedure?")
+                        Text("Please contact your program administrator to add missing procedure names")
                     }
                     .contentShape(Rectangle())
                 }
