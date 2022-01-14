@@ -93,4 +93,13 @@ class ProcedureSelectViewModel : ObservableObject {
                 }
         }
     }
+    
+    func clearAll() {
+        allProcedures.removeAll()
+        optionalProcedures.removeAll()
+        assignedProcedures.removeAll()
+        searchFilteredAssignedProcedures.removeAll()
+        searchFilteredOptionalProcedures.removeAll()
+        filterText = ""
+    }
 }

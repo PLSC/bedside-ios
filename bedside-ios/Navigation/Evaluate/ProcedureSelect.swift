@@ -26,54 +26,62 @@ struct ProcedureSelect: View {
         self.userLoginState.procedureSelectViewModel.fetchProcedures(user: currentUser)
     }
     
-    func doNothing() {
-        return
+    fileprivate func procedureListView() -> some View {
+        return List {
+            Section(header: Text("Assigned Procedures")) {
+                ForEach(userLoginState.procedureSelectViewModel.searchFilteredAssignedProcedures, id: \.id) {
+                    procedure in
+                    HStack {
+                        Text("\(procedure.name)")
+                            .frame(alignment: .leading)
+                        Spacer()
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        self.selectProcedure(procedure)
+                    }
+                }
+            }
+            Section(header: Text("Optional Procedures")) {
+                ForEach(userLoginState.procedureSelectViewModel.searchFilteredOptionalProcedures, id: \.id) {
+                    procedure in
+                    HStack {
+                        Text("\(procedure.name)")
+                            .frame(alignment: .leading)
+                        Spacer()
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        self.selectProcedure(procedure)
+                    }
+                }
+            }
+            Section(header:Text("Missing Procedures?")) {
+                HStack {
+                    Text("Please contact your program administrator to add missing procedure names")
+                }
+                .contentShape(Rectangle())
+            }
+        }
+        .id(UUID())
     }
     
     var body: some View {
         return VStack {
-            SearchBar(text: $userLoginState.procedureSelectViewModel.filterText, placeholder: "Search Procedures")
-            List {
-                Section(header: Text("Assigned Procedures")) {
-                    ForEach(userLoginState.procedureSelectViewModel.searchFilteredAssignedProcedures, id: \.id) {
-                        procedure in
-                        HStack {
-                            Text("\(procedure.name)")
-                                .frame(alignment: .leading)
-                            Spacer()
-                        }
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            self.selectProcedure(procedure)
-                        }
-                    }
-                }
-                Section(header: Text("Optional Procedures")) {
-                    ForEach(userLoginState.procedureSelectViewModel.searchFilteredOptionalProcedures, id: \.id) {
-                        procedure in
-                        HStack {
-                            Text("\(procedure.name)")
-                                .frame(alignment: .leading)
-                            Spacer()
-                        }
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            self.selectProcedure(procedure)
-                        }
-                    }
-                }
-                Section(header:Text("Missing Procedures?")) {
-                    HStack {
-                        Text("Please contact your program administrator to add missing procedure names")
-                    }
-                    .contentShape(Rectangle())
-                }
-            }.id(UUID())
+            if #available(iOS 15, *) {
+                procedureListView()
+                    .searchable(text: $userLoginState.procedureSelectViewModel.filterText)
+            } else {
+                SearchBar(text: $userLoginState.procedureSelectViewModel.filterText, placeholder: "Search Procedures")
+                procedureListView()
+            }
         }.onAppear {
             self.fetchProcedures()
         }
+        .onDisappear {
+            userLoginState.procedureSelectViewModel.filterText = ""
+        }
         .navigationBarTitle("Procedures")
-        
     }
 }
 

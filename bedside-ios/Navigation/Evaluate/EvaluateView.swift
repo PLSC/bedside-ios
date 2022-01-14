@@ -12,11 +12,11 @@ import Combine
 struct EvaluateView: View {
     @ObservedObject var evaluation : EvaluationFormData = EvaluationFormData()
     
-    @State var presentProcedures: Bool = false
-    @State var presentRaterSelect: Bool = false
     @State var presentEvaluation: Bool = false
     @State var presentEvalHandoffAlert: Bool = false
     @State var presentOfflineAlert: Bool = false
+    
+    @State private var viewPresented: String? = nil
     
     @State var isLoading: Bool = false
     @State var errorMessage: String = ""
@@ -61,10 +61,10 @@ struct EvaluateView: View {
     
     var procedureSelectRow: some View {
         NavigationLink(
-            destination: ProcedureSelect(
-                selectedProcedure: self.$evaluation.procedure),
-            isActive: self.$presentProcedures) {
-                ProcedureSelectRow(selectedProcedure: self.$evaluation.procedure)
+            destination: ProcedureSelect(selectedProcedure: self.$evaluation.procedure),
+            tag: "ProcedureSelect",
+            selection: self.$viewPresented) {
+            ProcedureSelectRow(selectedProcedure: self.$evaluation.procedure)
         }
     }
     
@@ -75,9 +75,11 @@ struct EvaluateView: View {
     }
     
     var raterSelectRow: some View {
-        NavigationLink(destination:
-            RaterSelect(selectedRater: self.$evaluation.rater),
-            isActive:self.$presentRaterSelect) {
+        NavigationLink(
+            destination:
+                RaterSelect(selectedRater: self.$evaluation.rater),
+            tag: "RaterSelect",
+            selection: self.$viewPresented) {
                 RaterSelectRow(selectedRater: self.$evaluation.rater).padding()
         }
     }
@@ -106,9 +108,7 @@ struct EvaluateView: View {
     }
     
     var body: some View {
-        LoadingView(isShowing: $isLoading) {
             NavigationView {
-            
                 Form {
                     if !self.errorMessage.isEmpty {
                         Text(self.errorMessage).foregroundColor(.red)
@@ -127,10 +127,10 @@ struct EvaluateView: View {
                             .padding([.leading, .trailing], 10)
                     )
                 }
-                
                 .navigationBarTitle("New Evaluation")
                 .onAppear(perform: self.initialize)
-            }.sheet(isPresented: self.$presentEvaluation) {
+            }
+            .sheet(isPresented: self.$presentEvaluation) {
                 PerformanceEvaluation(evaluation: self.evaluation) {
                     complete in
                     if complete {
@@ -146,7 +146,6 @@ struct EvaluateView: View {
                       message: Text("Please hand your phone to the rater you selected."),
                       dismissButton: .default(Text("OK").foregroundColor(Color.lightTeal), action: { self.handoffAlertDismissed() }) )
             }
-        }
     }
 }
 
