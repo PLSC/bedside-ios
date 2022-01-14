@@ -46,10 +46,11 @@ extension CertificationRecord {
         
     }
     
-    init(certificationRecordItem: ListCertificationRecordsQuery.Data.ListCertificationRecord.Item) {
-        let p = certificationRecordItem.procedure
-        let procedureId = p!.id
-        let procedure = Procedure(id: procedureId, name: p?.name ?? "", description: p?.description)
+    init?(certificationRecordItem: ListCertificationRecordsQuery.Data.ListCertificationRecord.Item) {
+        guard let p = certificationRecordItem.procedure else { return nil }
+        
+        let procedureId = p.id
+        let procedure = Procedure(id: procedureId, name: p.name, description: p.description)
         
         self.id = certificationRecordItem.id
         self.procedure = procedure
