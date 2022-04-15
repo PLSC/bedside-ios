@@ -8,9 +8,13 @@ Do not change code in the amplify/ folder. This should only be changed in the we
 
 `amplify pull`
 
+Note:  You should run the above command every time you are working towards a new release.  Not doing so could mean your backend is out of sync with the current backend (admin web site project).  
+
 # Codegen
 `amplify codegen statements`
 `amplify codegen types`
+
+Note:  Regenerating types could lead to issues in the application, as these files have gotten far out of sync.  Run the codegen types statement at your own risk, and plan to make updates to the application in order to bring it back into working order.
 
 # Preparing a release
 
