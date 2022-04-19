@@ -19,9 +19,9 @@ class ProcedureAPI  {
     
     func getProcedures(nextToken: String? = nil, callback: @escaping Handler, procedureList: [Procedure] = []) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let appSyncClient = appDelegate.appSyncClient
+        let appSyncPrivateClient = appDelegate.appSyncPrivateClient
         let query = ListProceduresQuery(limit:1000, nextToken: nextToken)
-        appSyncClient?.fetch(query: query,
+        appSyncPrivateClient?.fetch(query: query,
                              cachePolicy: .returnCacheDataAndFetch,
                              resultHandler:{(result, error) in
             if let e = error {

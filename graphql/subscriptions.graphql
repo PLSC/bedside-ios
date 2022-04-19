@@ -1,15 +1,266 @@
 # this is an auto generated file. This will be overwritten
+subscription OnCreateProgramProcedure {
+  onCreateProgramProcedure {
+    id
+    procedureId
+    programId
+    createdAt
+    updatedAt
+    program {
+      id
+      name
+      orgID
+      description
+      createdAt
+      updatedAt
+      memberships {
+        items {
+          id
+          role
+          userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          user {
+            id
+            orgID
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            pgy
+            isRater
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
+    procedure {
+      id
+      name
+      description
+      programs {
+        items {
+          id
+          procedureId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          procedure {
+            id
+            name
+            description
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+}
+subscription OnUpdateProgramProcedure {
+  onUpdateProgramProcedure {
+    id
+    procedureId
+    programId
+    createdAt
+    updatedAt
+    program {
+      id
+      name
+      orgID
+      description
+      createdAt
+      updatedAt
+      memberships {
+        items {
+          id
+          role
+          userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          user {
+            id
+            orgID
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            pgy
+            isRater
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
+    procedure {
+      id
+      name
+      description
+      programs {
+        items {
+          id
+          procedureId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          procedure {
+            id
+            name
+            description
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+}
+subscription OnDeleteProgramProcedure {
+  onDeleteProgramProcedure {
+    id
+    procedureId
+    programId
+    createdAt
+    updatedAt
+    program {
+      id
+      name
+      orgID
+      description
+      createdAt
+      updatedAt
+      memberships {
+        items {
+          id
+          role
+          userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          user {
+            id
+            orgID
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            pgy
+            isRater
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
+    procedure {
+      id
+      name
+      description
+      programs {
+        items {
+          id
+          procedureId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          procedure {
+            id
+            name
+            description
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+}
 subscription OnCreateOrganization {
   onCreateOrganization {
     id
     title
     description
+    ipRangeRegex
+    createdAt
+    updatedAt
     programs {
       items {
         id
         name
         orgID
         description
+        createdAt
+        updatedAt
         memberships {
           items {
             id
@@ -21,13 +272,9 @@ subscription OnCreateOrganization {
           }
           nextToken
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
   }
 }
 subscription OnUpdateOrganization {
@@ -35,12 +282,17 @@ subscription OnUpdateOrganization {
     id
     title
     description
+    ipRangeRegex
+    createdAt
+    updatedAt
     programs {
       items {
         id
         name
         orgID
         description
+        createdAt
+        updatedAt
         memberships {
           items {
             id
@@ -52,13 +304,9 @@ subscription OnUpdateOrganization {
           }
           nextToken
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
   }
 }
 subscription OnDeleteOrganization {
@@ -66,12 +314,17 @@ subscription OnDeleteOrganization {
     id
     title
     description
+    ipRangeRegex
+    createdAt
+    updatedAt
     programs {
       items {
         id
         name
         orgID
         description
+        createdAt
+        updatedAt
         memberships {
           items {
             id
@@ -83,13 +336,9 @@ subscription OnDeleteOrganization {
           }
           nextToken
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
   }
 }
 subscription OnCreateProgram {
@@ -98,11 +347,27 @@ subscription OnCreateProgram {
     name
     orgID
     description
+    createdAt
+    updatedAt
     memberships {
       items {
         id
         role
         userId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
         user {
           id
           orgID
@@ -114,31 +379,18 @@ subscription OnCreateProgram {
           npi
           pgy
           isRater
-          memberships {
-            nextToken
+          settings {
+            receiveWeeklyNewEvaluationsEmail
           }
           createdAt
           updatedAt
-        }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
           memberships {
             nextToken
           }
-          createdAt
-          updatedAt
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
   }
 }
 subscription OnUpdateProgram {
@@ -147,11 +399,27 @@ subscription OnUpdateProgram {
     name
     orgID
     description
+    createdAt
+    updatedAt
     memberships {
       items {
         id
         role
         userId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
         user {
           id
           orgID
@@ -163,31 +431,18 @@ subscription OnUpdateProgram {
           npi
           pgy
           isRater
-          memberships {
-            nextToken
+          settings {
+            receiveWeeklyNewEvaluationsEmail
           }
           createdAt
           updatedAt
-        }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
           memberships {
             nextToken
           }
-          createdAt
-          updatedAt
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
   }
 }
 subscription OnDeleteProgram {
@@ -196,11 +451,27 @@ subscription OnDeleteProgram {
     name
     orgID
     description
+    createdAt
+    updatedAt
     memberships {
       items {
         id
         role
         userId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
         user {
           id
           orgID
@@ -212,31 +483,18 @@ subscription OnDeleteProgram {
           npi
           pgy
           isRater
-          memberships {
-            nextToken
+          settings {
+            receiveWeeklyNewEvaluationsEmail
           }
           createdAt
           updatedAt
-        }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
           memberships {
             nextToken
           }
-          createdAt
-          updatedAt
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
   }
 }
 subscription OnCreateMembership {
@@ -244,6 +502,50 @@ subscription OnCreateMembership {
     id
     role
     userId
+    programId
+    createdAt
+    updatedAt
+    program {
+      id
+      name
+      orgID
+      description
+      createdAt
+      updatedAt
+      memberships {
+        items {
+          id
+          role
+          userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          user {
+            id
+            orgID
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            pgy
+            isRater
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
     user {
       id
       orgID
@@ -255,11 +557,27 @@ subscription OnCreateMembership {
       npi
       pgy
       isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
       memberships {
         items {
           id
           role
           userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
           user {
             id
             orgID
@@ -274,67 +592,10 @@ subscription OnCreateMembership {
             createdAt
             updatedAt
           }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
-    programId
-    program {
-      id
-      name
-      orgID
-      description
-      memberships {
-        items {
-          id
-          role
-          userId
-          user {
-            id
-            orgID
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            pgy
-            isRater
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    createdAt
-    updatedAt
   }
 }
 subscription OnUpdateMembership {
@@ -342,6 +603,50 @@ subscription OnUpdateMembership {
     id
     role
     userId
+    programId
+    createdAt
+    updatedAt
+    program {
+      id
+      name
+      orgID
+      description
+      createdAt
+      updatedAt
+      memberships {
+        items {
+          id
+          role
+          userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          user {
+            id
+            orgID
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            pgy
+            isRater
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
     user {
       id
       orgID
@@ -353,11 +658,27 @@ subscription OnUpdateMembership {
       npi
       pgy
       isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
       memberships {
         items {
           id
           role
           userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
           user {
             id
             orgID
@@ -372,67 +693,10 @@ subscription OnUpdateMembership {
             createdAt
             updatedAt
           }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
-    programId
-    program {
-      id
-      name
-      orgID
-      description
-      memberships {
-        items {
-          id
-          role
-          userId
-          user {
-            id
-            orgID
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            pgy
-            isRater
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    createdAt
-    updatedAt
   }
 }
 subscription OnDeleteMembership {
@@ -440,6 +704,50 @@ subscription OnDeleteMembership {
     id
     role
     userId
+    programId
+    createdAt
+    updatedAt
+    program {
+      id
+      name
+      orgID
+      description
+      createdAt
+      updatedAt
+      memberships {
+        items {
+          id
+          role
+          userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          user {
+            id
+            orgID
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            pgy
+            isRater
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
     user {
       id
       orgID
@@ -451,11 +759,27 @@ subscription OnDeleteMembership {
       npi
       pgy
       isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
       memberships {
         items {
           id
           role
           userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
           user {
             id
             orgID
@@ -470,67 +794,10 @@ subscription OnDeleteMembership {
             createdAt
             updatedAt
           }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
-    programId
-    program {
-      id
-      name
-      orgID
-      description
-      memberships {
-        items {
-          id
-          role
-          userId
-          user {
-            id
-            orgID
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            pgy
-            isRater
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    createdAt
-    updatedAt
   }
 }
 subscription OnCreateProcedure {
@@ -542,6 +809,20 @@ subscription OnCreateProcedure {
       items {
         id
         procedureId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
         procedure {
           id
           name
@@ -552,20 +833,6 @@ subscription OnCreateProcedure {
           createdAt
           updatedAt
         }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
       }
       nextToken
     }
@@ -582,6 +849,20 @@ subscription OnUpdateProcedure {
       items {
         id
         procedureId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
         procedure {
           id
           name
@@ -592,20 +873,6 @@ subscription OnUpdateProcedure {
           createdAt
           updatedAt
         }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
       }
       nextToken
     }
@@ -622,6 +889,20 @@ subscription OnDeleteProcedure {
       items {
         id
         procedureId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
         procedure {
           id
           name
@@ -632,20 +913,6 @@ subscription OnDeleteProcedure {
           createdAt
           updatedAt
         }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
       }
       nextToken
     }
@@ -665,11 +932,30 @@ subscription OnCreateUser {
     npi
     pgy
     isRater
+    settings {
+      receiveWeeklyNewEvaluationsEmail
+    }
+    createdAt
+    updatedAt
     memberships {
       items {
         id
         role
         userId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
         user {
           id
           orgID
@@ -681,31 +967,18 @@ subscription OnCreateUser {
           npi
           pgy
           isRater
-          memberships {
-            nextToken
+          settings {
+            receiveWeeklyNewEvaluationsEmail
           }
           createdAt
           updatedAt
-        }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
           memberships {
             nextToken
           }
-          createdAt
-          updatedAt
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
   }
 }
 subscription OnUpdateUser {
@@ -720,11 +993,30 @@ subscription OnUpdateUser {
     npi
     pgy
     isRater
+    settings {
+      receiveWeeklyNewEvaluationsEmail
+    }
+    createdAt
+    updatedAt
     memberships {
       items {
         id
         role
         userId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
         user {
           id
           orgID
@@ -736,31 +1028,18 @@ subscription OnUpdateUser {
           npi
           pgy
           isRater
-          memberships {
-            nextToken
+          settings {
+            receiveWeeklyNewEvaluationsEmail
           }
           createdAt
           updatedAt
-        }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
           memberships {
             nextToken
           }
-          createdAt
-          updatedAt
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
   }
 }
 subscription OnDeleteUser {
@@ -775,11 +1054,30 @@ subscription OnDeleteUser {
     npi
     pgy
     isRater
+    settings {
+      receiveWeeklyNewEvaluationsEmail
+    }
+    createdAt
+    updatedAt
     memberships {
       items {
         id
         role
         userId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
         user {
           id
           orgID
@@ -791,37 +1089,94 @@ subscription OnDeleteUser {
           npi
           pgy
           isRater
-          memberships {
-            nextToken
+          settings {
+            receiveWeeklyNewEvaluationsEmail
           }
           createdAt
           updatedAt
-        }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
           memberships {
             nextToken
           }
-          createdAt
-          updatedAt
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
   }
 }
 subscription OnCreateCertificationRecord {
   onCreateCertificationRecord {
     id
     procedureId
+    isCertified
+    certificationMethod
+    subjectId
+    certificationLog {
+      items {
+        id
+        subjectId
+        raterId
+        procedureId
+        evaluationDate
+        ratingLevel
+        certificationRecordId
+        createdAt
+        updatedAt
+        procedure {
+          id
+          name
+          description
+          programs {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        subject {
+          id
+          orgID
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          pgy
+          isRater
+          settings {
+            receiveWeeklyNewEvaluationsEmail
+          }
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
+        rater {
+          id
+          orgID
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          pgy
+          isRater
+          settings {
+            receiveWeeklyNewEvaluationsEmail
+          }
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
+      }
+      nextToken
+    }
+    totalProcedureEvals
+    createdAt
+    updatedAt
     procedure {
       id
       name
@@ -830,14 +1185,9 @@ subscription OnCreateCertificationRecord {
         items {
           id
           procedureId
-          procedure {
-            id
-            name
-            description
-            createdAt
-            updatedAt
-          }
           programId
+          createdAt
+          updatedAt
           program {
             id
             name
@@ -846,17 +1196,19 @@ subscription OnCreateCertificationRecord {
             createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
+          procedure {
+            id
+            name
+            description
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
       createdAt
       updatedAt
     }
-    isCertified
-    certificationMethod
-    subjectId
     subject {
       id
       orgID
@@ -868,11 +1220,27 @@ subscription OnCreateCertificationRecord {
       npi
       pgy
       isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
       memberships {
         items {
           id
           role
           userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
           user {
             id
             orgID
@@ -887,90 +1255,86 @@ subscription OnCreateCertificationRecord {
             createdAt
             updatedAt
           }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
-    certificationLog {
-      items {
-        id
-        subject {
-          id
-          orgID
-          userName
-          email
-          phone
-          firstName
-          lastName
-          npi
-          pgy
-          isRater
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        subjectId
-        rater {
-          id
-          orgID
-          userName
-          email
-          phone
-          firstName
-          lastName
-          npi
-          pgy
-          isRater
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        raterId
-        procedure {
-          id
-          name
-          description
-          programs {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        procedureId
-        evaluationDate
-        ratingLevel
-        certificationRecordId
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-    totalProcedureEvals
-    createdAt
-    updatedAt
   }
 }
 subscription OnUpdateCertificationRecord {
   onUpdateCertificationRecord {
     id
     procedureId
+    isCertified
+    certificationMethod
+    subjectId
+    certificationLog {
+      items {
+        id
+        subjectId
+        raterId
+        procedureId
+        evaluationDate
+        ratingLevel
+        certificationRecordId
+        createdAt
+        updatedAt
+        procedure {
+          id
+          name
+          description
+          programs {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        subject {
+          id
+          orgID
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          pgy
+          isRater
+          settings {
+            receiveWeeklyNewEvaluationsEmail
+          }
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
+        rater {
+          id
+          orgID
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          pgy
+          isRater
+          settings {
+            receiveWeeklyNewEvaluationsEmail
+          }
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
+      }
+      nextToken
+    }
+    totalProcedureEvals
+    createdAt
+    updatedAt
     procedure {
       id
       name
@@ -979,14 +1343,9 @@ subscription OnUpdateCertificationRecord {
         items {
           id
           procedureId
-          procedure {
-            id
-            name
-            description
-            createdAt
-            updatedAt
-          }
           programId
+          createdAt
+          updatedAt
           program {
             id
             name
@@ -995,17 +1354,19 @@ subscription OnUpdateCertificationRecord {
             createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
+          procedure {
+            id
+            name
+            description
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
       createdAt
       updatedAt
     }
-    isCertified
-    certificationMethod
-    subjectId
     subject {
       id
       orgID
@@ -1017,11 +1378,27 @@ subscription OnUpdateCertificationRecord {
       npi
       pgy
       isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
       memberships {
         items {
           id
           role
           userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
           user {
             id
             orgID
@@ -1036,175 +1413,40 @@ subscription OnUpdateCertificationRecord {
             createdAt
             updatedAt
           }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
-    certificationLog {
-      items {
-        id
-        subject {
-          id
-          orgID
-          userName
-          email
-          phone
-          firstName
-          lastName
-          npi
-          pgy
-          isRater
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        subjectId
-        rater {
-          id
-          orgID
-          userName
-          email
-          phone
-          firstName
-          lastName
-          npi
-          pgy
-          isRater
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        raterId
-        procedure {
-          id
-          name
-          description
-          programs {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        procedureId
-        evaluationDate
-        ratingLevel
-        certificationRecordId
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-    totalProcedureEvals
-    createdAt
-    updatedAt
   }
 }
 subscription OnDeleteCertificationRecord {
   onDeleteCertificationRecord {
     id
     procedureId
-    procedure {
-      id
-      name
-      description
-      programs {
-        items {
-          id
-          procedureId
-          procedure {
-            id
-            name
-            description
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
     isCertified
     certificationMethod
     subjectId
-    subject {
-      id
-      orgID
-      userName
-      email
-      phone
-      firstName
-      lastName
-      npi
-      pgy
-      isRater
-      memberships {
-        items {
+    certificationLog {
+      items {
+        id
+        subjectId
+        raterId
+        procedureId
+        evaluationDate
+        ratingLevel
+        certificationRecordId
+        createdAt
+        updatedAt
+        procedure {
           id
-          role
-          userId
-          user {
-            id
-            orgID
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            pgy
-            isRater
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
+          name
+          description
+          programs {
+            nextToken
           }
           createdAt
           updatedAt
         }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    certificationLog {
-      items {
-        id
         subject {
           id
           orgID
@@ -1216,13 +1458,15 @@ subscription OnDeleteCertificationRecord {
           npi
           pgy
           isRater
-          memberships {
-            nextToken
+          settings {
+            receiveWeeklyNewEvaluationsEmail
           }
           createdAt
           updatedAt
+          memberships {
+            nextToken
+          }
         }
-        subjectId
         rater {
           id
           orgID
@@ -1234,41 +1478,21 @@ subscription OnDeleteCertificationRecord {
           npi
           pgy
           isRater
+          settings {
+            receiveWeeklyNewEvaluationsEmail
+          }
+          createdAt
+          updatedAt
           memberships {
             nextToken
           }
-          createdAt
-          updatedAt
         }
-        raterId
-        procedure {
-          id
-          name
-          description
-          programs {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        procedureId
-        evaluationDate
-        ratingLevel
-        certificationRecordId
-        createdAt
-        updatedAt
       }
       nextToken
     }
     totalProcedureEvals
     createdAt
     updatedAt
-  }
-}
-subscription OnCreateProgramProcedure {
-  onCreateProgramProcedure {
-    id
-    procedureId
     procedure {
       id
       name
@@ -1277,14 +1501,9 @@ subscription OnCreateProgramProcedure {
         items {
           id
           procedureId
-          procedure {
-            id
-            name
-            description
-            createdAt
-            updatedAt
-          }
           programId
+          createdAt
+          updatedAt
           program {
             id
             name
@@ -1293,25 +1512,51 @@ subscription OnCreateProgramProcedure {
             createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
+          procedure {
+            id
+            name
+            description
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
       createdAt
       updatedAt
     }
-    programId
-    program {
+    subject {
       id
-      name
       orgID
-      description
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      pgy
+      isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
       memberships {
         items {
           id
           role
           userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
           user {
             id
             orgID
@@ -1326,188 +1571,9 @@ subscription OnCreateProgramProcedure {
             createdAt
             updatedAt
           }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
-    createdAt
-    updatedAt
-  }
-}
-subscription OnUpdateProgramProcedure {
-  onUpdateProgramProcedure {
-    id
-    procedureId
-    procedure {
-      id
-      name
-      description
-      programs {
-        items {
-          id
-          procedureId
-          procedure {
-            id
-            name
-            description
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    programId
-    program {
-      id
-      name
-      orgID
-      description
-      memberships {
-        items {
-          id
-          role
-          userId
-          user {
-            id
-            orgID
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            pgy
-            isRater
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    createdAt
-    updatedAt
-  }
-}
-subscription OnDeleteProgramProcedure {
-  onDeleteProgramProcedure {
-    id
-    procedureId
-    procedure {
-      id
-      name
-      description
-      programs {
-        items {
-          id
-          procedureId
-          procedure {
-            id
-            name
-            description
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    programId
-    program {
-      id
-      name
-      orgID
-      description
-      memberships {
-        items {
-          id
-          role
-          userId
-          user {
-            id
-            orgID
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            pgy
-            isRater
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    createdAt
-    updatedAt
   }
 }

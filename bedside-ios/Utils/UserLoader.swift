@@ -28,10 +28,10 @@ class UserLoader {
         }
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let appSyncClient = appDelegate.appSyncClient
+        let appSyncPrivateClient = appDelegate.appSyncPrivateClient
         let query = UsersByEmailQuery(email: email, limit: 1)
         
-        appSyncClient?.fetch(query: query, cachePolicy: .fetchIgnoringCacheData) { result, error in
+        appSyncPrivateClient?.fetch(query: query, cachePolicy: .fetchIgnoringCacheData) { result, error in
             if let userItem = result?.data?.usersByEmail?.items.compactMap({ $0 }).first {
                 let user = userItem.mapToUser()
                 self.cache[email] = user

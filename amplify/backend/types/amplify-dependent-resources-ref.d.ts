@@ -54,6 +54,28 @@ export type AmplifyDependentResourcesAttributes = {
             "Arn": "string",
             "Region": "string",
             "LambdaExecutionRole": "string"
+        },
+        "nurseReport": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        },
+        "bedsideDynamoDBAPILayer": {
+            "Arn": "string"
+        },
+        "applicationQueueDispatch": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        },
+        "weeklyProcessTrigger": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string",
+            "CloudWatchEventRule": "string"
         }
     },
     "api": {
@@ -65,12 +87,22 @@ export type AmplifyDependentResourcesAttributes = {
         "bedside": {
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
+        },
+        "nurseReport": {
+            "RootUrl": "string",
+            "ApiName": "string",
+            "ApiId": "string"
         }
     },
     "storage": {
         "bedsideContent": {
             "BucketName": "string",
             "Region": "string"
+        }
+    },
+    "custom": {
+        "snsTopicQueue": {
+            "snsTopicArn": "string"
         }
     }
 }

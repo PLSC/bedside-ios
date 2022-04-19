@@ -10,12 +10,17 @@ mutation CreateOrganization(
     id
     title
     description
+    ipRangeRegex
+    createdAt
+    updatedAt
     programs {
       items {
         id
         name
         orgID
         description
+        createdAt
+        updatedAt
         memberships {
           items {
             id
@@ -27,13 +32,9 @@ mutation CreateOrganization(
           }
           nextToken
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
   }
 }
 mutation UpdateOrganization(
@@ -44,12 +45,17 @@ mutation UpdateOrganization(
     id
     title
     description
+    ipRangeRegex
+    createdAt
+    updatedAt
     programs {
       items {
         id
         name
         orgID
         description
+        createdAt
+        updatedAt
         memberships {
           items {
             id
@@ -61,13 +67,9 @@ mutation UpdateOrganization(
           }
           nextToken
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
   }
 }
 mutation DeleteOrganization(
@@ -78,12 +80,17 @@ mutation DeleteOrganization(
     id
     title
     description
+    ipRangeRegex
+    createdAt
+    updatedAt
     programs {
       items {
         id
         name
         orgID
         description
+        createdAt
+        updatedAt
         memberships {
           items {
             id
@@ -95,13 +102,9 @@ mutation DeleteOrganization(
           }
           nextToken
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
   }
 }
 mutation CreateProgram(
@@ -113,11 +116,27 @@ mutation CreateProgram(
     name
     orgID
     description
+    createdAt
+    updatedAt
     memberships {
       items {
         id
         role
         userId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
         user {
           id
           orgID
@@ -129,31 +148,18 @@ mutation CreateProgram(
           npi
           pgy
           isRater
-          memberships {
-            nextToken
+          settings {
+            receiveWeeklyNewEvaluationsEmail
           }
           createdAt
           updatedAt
-        }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
           memberships {
             nextToken
           }
-          createdAt
-          updatedAt
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
   }
 }
 mutation UpdateProgram(
@@ -165,11 +171,27 @@ mutation UpdateProgram(
     name
     orgID
     description
+    createdAt
+    updatedAt
     memberships {
       items {
         id
         role
         userId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
         user {
           id
           orgID
@@ -181,31 +203,18 @@ mutation UpdateProgram(
           npi
           pgy
           isRater
-          memberships {
-            nextToken
+          settings {
+            receiveWeeklyNewEvaluationsEmail
           }
           createdAt
           updatedAt
-        }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
           memberships {
             nextToken
           }
-          createdAt
-          updatedAt
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
   }
 }
 mutation DeleteProgram(
@@ -217,11 +226,27 @@ mutation DeleteProgram(
     name
     orgID
     description
+    createdAt
+    updatedAt
     memberships {
       items {
         id
         role
         userId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
         user {
           id
           orgID
@@ -233,31 +258,18 @@ mutation DeleteProgram(
           npi
           pgy
           isRater
-          memberships {
-            nextToken
+          settings {
+            receiveWeeklyNewEvaluationsEmail
           }
           createdAt
           updatedAt
-        }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
           memberships {
             nextToken
           }
-          createdAt
-          updatedAt
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
   }
 }
 mutation CreateMembership(
@@ -268,6 +280,50 @@ mutation CreateMembership(
     id
     role
     userId
+    programId
+    createdAt
+    updatedAt
+    program {
+      id
+      name
+      orgID
+      description
+      createdAt
+      updatedAt
+      memberships {
+        items {
+          id
+          role
+          userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          user {
+            id
+            orgID
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            pgy
+            isRater
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
     user {
       id
       orgID
@@ -279,11 +335,27 @@ mutation CreateMembership(
       npi
       pgy
       isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
       memberships {
         items {
           id
           role
           userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
           user {
             id
             orgID
@@ -298,67 +370,10 @@ mutation CreateMembership(
             createdAt
             updatedAt
           }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
-    programId
-    program {
-      id
-      name
-      orgID
-      description
-      memberships {
-        items {
-          id
-          role
-          userId
-          user {
-            id
-            orgID
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            pgy
-            isRater
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    createdAt
-    updatedAt
   }
 }
 mutation UpdateMembership(
@@ -369,6 +384,50 @@ mutation UpdateMembership(
     id
     role
     userId
+    programId
+    createdAt
+    updatedAt
+    program {
+      id
+      name
+      orgID
+      description
+      createdAt
+      updatedAt
+      memberships {
+        items {
+          id
+          role
+          userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          user {
+            id
+            orgID
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            pgy
+            isRater
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
     user {
       id
       orgID
@@ -380,11 +439,27 @@ mutation UpdateMembership(
       npi
       pgy
       isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
       memberships {
         items {
           id
           role
           userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
           user {
             id
             orgID
@@ -399,67 +474,10 @@ mutation UpdateMembership(
             createdAt
             updatedAt
           }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
-    programId
-    program {
-      id
-      name
-      orgID
-      description
-      memberships {
-        items {
-          id
-          role
-          userId
-          user {
-            id
-            orgID
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            pgy
-            isRater
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    createdAt
-    updatedAt
   }
 }
 mutation DeleteMembership(
@@ -470,6 +488,50 @@ mutation DeleteMembership(
     id
     role
     userId
+    programId
+    createdAt
+    updatedAt
+    program {
+      id
+      name
+      orgID
+      description
+      createdAt
+      updatedAt
+      memberships {
+        items {
+          id
+          role
+          userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          user {
+            id
+            orgID
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            pgy
+            isRater
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
     user {
       id
       orgID
@@ -481,11 +543,27 @@ mutation DeleteMembership(
       npi
       pgy
       isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
       memberships {
         items {
           id
           role
           userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
           user {
             id
             orgID
@@ -500,67 +578,10 @@ mutation DeleteMembership(
             createdAt
             updatedAt
           }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
-    programId
-    program {
-      id
-      name
-      orgID
-      description
-      memberships {
-        items {
-          id
-          role
-          userId
-          user {
-            id
-            orgID
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            pgy
-            isRater
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    createdAt
-    updatedAt
   }
 }
 mutation CreateProcedure(
@@ -575,6 +596,20 @@ mutation CreateProcedure(
       items {
         id
         procedureId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
         procedure {
           id
           name
@@ -585,20 +620,6 @@ mutation CreateProcedure(
           createdAt
           updatedAt
         }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
       }
       nextToken
     }
@@ -618,6 +639,20 @@ mutation UpdateProcedure(
       items {
         id
         procedureId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
         procedure {
           id
           name
@@ -628,20 +663,6 @@ mutation UpdateProcedure(
           createdAt
           updatedAt
         }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
       }
       nextToken
     }
@@ -661,6 +682,20 @@ mutation DeleteProcedure(
       items {
         id
         procedureId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
         procedure {
           id
           name
@@ -671,20 +706,6 @@ mutation DeleteProcedure(
           createdAt
           updatedAt
         }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
       }
       nextToken
     }
@@ -707,11 +728,30 @@ mutation CreateUser(
     npi
     pgy
     isRater
+    settings {
+      receiveWeeklyNewEvaluationsEmail
+    }
+    createdAt
+    updatedAt
     memberships {
       items {
         id
         role
         userId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
         user {
           id
           orgID
@@ -723,31 +763,18 @@ mutation CreateUser(
           npi
           pgy
           isRater
-          memberships {
-            nextToken
+          settings {
+            receiveWeeklyNewEvaluationsEmail
           }
           createdAt
           updatedAt
-        }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
           memberships {
             nextToken
           }
-          createdAt
-          updatedAt
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
   }
 }
 mutation UpdateUser(
@@ -765,11 +792,30 @@ mutation UpdateUser(
     npi
     pgy
     isRater
+    settings {
+      receiveWeeklyNewEvaluationsEmail
+    }
+    createdAt
+    updatedAt
     memberships {
       items {
         id
         role
         userId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
         user {
           id
           orgID
@@ -781,31 +827,18 @@ mutation UpdateUser(
           npi
           pgy
           isRater
-          memberships {
-            nextToken
+          settings {
+            receiveWeeklyNewEvaluationsEmail
           }
           createdAt
           updatedAt
-        }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
           memberships {
             nextToken
           }
-          createdAt
-          updatedAt
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
   }
 }
 mutation DeleteUser(
@@ -823,11 +856,30 @@ mutation DeleteUser(
     npi
     pgy
     isRater
+    settings {
+      receiveWeeklyNewEvaluationsEmail
+    }
+    createdAt
+    updatedAt
     memberships {
       items {
         id
         role
         userId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
         user {
           id
           orgID
@@ -839,31 +891,18 @@ mutation DeleteUser(
           npi
           pgy
           isRater
-          memberships {
-            nextToken
+          settings {
+            receiveWeeklyNewEvaluationsEmail
           }
           createdAt
           updatedAt
-        }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
           memberships {
             nextToken
           }
-          createdAt
-          updatedAt
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
-    createdAt
-    updatedAt
   }
 }
 mutation CreateCertificationRecord(
@@ -873,6 +912,76 @@ mutation CreateCertificationRecord(
   createCertificationRecord(input: $input, condition: $condition) {
     id
     procedureId
+    isCertified
+    certificationMethod
+    subjectId
+    certificationLog {
+      items {
+        id
+        subjectId
+        raterId
+        procedureId
+        evaluationDate
+        ratingLevel
+        certificationRecordId
+        createdAt
+        updatedAt
+        procedure {
+          id
+          name
+          description
+          programs {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        subject {
+          id
+          orgID
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          pgy
+          isRater
+          settings {
+            receiveWeeklyNewEvaluationsEmail
+          }
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
+        rater {
+          id
+          orgID
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          pgy
+          isRater
+          settings {
+            receiveWeeklyNewEvaluationsEmail
+          }
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
+      }
+      nextToken
+    }
+    totalProcedureEvals
+    createdAt
+    updatedAt
     procedure {
       id
       name
@@ -881,14 +990,9 @@ mutation CreateCertificationRecord(
         items {
           id
           procedureId
-          procedure {
-            id
-            name
-            description
-            createdAt
-            updatedAt
-          }
           programId
+          createdAt
+          updatedAt
           program {
             id
             name
@@ -897,17 +1001,19 @@ mutation CreateCertificationRecord(
             createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
+          procedure {
+            id
+            name
+            description
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
       createdAt
       updatedAt
     }
-    isCertified
-    certificationMethod
-    subjectId
     subject {
       id
       orgID
@@ -919,11 +1025,27 @@ mutation CreateCertificationRecord(
       npi
       pgy
       isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
       memberships {
         items {
           id
           role
           userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
           user {
             id
             orgID
@@ -938,84 +1060,10 @@ mutation CreateCertificationRecord(
             createdAt
             updatedAt
           }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
-    certificationLog {
-      items {
-        id
-        subject {
-          id
-          orgID
-          userName
-          email
-          phone
-          firstName
-          lastName
-          npi
-          pgy
-          isRater
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        subjectId
-        rater {
-          id
-          orgID
-          userName
-          email
-          phone
-          firstName
-          lastName
-          npi
-          pgy
-          isRater
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        raterId
-        procedure {
-          id
-          name
-          description
-          programs {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        procedureId
-        evaluationDate
-        ratingLevel
-        certificationRecordId
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-    totalProcedureEvals
-    createdAt
-    updatedAt
   }
 }
 mutation UpdateCertificationRecord(
@@ -1025,6 +1073,76 @@ mutation UpdateCertificationRecord(
   updateCertificationRecord(input: $input, condition: $condition) {
     id
     procedureId
+    isCertified
+    certificationMethod
+    subjectId
+    certificationLog {
+      items {
+        id
+        subjectId
+        raterId
+        procedureId
+        evaluationDate
+        ratingLevel
+        certificationRecordId
+        createdAt
+        updatedAt
+        procedure {
+          id
+          name
+          description
+          programs {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        subject {
+          id
+          orgID
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          pgy
+          isRater
+          settings {
+            receiveWeeklyNewEvaluationsEmail
+          }
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
+        rater {
+          id
+          orgID
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          pgy
+          isRater
+          settings {
+            receiveWeeklyNewEvaluationsEmail
+          }
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
+      }
+      nextToken
+    }
+    totalProcedureEvals
+    createdAt
+    updatedAt
     procedure {
       id
       name
@@ -1033,14 +1151,9 @@ mutation UpdateCertificationRecord(
         items {
           id
           procedureId
-          procedure {
-            id
-            name
-            description
-            createdAt
-            updatedAt
-          }
           programId
+          createdAt
+          updatedAt
           program {
             id
             name
@@ -1049,17 +1162,19 @@ mutation UpdateCertificationRecord(
             createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
+          procedure {
+            id
+            name
+            description
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
       createdAt
       updatedAt
     }
-    isCertified
-    certificationMethod
-    subjectId
     subject {
       id
       orgID
@@ -1071,11 +1186,27 @@ mutation UpdateCertificationRecord(
       npi
       pgy
       isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
       memberships {
         items {
           id
           role
           userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
           user {
             id
             orgID
@@ -1090,84 +1221,10 @@ mutation UpdateCertificationRecord(
             createdAt
             updatedAt
           }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
-    certificationLog {
-      items {
-        id
-        subject {
-          id
-          orgID
-          userName
-          email
-          phone
-          firstName
-          lastName
-          npi
-          pgy
-          isRater
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        subjectId
-        rater {
-          id
-          orgID
-          userName
-          email
-          phone
-          firstName
-          lastName
-          npi
-          pgy
-          isRater
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        raterId
-        procedure {
-          id
-          name
-          description
-          programs {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        procedureId
-        evaluationDate
-        ratingLevel
-        certificationRecordId
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-    totalProcedureEvals
-    createdAt
-    updatedAt
   }
 }
 mutation DeleteCertificationRecord(
@@ -1177,91 +1234,30 @@ mutation DeleteCertificationRecord(
   deleteCertificationRecord(input: $input, condition: $condition) {
     id
     procedureId
-    procedure {
-      id
-      name
-      description
-      programs {
-        items {
-          id
-          procedureId
-          procedure {
-            id
-            name
-            description
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
     isCertified
     certificationMethod
     subjectId
-    subject {
-      id
-      orgID
-      userName
-      email
-      phone
-      firstName
-      lastName
-      npi
-      pgy
-      isRater
-      memberships {
-        items {
+    certificationLog {
+      items {
+        id
+        subjectId
+        raterId
+        procedureId
+        evaluationDate
+        ratingLevel
+        certificationRecordId
+        createdAt
+        updatedAt
+        procedure {
           id
-          role
-          userId
-          user {
-            id
-            orgID
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            pgy
-            isRater
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
+          name
+          description
+          programs {
+            nextToken
           }
           createdAt
           updatedAt
         }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    certificationLog {
-      items {
-        id
         subject {
           id
           orgID
@@ -1273,13 +1269,15 @@ mutation DeleteCertificationRecord(
           npi
           pgy
           isRater
-          memberships {
-            nextToken
+          settings {
+            receiveWeeklyNewEvaluationsEmail
           }
           createdAt
           updatedAt
+          memberships {
+            nextToken
+          }
         }
-        subjectId
         rater {
           id
           orgID
@@ -1291,35 +1289,103 @@ mutation DeleteCertificationRecord(
           npi
           pgy
           isRater
+          settings {
+            receiveWeeklyNewEvaluationsEmail
+          }
+          createdAt
+          updatedAt
           memberships {
             nextToken
           }
-          createdAt
-          updatedAt
         }
-        raterId
-        procedure {
-          id
-          name
-          description
-          programs {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        procedureId
-        evaluationDate
-        ratingLevel
-        certificationRecordId
-        createdAt
-        updatedAt
       }
       nextToken
     }
     totalProcedureEvals
     createdAt
     updatedAt
+    procedure {
+      id
+      name
+      description
+      programs {
+        items {
+          id
+          procedureId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          procedure {
+            id
+            name
+            description
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    subject {
+      id
+      orgID
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      pgy
+      isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
+      memberships {
+        items {
+          id
+          role
+          userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          user {
+            id
+            orgID
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            pgy
+            isRater
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
   }
 }
 mutation CreateProgramProcedure(
@@ -1329,22 +1395,24 @@ mutation CreateProgramProcedure(
   createProgramProcedure(input: $input, condition: $condition) {
     id
     procedureId
-    procedure {
+    programId
+    createdAt
+    updatedAt
+    program {
       id
       name
+      orgID
       description
-      programs {
+      createdAt
+      updatedAt
+      memberships {
         items {
           id
-          procedureId
-          procedure {
-            id
-            name
-            description
-            createdAt
-            updatedAt
-          }
+          role
+          userId
           programId
+          createdAt
+          updatedAt
           program {
             id
             name
@@ -1353,25 +1421,6 @@ mutation CreateProgramProcedure(
             createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    programId
-    program {
-      id
-      name
-      orgID
-      description
-      memberships {
-        items {
-          id
-          role
-          userId
           user {
             id
             orgID
@@ -1386,7 +1435,21 @@ mutation CreateProgramProcedure(
             createdAt
             updatedAt
           }
+        }
+        nextToken
+      }
+    }
+    procedure {
+      id
+      name
+      description
+      programs {
+        items {
+          id
+          procedureId
           programId
+          createdAt
+          updatedAt
           program {
             id
             name
@@ -1395,16 +1458,19 @@ mutation CreateProgramProcedure(
             createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
+          procedure {
+            id
+            name
+            description
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
       createdAt
       updatedAt
     }
-    createdAt
-    updatedAt
   }
 }
 mutation UpdateProgramProcedure(
@@ -1414,22 +1480,24 @@ mutation UpdateProgramProcedure(
   updateProgramProcedure(input: $input, condition: $condition) {
     id
     procedureId
-    procedure {
+    programId
+    createdAt
+    updatedAt
+    program {
       id
       name
+      orgID
       description
-      programs {
+      createdAt
+      updatedAt
+      memberships {
         items {
           id
-          procedureId
-          procedure {
-            id
-            name
-            description
-            createdAt
-            updatedAt
-          }
+          role
+          userId
           programId
+          createdAt
+          updatedAt
           program {
             id
             name
@@ -1438,25 +1506,6 @@ mutation UpdateProgramProcedure(
             createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    programId
-    program {
-      id
-      name
-      orgID
-      description
-      memberships {
-        items {
-          id
-          role
-          userId
           user {
             id
             orgID
@@ -1471,7 +1520,21 @@ mutation UpdateProgramProcedure(
             createdAt
             updatedAt
           }
+        }
+        nextToken
+      }
+    }
+    procedure {
+      id
+      name
+      description
+      programs {
+        items {
+          id
+          procedureId
           programId
+          createdAt
+          updatedAt
           program {
             id
             name
@@ -1480,16 +1543,19 @@ mutation UpdateProgramProcedure(
             createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
+          procedure {
+            id
+            name
+            description
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
       createdAt
       updatedAt
     }
-    createdAt
-    updatedAt
   }
 }
 mutation DeleteProgramProcedure(
@@ -1499,22 +1565,24 @@ mutation DeleteProgramProcedure(
   deleteProgramProcedure(input: $input, condition: $condition) {
     id
     procedureId
-    procedure {
+    programId
+    createdAt
+    updatedAt
+    program {
       id
       name
+      orgID
       description
-      programs {
+      createdAt
+      updatedAt
+      memberships {
         items {
           id
-          procedureId
-          procedure {
-            id
-            name
-            description
-            createdAt
-            updatedAt
-          }
+          role
+          userId
           programId
+          createdAt
+          updatedAt
           program {
             id
             name
@@ -1523,25 +1591,6 @@ mutation DeleteProgramProcedure(
             createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    programId
-    program {
-      id
-      name
-      orgID
-      description
-      memberships {
-        items {
-          id
-          role
-          userId
           user {
             id
             orgID
@@ -1556,7 +1605,21 @@ mutation DeleteProgramProcedure(
             createdAt
             updatedAt
           }
+        }
+        nextToken
+      }
+    }
+    procedure {
+      id
+      name
+      description
+      programs {
+        items {
+          id
+          procedureId
           programId
+          createdAt
+          updatedAt
           program {
             id
             name
@@ -1565,15 +1628,18 @@ mutation DeleteProgramProcedure(
             createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
+          procedure {
+            id
+            name
+            description
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
       createdAt
       updatedAt
     }
-    createdAt
-    updatedAt
   }
 }

@@ -214,6 +214,8 @@ struct ForgotPasswordView: View {
                 
                 Spacer()
                 
+                Link("Help & Support", destination: URL(string: "https://simpl-support.freshdesk.com/support/solutions/70000215976")!)
+                
             }
             .padding()
             .padding(.bottom, self.keyboardHeight)

@@ -28,10 +28,10 @@ class EvaluationAPI {
     
     private func createEvaluation(createEvaluationInput: CreateEvaluationResponseInput, callback: @escaping (Error?) -> ()) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let appSyncClient = appDelegate.appSyncClient
+        let appSyncPrivateClient = appDelegate.appSyncPrivateClient
         let mutation  = NewEvaluationResponseQuery(evaluationResponse: createEvaluationInput)
         
-        appSyncClient?.fetch(query: mutation, resultHandler: {(result, error) in
+        appSyncPrivateClient?.fetch(query: mutation, resultHandler: {(result, error) in
             if let e = error {
                 print("Error creating evaluation: \(e)")
             }

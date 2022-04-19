@@ -96,8 +96,8 @@ class AuthUtils {
     func fetchUserInfo(email: String, callback: @escaping (UsersByEmailQuery.Data.UsersByEmail.Item)->()) {
         DispatchQueue.main.async {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let appSyncClient = appDelegate.appSyncClient
-            appSyncClient?.fetch(query:  UsersByEmailQuery(email: email, limit: 1), cachePolicy: .returnCacheDataAndFetch) {
+            let appSyncPrivateClient = appDelegate.appSyncPrivateClient
+            appSyncPrivateClient?.fetch(query:  UsersByEmailQuery(email: email, limit: 1), cachePolicy: .returnCacheDataAndFetch) {
                 (result, error ) in
                 if let e = error {
                     print("error with UsersByEmailQuery: \(e.localizedDescription)")
@@ -105,7 +105,7 @@ class AuthUtils {
                 if let userItem = result?.data?.usersByEmail?.items.compactMap({ $0 }).first {
                     callback(userItem)
                     if let orgId = userItem.memberships?.items[0].program.orgId {
-                        appSyncClient?.fetch(query: GetOrganizationQuery(id: orgId), cachePolicy: .returnCacheDataAndFetch) {
+                        appSyncPrivateClient?.fetch(query: GetOrganizationQuery(id: orgId), cachePolicy: .returnCacheDataAndFetch) {
                             (result, error) in
                             print(result ?? "")
                         }
@@ -118,8 +118,8 @@ class AuthUtils {
     func updateUser(updateUserInput: UpdateUserInput) {
         let mutation = UpdateUserMutation(input: updateUserInput)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let appSyncClient = appDelegate.appSyncClient
-        appSyncClient?.perform(mutation: mutation, resultHandler: { (data, error) in
+        let appSyncPrivateClient = appDelegate.appSyncPrivateClient
+        appSyncPrivateClient?.perform(mutation: mutation, resultHandler: { (data, error) in
             print("appsync update complete")
         })
     }
@@ -175,9 +175,9 @@ class AuthUtils {
         AWSMobileClient.default().signOut()
         NotificationCenter.default.post(name: TabBarEvents.change, object: Tab.verify)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let appSyncClient = appDelegate.appSyncClient
+        let appSyncPrivateClient = appDelegate.appSyncPrivateClient
         do {
-            try appSyncClient?.clearCaches()
+            try appSyncPrivateClient?.clearCaches()
         } catch(let error) {
             print("Error clearing caches in signOut function: \(error)")
         }

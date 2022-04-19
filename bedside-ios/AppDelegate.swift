@@ -27,8 +27,9 @@ extension AWSMobileClient: AWSCognitoUserPoolsAuthProviderAsync {
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    var appSyncClient: AWSAppSyncClient?
+    
+    var appSyncPrivateClient: AWSAppSyncClient?
+    var appSyncPublicClient: AWSAppSyncClient?
     
     func initAmplify() {
         let apiPlugin = AWSAPIPlugin(modelRegistration: AmplifyModels())
@@ -45,13 +46,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func initAppSync() {
         do {
-            let serviceConfig = try AWSAppSyncServiceConfig()
-            let cache = try AWSAppSyncCacheConfiguration(useClientDatabasePrefix: true, appSyncServiceConfig: serviceConfig)
-            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
-                                                                 userPoolsAuthProvider: AWSMobileClient.default(),
-                                                                 cacheConfiguration: cache)
-               appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
-               print("Appsync configured")
+            // Public appsync client setup
+            let servicePublicConfig = try AWSAppSyncServiceConfig(forKey: "bedside_API_KEY")
+            let cachePublic = try AWSAppSyncCacheConfiguration(useClientDatabasePrefix: true, appSyncServiceConfig: servicePublicConfig)
+            let appSyncPublicConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: servicePublicConfig,
+                                                                 cacheConfiguration: cachePublic)
+            appSyncPublicClient = try AWSAppSyncClient(appSyncConfig: appSyncPublicConfig)
+
+            // Private appsync client setup
+            let servicePrivateConfig = try AWSAppSyncServiceConfig()
+            let cachePrivate = try AWSAppSyncCacheConfiguration(useClientDatabasePrefix: true, appSyncServiceConfig: servicePrivateConfig)
+            let appSyncPrivateConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: servicePrivateConfig, userPoolsAuthProvider: AWSMobileClient.default(), cacheConfiguration: cachePrivate)
+            appSyncPrivateClient = try AWSAppSyncClient(appSyncConfig: appSyncPrivateConfig)
+            print("Appsync configured")
         } catch(let error) {
            print("AppSync is a no-go: \(error)")
         }

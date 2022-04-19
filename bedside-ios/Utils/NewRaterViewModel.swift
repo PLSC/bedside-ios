@@ -94,9 +94,9 @@ class NewRaterViewModel: ObservableObject {
         
         let usersByEmailQuery = UsersByEmailQuery(email: email)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let appSyncClient = appDelegate.appSyncClient
+        let appSyncPrivateClient = appDelegate.appSyncPrivateClient
         
-        appSyncClient?.fetch(query: usersByEmailQuery, cachePolicy:.fetchIgnoringCacheData, resultHandler: { (result, error) in
+        appSyncPrivateClient?.fetch(query: usersByEmailQuery, cachePolicy:.fetchIgnoringCacheData, resultHandler: { (result, error) in
             guard let items = result?.data?.usersByEmail?.items else {
                 completion(false)
                 return
@@ -114,12 +114,12 @@ class NewRaterViewModel: ObservableObject {
     
     func createMembership(user: User, programId: String, callback: @escaping (Error?)->()) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let appSyncClient = appDelegate.appSyncClient
+        let appSyncPrivateClient = appDelegate.appSyncPrivateClient
         
         let createMembershipInput = CreateMembershipInput(role: .user, userId: user.id, programId: programId)
         let createMembershipMutation = CreateMembershipMutation(input: createMembershipInput)
         
-        appSyncClient?.perform(mutation: createMembershipMutation, resultHandler: { (result, err) in
+        appSyncPrivateClient?.perform(mutation: createMembershipMutation, resultHandler: { (result, err) in
             guard err == nil else {
                 callback(err)
                 return
@@ -138,10 +138,10 @@ class NewRaterViewModel: ObservableObject {
         }
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let appSyncClient = appDelegate.appSyncClient
+        let appSyncPrivateClient = appDelegate.appSyncPrivateClient
         let createUserInput = CreateUserInput(orgId: self.orgId, email: self.email, firstName: self.firstName, lastName: self.lastName, isRater: true)
         let createUserMutation = CreateUserMutation(input: createUserInput)
-        appSyncClient?.perform(mutation: createUserMutation, resultHandler: { (response, error) in
+        appSyncPrivateClient?.perform(mutation: createUserMutation, resultHandler: { (response, error) in
             guard let result = response?.data?.createUser else {
                 print("error creating rater")
                 callback(error)

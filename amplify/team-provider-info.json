@@ -20,7 +20,7 @@
         "bedside18eb32ebPostConfirmation": {
           "GROUP": "Users",
           "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
-          "s3Key": "amplify-builds/bedside18eb32ebPostConfirmation-46614e363446486e3172-build.zip"
+          "s3Key": "amplify-builds/bedside18eb32ebPostConfirmation-544b35494b6437313655-build.zip"
         },
         "AdminQueriesc8c14260": {
           "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
@@ -37,6 +37,22 @@
         "newUserInvitation": {
           "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
           "s3Key": "amplify-builds/newUserInvitation-75462f31796770355964-build.zip"
+        },
+        "nurseReport": {
+          "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
+          "s3Key": "amplify-builds/nurseReport-453457473336514f566b-build.zip"
+        },
+        "bedsideDynamoDBAPILayer": {
+          "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
+          "s3Key": "amplify-builds/bedsideDynamoDBAPILayer-LambdaLayerVersionf41499bc-build.zip"
+        },
+        "applicationQueueDispatch": {
+          "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
+          "s3Key": "amplify-builds/applicationQueueDispatch-37304a39524352376f70-build.zip"
+        },
+        "weeklyProcessTrigger": {
+          "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
+          "s3Key": "amplify-builds/weeklyProcessTrigger-726d34612b74724d3737-build.zip"
         }
       }
     }

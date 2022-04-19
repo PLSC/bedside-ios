@@ -19,11 +19,11 @@ class CertRecordAPI  {
     
     func getCertRecords(subjectId: String, nextToken: String? = nil, callback: @escaping Handler, certRecordList: [CertificationRecord] = []) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let appSyncClient = appDelegate.appSyncClient
+        let appSyncPrivateClient = appDelegate.appSyncPrivateClient
         let subjectModelId = ModelIDInput(eq:subjectId)
         let filter = ModelCertificationRecordFilterInput(subjectId: subjectModelId)
         let query = ListCertificationRecordsQuery(filter: filter, limit: 1000, nextToken: nextToken)
-        appSyncClient?.fetch(query: query,
+        appSyncPrivateClient?.fetch(query: query,
                              cachePolicy: .returnCacheDataAndFetch,
                              resultHandler:{(result, error) in
             if let e = error {

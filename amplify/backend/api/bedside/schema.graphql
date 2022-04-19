@@ -1,13 +1,30 @@
-type Organization @model @auth(rules: [{ allow: private }]) {
+type Organization
+  @model
+  @auth(
+    rules: [
+      # Defaults to use the "owner" field.
+      { allow: private, provider: userPools }
+      # Next allow public access with an API Key
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  ) {
   id: ID!
   title: String
   description: String
+  ipRangeRegex: String
   programs: [Program] @connection(keyName: "byOrganization", fields: ["id"])
 }
 
 type Program
   @model
-  @auth(rules: [{ allow: private }])
+  @auth(
+    rules: [
+      # Defaults to use the "owner" field.
+      { allow: private, provider: userPools }
+      # Next allow public access with an API Key
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
   @key(
     name: "byOrganization"
     fields: ["orgID", "name"]
@@ -23,7 +40,14 @@ type Program
 # connection between users and programs
 type Membership
   @model
-  @auth(rules: [{ allow: private }])
+  @auth(
+    rules: [
+      # Defaults to use the "owner" field.
+      { allow: private, provider: userPools }
+      # Next allow public access with an API Key
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
   @key(name: "byProgram", fields: ["programId", "userId"])
   @key(name: "byUser", fields: ["userId", "programId"]) {
   id: ID!
@@ -34,7 +58,16 @@ type Membership
   program: Program! @connection(fields: ["programId"])
 }
 
-type Procedure @model @auth(rules: [{ allow: private }]) {
+type Procedure
+  @model
+  @auth(
+    rules: [
+      # Defaults to use the "owner" field.
+      { allow: private, provider: userPools }
+      # Next allow public access with an API Key
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  ) {
   id: ID!
   name: String!
   description: String
@@ -44,7 +77,14 @@ type Procedure @model @auth(rules: [{ allow: private }]) {
 
 type User
   @model
-  @auth(rules: [{ allow: private }])
+  @auth(
+    rules: [
+      # Defaults to use the "owner" field.
+      { allow: private, provider: userPools }
+      # Next allow public access with an API Key
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
   @key(name: "ByEmail", fields: ["email"], queryField: "usersByEmail")
   @key(name: "ByNPI", fields: ["npi"], queryField: "usersByNPI")
   @key(name: "ByOrg", fields: ["orgID"]) {
@@ -59,6 +99,11 @@ type User
   pgy: Int
   isRater: Boolean
   memberships: [Membership] @connection(keyName: "byUser", fields: ["id"])
+  settings: UserSettings
+}
+
+type UserSettings {
+  receiveWeeklyNewEvaluationsEmail: Boolean
 }
 
 type EvaluationResponse
@@ -80,7 +125,14 @@ type EvaluationResponse
 
 type CertificationRecord
   @model
-  @auth(rules: [{ allow: private }])
+  @auth(
+    rules: [
+      # Defaults to use the "owner" field.
+      { allow: private, provider: userPools }
+      # Next allow public access with an API Key
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
   @key(name: "bySubjectProcedure", fields: ["subjectId", "procedureId"])
   @key(
     name: "bySubject"

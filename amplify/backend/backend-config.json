@@ -93,6 +93,96 @@
           ]
         }
       ]
+    },
+    "nurseReport": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "bedsideDynamoDBAPILayer",
+          "attributes": [
+            "Arn"
+          ]
+        },
+        {
+          "category": "api",
+          "resourceName": "bedside",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        }
+      ]
+    },
+    "bedsideDynamoDBAPILayer": {
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer",
+      "build": true
+    },
+    "applicationQueueDispatch": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "hosting",
+          "resourceName": "S3AndCloudFront",
+          "attributes": [
+            "HostingBucketName"
+          ]
+        },
+        {
+          "category": "api",
+          "resourceName": "AdminQueries",
+          "attributes": [
+            "ApiName",
+            "ApiId"
+          ]
+        },
+        {
+          "category": "api",
+          "resourceName": "bedside",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        },
+        {
+          "category": "api",
+          "resourceName": "nurseReport",
+          "attributes": [
+            "ApiName",
+            "ApiId"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "bedsideContent",
+          "attributes": [
+            "BucketName"
+          ]
+        }
+      ]
+    },
+    "weeklyProcessTrigger": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "bedside",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        }
+      ]
     }
   },
   "api": {
@@ -139,12 +229,44 @@
           }
         }
       }
+    },
+    "nurseReport": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "nurseReport",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
     }
   },
   "storage": {
     "bedsideContent": {
       "service": "S3",
       "providerPlugin": "awscloudformation"
+    }
+  },
+  "custom": {
+    "snsTopicQueue": {
+      "service": "customCDK",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "applicationQueueDispatch",
+          "attributes": [
+            "Name",
+            "Arn",
+            "Region",
+            "LambdaExecutionRole"
+          ]
+        }
+      ]
     }
   }
 }

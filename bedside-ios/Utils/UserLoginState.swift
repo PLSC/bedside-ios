@@ -81,8 +81,8 @@ class UserLoginState: ObservableObject {
     func fetchUserInfo(email: String) {
         DispatchQueue.main.async {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let appSyncClient = appDelegate.appSyncClient
-            appSyncClient?.fetch(query:  UsersByEmailQuery(email: email, limit: 1), cachePolicy: .returnCacheDataAndFetch) {
+            let appSyncPrivateClient = appDelegate.appSyncPrivateClient
+            appSyncPrivateClient?.fetch(query:  UsersByEmailQuery(email: email, limit: 1), cachePolicy: .returnCacheDataAndFetch) {
                 (result, error ) in
                 
                 if let userItem = result?.data?.usersByEmail?.items.compactMap({ $0 }).first {
@@ -124,8 +124,8 @@ class UserLoginState: ObservableObject {
         
         let getOrgQuery = GetOrganizationQuery(id: orgId)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let appSyncClient = appDelegate.appSyncClient
-        appSyncClient?.fetch(query: getOrgQuery, cachePolicy: .returnCacheDataAndFetch, resultHandler: { (data, err) in
+        let appSyncPrivateClient = appDelegate.appSyncPrivateClient
+        appSyncPrivateClient?.fetch(query: getOrgQuery, cachePolicy: .returnCacheDataAndFetch, resultHandler: { (data, err) in
             guard let results = data?.data?.getOrganization else {
                 print("error fetching organzation info: \(String(describing: err))")
                 return
@@ -179,8 +179,8 @@ class UserLoginState: ObservableObject {
     func updateUser(_ updateUserInput: UpdateUserInput, completion: @escaping (Result<User?, Error>)->()) {
         let mutation = UpdateUserMutation(input: updateUserInput)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let appSyncClient = appDelegate.appSyncClient
-        appSyncClient?.perform(mutation: mutation, resultHandler: { (data, error) in
+        let appSyncPrivateClient = appDelegate.appSyncPrivateClient
+        appSyncPrivateClient?.perform(mutation: mutation, resultHandler: { (data, error) in
             if let error = error {
                 completion(.failure(error))
             } else if let userItem = data?.data?.updateUser  {

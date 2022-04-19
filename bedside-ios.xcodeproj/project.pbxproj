@@ -81,6 +81,7 @@
 		39FC6A5C246F094C001BF08B /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39FC6A5B246F094C001BF08B /* ImagePicker.swift */; };
 		DC2512DC2756920200C78BA0 /* ProcedureAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2512DB2756920200C78BA0 /* ProcedureAPI.swift */; };
 		DC2512DE2756922600C78BA0 /* ProcedureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2512DD2756922600C78BA0 /* ProcedureViewModel.swift */; };
+		DCC0F647280095A00029E1E9 /* ForgotUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC0F646280095A00029E1E9 /* ForgotUsernameView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -180,6 +181,7 @@
 		D68E0ADEB562A759153372F5 /* Pods_bedside_iosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_bedside_iosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC2512DB2756920200C78BA0 /* ProcedureAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcedureAPI.swift; sourceTree = "<group>"; };
 		DC2512DD2756922600C78BA0 /* ProcedureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcedureViewModel.swift; sourceTree = "<group>"; };
+		DCC0F646280095A00029E1E9 /* ForgotUsernameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotUsernameView.swift; sourceTree = "<group>"; };
 		FF47FAD8EF094FB28C1B6F12 /* amplify */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = amplify; path = ./amplify; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -338,6 +340,7 @@
 				391C05FE23F4414000935BBC /* LoginView.swift */,
 				39759C9B240D6E1500C1C87B /* ForgotPasswordView.swift */,
 				39A58014242A6C1A004999AD /* EmailCodeView.swift */,
+				DCC0F646280095A00029E1E9 /* ForgotUsernameView.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -648,6 +651,7 @@
 				397F087D24646C3F00A14513 /* EvalResponseListItem.swift in Sources */,
 				39918C742457516D001797F1 /* EvaluationFormData.swift in Sources */,
 				DC2512DC2756920200C78BA0 /* ProcedureAPI.swift in Sources */,
+				DCC0F647280095A00029E1E9 /* ForgotUsernameView.swift in Sources */,
 				3990AB6724805D6C00D6DAD1 /* SwiftUIExtensions.swift in Sources */,
 				3960372C242CD489006B216E /* UserBanner.swift in Sources */,
 				397F087B2464695D00A14513 /* LoadingView.swift in Sources */,

@@ -4,372 +4,18 @@ query NewEvaluationResponse(
 ) {
   newEvaluationResponse(evaluationResponse: $evaluationResponse)
 }
-query GetOrganization($id: ID!) {
-  getOrganization(id: $id) {
+query GetEvaluationResponse($id: ID!) {
+  getEvaluationResponse(id: $id) {
     id
-    title
-    description
-    programs {
-      items {
-        id
-        name
-        orgID
-        description
-        memberships {
-          items {
-            id
-            role
-            userId
-            programId
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
+    subjectId
+    raterId
+    procedureId
+    evaluationDate
+    ratingLevel
+    certificationRecordId
     createdAt
     updatedAt
-  }
-}
-query ListOrganizations(
-  $filter: ModelOrganizationFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listOrganizations(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      title
-      description
-      programs {
-        items {
-          id
-          name
-          orgID
-          description
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    nextToken
-  }
-}
-query GetProgram($id: ID!) {
-  getProgram(id: $id) {
-    id
-    name
-    orgID
-    description
-    memberships {
-      items {
-        id
-        role
-        userId
-        user {
-          id
-          orgID
-          userName
-          email
-          phone
-          firstName
-          lastName
-          npi
-          pgy
-          isRater
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-    createdAt
-    updatedAt
-  }
-}
-query ListPrograms(
-  $filter: ModelProgramFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listPrograms(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      name
-      orgID
-      description
-      memberships {
-        items {
-          id
-          role
-          userId
-          user {
-            id
-            orgID
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            pgy
-            isRater
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    nextToken
-  }
-}
-query GetMembership($id: ID!) {
-  getMembership(id: $id) {
-    id
-    role
-    userId
-    user {
-      id
-      orgID
-      userName
-      email
-      phone
-      firstName
-      lastName
-      npi
-      pgy
-      isRater
-      memberships {
-        items {
-          id
-          role
-          userId
-          user {
-            id
-            orgID
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            pgy
-            isRater
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    programId
-    program {
-      id
-      name
-      orgID
-      description
-      memberships {
-        items {
-          id
-          role
-          userId
-          user {
-            id
-            orgID
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            pgy
-            isRater
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    createdAt
-    updatedAt
-  }
-}
-query ListMemberships(
-  $filter: ModelMembershipFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listMemberships(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      role
-      userId
-      user {
-        id
-        orgID
-        userName
-        email
-        phone
-        firstName
-        lastName
-        npi
-        pgy
-        isRater
-        memberships {
-          items {
-            id
-            role
-            userId
-            programId
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      programId
-      program {
-        id
-        name
-        orgID
-        description
-        memberships {
-          items {
-            id
-            role
-            userId
-            programId
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-    nextToken
-  }
-}
-query GetProcedure($id: ID!) {
-  getProcedure(id: $id) {
-    id
-    name
-    description
-    programs {
-      items {
-        id
-        procedureId
-        procedure {
-          id
-          name
-          description
-          programs {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-    createdAt
-    updatedAt
-  }
-}
-query ListProcedures(
-  $filter: ModelProcedureFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listProcedures(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
+    procedure {
       id
       name
       description
@@ -377,6 +23,17 @@ query ListProcedures(
         items {
           id
           procedureId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
           procedure {
             id
             name
@@ -384,140 +41,12 @@ query ListProcedures(
             createdAt
             updatedAt
           }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
         }
         nextToken
       }
       createdAt
       updatedAt
     }
-    nextToken
-  }
-}
-query GetUser($id: ID!) {
-  getUser(id: $id) {
-    id
-    orgID
-    userName
-    email
-    phone
-    firstName
-    lastName
-    npi
-    pgy
-    isRater
-    memberships {
-      items {
-        id
-        role
-        userId
-        user {
-          id
-          orgID
-          userName
-          email
-          phone
-          firstName
-          lastName
-          npi
-          pgy
-          isRater
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        programId
-        program {
-          id
-          name
-          orgID
-          description
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-    createdAt
-    updatedAt
-  }
-}
-query ListUsers(
-  $filter: ModelUserFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      orgID
-      userName
-      email
-      phone
-      firstName
-      lastName
-      npi
-      pgy
-      isRater
-      memberships {
-        items {
-          id
-          role
-          userId
-          user {
-            id
-            orgID
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            pgy
-            isRater
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    nextToken
-  }
-}
-query GetEvaluationResponse($id: ID!) {
-  getEvaluationResponse(id: $id) {
-    id
     subject {
       id
       orgID
@@ -529,11 +58,27 @@ query GetEvaluationResponse($id: ID!) {
       npi
       pgy
       isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
       memberships {
         items {
           id
           role
           userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
           user {
             id
             orgID
@@ -548,24 +93,10 @@ query GetEvaluationResponse($id: ID!) {
             createdAt
             updatedAt
           }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
-    subjectId
     rater {
       id
       orgID
@@ -577,11 +108,27 @@ query GetEvaluationResponse($id: ID!) {
       npi
       pgy
       isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
       memberships {
         items {
           id
           role
           userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
           user {
             id
             orgID
@@ -596,62 +143,10 @@ query GetEvaluationResponse($id: ID!) {
             createdAt
             updatedAt
           }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
-    raterId
-    procedure {
-      id
-      name
-      description
-      programs {
-        items {
-          id
-          procedureId
-          procedure {
-            id
-            name
-            description
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    procedureId
-    evaluationDate
-    ratingLevel
-    certificationRecordId
-    createdAt
-    updatedAt
   }
 }
 query ListEvaluationResponses(
@@ -666,6 +161,31 @@ query ListEvaluationResponses(
   ) {
     items {
       id
+      subjectId
+      raterId
+      procedureId
+      evaluationDate
+      ratingLevel
+      certificationRecordId
+      createdAt
+      updatedAt
+      procedure {
+        id
+        name
+        description
+        programs {
+          items {
+            id
+            procedureId
+            programId
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       subject {
         id
         orgID
@@ -677,6 +197,11 @@ query ListEvaluationResponses(
         npi
         pgy
         isRater
+        settings {
+          receiveWeeklyNewEvaluationsEmail
+        }
+        createdAt
+        updatedAt
         memberships {
           items {
             id
@@ -688,10 +213,7 @@ query ListEvaluationResponses(
           }
           nextToken
         }
-        createdAt
-        updatedAt
       }
-      subjectId
       rater {
         id
         orgID
@@ -703,6 +225,11 @@ query ListEvaluationResponses(
         npi
         pgy
         isRater
+        settings {
+          receiveWeeklyNewEvaluationsEmail
+        }
+        createdAt
+        updatedAt
         memberships {
           items {
             id
@@ -714,296 +241,7 @@ query ListEvaluationResponses(
           }
           nextToken
         }
-        createdAt
-        updatedAt
       }
-      raterId
-      procedure {
-        id
-        name
-        description
-        programs {
-          items {
-            id
-            procedureId
-            programId
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      procedureId
-      evaluationDate
-      ratingLevel
-      certificationRecordId
-      createdAt
-      updatedAt
-    }
-    nextToken
-  }
-}
-query GetCertificationRecord($id: ID!) {
-  getCertificationRecord(id: $id) {
-    id
-    procedureId
-    procedure {
-      id
-      name
-      description
-      programs {
-        items {
-          id
-          procedureId
-          procedure {
-            id
-            name
-            description
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    isCertified
-    certificationMethod
-    subjectId
-    subject {
-      id
-      orgID
-      userName
-      email
-      phone
-      firstName
-      lastName
-      npi
-      pgy
-      isRater
-      memberships {
-        items {
-          id
-          role
-          userId
-          user {
-            id
-            orgID
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            pgy
-            isRater
-            createdAt
-            updatedAt
-          }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    certificationLog {
-      items {
-        id
-        subject {
-          id
-          orgID
-          userName
-          email
-          phone
-          firstName
-          lastName
-          npi
-          pgy
-          isRater
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        subjectId
-        rater {
-          id
-          orgID
-          userName
-          email
-          phone
-          firstName
-          lastName
-          npi
-          pgy
-          isRater
-          memberships {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        raterId
-        procedure {
-          id
-          name
-          description
-          programs {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
-        procedureId
-        evaluationDate
-        ratingLevel
-        certificationRecordId
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-    totalProcedureEvals
-    createdAt
-    updatedAt
-  }
-}
-query ListCertificationRecords(
-  $filter: ModelCertificationRecordFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listCertificationRecords(
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      procedureId
-      procedure {
-        id
-        name
-        description
-        programs {
-          items {
-            id
-            procedureId
-            programId
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      isCertified
-      certificationMethod
-      subjectId
-      subject {
-        id
-        orgID
-        userName
-        email
-        phone
-        firstName
-        lastName
-        npi
-        pgy
-        isRater
-        memberships {
-          items {
-            id
-            role
-            userId
-            programId
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      certificationLog {
-        items {
-          id
-          subject {
-            id
-            orgID
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            pgy
-            isRater
-            createdAt
-            updatedAt
-          }
-          subjectId
-          rater {
-            id
-            orgID
-            userName
-            email
-            phone
-            firstName
-            lastName
-            npi
-            pgy
-            isRater
-            createdAt
-            updatedAt
-          }
-          raterId
-          procedure {
-            id
-            name
-            description
-            createdAt
-            updatedAt
-          }
-          procedureId
-          evaluationDate
-          ratingLevel
-          certificationRecordId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      totalProcedureEvals
-      createdAt
-      updatedAt
     }
     nextToken
   }
@@ -1012,22 +250,24 @@ query GetProgramProcedure($id: ID!) {
   getProgramProcedure(id: $id) {
     id
     procedureId
-    procedure {
+    programId
+    createdAt
+    updatedAt
+    program {
       id
       name
+      orgID
       description
-      programs {
+      createdAt
+      updatedAt
+      memberships {
         items {
           id
-          procedureId
-          procedure {
-            id
-            name
-            description
-            createdAt
-            updatedAt
-          }
+          role
+          userId
           programId
+          createdAt
+          updatedAt
           program {
             id
             name
@@ -1036,25 +276,6 @@ query GetProgramProcedure($id: ID!) {
             createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-    programId
-    program {
-      id
-      name
-      orgID
-      description
-      memberships {
-        items {
-          id
-          role
-          userId
           user {
             id
             orgID
@@ -1069,7 +290,21 @@ query GetProgramProcedure($id: ID!) {
             createdAt
             updatedAt
           }
+        }
+        nextToken
+      }
+    }
+    procedure {
+      id
+      name
+      description
+      programs {
+        items {
+          id
+          procedureId
           programId
+          createdAt
+          updatedAt
           program {
             id
             name
@@ -1078,16 +313,19 @@ query GetProgramProcedure($id: ID!) {
             createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
+          procedure {
+            id
+            name
+            description
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
       createdAt
       updatedAt
     }
-    createdAt
-    updatedAt
   }
 }
 query ListProgramProcedures(
@@ -1099,6 +337,28 @@ query ListProgramProcedures(
     items {
       id
       procedureId
+      programId
+      createdAt
+      updatedAt
+      program {
+        id
+        name
+        orgID
+        description
+        createdAt
+        updatedAt
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
       procedure {
         id
         name
@@ -1116,12 +376,67 @@ query ListProgramProcedures(
         createdAt
         updatedAt
       }
-      programId
-      program {
+    }
+    nextToken
+  }
+}
+query EvalsBySubject(
+  $subjectId: ID
+  $sortDirection: ModelSortDirection
+  $filter: ModelEvaluationResponseFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  evalsBySubject(
+    subjectId: $subjectId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      subjectId
+      raterId
+      procedureId
+      evaluationDate
+      ratingLevel
+      certificationRecordId
+      createdAt
+      updatedAt
+      procedure {
         id
         name
-        orgID
         description
+        programs {
+          items {
+            id
+            procedureId
+            programId
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      subject {
+        id
+        orgID
+        userName
+        email
+        phone
+        firstName
+        lastName
+        npi
+        pgy
+        isRater
+        settings {
+          receiveWeeklyNewEvaluationsEmail
+        }
+        createdAt
+        updatedAt
         memberships {
           items {
             id
@@ -1133,11 +448,260 @@ query ListProgramProcedures(
           }
           nextToken
         }
+      }
+      rater {
+        id
+        orgID
+        userName
+        email
+        phone
+        firstName
+        lastName
+        npi
+        pgy
+        isRater
+        settings {
+          receiveWeeklyNewEvaluationsEmail
+        }
+        createdAt
+        updatedAt
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+    }
+    nextToken
+  }
+}
+query ProceduresByProgram(
+  $programId: ID
+  $sortDirection: ModelSortDirection
+  $filter: ModelProgramProcedureFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  proceduresByProgram(
+    programId: $programId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      procedureId
+      programId
+      createdAt
+      updatedAt
+      program {
+        id
+        name
+        orgID
+        description
+        createdAt
+        updatedAt
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      procedure {
+        id
+        name
+        description
+        programs {
+          items {
+            id
+            procedureId
+            programId
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
         createdAt
         updatedAt
       }
+    }
+    nextToken
+  }
+}
+query GetOrganization($id: ID!) {
+  getOrganization(id: $id) {
+    id
+    title
+    description
+    ipRangeRegex
+    createdAt
+    updatedAt
+    programs {
+      items {
+        id
+        name
+        orgID
+        description
+        createdAt
+        updatedAt
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      nextToken
+    }
+  }
+}
+query ListOrganizations(
+  $filter: ModelOrganizationFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listOrganizations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      title
+      description
+      ipRangeRegex
       createdAt
       updatedAt
+      programs {
+        items {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
+        nextToken
+      }
+    }
+    nextToken
+  }
+}
+query GetProgram($id: ID!) {
+  getProgram(id: $id) {
+    id
+    name
+    orgID
+    description
+    createdAt
+    updatedAt
+    memberships {
+      items {
+        id
+        role
+        userId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
+        user {
+          id
+          orgID
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          pgy
+          isRater
+          settings {
+            receiveWeeklyNewEvaluationsEmail
+          }
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
+      }
+      nextToken
+    }
+  }
+}
+query ListPrograms(
+  $filter: ModelProgramFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listPrograms(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      orgID
+      description
+      createdAt
+      updatedAt
+      memberships {
+        items {
+          id
+          role
+          userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          user {
+            id
+            orgID
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            pgy
+            isRater
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
     }
     nextToken
   }
@@ -1163,11 +727,24 @@ query ProgramsByOrganization(
       name
       orgID
       description
+      createdAt
+      updatedAt
       memberships {
         items {
           id
           role
           userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
           user {
             id
             orgID
@@ -1182,7 +759,36 @@ query ProgramsByOrganization(
             createdAt
             updatedAt
           }
+        }
+        nextToken
+      }
+    }
+    nextToken
+  }
+}
+query GetMembership($id: ID!) {
+  getMembership(id: $id) {
+    id
+    role
+    userId
+    programId
+    createdAt
+    updatedAt
+    program {
+      id
+      name
+      orgID
+      description
+      createdAt
+      updatedAt
+      memberships {
+        items {
+          id
+          role
+          userId
           programId
+          createdAt
+          updatedAt
           program {
             id
             name
@@ -1191,13 +797,337 @@ query ProgramsByOrganization(
             createdAt
             updatedAt
           }
+          user {
+            id
+            orgID
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            pgy
+            isRater
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
+    user {
+      id
+      orgID
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      pgy
+      isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
+      memberships {
+        items {
+          id
+          role
+          userId
+          programId
           createdAt
           updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          user {
+            id
+            orgID
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            pgy
+            isRater
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
+  }
+}
+query ListMemberships(
+  $filter: ModelMembershipFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listMemberships(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      role
+      userId
+      programId
+      createdAt
+      updatedAt
+      program {
+        id
+        name
+        orgID
+        description
+        createdAt
+        updatedAt
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+      user {
+        id
+        orgID
+        userName
+        email
+        phone
+        firstName
+        lastName
+        npi
+        pgy
+        isRater
+        settings {
+          receiveWeeklyNewEvaluationsEmail
+        }
+        createdAt
+        updatedAt
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
+    }
+    nextToken
+  }
+}
+query GetProcedure($id: ID!) {
+  getProcedure(id: $id) {
+    id
+    name
+    description
+    programs {
+      items {
+        id
+        procedureId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
+        procedure {
+          id
+          name
+          description
+          programs {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+query ListProcedures(
+  $filter: ModelProcedureFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listProcedures(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      description
+      programs {
+        items {
+          id
+          procedureId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          procedure {
+            id
+            name
+            description
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
       createdAt
       updatedAt
+    }
+    nextToken
+  }
+}
+query GetUser($id: ID!) {
+  getUser(id: $id) {
+    id
+    orgID
+    userName
+    email
+    phone
+    firstName
+    lastName
+    npi
+    pgy
+    isRater
+    settings {
+      receiveWeeklyNewEvaluationsEmail
+    }
+    createdAt
+    updatedAt
+    memberships {
+      items {
+        id
+        role
+        userId
+        programId
+        createdAt
+        updatedAt
+        program {
+          id
+          name
+          orgID
+          description
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
+        user {
+          id
+          orgID
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          pgy
+          isRater
+          settings {
+            receiveWeeklyNewEvaluationsEmail
+          }
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
+      }
+      nextToken
+    }
+  }
+}
+query ListUsers(
+  $filter: ModelUserFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      orgID
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      pgy
+      isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
+      memberships {
+        items {
+          id
+          role
+          userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          user {
+            id
+            orgID
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            pgy
+            isRater
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
     }
     nextToken
   }
@@ -1227,11 +1157,27 @@ query UsersByEmail(
       npi
       pgy
       isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
       memberships {
         items {
           id
           role
           userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
           user {
             id
             orgID
@@ -1246,22 +1192,9 @@ query UsersByEmail(
             createdAt
             updatedAt
           }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
     nextToken
   }
@@ -1291,11 +1224,27 @@ query UsersByNpi(
       npi
       pgy
       isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
       memberships {
         items {
           id
           role
           userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
           user {
             id
             orgID
@@ -1310,7 +1259,98 @@ query UsersByNpi(
             createdAt
             updatedAt
           }
+        }
+        nextToken
+      }
+    }
+    nextToken
+  }
+}
+query GetCertificationRecord($id: ID!) {
+  getCertificationRecord(id: $id) {
+    id
+    procedureId
+    isCertified
+    certificationMethod
+    subjectId
+    certificationLog {
+      items {
+        id
+        subjectId
+        raterId
+        procedureId
+        evaluationDate
+        ratingLevel
+        certificationRecordId
+        createdAt
+        updatedAt
+        procedure {
+          id
+          name
+          description
+          programs {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        subject {
+          id
+          orgID
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          pgy
+          isRater
+          settings {
+            receiveWeeklyNewEvaluationsEmail
+          }
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
+        rater {
+          id
+          orgID
+          userName
+          email
+          phone
+          firstName
+          lastName
+          npi
+          pgy
+          isRater
+          settings {
+            receiveWeeklyNewEvaluationsEmail
+          }
+          createdAt
+          updatedAt
+          memberships {
+            nextToken
+          }
+        }
+      }
+      nextToken
+    }
+    totalProcedureEvals
+    createdAt
+    updatedAt
+    procedure {
+      id
+      name
+      description
+      programs {
+        items {
+          id
+          procedureId
           programId
+          createdAt
+          updatedAt
           program {
             id
             name
@@ -1319,85 +1359,139 @@ query UsersByNpi(
             createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
+          procedure {
+            id
+            name
+            description
+            createdAt
+            updatedAt
+          }
         }
         nextToken
       }
       createdAt
       updatedAt
     }
-    nextToken
+    subject {
+      id
+      orgID
+      userName
+      email
+      phone
+      firstName
+      lastName
+      npi
+      pgy
+      isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
+      memberships {
+        items {
+          id
+          role
+          userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
+          user {
+            id
+            orgID
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            pgy
+            isRater
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+      }
+    }
   }
 }
-query EvalsBySubject(
-  $subjectId: ID
-  $sortDirection: ModelSortDirection
-  $filter: ModelEvaluationResponseFilterInput
+query ListCertificationRecords(
+  $filter: ModelCertificationRecordFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  evalsBySubject(
-    subjectId: $subjectId
-    sortDirection: $sortDirection
+  listCertificationRecords(
     filter: $filter
     limit: $limit
     nextToken: $nextToken
   ) {
     items {
       id
-      subject {
-        id
-        orgID
-        userName
-        email
-        phone
-        firstName
-        lastName
-        npi
-        pgy
-        isRater
-        memberships {
-          items {
-            id
-            role
-            userId
-            programId
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
+      procedureId
+      isCertified
+      certificationMethod
       subjectId
-      rater {
-        id
-        orgID
-        userName
-        email
-        phone
-        firstName
-        lastName
-        npi
-        pgy
-        isRater
-        memberships {
-          items {
+      certificationLog {
+        items {
+          id
+          subjectId
+          raterId
+          procedureId
+          evaluationDate
+          ratingLevel
+          certificationRecordId
+          createdAt
+          updatedAt
+          procedure {
             id
-            role
-            userId
-            programId
+            name
+            description
             createdAt
             updatedAt
           }
-          nextToken
+          subject {
+            id
+            orgID
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            pgy
+            isRater
+            createdAt
+            updatedAt
+          }
+          rater {
+            id
+            orgID
+            userName
+            email
+            phone
+            firstName
+            lastName
+            npi
+            pgy
+            isRater
+            createdAt
+            updatedAt
+          }
         }
-        createdAt
-        updatedAt
+        nextToken
       }
-      raterId
+      totalProcedureEvals
+      createdAt
+      updatedAt
       procedure {
         id
         name
@@ -1415,12 +1509,34 @@ query EvalsBySubject(
         createdAt
         updatedAt
       }
-      procedureId
-      evaluationDate
-      ratingLevel
-      certificationRecordId
-      createdAt
-      updatedAt
+      subject {
+        id
+        orgID
+        userName
+        email
+        phone
+        firstName
+        lastName
+        npi
+        pgy
+        isRater
+        settings {
+          receiveWeeklyNewEvaluationsEmail
+        }
+        createdAt
+        updatedAt
+        memberships {
+          items {
+            id
+            role
+            userId
+            programId
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+      }
     }
     nextToken
   }
@@ -1442,54 +1558,27 @@ query CertRecordsBySubject(
     items {
       id
       procedureId
-      procedure {
-        id
-        name
-        description
-        programs {
-          items {
-            id
-            procedureId
-            programId
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       isCertified
       certificationMethod
       subjectId
-      subject {
-        id
-        orgID
-        userName
-        email
-        phone
-        firstName
-        lastName
-        npi
-        pgy
-        isRater
-        memberships {
-          items {
-            id
-            role
-            userId
-            programId
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
       certificationLog {
         items {
           id
+          subjectId
+          raterId
+          procedureId
+          evaluationDate
+          ratingLevel
+          certificationRecordId
+          createdAt
+          updatedAt
+          procedure {
+            id
+            name
+            description
+            createdAt
+            updatedAt
+          }
           subject {
             id
             orgID
@@ -1504,7 +1593,6 @@ query CertRecordsBySubject(
             createdAt
             updatedAt
           }
-          subjectId
           rater {
             id
             orgID
@@ -1519,47 +1607,12 @@ query CertRecordsBySubject(
             createdAt
             updatedAt
           }
-          raterId
-          procedure {
-            id
-            name
-            description
-            createdAt
-            updatedAt
-          }
-          procedureId
-          evaluationDate
-          ratingLevel
-          certificationRecordId
-          createdAt
-          updatedAt
         }
         nextToken
       }
       totalProcedureEvals
       createdAt
       updatedAt
-    }
-    nextToken
-  }
-}
-query ProceduresByProgram(
-  $programId: ID
-  $sortDirection: ModelSortDirection
-  $filter: ModelProgramProcedureFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  proceduresByProgram(
-    programId: $programId
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      procedureId
       procedure {
         id
         name
@@ -1577,12 +1630,22 @@ query ProceduresByProgram(
         createdAt
         updatedAt
       }
-      programId
-      program {
+      subject {
         id
-        name
         orgID
-        description
+        userName
+        email
+        phone
+        firstName
+        lastName
+        npi
+        pgy
+        isRater
+        settings {
+          receiveWeeklyNewEvaluationsEmail
+        }
+        createdAt
+        updatedAt
         memberships {
           items {
             id
@@ -1594,11 +1657,7 @@ query ProceduresByProgram(
           }
           nextToken
         }
-        createdAt
-        updatedAt
       }
-      createdAt
-      updatedAt
     }
     nextToken
   }
@@ -1607,6 +1666,13 @@ query GetUserInvitation($id: ID!) {
   getUserInvitation(id: $id) {
     id
     orgID
+    inviteeId
+    invitationStatus
+    email
+    programAdminId
+    permission
+    createdAt
+    updatedAt
     invitee {
       id
       orgID
@@ -1618,11 +1684,27 @@ query GetUserInvitation($id: ID!) {
       npi
       pgy
       isRater
+      settings {
+        receiveWeeklyNewEvaluationsEmail
+      }
+      createdAt
+      updatedAt
       memberships {
         items {
           id
           role
           userId
+          programId
+          createdAt
+          updatedAt
+          program {
+            id
+            name
+            orgID
+            description
+            createdAt
+            updatedAt
+          }
           user {
             id
             orgID
@@ -1637,30 +1719,10 @@ query GetUserInvitation($id: ID!) {
             createdAt
             updatedAt
           }
-          programId
-          program {
-            id
-            name
-            orgID
-            description
-            createdAt
-            updatedAt
-          }
-          createdAt
-          updatedAt
         }
         nextToken
       }
-      createdAt
-      updatedAt
     }
-    inviteeId
-    invitationStatus
-    email
-    programAdminId
-    permission
-    createdAt
-    updatedAt
   }
 }
 query ListUserInvitations(
@@ -1672,6 +1734,13 @@ query ListUserInvitations(
     items {
       id
       orgID
+      inviteeId
+      invitationStatus
+      email
+      programAdminId
+      permission
+      createdAt
+      updatedAt
       invitee {
         id
         orgID
@@ -1683,6 +1752,11 @@ query ListUserInvitations(
         npi
         pgy
         isRater
+        settings {
+          receiveWeeklyNewEvaluationsEmail
+        }
+        createdAt
+        updatedAt
         memberships {
           items {
             id
@@ -1694,16 +1768,7 @@ query ListUserInvitations(
           }
           nextToken
         }
-        createdAt
-        updatedAt
       }
-      inviteeId
-      invitationStatus
-      email
-      programAdminId
-      permission
-      createdAt
-      updatedAt
     }
     nextToken
   }
@@ -1725,6 +1790,13 @@ query InvitationsByEmail(
     items {
       id
       orgID
+      inviteeId
+      invitationStatus
+      email
+      programAdminId
+      permission
+      createdAt
+      updatedAt
       invitee {
         id
         orgID
@@ -1736,6 +1808,11 @@ query InvitationsByEmail(
         npi
         pgy
         isRater
+        settings {
+          receiveWeeklyNewEvaluationsEmail
+        }
+        createdAt
+        updatedAt
         memberships {
           items {
             id
@@ -1747,16 +1824,7 @@ query InvitationsByEmail(
           }
           nextToken
         }
-        createdAt
-        updatedAt
       }
-      inviteeId
-      invitationStatus
-      email
-      programAdminId
-      permission
-      createdAt
-      updatedAt
     }
     nextToken
   }

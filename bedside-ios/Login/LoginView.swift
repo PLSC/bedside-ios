@@ -18,6 +18,7 @@ class LoginViewModel : ObservableObject {
     @Published var loginErrorMessage : String = ""
     @Published var isLoginError : Bool = false
     @Published var showForgotPassword: Bool = false
+    @Published var showForgotUsername: Bool = false
     @Published var loading: Bool = false
     @Published var codeSent: Bool = false
     
@@ -49,7 +50,14 @@ class LoginViewModel : ObservableObject {
             case .needsConfirmation:
                 self.showEmailCodeEnter = true
             case .signInError(let message):
-                self.loginErrorMessage = message
+                switch message {
+                case "User not found":
+                    self.loginErrorMessage = "A user account with this email address does not exist.  Please check your entry and try again."
+                case "Incorrect username or password":
+                    self.loginErrorMessage = "Sorry, that password isn’t right. Do you need to reset your password?"
+                default:
+                    self.loginErrorMessage = message
+                }
                 self.isLoginError = true
             case .resetPassword:
                 self.password = ""
@@ -91,25 +99,40 @@ struct LoginView: View {
                             .background(self.viewModel.formIsValid ? Color.lightTeal : Color.gray)
                             .cornerRadius(15.0)
                     }.disabled(!self.viewModel.formIsValid)
-                    
-                    NavigationLink(destination: ForgotPasswordView(codeSent: self.$viewModel.codeSent, username: self.$viewModel.username), isActive:self.$viewModel.showForgotPassword) {
-                        Text("")
+                    Group {
+                        NavigationLink(destination: ForgotUsernameView( username: self.$viewModel.username), isActive:self.$viewModel.showForgotUsername) {
+                            Text("")
+                        }
+                        
+                        Button(action:{
+                            self.viewModel.showForgotUsername = true
+                            self.viewModel.username = ""
+                        }) {
+                            Text("Forgot Username")
+                        }
+                        
+                        NavigationLink(destination: ForgotPasswordView(codeSent: self.$viewModel.codeSent, username: self.$viewModel.username), isActive:self.$viewModel.showForgotPassword) {
+                            Text("")
+                        }
+                        
+                        Button(action:{
+                            self.viewModel.showForgotPassword = true
+                            self.viewModel.password = ""
+                        }) {
+                            Text("Forgot Password")
+                        }
+
+                        NavigationLink(destination: EmptyView()) {
+                            EmptyView()
+                        }
+                        NavigationLink(destination: EmailCodeView(showSelf: self.$viewModel.showEmailCodeEnter, username: self.$viewModel.username), isActive: self.$viewModel.showEmailCodeEnter) {
+                            Text("")
+                        }
+                        
+                        Spacer()
+                        
+                        Link("Help & Support", destination: URL(string: "https://simpl-support.freshdesk.com/support/solutions/70000215976")!)
                     }
-                    
-                    Button(action:{
-                        self.viewModel.showForgotPassword = true
-                        self.viewModel.password = ""
-                    }) {
-                        Text("Forgot Password")
-                    }
-                    NavigationLink(destination: EmptyView()) {
-                        EmptyView()
-                    }
-                    NavigationLink(destination: EmailCodeView(showSelf: self.$viewModel.showEmailCodeEnter, username: self.$viewModel.username), isActive: self.$viewModel.showEmailCodeEnter) {
-                        Text("")
-                    }
-                    
-                    Spacer()
                     
                 }.ignoresSafeArea(.keyboard, edges: .bottom)
             }.alert(isPresented: self.$viewModel.isLoginError) {
