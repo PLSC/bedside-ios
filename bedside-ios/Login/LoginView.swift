@@ -52,7 +52,7 @@ class LoginViewModel : ObservableObject {
             case .signInError(let message):
                 switch message {
                 case "User not found":
-                    self.loginErrorMessage = "A user account with this email address does not exist.  Please check your entry and try again."
+                    self.loginErrorMessage = "Username does not exist.  Please note: Usernames are case-sensitive."
                 case "Incorrect username or password":
                     self.loginErrorMessage = "Sorry, that password isn’t right. Do you need to reset your password?"
                 default:
