@@ -91,7 +91,10 @@
         "newUserInvitation": {
           "deploymentBucketName": "amplify-bedside-prod-81932-deployment",
           "s3Key": "amplify-builds/newUserInvitation-75462f31796770355964-build.zip"
-        }
+        },
+        "nurseReport": {},
+        "applicationQueueDispatch": {},
+        "weeklyProcessTrigger": {}
       },
       "auth": {
         "bedside18eb32eb": {},
