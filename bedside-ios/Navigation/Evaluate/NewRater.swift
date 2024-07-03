@@ -24,9 +24,11 @@ struct NewRater: View {
         presentErrorAlert = true
     }
     
-    func submitRater() {
+    func submitRater() async {
         self.isLoading = true
-        self.viewModel.submitNewRater(callback: self.submitCompletionCallback(error:))
+
+        let error = await self.viewModel.submitNewRater()
+        self.submitCompletionCallback(error: error)
     }
     
     func submitCompletionCallback(error: Error?) {
@@ -76,7 +78,9 @@ struct NewRater: View {
                         
                         Section {
                             Button(action: {
-                                self.submitRater()
+                                Task {
+                                    await self.submitRater()
+                                }
                             }) { Text("Submit") }.disabled(!self.viewModel.isRaterValid)
                         }
                         

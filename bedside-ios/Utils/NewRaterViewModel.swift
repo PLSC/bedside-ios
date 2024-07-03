@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Combine
+import Amplify
 
 enum NewRaterError: Error {
     case InvalidData
@@ -26,7 +27,9 @@ class NewRaterViewModel: ObservableObject {
     @Published var isRaterValid : Bool = false
     
     @Published var recommendedUser : User? = nil
-    
+
+    let userService = AppSyncUserService()
+
     var orgId : String
     private var cancellableSet : Set<AnyCancellable> = []
     var currentUser : User?
@@ -58,9 +61,16 @@ class NewRaterViewModel: ObservableObject {
             .flatMap { valid in
                 return Future { promise in
                     if valid {
-                        self.emailAvailable(self.email) { available in
-                            promise(.success(available))
+                        Task {
+                            let available = await self.emailAvailable(self.email)
+
+                            DispatchQueue.main.async {
+                                promise(.success(available))
+                            }
                         }
+//                        self.emailAvailable(self.email) { available in
+//                            promise(.success(available))
+//                        }
                     } else {
                         promise(.success(false))
                     }
@@ -89,75 +99,163 @@ class NewRaterViewModel: ObservableObject {
             .assign(to: \.emailErrorMessage, on: self)
             .store(in: &cancellableSet)
     }
-        
-    func emailAvailable(_ email: String, completion: @escaping (Bool) -> ()) {
-        
-        let usersByEmailQuery = UsersByEmailQuery(email: email)
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let appSyncPrivateClient = appDelegate.appSyncPrivateClient
-        
-        appSyncPrivateClient?.fetch(query: usersByEmailQuery, cachePolicy:.fetchIgnoringCacheData, resultHandler: { (result, error) in
-            guard let items = result?.data?.usersByEmail?.items else {
-                completion(false)
-                return
-            }
-            let noUser = items.count == 0
-            completion(noUser)
-            if let userItem = items.first {
-                //Assign reccomended user
-                self.recommendedUser = userItem.mapToUser()
-            } else {
-                self.recommendedUser = nil
-            }
-        })
-    }
-    
-    func createMembership(user: User, programId: String, callback: @escaping (Error?)->()) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let appSyncPrivateClient = appDelegate.appSyncPrivateClient
-        
-        let createMembershipInput = CreateMembershipInput(role: .user, userId: user.id, programId: programId)
-        let createMembershipMutation = CreateMembershipMutation(input: createMembershipInput)
-        
-        appSyncPrivateClient?.perform(mutation: createMembershipMutation, resultHandler: { (result, err) in
-            guard err == nil else {
-                callback(err)
-                return
-            }
-            
-            self.userCreatedCallback(user)
-            callback(err)
-        })
-    }
-    
-    func submitNewRater(callback: @escaping (Error?) -> ()) {
-        
-        guard isRaterValid else {
-            callback(NewRaterError.InvalidData)
-            return
-        }
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let appSyncPrivateClient = appDelegate.appSyncPrivateClient
-        let createUserInput = CreateUserInput(orgId: self.orgId, email: self.email, firstName: self.firstName, lastName: self.lastName, isRater: true)
-        let createUserMutation = CreateUserMutation(input: createUserInput)
-        appSyncPrivateClient?.perform(mutation: createUserMutation, resultHandler: { (response, error) in
-            guard let result = response?.data?.createUser else {
-                print("error creating rater")
-                callback(error)
-                return
+
+
+    func emailAvailable(_ email: String) async -> Bool {
+
+        let result = await userService.fetchUser(email: email)
+
+        switch result {
+        case .success(let usersRecord):
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+
+                if let userItem = usersRecord.first {
+                    //Assign reccomended user
+                    self.recommendedUser = userItem
+                } else {
+                    self.recommendedUser = nil
+                }
             }
 
-            print("rater created")
-            let rater = User(id: result.id,
-                             email: result.email,
-                             firstName: result.firstName,
-                             lastName: result.lastName,
-                             orgId: self.orgId )
-           
-            self.userCreatedCallback(rater)
-            callback(error)
-        })
+            return usersRecord.count == 0
+        case .failure:
+            return true
+        }
     }
-    
+
+    func submitNewRater() async -> Error? {
+
+        guard isRaterValid else {
+            return NewRaterError.InvalidData
+        }
+
+        let rater = User(orgID: self.orgId,
+                         email: self.email,
+                         firstName: self.firstName,
+                         lastName: self.lastName,
+                         isRater: true)
+
+        do {
+            let result = try await Amplify.API.mutate(request: .create(rater))
+
+            switch result {
+            case .success(let record):
+                NSLog("Creating a rater was succeeded. New record identifier: %@", record.identifier)
+                return nil
+            case .failure(let error):
+                NSLog("Creating a rater was failed with a Amplify.GraphQLResponseError<User> error %@.", error.debugDescription)
+
+                return error
+            }
+        } catch let error as GraphQLResponseError<User> {
+            NSLog("Creating a rater was failed with a Amplify.GraphQLResponseError<User> error %@.", error.debugDescription)
+
+            return error
+        } catch let error as APIError {
+            NSLog("Creating a rater was failed with an Amplify.APIError<User> error %@.", error.debugDescription)
+
+            return error
+        } catch {
+            if Task.isCancelled {
+                NSLog("add record query failed with Swift.CancellationError: \(error.localizedDescription)")
+                return nil
+            } else {
+                NSLog("add rater record query failed: \(error)")
+                return error
+            }
+        }
+
+//        let mutation = buildCreateUserMutation(orgId: self.orgId, email: self.email, firstName: self.firstName, lastName: self.lastName, isRater: true)
+//
+//        let request = GraphQLRequest(document: mutation, responseType: User.self, decodePath: "createUser")
+//
+//        do {
+//            let result = try await Amplify.API.mutate(request: request)
+//
+//            switch result {
+//            case .success(let user):
+//                print("rater created")
+//                let rater = User(id: user.id,
+//                                 orgID: self.orgId,
+//                                 userName: user.userName,
+//                                 email: user.email,
+//                                 phone: user.phone,
+//                                 firstName: user.firstName,
+//                                 lastName: user.lastName)
+//
+//                self.userCreatedCallback(rater)
+//
+//                return nil
+//            case .failure(let error):
+//                NSLog("Create user with email: \(self.email) failed. error: \(error.debugDescription)")
+//                return error
+//            }
+//        } catch let error as GraphQLResponseError<User> {
+//            NSLog("Create user with email: \(self.email) failed. GraphQLResponseError: \(error.debugDescription)")
+//            return error
+//        } catch let error as APIError {
+//            NSLog("Create user with email: \(self.email) failed. Amplify.APIError: \(error.debugDescription)")
+//            return error
+//        } catch {
+//            if Task.isCancelled {
+//                NSLog("Create user mutation failed with Swift.CancellationError: \(error.localizedDescription)")
+//            } else {
+//                NSLog("Create user mutation failed: \(error)")
+//            }
+//
+//            return error
+//        }
+    }
+
 }
+
+//extension NewRaterViewModel {
+//
+//    private func buildCreateMembershipMutation(role: Role, userId: String, programId: String) -> String {
+//        let role = "role: " + role.rawValue
+//        let userId = " , userId: " + userId
+//        let programId = " , programId: " + programId
+//
+//        let input = "input: {" + role + userId + programId + "}"
+//
+//        return """
+//            mutation CreateMembership {
+//                createMembership(\(input)) {
+//                    role
+//                    userId
+//                    programId
+//                }
+//            }
+//            """
+//    }
+
+//    private func buildCreateUserMutation(orgId: String, email: String, firstName: String, lastName: String, isRater: Bool) -> GraphQLRequest<User> {
+//        let orgId = "orgId: " + #"""# + orgId + #"""#
+//        let email = " , email: " + #"""# + email + #"""#
+//        let firstName = " , firstName: " + #"""# + firstName + #"""#
+//        let lastName = " , lastName: " + #"""# + lastName + #"""#
+//        let isRater = " , isRater: " + "\(isRater)"
+//
+//        let input = "input: {" + orgId + email + firstName + lastName + isRater + "}"
+//
+//        let mutation = """
+//            mutation CreateUser {
+//                createUser(\(input)) {
+//                    id
+//                    orgId
+//                    email
+//                    firstName
+//                    lastName
+//                    isRater
+//                }
+//            }
+//            """
+//
+//        return GraphQLRequest<User> (
+//            document: mutation,
+//            responseType: User.self,
+//            decodePath: "createUser"
+//        )
+//    }
+//}

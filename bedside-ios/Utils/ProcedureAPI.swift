@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Amplify
 
 enum ProcedureAPIError : Error {
     case MappingError
@@ -15,48 +16,121 @@ enum ProcedureAPIError : Error {
 
 class ProcedureAPI  {
     
-    typealias Handler = (Result<[Procedure], Error>) -> Void
-    
-    func getProcedures(nextToken: String? = nil, callback: @escaping Handler, procedureList: [Procedure] = []) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let appSyncPrivateClient = appDelegate.appSyncPrivateClient
-        let query = ListProceduresQuery(limit:1000, nextToken: nextToken)
-        appSyncPrivateClient?.fetch(query: query,
-                             cachePolicy: .returnCacheDataAndFetch,
-                             resultHandler:{(result, error) in
-            if let e = error {
-                print("error fetching procedures: \(e.localizedDescription)")
-                callback(.failure(e))
-            }
-                                
-            if let procedureItems = result?.data?.listProcedures?.items {
-                let procedures : [Procedure] = procedureItems.compactMap(self.mapProcedure) + procedureList
-                if let next = result?.data?.listProcedures?.nextToken {
-                    self.getProcedures(nextToken: next,
-                                       callback: callback,
-                                       procedureList: procedures)
+
+    func getProcedures(nextToken: String? = nil, procedureList: [Procedure] = []) async -> Result<[Procedure], Error> {
+        while true {
+            let request = buildUsersByEmailQuery(nextToken: nextToken)
+
+            do {
+                let result = try await Amplify.API.query(request: request)
+
+                switch result {
+                case .success(let record):
+                    NSLog("Retrieve batch of Procedures succeed. \(record)")
+
+                    var updatingProcedures = procedureList
+                    updatingProcedures.append(contentsOf: record.items)
+
+                    guard let nextToken = record.nextToken else {
+                        if updatingProcedures.count > 0 {
+                            let filteredProcedures = updatingProcedures.filter({
+                                (procedure) -> Bool in
+                                !procedure.name.starts(with: "Invalid -")
+                            })
+                            return .success(filteredProcedures)
+                        } else {
+                            return .failure(ProcedureAPIError.MappingError)
+                        }
+                    }
+
+                    return await getProcedures(nextToken: nextToken, procedureList: updatingProcedures)
+                case .failure(let error):
+                    NSLog("Retrieve batch of Procedures failed: \(error.debugDescription)")
+                    return .failure(error)
                 }
-                else {
-                    let filteredProcedures = procedures.filter({
-                        (procedure) -> Bool in
-                        !procedure.name.starts(with: "Invalid -")
-                    })
-                    callback(.success(filteredProcedures))
+            } catch let error as APIError {
+                NSLog("Retrieve batch of Procedures failed: \(error.debugDescription)")
+                return .failure(error)
+            } catch {
+                if Task.isCancelled {
+                    NSLog("Retrieve batch of Procedures failed with Swift.CancellationError: \(error.localizedDescription)")
+                    return .failure(error)
+                } else {
+                    NSLog("Retrieve batch of Procedures failed: \(error.localizedDescription)")
+                    return .failure(error)
                 }
-            } else {
-                callback(.failure(ProcedureAPIError.MappingError))
             }
-        })
+        }
     }
-    
-    func mapProcedure(procedureItem: ListProceduresQuery.Data.ListProcedure.Item?) -> Procedure? {
-        let programMemberships : [String] = procedureItem?.programs?.items.map { item in
-            return item.program.id
-        } ?? []
-        
-        return Procedure(id: (procedureItem?.id)! ,
-                         name: procedureItem!.name,
-                         description: procedureItem?.description,
-                         programs: programMemberships)
+}
+
+extension ProcedureAPI {
+
+    private func buildUsersByEmailQuery(nextToken: String?) -> GraphQLRequest<ProceduresList> {
+
+        var argumentValues = "limit: $limit"
+        if let nextToken = nextToken {
+            argumentValues += ", nextToken: " + #"""# + nextToken + #"""#
+        }
+
+        let query = """
+            query ListProcedures($limit: Int) {
+                   listProcedures(\(argumentValues)) {
+                    __typename
+                    items {
+                        __typename
+                        id
+                        name
+                        description
+                        programs {
+                            __typename
+                            items {
+                                __typename
+                                id
+                                procedureId
+                                procedure {
+                                    __typename
+                                    id
+                                    name
+                                    description
+                                    createdAt
+                                    updatedAt
+                                }
+                                programId
+                                program {
+                                    __typename
+                                    id
+                                    name
+                                    orgID
+                                    description
+                                    createdAt
+                                    updatedAt
+                                }
+                                createdAt
+                                updatedAt
+                            }
+                            nextToken
+                        }
+                        createdAt
+                        updatedAt
+                    }
+                    nextToken
+               }
+             }
+            """
+
+        return GraphQLRequest(
+            document: query,
+            variables: ["limit": 1000],
+            responseType: ProceduresList.self,
+            decodePath: "listProcedures"
+        )
+    }
+}
+
+extension ProcedureAPI {
+    class ProceduresList: Model {
+        let items: [Procedure]
+        let nextToken: String?
     }
 }

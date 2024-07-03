@@ -1,0 +1,13 @@
+[
+  {
+    "Action": ["ses:SendBulkTemplatedEmail"],
+    "Resource": [
+      "arn:aws:ses:us-east-1:597534837657:identity/admin@simpl-bedside.org",
+      "arn:aws:ses:us-east-1:597534837657:configuration-set/SIMPL"
+    ]
+  },
+  {
+    "Action": ["s3:GetObject"],
+    "Resource": ["arn:aws:s3:::bedside-query-results/*"]
+  }
+]

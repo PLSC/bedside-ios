@@ -10,12 +10,12 @@ import SwiftUI
 
 struct ProcedureDetailRowView: View {
     
-    var procedure : Procedure
-    var isCertified : Bool
+    var procedure : Procedure?
+    var isCertified : Bool?
     
     var body: some View {
         HStack(alignment:.center) {
-            if isCertified {
+            if isCertified ?? false {
                  Image(systemName: "checkmark.circle.fill").font(.system(size: 30)).padding(.trailing, 15).padding(.leading,10).foregroundColor(.lightTeal)
             } else {
                 Image(systemName: "clock")
@@ -25,8 +25,8 @@ struct ProcedureDetailRowView: View {
             }
            
             VStack(alignment: .leading) {
-                Text(procedure.name).bold()
-                Text(procedure.description ?? "No description").lineLimit(nil)
+                Text(procedure?.name ?? "").bold()
+                Text(procedure?.description ?? "No description").lineLimit(nil)
             }
             Spacer()
         }

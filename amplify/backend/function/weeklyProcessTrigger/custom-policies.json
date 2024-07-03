@@ -1,0 +1,8 @@
+[
+  {
+    "Action": ["states:StartExecution"],
+    "Resource": [
+      "arn:aws:states:us-east-1:597534837657:stateMachine:bedside-dev-athena-glue-crawler"
+    ]
+  }
+]

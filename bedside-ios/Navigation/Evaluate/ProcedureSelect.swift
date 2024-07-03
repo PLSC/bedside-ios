@@ -21,9 +21,10 @@ struct ProcedureSelect: View {
         self.presentationMode.wrappedValue.dismiss()
     }
     
-    func fetchProcedures() {
+    func fetchProcedures() async {
         guard let currentUser = userLoginState.currentUser else { return }
-        self.userLoginState.procedureSelectViewModel.fetchProcedures(user: currentUser)
+
+        await self.userLoginState.procedureSelectViewModel.fetchProcedures(user: currentUser)
     }
     
     fileprivate func procedureListView() -> some View {
@@ -76,7 +77,9 @@ struct ProcedureSelect: View {
                 procedureListView()
             }
         }.onAppear {
-            self.fetchProcedures()
+            Task {
+                await self.fetchProcedures()
+            }
         }
         .onDisappear {
             userLoginState.procedureSelectViewModel.filterText = ""

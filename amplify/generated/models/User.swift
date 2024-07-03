@@ -2,98 +2,46 @@
 import Amplify
 import Foundation
 
-public struct User: Identifiable {
+public struct User: Model {
   public let id: String
-  public let orgId: String?
+  public var orgID: String?
   public var userName: String?
   public var email: String?
   public var phone: String?
   public var firstName: String?
   public var lastName: String?
   public var npi: Int?
-  public var memberships: [Membership]?
+  public var pgy: Int?
+  public var isRater: Bool?
+  public var memberships: List<Membership>?
+  public var settings: UserSettings?
+  public var lastLogin: Temporal.DateTime?
   
   public init(id: String = UUID().uuidString,
+      orgID: String? = nil,
       userName: String? = nil,
-      email: String?,
+      email: String? = nil,
       phone: String? = nil,
       firstName: String? = nil,
       lastName: String? = nil,
       npi: Int? = nil,
-      memberships: [Membership]? = [],
-      orgId: String? = nil) {
+      pgy: Int? = nil,
+      isRater: Bool? = nil,
+      memberships: List<Membership>? = [],
+      settings: UserSettings? = nil,
+      lastLogin: Temporal.DateTime? = nil) {
       self.id = id
+      self.orgID = orgID
       self.userName = userName
       self.email = email
       self.phone = phone
       self.firstName = firstName
       self.lastName = lastName
       self.npi = npi
+      self.pgy = pgy
+      self.isRater = isRater
       self.memberships = memberships
-      self.orgId = orgId
+      self.settings = settings
+      self.lastLogin = lastLogin
   }
 }
-
-extension User {
-    
-    var sortName : String {
-        get {
-            switch (self.firstName, self.lastName, self.email) {
-            case let (nil, nil, email):
-                return email as! String
-            case let (firstName, lastName?, _):
-                return "\(lastName) \(firstName ?? "")"
-            default:
-                return ""
-            }
-        }
-    }
-    
-    var displayName : String {
-        get {
-            switch (self.firstName, self.lastName, self.email) {
-            case let (firstName?, lastName?, _):
-                return "Dr. \(firstName) \(lastName)"
-            case let (nil, lastName?, _):
-                return "Dr. \(lastName)"
-            case let (nil, nil, email):
-                return email ?? ""
-            default:
-                return ""
-            }
-        }
-    }
-}
-
-extension User : Hashable {
-    public static func == (lhs: User, rhs: User) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
-
-extension User : UserRepresentible {}
-
-
-protocol UserRepresentible {
-    var id: String { get }
-    var userName: String? { get }
-    var email: String? { get }
-    var phone: String? { get }
-    var firstName: String? { get }
-    var lastName: String? { get }
-    var npi: Int? { get }
-    var orgId: String? {get}
-}
-
-extension UserRepresentible {
-    func mapToUser() -> User {
-        return User(id: self.id, userName: self.userName, email: self.email ?? "", phone: self.phone, firstName: self.firstName, lastName: self.lastName, npi: self.npi, orgId: self.orgId)
-    }
-}
-
-extension ListCertificationRecordsQuery.Data.ListCertificationRecord.Item.CertificationLog.Item.Subject: UserRepresentible {}
-extension ListCertificationRecordsQuery.Data.ListCertificationRecord.Item.CertificationLog.Item.Rater: UserRepresentible {}
-extension UsersByEmailQuery.Data.UsersByEmail.Item: UserRepresentible {}
-extension UpdateUserMutation.Data.UpdateUser: UserRepresentible {}
-extension ListUsersQuery.Data.ListUser.Item : UserRepresentible {}
-

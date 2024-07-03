@@ -1,8 +1,8 @@
 {
-    "providers": [
-        "awscloudformation"
-    ],
-    "projectName": "bedside",
-    "version": "3.0",
-    "frontend": "ios"
+  "providers": [
+    "awscloudformation"
+  ],
+  "projectName": "bedside",
+  "version": "3.1",
+  "frontend": "ios"
 }

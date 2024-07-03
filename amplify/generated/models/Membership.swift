@@ -2,14 +2,14 @@
 import Amplify
 import Foundation
 
-public struct Membership: Identifiable {
+public struct Membership: Model {
   public let id: String
-  public var role: RoleModel
+  public var role: Role
   public var user: User
   public var program: Program
   
   public init(id: String = UUID().uuidString,
-      role: RoleModel,
+      role: Role,
       user: User,
       program: Program) {
       self.id = id
@@ -17,10 +17,4 @@ public struct Membership: Identifiable {
       self.user = user
       self.program = program
   }
-}
-
-extension Membership: Hashable {
-    public static func == (lhs: Membership, rhs: Membership) -> Bool {
-        return lhs.id == rhs.id
-    }
 }

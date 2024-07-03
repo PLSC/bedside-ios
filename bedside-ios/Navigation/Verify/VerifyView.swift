@@ -18,8 +18,8 @@ struct VerifyView: View {
     
     var userProfileImage = UserProfileImage()
     
-    func checkUserImage() {
-        userLoginState.fetchCurrentUserCertRecords()
+    func checkUserImage() async {
+        await userLoginState.fetchCurrentUserCertRecords()
         if !userProfileImage.storedProfileImage {
             showImagePickerAlert = true
         }
@@ -68,10 +68,18 @@ struct VerifyView: View {
                     self.userProfileImage.storedProfileImage = true
                   }))
         })
-        .onAppear(perform: checkUserImage)
-            .onReceive(self.userLoginState.certRecordViewModel.$showEmptyView) { (show) in
+        .onAppear {
+            Task {
+                await checkUserImage()
+            }
+        }
+        .onReceive(self.userLoginState.certRecordViewModel.$showEmptyView) { (show) in
             self.showEmptyView = show
         }
+//        .onAppear(perform: checkUserImage)
+//            .onReceive(self.userLoginState.certRecordViewModel.$showEmptyView) { (show) in
+//            self.showEmptyView = show
+//        }
     }
 }
 

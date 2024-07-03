@@ -17,18 +17,29 @@
         "userPoolGroups": {}
       },
       "function": {
-        "bedside18eb32ebPostConfirmation": {
-          "GROUP": "Users",
-          "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
-          "s3Key": "amplify-builds/bedside18eb32ebPostConfirmation-544b35494b6437313655-build.zip"
-        },
         "AdminQueriesc8c14260": {
           "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
-          "s3Key": "amplify-builds/AdminQueriesc8c14260-4470323567614e5a692b-build.zip"
+          "s3Key": "amplify-builds/AdminQueriesc8c14260-705348386d7334753048-build.zip"
+        },
+        "applicationQueueDispatch": {
+          "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
+          "s3Key": "amplify-builds/applicationQueueDispatch-6a4134714f4c63702f67-build.zip"
+        },
+        "bedside18eb32ebPostConfirmation": {
+          "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
+          "s3Key": "amplify-builds/bedside18eb32ebPostConfirmation-7744392b467a4b773464-build.zip"
         },
         "bedsideAddNewUser": {
           "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
-          "s3Key": "amplify-builds/bedsideAddNewUser-7073524f32706a557658-build.zip"
+          "s3Key": "amplify-builds/bedsideAddNewUser-355752466e693767556a-build.zip"
+        },
+        "bedsideDynamoDBAPILayer": {
+          "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
+          "s3Key": "amplify-builds/bedsideDynamoDBAPILayer-LambdaLayerVersioned9eb8af-build.zip"
+        },
+        "bedsidePostAuthentication": {
+          "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
+          "s3Key": "amplify-builds/bedsidePostAuthentication-53313742523135306256-build.zip"
         },
         "newEvaluationFunction": {
           "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
@@ -36,24 +47,23 @@
         },
         "newUserInvitation": {
           "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
-          "s3Key": "amplify-builds/newUserInvitation-75462f31796770355964-build.zip"
+          "s3Key": "amplify-builds/newUserInvitation-7a746c7433596254646d-build.zip"
+        },
+        "nightly": {
+          "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
+          "s3Key": "amplify-builds/nightly-5050394a39455a375762-build.zip"
         },
         "nurseReport": {
           "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
-          "s3Key": "amplify-builds/nurseReport-453457473336514f566b-build.zip"
-        },
-        "bedsideDynamoDBAPILayer": {
-          "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
-          "s3Key": "amplify-builds/bedsideDynamoDBAPILayer-LambdaLayerVersionf41499bc-build.zip"
-        },
-        "applicationQueueDispatch": {
-          "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
-          "s3Key": "amplify-builds/applicationQueueDispatch-37304a39524352376f70-build.zip"
+          "s3Key": "amplify-builds/nurseReport-62593379544b396e7457-build.zip"
         },
         "weeklyProcessTrigger": {
           "deploymentBucketName": "amplify-bedside-dev-102822-deployment",
-          "s3Key": "amplify-builds/weeklyProcessTrigger-726d34612b74724d3737-build.zip"
+          "s3Key": "amplify-builds/weeklyProcessTrigger-50445867304530414465-build.zip"
         }
+      },
+      "storage": {
+        "bedsideContent": {}
       }
     }
   },
@@ -67,22 +77,37 @@
       "UnauthRoleName": "amplify-bedside-prod-81932-unauthRole",
       "StackName": "amplify-bedside-prod-81932",
       "StackId": "arn:aws:cloudformation:us-east-1:597534837657:stack/amplify-bedside-prod-81932/51732c60-48e3-11ea-9548-127e9735111e",
-      "AmplifyAppId": "d9yfct0w22sno"
+      "AmplifyAppId": "d1i7ckh5uj1s23"
     },
     "categories": {
+      "auth": {
+        "bedside18eb32eb": {},
+        "userPoolGroups": {}
+      },
       "function": {
-        "bedside18eb32ebPostConfirmation": {
-          "GROUP": "Users",
-          "deploymentBucketName": "amplify-bedside-prod-81932-deployment",
-          "s3Key": "amplify-builds/bedside18eb32ebPostConfirmation-46614e363446486e3172-build.zip"
-        },
         "AdminQueriesc8c14260": {
           "deploymentBucketName": "amplify-bedside-prod-81932-deployment",
-          "s3Key": "amplify-builds/AdminQueriesc8c14260-4470323567614e5a692b-build.zip"
+          "s3Key": "amplify-builds/AdminQueriesc8c14260-705348386d7334753048-build.zip"
+        },
+        "applicationQueueDispatch": {
+          "deploymentBucketName": "amplify-bedside-prod-81932-deployment",
+          "s3Key": "amplify-builds/applicationQueueDispatch-6a4134714f4c63702f67-build.zip"
+        },
+        "bedside18eb32ebPostConfirmation": {
+          "deploymentBucketName": "amplify-bedside-prod-81932-deployment",
+          "s3Key": "amplify-builds/bedside18eb32ebPostConfirmation-7744392b467a4b773464-build.zip"
         },
         "bedsideAddNewUser": {
           "deploymentBucketName": "amplify-bedside-prod-81932-deployment",
-          "s3Key": "amplify-builds/bedsideAddNewUser-7073524f32706a557658-build.zip"
+          "s3Key": "amplify-builds/bedsideAddNewUser-355752466e693767556a-build.zip"
+        },
+        "bedsideDynamoDBAPILayer": {
+          "deploymentBucketName": "amplify-bedside-prod-81932-deployment",
+          "s3Key": "amplify-builds/bedsideDynamoDBAPILayer-LambdaLayerVersion379674e5-build.zip"
+        },
+        "bedsidePostAuthentication": {
+          "deploymentBucketName": "amplify-bedside-prod-81932-deployment",
+          "s3Key": "amplify-builds/bedsidePostAuthentication-53313742523135306256-build.zip"
         },
         "newEvaluationFunction": {
           "deploymentBucketName": "amplify-bedside-prod-81932-deployment",
@@ -90,44 +115,23 @@
         },
         "newUserInvitation": {
           "deploymentBucketName": "amplify-bedside-prod-81932-deployment",
-          "s3Key": "amplify-builds/newUserInvitation-75462f31796770355964-build.zip"
+          "s3Key": "amplify-builds/newUserInvitation-7a746c7433596254646d-build.zip"
         },
-        "nurseReport": {},
-        "applicationQueueDispatch": {},
-        "weeklyProcessTrigger": {}
-      },
-      "auth": {
-        "bedside18eb32eb": {},
-        "userPoolGroups": {}
-      }
-    }
-  },
-  "slsandbox": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-bedside-slsandbox-113111-authRole",
-      "UnauthRoleArn": "arn:aws:iam::597534837657:role/amplify-bedside-slsandbox-113111-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::597534837657:role/amplify-bedside-slsandbox-113111-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-bedside-slsandbox-113111-deployment",
-      "UnauthRoleName": "amplify-bedside-slsandbox-113111-unauthRole",
-      "StackName": "amplify-bedside-slsandbox-113111",
-      "StackId": "arn:aws:cloudformation:us-east-1:597534837657:stack/amplify-bedside-slsandbox-113111/fa0da8d0-7e64-11ea-916e-0a54954134e7",
-      "AmplifyAppId": "d1ur6idxtcyik5"
-    },
-    "categories": {
-      "auth": {
-        "bedside18eb32eb": {},
-        "userPoolGroups": {}
-      },
-      "function": {
-        "bedside18eb32ebPostConfirmation": {
-          "GROUP": "Users"
+        "nightly": {
+          "deploymentBucketName": "amplify-bedside-prod-81932-deployment",
+          "s3Key": "amplify-builds/nightly-5050394a39455a375762-build.zip"
         },
-        "AdminQueriesc8c14260": {},
-        "bedsideAddNewUser": {},
-        "bedside18eb32eb": {},
-        "S3Trigger67e13850": {},
-        "newEvaluationFunction": {}
+        "nurseReport": {
+          "deploymentBucketName": "amplify-bedside-prod-81932-deployment",
+          "s3Key": "amplify-builds/nurseReport-62593379544b396e7457-build.zip"
+        },
+        "weeklyProcessTrigger": {
+          "deploymentBucketName": "amplify-bedside-prod-81932-deployment",
+          "s3Key": "amplify-builds/weeklyProcessTrigger-50445867304530414465-build.zip"
+        }
+      },
+      "storage": {
+        "bedsideContent": {}
       }
     }
   }

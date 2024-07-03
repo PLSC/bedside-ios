@@ -47,14 +47,14 @@ struct RaterSelect: View {
         self.presentationMode.wrappedValue.dismiss()
     }
     
-    func fetchRaters() {
-        
-        guard let org = userLoginState.currentUser?.orgId else {
+    func fetchRaters() async {
+
+        guard let org = userLoginState.currentUser?.orgID else {
             print("org not found for user: \(userLoginState.currentUser?.displayName ?? "No user")")
             return
         }
         
-        userLoginState.ratersViewModel.fetchRaters(orgId: org)
+        await userLoginState.ratersViewModel.fetchRaters(orgId: org)
     }
     
     var body: some View {
@@ -85,11 +85,13 @@ struct RaterSelect: View {
                 .imageScale(.large)
                 .padding(.leading, 20)
         }).onAppear(perform:{
-            self.fetchRaters()
+            Task {
+                await self.fetchRaters()
+            }
         }).sheet(isPresented: self.$presentNewRaterScreen) {
             NewRater(viewModel:
                 NewRaterViewModel(
-                    orgId: self.userLoginState.currentUser?.orgId ?? "",
+                    orgId: self.userLoginState.currentUser?.orgID ?? "",
                     currentUser: self.userLoginState.currentUser ?? nil,
                     userCreatedCallback: {
                         user in

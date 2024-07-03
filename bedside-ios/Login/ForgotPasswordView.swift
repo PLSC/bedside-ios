@@ -76,15 +76,26 @@ class ForgotPasswordViewModel : ObservableObject {
             .store(in: &cancellableSet)
     }
     
-    func sendCode(username: String, callback: @escaping (Bool, String) -> ()) {
-        self.loading = true
-        authUtil.sendAuthCode(username: username) {
-            result in
+    func sendCode(username: String) async -> (Bool, String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+
+            self.loading = true
+        }
+
+        let result = await authUtil.sendAuthCode(username: username)
+
+        DispatchQueue.main.async {
             self.loading = false
-            switch result {
-            case .success(let message):
-                callback(true, message)
-            case .failure(let error as AuthUtilsError):
+        }
+
+        switch result {
+        case .success(let message):
+            return (true, message)
+        case .failure(let error as AuthUtilsError):
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+
                 self.showError = true
                 self.errorTitle = "Error"
                 switch error {
@@ -97,29 +108,71 @@ class ForgotPasswordViewModel : ObservableObject {
                 default:
                      self.errorMessage = "An error has occurred: \(error.localizedDescription)"
                 }
-            case .failure(let error):
+            }
+
+            return (false, "")
+        case .failure(let error):
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+
                 self.showError = true
                 self.errorMessage = "An unknown error has occurred: \(error.localizedDescription)"
             }
-       }
+
+            return (false, "")
+        }
+
+//        authUtil.sendAuthCode(username: username) {
+//            result in
+//            self.loading = false
+//            switch result {
+//            case .success(let message):
+//                callback(true, message)
+//            case .failure(let error as AuthUtilsError):
+//                self.showError = true
+//                self.errorTitle = "Error"
+//                switch error {
+//                case .userNotFound(let message):
+//                    self.errorTitle = "User not found"
+//                    self.errorMessage = message
+//                case .limitExceeded:
+//                    self.errorTitle = "Limit Exceeded"
+//                    self.errorMessage = "Request limit exceeded. Please try again later."
+//                default:
+//                     self.errorMessage = "An error has occurred: \(error.localizedDescription)"
+//                }
+//            case .failure(let error):
+//                self.showError = true
+//                self.errorMessage = "An unknown error has occurred: \(error.localizedDescription)"
+//            }
+//       }
     }
        
-    func confirmForgotPassword(username: String, action: @escaping (Result<Bool, Error>)->()) {
-        self.loading = true
-        authUtil.confirmForgotPassword(username: username, newPassword: password, code: code) {
-            success, message in
-            DispatchQueue.main.async {
-                self.success = success
-                self.loading = false
-                if !success {
-                    self.showError = true
-                    self.errorTitle = "Error"
-                    self.errorMessage = "Error resetting password, please try again"
-                    action(.failure(AuthUtilsError.unknownError))
-                } else {
-                    action(.success(success))
-                }
+    func confirmForgotPassword(username: String) async -> Result<Bool, Error> {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.loading = true
+        }
+
+        let (success, _) = await authUtil.confirmForgotPassword(username: username, newPassword: password, code: code)
+
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.success = success
+            self.loading = false
+        }
+
+        if !success {
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                self.showError = true
+                self.errorTitle = "Error"
+                self.errorMessage = "Error resetting password, please try again"
             }
+
+            return .failure(AuthUtilsError.unknownError)
+        } else {
+            return .success(success)
         }
    }
 }
@@ -140,7 +193,9 @@ struct ForgotPasswordView: View {
     
     var sendCodeButton: some View {
         Button(action:{
-            self.forgotPasswordViewModel.sendCode(username: self.username) { sent, message in
+            Task {
+                let (sent, message) = await self.forgotPasswordViewModel.sendCode(username: self.username)
+
                 self.codeSent = sent
                 self.codeSentMessage = message
             }
@@ -157,8 +212,9 @@ struct ForgotPasswordView: View {
     
     var submitNewPasswordButton: some View {
         Button(action:{
-            self.forgotPasswordViewModel.confirmForgotPassword(username: self.username) {
-                result in
+            Task {
+                let result = await self.forgotPasswordViewModel.confirmForgotPassword(username: self.username)
+
                 switch result {
                 case .success(_):
                     self.codeSent = false
@@ -195,12 +251,20 @@ struct ForgotPasswordView: View {
                         .padding()
                         .cornerRadius(20)
                         .autocapitalization(.none)
-                    
+                        .autocorrectionDisabled()
+                        .textContentType(.username)
+                    // This avoids the text field getting covered by a yellow 'strong password' overlay.
+                        .padding(.bottom, 7)
+
                     SecureField("Repeat Password", text: self.$forgotPasswordViewModel.repeatPassword)
                         .padding()
                         .cornerRadius(20)
                         .autocapitalization(.none)
-                    
+                        .autocorrectionDisabled()
+                        .textContentType(.username)
+                    // This avoids the text field getting covered by a yellow 'strong password' overlay.
+                        .padding(.bottom, 7)
+
                     self.submitNewPasswordButton
                 } else {
                     Text("Reset your password")

@@ -127,7 +127,7 @@ struct CertRecordListView: View {
                 let notCertified = viewModel.notCertified
                 if !certifiedRecords.isEmpty {
                     Section(header: CertifiedHeaderView()) {
-                        ForEach(certifiedRecords) { certRecord in
+                        ForEach(certifiedRecords, id: \.id) { certRecord in
                             NavigationLink(destination: CertRecordDetailView(certRecord: certRecord)) {
                                 CertRecordRowView(certificationRecord: certRecord)
                             }
@@ -137,7 +137,7 @@ struct CertRecordListView: View {
                 
                 if !notCertified.isEmpty {
                     Section(header:InProgressHeaderView()) {
-                        ForEach(notCertified) {
+                        ForEach(notCertified, id: \.id) {
                             certRecord in
                             NavigationLink(destination: CertRecordDetailView(certRecord: certRecord)) {
                                 CertRecordRowView(certificationRecord: certRecord)

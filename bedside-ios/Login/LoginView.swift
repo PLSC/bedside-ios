@@ -8,9 +8,9 @@
 
 import SwiftUI
 import Combine
-import AWSMobileClient
 
 class LoginViewModel : ObservableObject {
+
     @Published var username = ""
     @Published var password = ""
     @Published var formIsValid = false
@@ -38,10 +38,18 @@ class LoginViewModel : ObservableObject {
             .store(in: &cancellableSet)
     }
     
-    func signIn() {
-        self.loading = true
-        authUtils.signIn(userName: username, password: password) {
-            result in
+    func signIn() async -> SignInResult {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+
+            self.loading = true
+        }
+
+        let result = await authUtils.signIn(userName: username, password: password)
+
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+
             self.loading = false
             switch result {
             case .signedIn:
@@ -65,11 +73,14 @@ class LoginViewModel : ObservableObject {
                 self.codeSent = true
             }
         }
+
+        return result
     }
 }
 
 struct LoginView: View {
-        
+    @EnvironmentObject var userLoginState : UserLoginState
+
     @ObservedObject var viewModel = LoginViewModel()
     @State private var keyboardHeight : CGFloat = 0
 
@@ -90,7 +101,16 @@ struct LoginView: View {
                         .padding()
                         .cornerRadius(20)
 
-                    Button(action:{ self.viewModel.signIn()}) {
+                    Button(action:{ Task {
+                        let result = await self.viewModel.signIn()
+
+                        switch result {
+                        case .signedIn:
+                            userLoginState.isSignedIn = true
+                        default:
+                            userLoginState.isSignedIn = false
+                        }
+                    }}) {
                         Text("Sign In")
                             .font(.headline)
                             .foregroundColor(.white)

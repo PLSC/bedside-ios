@@ -2,7 +2,8 @@
 import Amplify
 import Foundation
 
-public enum RoleModel: String, Codable {
+public enum Role: String, EnumPersistable {
   case user = "User"
+  case programAdmin = "ProgramAdmin"
   case admin = "Admin"
 }
