@@ -76,10 +76,6 @@ struct VerifyView: View {
         .onReceive(self.userLoginState.certRecordViewModel.$showEmptyView) { (show) in
             self.showEmptyView = show
         }
-//        .onAppear(perform: checkUserImage)
-//            .onReceive(self.userLoginState.certRecordViewModel.$showEmptyView) { (show) in
-//            self.showEmptyView = show
-//        }
     }
 }
 

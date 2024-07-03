@@ -11,6 +11,7 @@ import Combine
 
 
 class ForgotPasswordViewModel : ObservableObject {
+
     @Published var username = ""
     @Published var password : String = ""
     @Published var repeatPassword : String = ""
@@ -121,31 +122,6 @@ class ForgotPasswordViewModel : ObservableObject {
 
             return (false, "")
         }
-
-//        authUtil.sendAuthCode(username: username) {
-//            result in
-//            self.loading = false
-//            switch result {
-//            case .success(let message):
-//                callback(true, message)
-//            case .failure(let error as AuthUtilsError):
-//                self.showError = true
-//                self.errorTitle = "Error"
-//                switch error {
-//                case .userNotFound(let message):
-//                    self.errorTitle = "User not found"
-//                    self.errorMessage = message
-//                case .limitExceeded:
-//                    self.errorTitle = "Limit Exceeded"
-//                    self.errorMessage = "Request limit exceeded. Please try again later."
-//                default:
-//                     self.errorMessage = "An error has occurred: \(error.localizedDescription)"
-//                }
-//            case .failure(let error):
-//                self.showError = true
-//                self.errorMessage = "An unknown error has occurred: \(error.localizedDescription)"
-//            }
-//       }
     }
        
     func confirmForgotPassword(username: String) async -> Result<Bool, Error> {

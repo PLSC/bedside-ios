@@ -95,8 +95,6 @@ class AuthUtils {
         }
     }
 
-
-
     func confirmForgotPassword(username: String, newPassword: String, code: String) async -> (Bool, String) {
         do {
             try await Amplify.Auth.confirmResetPassword(for: username, with: newPassword, confirmationCode: code)
@@ -118,19 +116,6 @@ class AuthUtils {
             return (false, "Error: Could not change password.")
         }
     }
-
-//    //TODO: Make internal type for SignInResult.
-//    func confirmSignUp(username: String, confirmationCode: String, completion: @escaping (Result<SignUpResult, Error>)->()) {
-//        AWSMobileClient.default().confirmSignUp(username: username, confirmationCode: confirmationCode) { (signUpResult, error) in
-//            DispatchQueue.main.async {
-//                if let error = error {
-//                    completion(.failure(error))
-//                } else if let signUpResult = signUpResult {
-//                    completion(.success(signUpResult))
-//                }
-//            }
-//        }
-//    }
 
     func confirmSignUp(username: String, confirmationCode: String) async -> Result<Bool, Error>  {
             do {

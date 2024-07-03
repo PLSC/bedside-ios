@@ -34,7 +34,6 @@ extension UserServiceError: LocalizedError {
 }
 
 protocol UserService {
-//    typealias Handler = (Result<[User], UserServiceError>) -> ()
     func fetchUsers(orgId: String, withFilterText filter: String?) async -> Result<[User], UserServiceError>
     func fetchUser(email: String) async -> Result<[User], UserServiceError>
 }
