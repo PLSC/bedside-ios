@@ -68,9 +68,6 @@ class NewRaterViewModel: ObservableObject {
                                 promise(.success(available))
                             }
                         }
-//                        self.emailAvailable(self.email) { available in
-//                            promise(.success(available))
-//                        }
                     } else {
                         promise(.success(false))
                     }
@@ -165,97 +162,5 @@ class NewRaterViewModel: ObservableObject {
                 return error
             }
         }
-
-//        let mutation = buildCreateUserMutation(orgId: self.orgId, email: self.email, firstName: self.firstName, lastName: self.lastName, isRater: true)
-//
-//        let request = GraphQLRequest(document: mutation, responseType: User.self, decodePath: "createUser")
-//
-//        do {
-//            let result = try await Amplify.API.mutate(request: request)
-//
-//            switch result {
-//            case .success(let user):
-//                print("rater created")
-//                let rater = User(id: user.id,
-//                                 orgID: self.orgId,
-//                                 userName: user.userName,
-//                                 email: user.email,
-//                                 phone: user.phone,
-//                                 firstName: user.firstName,
-//                                 lastName: user.lastName)
-//
-//                self.userCreatedCallback(rater)
-//
-//                return nil
-//            case .failure(let error):
-//                NSLog("Create user with email: \(self.email) failed. error: \(error.debugDescription)")
-//                return error
-//            }
-//        } catch let error as GraphQLResponseError<User> {
-//            NSLog("Create user with email: \(self.email) failed. GraphQLResponseError: \(error.debugDescription)")
-//            return error
-//        } catch let error as APIError {
-//            NSLog("Create user with email: \(self.email) failed. Amplify.APIError: \(error.debugDescription)")
-//            return error
-//        } catch {
-//            if Task.isCancelled {
-//                NSLog("Create user mutation failed with Swift.CancellationError: \(error.localizedDescription)")
-//            } else {
-//                NSLog("Create user mutation failed: \(error)")
-//            }
-//
-//            return error
-//        }
     }
-
 }
-
-//extension NewRaterViewModel {
-//
-//    private func buildCreateMembershipMutation(role: Role, userId: String, programId: String) -> String {
-//        let role = "role: " + role.rawValue
-//        let userId = " , userId: " + userId
-//        let programId = " , programId: " + programId
-//
-//        let input = "input: {" + role + userId + programId + "}"
-//
-//        return """
-//            mutation CreateMembership {
-//                createMembership(\(input)) {
-//                    role
-//                    userId
-//                    programId
-//                }
-//            }
-//            """
-//    }
-
-//    private func buildCreateUserMutation(orgId: String, email: String, firstName: String, lastName: String, isRater: Bool) -> GraphQLRequest<User> {
-//        let orgId = "orgId: " + #"""# + orgId + #"""#
-//        let email = " , email: " + #"""# + email + #"""#
-//        let firstName = " , firstName: " + #"""# + firstName + #"""#
-//        let lastName = " , lastName: " + #"""# + lastName + #"""#
-//        let isRater = " , isRater: " + "\(isRater)"
-//
-//        let input = "input: {" + orgId + email + firstName + lastName + isRater + "}"
-//
-//        let mutation = """
-//            mutation CreateUser {
-//                createUser(\(input)) {
-//                    id
-//                    orgId
-//                    email
-//                    firstName
-//                    lastName
-//                    isRater
-//                }
-//            }
-//            """
-//
-//        return GraphQLRequest<User> (
-//            document: mutation,
-//            responseType: User.self,
-//            decodePath: "createUser"
-//        )
-//    }
-//}
