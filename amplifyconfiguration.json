@@ -1,0 +1,107 @@
+{
+    "UserAgent": "aws-amplify-cli/2.0",
+    "Version": "1.0",
+    "api": {
+        "plugins": {
+            "awsAPIPlugin": {
+                "AdminQueries": {
+                    "endpointType": "REST",
+                    "endpoint": "https://bbp1x2v8y8.execute-api.us-east-1.amazonaws.com/dev",
+                    "region": "us-east-1",
+                    "authorizationType": "AWS_IAM"
+                },
+                "bedside": {
+                    "endpointType": "GraphQL",
+                    "endpoint": "https://mscghkm4d5afvkku334cb2m2oi.appsync-api.us-east-1.amazonaws.com/graphql",
+                    "region": "us-east-1",
+                    "authorizationType": "AMAZON_COGNITO_USER_POOLS",
+                    "apiKey": "da2-ju5vzqcs5fcdjoii5p7kitsy6m"
+                },
+                "nurseReport": {
+                    "endpointType": "REST",
+                    "endpoint": "https://2a614154m9.execute-api.us-east-1.amazonaws.com/dev",
+                    "region": "us-east-1",
+                    "authorizationType": "AWS_IAM"
+                }
+            }
+        }
+    },
+    "auth": {
+        "plugins": {
+            "awsCognitoAuthPlugin": {
+                "UserAgent": "aws-amplify/cli",
+                "Version": "0.1.0",
+                "IdentityManager": {
+                    "Default": {}
+                },
+                "AppSync": {
+                    "Default": {
+                        "ApiUrl": "https://mscghkm4d5afvkku334cb2m2oi.appsync-api.us-east-1.amazonaws.com/graphql",
+                        "Region": "us-east-1",
+                        "AuthMode": "AMAZON_COGNITO_USER_POOLS",
+                        "ClientDatabasePrefix": "bedside_AMAZON_COGNITO_USER_POOLS"
+                    },
+                    "bedside_API_KEY": {
+                        "ApiUrl": "https://mscghkm4d5afvkku334cb2m2oi.appsync-api.us-east-1.amazonaws.com/graphql",
+                        "Region": "us-east-1",
+                        "AuthMode": "API_KEY",
+                        "ApiKey": "da2-ju5vzqcs5fcdjoii5p7kitsy6m",
+                        "ClientDatabasePrefix": "bedside_API_KEY"
+                    }
+                },
+                "CredentialsProvider": {
+                    "CognitoIdentity": {
+                        "Default": {
+                            "PoolId": "us-east-1:6f637700-1453-4487-b478-3b8696d2679d",
+                            "Region": "us-east-1"
+                        }
+                    }
+                },
+                "CognitoUserPool": {
+                    "Default": {
+                        "PoolId": "us-east-1_nnNCUihi5",
+                        "AppClientId": "11d1na8dk1qqv71fgh5eidlfle",
+                        "Region": "us-east-1",
+                        "AppClientSecret": "1annqfr95f99oalsbsphcv6mc8l7ia3mnbs3ivopus9f9g1o69hs"
+                    }
+                },
+                "Auth": {
+                    "Default": {
+                        "authenticationFlowType": "USER_SRP_AUTH",
+                        "socialProviders": [],
+                        "usernameAttributes": [],
+                        "signupAttributes": [
+                            "EMAIL"
+                        ],
+                        "passwordProtectionSettings": {
+                            "passwordPolicyMinLength": 8,
+                            "passwordPolicyCharacters": []
+                        },
+                        "mfaConfiguration": "OFF",
+                        "mfaTypes": [
+                            "SMS"
+                        ],
+                        "verificationMechanisms": [
+                            "EMAIL"
+                        ]
+                    }
+                },
+                "S3TransferUtility": {
+                    "Default": {
+                        "Bucket": "bedsidecontent102822-dev",
+                        "Region": "us-east-1"
+                    }
+                }
+            }
+        }
+    },
+    "storage": {
+        "plugins": {
+            "awsS3StoragePlugin": {
+                "bucket": "bedsidecontent102822-dev",
+                "region": "us-east-1",
+                "defaultAccessLevel": "guest"
+            }
+        }
+    }
+}
