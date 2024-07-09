@@ -32,41 +32,52 @@ class ForgotUsernameViewModel : ObservableObject {
         errorTitle = "Error"
         errorMessage = ""
     }
-    
-    func recoverUsername(email: String, action: @escaping (Result<Bool, Error>)->()) {
-        self.loading = true
-        print("recover username with email: \(email)")
-        self.email = email
-        DispatchQueue.main.async {
-            self.userService.fetchUser(email: email) { (result) in
-                switch result {
-                case .success(let users):
-                    self.username = (users.compactMap({ $0 }).first)?.userName ?? ""
-                    print("Username: \(self.username)")
-                        
-                        action(.success(true))
-                    self.loading = false
-                case .failure(let error):
-                    self.username = ""
-                    print("username recovery failure: \(error)")
-                    switch error {
-                    case .noResults:
-                        self.errorTitle = "Username not found"
-                        self.errorMessage = "Login Error. A user account with this email address does not exist. Please check your entry and try again."
-                    case .noAccount:
-                        self.errorTitle = "Username not found"
-                        self.errorMessage = "Login Error. A username with this email address does not exist. Please contact help@simpl-bedside.org for additional support."
-                    default:
-                         self.errorMessage = "An error has occurred: \(error.localizedDescription)"
-                    }
-                    self.loading = false
-                    self.showError = true
-                    action(.failure(error))
-                }
-            }
+
+    func recoverUsername(email: String) async -> Result<Bool, Error> {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+
+            self.loading = true
+            print("recover username with email: \(email)")
+            self.email = email
         }
 
-        
+        let result = await self.userService.fetchUser(email: email)
+
+        switch result {
+        case .success(let users):
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+
+                self.username = (users.compactMap({ $0 }).first)?.userName ?? ""
+                print("Username: \(self.username)")
+
+                self.loading = false
+            }
+
+            return .success(true)
+        case .failure(let error):
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+
+                self.username = ""
+                print("username recovery failure: \(error)")
+                switch error {
+                case .noResults:
+                    self.errorTitle = "Username not found"
+                    self.errorMessage = "Login Error. A user account with this email address does not exist. Please check your entry and try again."
+                case .noAccount:
+                    self.errorTitle = "Username not found"
+                    self.errorMessage = "Login Error. A username with this email address does not exist. Please contact help@simpl-bedside.org for additional support."
+                default:
+                    self.errorMessage = "An error has occurred: \(error.localizedDescription)"
+                }
+                self.loading = false
+                self.showError = true
+            }
+
+            return .failure(error)
+        }
     }
 }
 
@@ -83,8 +94,9 @@ struct ForgotUsernameView: View {
     
     var recoverUsernameButton: some View {
         Button(action:{
-            self.forgotUsernameViewModel.recoverUsername(email: self.email) {
-                result in
+            Task {
+                let result = await self.forgotUsernameViewModel.recoverUsername(email: self.email)
+
                 switch result {
                 case .success(_):
                     username = self.forgotUsernameViewModel.username

@@ -1,0 +1,31 @@
+select userinvitation.createdat,
+	userinvitation.id,
+	userinvitation.invitationstatus,
+	userinvitation.email as recipientemail,
+	invitee.firstname as inviteefirstname,
+	invitee.lastname as inviteelastname,
+	programadmin.firstname as programadminfirstname,
+	programadmin.lastname as programadminlastname,
+	organization.title as institutionname
+from userinvitation
+	join  user as invitee on invitee.id = userinvitation.inviteeid
+	join  user
+as programadmin on programadmin.id = userinvitation.programadminid
+	join organization on programadmin.orgid = organization.id
+where userinvitation.invitationstatus != 'Resolved'
+	and
+(
+	    from_iso8601_timestamp
+(userinvitation.createdat) between
+(current_date - interval '3' day) and
+(current_date - interval '2' day)
+	    or from_iso8601_timestamp
+(userinvitation.createdat) between
+(current_date - interval '7' day) and
+(current_date - interval '6' day)
+	    or from_iso8601_timestamp
+(userinvitation.createdat) between
+(current_date - interval '14' day) and
+(current_date - interval '13' day)
+	)
+	

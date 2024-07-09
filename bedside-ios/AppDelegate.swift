@@ -7,79 +7,38 @@
 //
 
 import UIKit
-import AWSMobileClient
-import AmplifyPlugins
 import Amplify
-import AWSAppSync
-import AWSS3
+import AWSCognitoAuthPlugin
+import AWSAPIPlugin
+import AWSS3StoragePlugin
 
-extension AWSMobileClient: AWSCognitoUserPoolsAuthProviderAsync {
-    public func getLatestAuthToken(_ callback: @escaping (String?, Error?) -> Void) {
-        getTokens { (tokens, error) in
-            if error != nil {
-                callback(nil, error)
-            } else {
-                callback(tokens?.idToken?.tokenString, nil)
-            }
-        }
-    }
-}
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
-    var appSyncPrivateClient: AWSAppSyncClient?
-    var appSyncPublicClient: AWSAppSyncClient?
+
     
     func initAmplify() {
-        let apiPlugin = AWSAPIPlugin(modelRegistration: AmplifyModels())
         
         do {
-              try Amplify.add(plugin: apiPlugin)
-              try Amplify.add(plugin: AWSS3StoragePlugin())
-              try Amplify.configure()
+            try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            try Amplify.add(plugin: AWSAPIPlugin(modelRegistration: AmplifyModels()))
+            try Amplify.add(plugin: AWSS3StoragePlugin())
+
+            try Amplify.configure()
               print("Amplify initialized")
           } catch {
               print("Failed to configure Amplify \(error)")
           }
     }
-    
-    func initAppSync() {
-        do {
-            // Public appsync client setup
-            let servicePublicConfig = try AWSAppSyncServiceConfig(forKey: "bedside_API_KEY")
-            let cachePublic = try AWSAppSyncCacheConfiguration(useClientDatabasePrefix: true, appSyncServiceConfig: servicePublicConfig)
-            let appSyncPublicConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: servicePublicConfig,
-                                                                 cacheConfiguration: cachePublic)
-            appSyncPublicClient = try AWSAppSyncClient(appSyncConfig: appSyncPublicConfig)
 
-            // Private appsync client setup
-            let servicePrivateConfig = try AWSAppSyncServiceConfig()
-            let cachePrivate = try AWSAppSyncCacheConfiguration(useClientDatabasePrefix: true, appSyncServiceConfig: servicePrivateConfig)
-            let appSyncPrivateConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: servicePrivateConfig, userPoolsAuthProvider: AWSMobileClient.default(), cacheConfiguration: cachePrivate)
-            appSyncPrivateClient = try AWSAppSyncClient(appSyncConfig: appSyncPrivateConfig)
-            print("Appsync configured")
-        } catch(let error) {
-           print("AppSync is a no-go: \(error)")
-        }
-    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
       
-        
-        AWSMobileClient.default().initialize { (userState, error) in
-            guard error == nil else {
-                print("Error initializing AWSMobileClient. Error: \(error!.localizedDescription)")
-                return
-            }
-            
-            
-        }
+
         
         self.initAmplify()
-        self.initAppSync()
         self.initStyles()
         
         return true

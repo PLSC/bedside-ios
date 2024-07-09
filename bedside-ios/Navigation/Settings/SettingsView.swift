@@ -7,12 +7,8 @@
 //
 
 import SwiftUI
-import AWSMobileClient
-import Combine
-
-
 import Amplify
-import AWSS3
+import Combine
 
 // extension for keyboard to dismiss
 extension UIApplication {
@@ -70,11 +66,12 @@ class UserSettingsFormViewModel : ObservableObject {
     
     var allUserValues : User {
         return User(id: id,
+                    orgID: currentUser?.orgID,
                     userName: username,
                     email: email,
+                    phone: currentUser?.phone,
                     firstName: firstName,
-                    lastName: lastName,
-                    orgId: currentUser?.orgId)
+                    lastName: lastName)
     }
     
     
@@ -133,26 +130,28 @@ struct SettingsView: View {
         }
     }
         
-    func signOut() {
-        authUtil.signOut()
+    func signOut() async {
+        await authUtil.signOut()
+
+        userLoginState.isSignedIn = false
     }
     
-    func submit() {
+    func submit() async {
         UIApplication.shared.endEditing()
         isLoading = true
-        self.userLoginState.updateUser(user: viewModel.allUserValues) {
-            result in
-            self.isLoading = false
-            switch result {
-            case .success(let user):
-                print("User successfully updated \(String(describing: user))")
-                self.viewModel.setUserValues(user: user)
-                self.viewModel.formIsDirty = false
-            case .failure(let error):
-                self.showAlert = true
-                self.errorMessage = "An error occurred while updating user information."
-                print(error)
-            }
+
+        let result = await self.userLoginState.updateUser(user: viewModel.allUserValues)
+
+        self.isLoading = false
+        switch result {
+        case .success(let user):
+            print("User successfully updated \(String(describing: user))")
+            self.viewModel.setUserValues(user: user)
+            self.viewModel.formIsDirty = false
+        case .failure(let error):
+            self.showAlert = true
+            self.errorMessage = "An error occurred while updating user information."
+            print(error)
         }
     }
     
@@ -190,7 +189,9 @@ struct SettingsView: View {
                     
                     Section {
                         Button(action: {
-                            self.submit()
+                            Task {
+                                await self.submit()
+                            }
                         }) {
                             Text("Submit Changes")
                         }.disabled(!self.viewModel.enableSubmit)
@@ -198,7 +199,7 @@ struct SettingsView: View {
                     }
                     
                     Section {
-                        Button(action: {self.signOut()}) {
+                        Button(action: { Task{ await self.signOut() }}) {
                             Text("Sign Out").foregroundColor(Color.red)
                         }
                     }

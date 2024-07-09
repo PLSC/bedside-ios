@@ -1,0 +1,19 @@
+{
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "bedsideDynamoDBAPILayer",
+      "env": "prod",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true,
+      "env": "invitation"
+    }
+  ],
+  "permissions": {
+    "api": {
+      "bedside": [
+        "read"
+      ]
+    }
+  }
+}

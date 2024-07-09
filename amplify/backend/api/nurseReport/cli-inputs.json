@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/bedsidereport": {
+      "name": "/bedsidereport",
+      "lambdaFunction": "nurseReport",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

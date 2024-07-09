@@ -25,16 +25,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            
+
             let userLoginState = UserLoginState()
             let tabBarViewModel = TabBarViewModel()
             let networkStatusObserver = NetworkStatusObserver()
             let userSettingsFormViewModel = UserSettingsFormViewModel()
-            
+
             //TODO: Figure out where else I can inject this thing.
             let forgotPasswordViewModel = ForgotPasswordViewModel()
             let forgotUsernameViewModel = ForgotUsernameViewModel()
-            
+
             let cv = contentView
                 .environmentObject(userLoginState)
                 .environmentObject(tabBarViewModel)
@@ -42,10 +42,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 .environmentObject(networkStatusObserver)
                 .environmentObject(userSettingsFormViewModel)
                 .environmentObject(forgotUsernameViewModel)
-        
+
             window.rootViewController = UIHostingController(rootView: cv)
             self.window = window
-            
+
             window.makeKeyAndVisible()
         }
     }

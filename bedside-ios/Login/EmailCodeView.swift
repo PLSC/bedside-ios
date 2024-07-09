@@ -27,36 +27,28 @@ class EmailCodeViewModel : ObservableObject {
         self.authUtils = authUtils
     }
     
-    func submitCode(username: String, completion: @escaping (Result<Bool, EmailCodeError>)->()) {
-        authUtils.confirmSignUp(username: username, confirmationCode: self.confirmationCode) { (result) in
-            
-            switch result {
-            case .success(_):
-                completion(.success(true))
-            case .failure(_):
-                completion(.failure(.invalidCode("Invalid verification code provided. Please try again.")))
-            }
+    func submitCode(username: String) async -> Result<Bool, EmailCodeError> {
+        let result = await authUtils.confirmSignUp(username: username, confirmationCode: self.confirmationCode)
+
+        switch result {
+        case .success(_):
+            return .success(true)
+        case .failure(_):
+            return .failure(.invalidCode("Invalid verification code provided. Please try again."))
         }
     }
     
-    func resendCode(username: String, completion: @escaping (Result<String, EmailCodeError>)->()) {
-        
-        authUtils.resendConfirmationCode(username: username) { (result) in
-            
-            switch result {
-            case .success(let signupResult):
-                print("Confirmation code sent to \(signupResult.codeDeliveryDetails!.destination!)")
-                guard let destination = signupResult.codeDeliveryDetails?.destination else {
-                    print("no details in code delivery status")
-                    return
-                }
-                
-                let codeSentMessage = "Confirmation code sent to \(destination)"
-                
-                completion(.success(codeSentMessage))
-            case .failure(_):
-                completion(.failure(.codeNotSent("Confirmation failed to send.")))
-            }
+    func resendCode(username: String) async -> Result<String, EmailCodeError> {
+
+        let result = await authUtils.resendConfirmationCode(username: username)
+
+        switch result {
+        case .success(_):
+            let codeSentMessage = "Confirmation code sent to email"
+
+            return .success(codeSentMessage)
+        case .failure(_):
+            return .failure(.codeNotSent("Confirmation failed to send."))
         }
     }
 }
@@ -73,38 +65,36 @@ struct EmailCodeView: View {
     
     @ObservedObject var viewModel = EmailCodeViewModel()
     
-    func submitCode()  {
+    func submitCode() async {
         self.loading = true
-        self.viewModel.submitCode(username: username) { (result) in
-            self.loading = false
-            switch result {
-            case .success(_):
-                self.showSelf = false
-            case .failure(_):
-                self.showAlert = true
-                self.showError = true
-                self.alertMessage = "Invalid verification code provided. Please try again."
-                print("submit code error")
-            }
+        let result = await self.viewModel.submitCode(username: username)
+
+        self.loading = false
+        switch result {
+        case .success(_):
+            self.showSelf = false
+        case .failure(_):
+            self.showAlert = true
+            self.showError = true
+            self.alertMessage = "Invalid verification code provided. Please try again."
+            print("submit code error")
         }
     }
     
-    func resendCode() {
-        self.viewModel.resendCode(username: username) {
-            result in
-        
-            switch result {
-            case .success(let successMessage):
-                self.showAlert = true
-                self.showError = false
-                self.alertMessage = successMessage
-                self.alertTitle = "Code Sent"
-            case .failure(_):
-                self.showAlert = true
-                self.showError = true
-                self.alertTitle = "Error"
-                self.alertMessage = "Failed to send code."
-            }
+    func resendCode() async {
+        let result = await self.viewModel.resendCode(username: username)
+
+        switch result {
+        case .success(let successMessage):
+            self.showAlert = true
+            self.showError = false
+            self.alertMessage = successMessage
+            self.alertTitle = "Code Sent"
+        case .failure(_):
+            self.showAlert = true
+            self.showError = true
+            self.alertTitle = "Error"
+            self.alertMessage = "Failed to send code."
         }
     }
     
@@ -126,7 +116,11 @@ struct EmailCodeView: View {
                     .padding()
                     .keyboardType(.numberPad)
                 
-                Button(action:{self.submitCode()}) {
+                Button(action:{
+                    Task {
+                        await self.submitCode()
+                    }
+                }) {
                   Text("Confirm")
                       .font(.headline)
                       .foregroundColor(.white)
@@ -137,7 +131,9 @@ struct EmailCodeView: View {
                 }
                 
                 Button(action:{
-                    self.resendCode()
+                    Task {
+                        await self.resendCode()
+                    }
                 }) {
                     Text("Resend Code")
                         .padding()

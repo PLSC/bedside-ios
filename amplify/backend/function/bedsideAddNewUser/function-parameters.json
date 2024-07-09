@@ -1,3 +1,20 @@
 {
-    "permissions": {}
+  "permissions": {
+    "api": {
+      "bedside": [
+        "read",
+        "update"
+      ]
+    },
+    "storage": {
+      "User:@model(appsync)": [
+        "read",
+        "update"
+      ],
+      "UserInvitation:@model(appsync)": [
+        "read",
+        "update"
+      ]
+    }
+  }
 }

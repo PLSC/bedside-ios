@@ -16,7 +16,7 @@ struct EvalResponseListItem: View {
         get {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MMM d, yyyy"
-            return dateFormatter.string(from:evalResponse.evaluationDate)
+            return dateFormatter.string(from:evalResponse.evaluationDate.foundationDate)
         }
     }
     
@@ -30,7 +30,7 @@ struct EvalResponseListItem: View {
             }
             HStack {
                 Image(systemName: "dial")
-                Text("\(evalResponse.ratingDisplayText ?? "Invalid Rating Level")") + Text(" - \(evalResponse.ratingLevel)").foregroundColor(.gray)
+                Text("\(evalResponse.ratingDisplayText ?? "Invalid Rating Level")") + Text(" - \(evalResponse.ratingLevel ?? 0)").foregroundColor(.gray)
             }
         }
         

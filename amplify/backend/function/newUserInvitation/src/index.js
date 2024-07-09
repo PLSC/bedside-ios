@@ -1,6 +1,13 @@
 /* Amplify Params - DO NOT EDIT
 	API_BEDSIDE_GRAPHQLAPIENDPOINTOUTPUT
 	API_BEDSIDE_GRAPHQLAPIIDOUTPUT
+	API_BEDSIDE_GRAPHQLAPIKEYOUTPUT
+	API_BEDSIDE_ORGANIZATIONTABLE_ARN
+	API_BEDSIDE_ORGANIZATIONTABLE_NAME
+	API_BEDSIDE_USERINVITATIONTABLE_ARN
+	API_BEDSIDE_USERINVITATIONTABLE_NAME
+	API_BEDSIDE_USERTABLE_ARN
+	API_BEDSIDE_USERTABLE_NAME
 	ENV
 	REGION
 Amplify Params - DO NOT EDIT */
@@ -10,7 +17,6 @@ var documentClient = new AWS.DynamoDB.DocumentClient();
 var uuid = require("uuid");
 var uuidv4 = uuid.v4;
 var ses = new AWS.SES({ region: "us-east-1" });
-var tablesUtils = require("./tablesUtils");
 
 let USER_TYPE = "User";
 let INVITATION_TYPE = "UserInvitation";
@@ -28,16 +34,14 @@ async function getById(id, tableName) {
   }
 }
 
-async function getUserInfo(userId, getTableName) {
+async function getUserInfo(userId) {
   if (!userId) return;
-  let userTableName = getTableName(USER_TYPE);
-  return getById(userId, userTableName);
+  return getById(userId, process.env.API_BEDSIDE_USERTABLE_NAME);
 }
 
-async function getOrgInfo(orgID, getTableName) {
+async function getOrgInfo(orgID) {
   if (!orgID) return;
-  let orgTableName = getTableName(ORGANIZATION_TYPE);
-  return getById(orgID, orgTableName);
+  return getById(orgID, process.env.API_BEDSIDE_ORGANIZATIONTABLE_NAME);
 }
 
 function createEmailBody(
@@ -60,8 +64,7 @@ function createEmailBody(
   );
 }
 
-async function createUserInvitation(invitation, getTableName) {
-  let userInvitationTableName = getTableName(INVITATION_TYPE);
+async function createUserInvitation(invitation) {
   let creationDateString = new Date().toISOString();
   let userInvitationItem = {
     id: uuidv4(),
@@ -71,7 +74,7 @@ async function createUserInvitation(invitation, getTableName) {
     ...invitation,
   };
   let params = {
-    TableName: userInvitationTableName,
+    TableName: process.env.API_BEDSIDE_USERINVITATIONTABLE_NAME,
     Item: userInvitationItem,
   };
   try {
@@ -87,17 +90,14 @@ async function createUserInvitation(invitation, getTableName) {
 exports.handler = async (event) => {
   let { inviteeId, email, programAdminId } = event.arguments.userInvitation;
 
-  let getTableName = await tablesUtils.getTableNameFn();
-
   let userInvitationItem = await createUserInvitation(
-    event.arguments.userInvitation,
-    getTableName
+    event.arguments.userInvitation
   );
 
-  let user = await getUserInfo(inviteeId, getTableName);
-  let programAdmin = await getUserInfo(programAdminId, getTableName);
+  let user = await getUserInfo(inviteeId);
+  let programAdmin = await getUserInfo(programAdminId);
   let origin = event.request.headers.origin;
-  let organization = await getOrgInfo(user.orgID, getTableName);
+  let organization = await getOrgInfo(user.orgID);
 
   let emailSubject = `Invitation to register SIMPL-Bedside account${
     organization ? ` ${organization.description}.` : `.`

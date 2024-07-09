@@ -1,224 +1,36 @@
 {
-  "hosting": {
-    "S3AndCloudFront": {
-      "service": "S3AndCloudFront",
-      "providerPlugin": "awscloudformation"
-    }
-  },
-  "auth": {
-    "bedside18eb32eb": {
-      "service": "Cognito",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "bedside18eb32ebPostConfirmation",
-          "triggerProvider": "Cognito",
-          "attributes": [
-            "Arn",
-            "Name"
-          ]
-        }
-      ],
-      "customAuth": false
-    },
-    "userPoolGroups": {
-      "service": "Cognito-UserPool-Groups",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "auth",
-          "resourceName": "bedside18eb32eb",
-          "attributes": [
-            "UserPoolId",
-            "AppClientIDWeb",
-            "AppClientID",
-            "IdentityPoolId"
-          ]
-        }
-      ]
-    }
-  },
-  "function": {
-    "bedside18eb32ebPostConfirmation": {
-      "service": "Lambda",
-      "providerPlugin": "awscloudformation",
-      "build": true
-    },
-    "AdminQueriesc8c14260": {
-      "service": "Lambda",
-      "providerPlugin": "awscloudformation",
-      "build": true,
-      "dependsOn": [
-        {
-          "category": "auth",
-          "resourceName": "bedside18eb32eb",
-          "attributes": [
-            "UserPoolId"
-          ]
-        }
-      ]
-    },
-    "bedsideAddNewUser": {
-      "service": "Lambda",
-      "providerPlugin": "awscloudformation",
-      "build": true
-    },
-    "newEvaluationFunction": {
-      "service": "Lambda",
-      "providerPlugin": "awscloudformation",
-      "build": true,
-      "dependsOn": [
-        {
-          "category": "api",
-          "resourceName": "bedside",
-          "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput"
-          ]
-        }
-      ]
-    },
-    "newUserInvitation": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "api",
-          "resourceName": "bedside",
-          "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput"
-          ]
-        }
-      ]
-    },
-    "nurseReport": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "bedsideDynamoDBAPILayer",
-          "attributes": [
-            "Arn"
-          ]
-        },
-        {
-          "category": "api",
-          "resourceName": "bedside",
-          "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput",
-            "GraphQLAPIKeyOutput"
-          ]
-        }
-      ]
-    },
-    "bedsideDynamoDBAPILayer": {
-      "providerPlugin": "awscloudformation",
-      "service": "LambdaLayer",
-      "build": true
-    },
-    "applicationQueueDispatch": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "hosting",
-          "resourceName": "S3AndCloudFront",
-          "attributes": [
-            "HostingBucketName"
-          ]
-        },
-        {
-          "category": "api",
-          "resourceName": "AdminQueries",
-          "attributes": [
-            "ApiName",
-            "ApiId"
-          ]
-        },
-        {
-          "category": "api",
-          "resourceName": "bedside",
-          "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput",
-            "GraphQLAPIKeyOutput"
-          ]
-        },
-        {
-          "category": "api",
-          "resourceName": "nurseReport",
-          "attributes": [
-            "ApiName",
-            "ApiId"
-          ]
-        },
-        {
-          "category": "storage",
-          "resourceName": "bedsideContent",
-          "attributes": [
-            "BucketName"
-          ]
-        }
-      ]
-    },
-    "weeklyProcessTrigger": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "api",
-          "resourceName": "bedside",
-          "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput",
-            "GraphQLAPIKeyOutput"
-          ]
-        }
-      ]
-    }
-  },
   "api": {
     "AdminQueries": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
-          "category": "auth",
-          "resourceName": "bedside18eb32eb",
           "attributes": [
             "UserPoolId"
-          ]
+          ],
+          "category": "auth",
+          "resourceName": "bedside18eb32eb"
         },
         {
-          "category": "function",
-          "resourceName": "AdminQueriesc8c14260",
           "attributes": [
             "Arn",
             "Name"
-          ]
+          ],
+          "category": "function",
+          "resourceName": "AdminQueriesc8c14260"
         }
-      ]
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
     },
     "bedside": {
-      "service": "AppSync",
-      "providerPlugin": "awscloudformation",
       "output": {
         "authConfig": {
           "additionalAuthenticationProviders": [
             {
-              "authenticationType": "API_KEY",
               "apiKeyConfig": {
                 "apiKeyExpirationDays": 365,
                 "description": "bedside-api-key"
-              }
+              },
+              "authenticationType": "API_KEY"
             }
           ],
           "defaultAuthentication": {
@@ -228,45 +40,460 @@
             }
           }
         }
-      }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
     },
     "nurseReport": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
-          "category": "function",
-          "resourceName": "nurseReport",
           "attributes": [
             "Name",
             "Arn"
-          ]
+          ],
+          "category": "function",
+          "resourceName": "nurseReport"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "auth": {
+    "bedside18eb32eb": {
+      "customAuth": false,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "bedside18eb32ebPostConfirmation",
+          "triggerProvider": "Cognito"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    },
+    "userPoolGroups": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId",
+            "AppClientIDWeb",
+            "AppClientID",
+            "IdentityPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "bedside18eb32eb"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito-UserPool-Groups"
+    }
+  },
+  "custom": {
+    "snsTopicQueue": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "Region",
+            "LambdaExecutionRole",
+            "LambdaExecutionRoleArn"
+          ],
+          "category": "function",
+          "resourceName": "applicationQueueDispatch"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "customCDK"
+    }
+  },
+  "function": {
+    "AdminQueriesc8c14260": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "bedside18eb32eb"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "applicationQueueDispatch": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bedsideDynamoDBAPILayer"
+        },
+        {
+          "attributes": [
+            "HostingBucketName"
+          ],
+          "category": "hosting",
+          "resourceName": "S3AndCloudFront"
+        },
+        {
+          "attributes": [
+            "ApiName",
+            "ApiId"
+          ],
+          "category": "api",
+          "resourceName": "AdminQueries"
+        },
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "bedside"
+        },
+        {
+          "attributes": [
+            "ApiName",
+            "ApiId"
+          ],
+          "category": "api",
+          "resourceName": "nurseReport"
+        },
+        {
+          "attributes": [
+            "BucketName"
+          ],
+          "category": "storage",
+          "resourceName": "bedsideContent"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "bedside18eb32ebPostConfirmation": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "bedsideAddNewUser": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "bedside"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "bedsideDynamoDBAPILayer": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer"
+    },
+    "bedsidePostAuthentication": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "bedside"
+        },
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bedsideDynamoDBAPILayer"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "newEvaluationFunction": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "bedside"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "newUserInvitation": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "bedside"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "nightly": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "nurseReport": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bedsideDynamoDBAPILayer"
+        },
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "bedside"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "weeklyProcessTrigger": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "bedside"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "hosting": {
+    "S3AndCloudFront": {
+      "providerPlugin": "awscloudformation",
+      "service": "S3AndCloudFront"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_AdminQueriesc8c14260_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AdminQueriesc8c14260"
+        }
+      ]
+    },
+    "AMPLIFY_function_AdminQueriesc8c14260_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AdminQueriesc8c14260"
+        }
+      ]
+    },
+    "AMPLIFY_function_applicationQueueDispatch_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "applicationQueueDispatch"
+        }
+      ]
+    },
+    "AMPLIFY_function_applicationQueueDispatch_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "applicationQueueDispatch"
+        }
+      ]
+    },
+    "AMPLIFY_function_bedside18eb32ebPostConfirmation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bedside18eb32ebPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_bedside18eb32ebPostConfirmation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bedside18eb32ebPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_bedsideAddNewUser_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bedsideAddNewUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_bedsideAddNewUser_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bedsideAddNewUser"
+        }
+      ]
+    },
+    "AMPLIFY_function_bedsideDynamoDBAPILayer_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bedsideDynamoDBAPILayer"
+        }
+      ]
+    },
+    "AMPLIFY_function_bedsideDynamoDBAPILayer_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bedsideDynamoDBAPILayer"
+        }
+      ]
+    },
+    "AMPLIFY_function_bedsidePostAuthentication_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bedsidePostAuthentication"
+        }
+      ]
+    },
+    "AMPLIFY_function_bedsidePostAuthentication_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bedsidePostAuthentication"
+        }
+      ]
+    },
+    "AMPLIFY_function_newEvaluationFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "newEvaluationFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_newEvaluationFunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "newEvaluationFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_newUserInvitation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "newUserInvitation"
+        }
+      ]
+    },
+    "AMPLIFY_function_newUserInvitation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "newUserInvitation"
+        }
+      ]
+    },
+    "AMPLIFY_function_nightly_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "nightly"
+        }
+      ]
+    },
+    "AMPLIFY_function_nightly_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "nightly"
+        }
+      ]
+    },
+    "AMPLIFY_function_nurseReport_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "nurseReport"
+        }
+      ]
+    },
+    "AMPLIFY_function_nurseReport_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "nurseReport"
+        }
+      ]
+    },
+    "AMPLIFY_function_weeklyProcessTrigger_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "weeklyProcessTrigger"
+        }
+      ]
+    },
+    "AMPLIFY_function_weeklyProcessTrigger_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "weeklyProcessTrigger"
         }
       ]
     }
   },
   "storage": {
     "bedsideContent": {
-      "service": "S3",
-      "providerPlugin": "awscloudformation"
-    }
-  },
-  "custom": {
-    "snsTopicQueue": {
-      "service": "customCDK",
       "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "applicationQueueDispatch",
-          "attributes": [
-            "Name",
-            "Arn",
-            "Region",
-            "LambdaExecutionRole"
-          ]
-        }
-      ]
+      "service": "S3"
     }
   }
 }

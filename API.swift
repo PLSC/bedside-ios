@@ -1,6 +1,6 @@
 //  This file was automatically generated and should not be edited.
 
-import AWSAppSync
+import Amplify
 
 public struct CreateUserInvitationInput: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap

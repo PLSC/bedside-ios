@@ -1,12 +1,25 @@
 {
-    "permissions": {
-        "api": {
-            "bedside": [
-                "create",
-                "read",
-                "update",
-                "delete"
-            ]
-        }
+  "permissions": {
+    "api": {
+      "bedside": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "storage": {
+      "Organization:@model(appsync)": [
+        "read"
+      ],
+      "User:@model(appsync)": [
+        "read"
+      ],
+      "UserInvitation:@model(appsync)": [
+        "create",
+        "read",
+        "update"
+      ]
     }
+  }
 }

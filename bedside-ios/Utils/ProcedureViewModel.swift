@@ -79,18 +79,17 @@ class ProcedureSelectViewModel : ObservableObject {
             .store(in: &cancelableSet)
     }
     
-    func fetchProcedures(user: User) {
+    func fetchProcedures(user: User) async {
         self.membershipProgramIds = user.memberships?.compactMap({ membership in
             return membership.program.id
         }) ?? []
-        procedureApi.getProcedures() {
-            result in
-                switch result {
-                case .success(let procs):
-                    self.allProcedures = procs
-                case .failure(let error):
-                    print("Error fetching Procedures: \(error)")
-                }
+        let result = await procedureApi.getProcedures()
+
+        switch result {
+        case .success(let procs):
+            self.allProcedures = procs
+        case .failure(let error):
+            print("Error fetching Procedures: \(error)")
         }
     }
     

@@ -12,11 +12,20 @@ struct CertLogListView: View {
     var certLog : [EvaluationResponse]
     
     var body: some View {
-        List(certLog.sorted(by: { (first, next) -> Bool in
-            return first.evaluationDate > next.evaluationDate
-        })) { evalResponse in
-            EvalResponseListItem(evalResponse: evalResponse).padding()
+        List(certLog.sorted(by: { $0.evaluationDate > $1.evaluationDate })
+                .map(IdentifiableEvaluationResponse.init)) { identifiableEvalResponse in
+            EvalResponseListItem(evalResponse: identifiableEvalResponse.evaluationResponse).padding()
         }
+    }
+}
+
+struct IdentifiableEvaluationResponse: Identifiable {
+    let id: String
+    let evaluationResponse: EvaluationResponse
+
+    init(evaluationResponse: EvaluationResponse) {
+        self.id = evaluationResponse.id
+        self.evaluationResponse = evaluationResponse
     }
 }
 

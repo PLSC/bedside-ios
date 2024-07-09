@@ -91,14 +91,14 @@ class EvaluationFormData : ObservableObject {
         self.answer = answer
     }
     
-    func submitEvaluation(completion: @escaping (Error?)->()) {
+    func submitEvaluation() async -> Error? {
         let api = EvaluationAPI()
-        api.createEvaluation(subject: subject!,
+
+        return await api.createEvaluation(subject: subject!,
                              rater: rater!,
                              procedure: procedure!,
                              procedureDate: procedureDate,
-                             ratingLevel: answer!.assocValue,
-                             errorHandler: completion)
+                             ratingLevel: answer!.assocValue)
     }
     
     func reset() {

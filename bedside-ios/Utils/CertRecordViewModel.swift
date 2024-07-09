@@ -22,13 +22,13 @@ class CertRecordViewModel : ObservableObject {
     
     init() {
         $allCertificationRecords.receive(on: RunLoop.main).map { certRecords in
-            return certRecords.filter { $0.isCertified }.sorted { $0.procedure.name < $1.procedure.name }
+            return certRecords.filter { $0.isCertified ?? false }.sorted { $0.procedure?.name ?? "" < $1.procedure?.name ?? "" }
         }
         .assign(to: \.certified, on: self)
         .store(in: &cancellableSet)
         
         $allCertificationRecords.receive(on: RunLoop.main).map { certRecords in
-            return certRecords.filter { !$0.isCertified }.sorted { $0.procedure.name < $1.procedure.name }
+            return certRecords.filter { !($0.isCertified ?? false) }.sorted { $0.procedure?.name ?? "" < $1.procedure?.name ?? "" }
         }
         .assign(to: \.notCertified, on: self)
         .store(in: &cancellableSet)
@@ -40,17 +40,28 @@ class CertRecordViewModel : ObservableObject {
         .store(in: &cancellableSet)
     }
     
-    func fetchCertRecords(user: User) {
-        self.loading = true
-        certRecordApi.getCertRecords(subjectId:user.id) {
-            result in
-                self.loading = false
-                switch result {
-                case .success(let certRecords):
-                    self.allCertificationRecords = certRecords
-                case .failure(let error):
-                    print("Error fetching certRecords: \(error)")
-                }
+    func fetchCertRecords(user: User) async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.loading = true
+        }
+
+        let result = await certRecordApi.getCertRecords(subjectId:user.id)
+
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.loading = false
+        }
+
+        switch result {
+        case .success(let certRecords):
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+
+                self.allCertificationRecords = certRecords
+            }
+        case .failure(let error):
+            print("Error fetching certRecords: \(error)")
         }
     }
 }

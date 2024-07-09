@@ -1,0 +1,103 @@
+{
+  "permissions": {
+    "hosting": {
+      "S3AndCloudFront": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "api": {
+      "AdminQueries": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "bedside": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "nurseReport": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "storage": {
+      "bedsideContent": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "Organization:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "Program:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "Membership:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "Procedure:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "User:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "EvaluationResponse:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "CertificationRecord:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "UserInvitation:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "ProgramProcedure:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "bedsideDynamoDBAPILayer",
+      "env": "invitation",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true
+    }
+  ]
+}

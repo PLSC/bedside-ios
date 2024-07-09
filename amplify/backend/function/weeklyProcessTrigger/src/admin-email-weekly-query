@@ -1,0 +1,51 @@
+with
+	program_admins
+	as
+	(
+		select distinct user.id,
+			user.email,
+			user.firstname,
+			user.lastname,
+			membership.programid
+		from user
+			join membership on membership.userid = user.id
+		where membership.role like 'ProgramAdmin'
+			and coalesce(user."settings.receiveweeklynewevaluationsemail", true) = true
+	),
+	pairings
+	as
+	(
+		select distinct program.name as program_name,
+			program_admins.email as recipient_email,
+			program_admins.firstname as recipient_firstname,
+			program_admins.lastname as recipient_lastname,
+			user.email as trainee_email,
+			user.firstname as trainee_firstname,
+			user.lastname as trainee_lastname,
+			user.id as userid
+		from program_admins
+			join membership on membership.programid = program_admins.programid
+			join  user on membership.userid = user.id
+		join program on program.id = membership.programid
+	where membership.role = 'User'
+)
+select pairings.*,
+	evaluationresponse.ratinglevel,
+	procedure.name as procedure_name,
+	procedure.id as procedure_id,
+	evaluationresponse.evaluationdate
+from pairings
+	join evaluationresponse on evaluationresponse.subjectid = pairings.userid
+	join certificationrecord on certificationrecord.id = evaluationresponse.certificationrecordid
+	join procedure on procedure.id = certificationrecord.procedureid
+where (
+		certificationrecord.iscertified is null
+	or certificationrecord.iscertified = false
+	)
+	and from_iso8601_timestamp(evaluationresponse.evaluationdate) between (current_date - interval '7'
+day) and
+(current_date + interval '1' day)
+order by program_name,
+	recipient_email,
+	trainee_email,
+	procedure_name;

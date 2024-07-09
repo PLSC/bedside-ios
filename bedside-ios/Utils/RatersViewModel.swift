@@ -41,16 +41,17 @@ class RatersViewModel : ObservableObject {
             .store(in: &cancellableSet)
     }
 
-    func fetchRaters(orgId: String)  {
+    func fetchRaters(orgId: String) async {
         self.orgId = orgId
-        self.userService.fetchUsers(orgId: orgId, withFilterText: nil) { (result) in
-            switch result {
-            case .success(let users):
-                self.raters = users
-            case .failure(let error):
-                self.showError = true
-                self.errorMessage = error.localizedDescription
-            }
+
+        let result = await self.userService.fetchUsers(orgId: orgId, withFilterText: nil)
+
+        switch result {
+        case .success(let users):
+            self.raters = users
+        case .failure(let error):
+            self.showError = true
+            self.errorMessage = error.localizedDescription
         }
     }
 }

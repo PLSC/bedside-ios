@@ -20,7 +20,12 @@ class TabBarViewModel : ObservableObject {
             .publisher(for: TabBarEvents.change)
             .sink { (notification) in
                 guard let tab = notification.object as? Tab else { return }
-                self.selectedTab = tab
+
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+
+                    self.selectedTab = tab
+                }
             }
             .store(in: &cancellables)
     }

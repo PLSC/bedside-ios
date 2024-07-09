@@ -14,7 +14,7 @@ struct CertRecordRowView: View {
     
     var body: some View {
         HStack {
-            if (certificationRecord.isCertified) {
+            if (certificationRecord.isCertified ?? false) {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 30))
                     .foregroundColor(Color.lightTeal)
@@ -23,8 +23,8 @@ struct CertRecordRowView: View {
                     .font(.system(size:30))
                     .foregroundColor(Color.mustard)
             }
-            
-            Text("\(certificationRecord.procedure.name)")
+
+            Text("\(certificationRecord.procedure?.name ?? "")")
             Spacer()
         }.padding()
     }

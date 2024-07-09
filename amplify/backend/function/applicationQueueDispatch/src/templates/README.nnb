@@ -1,0 +1,117 @@
+{
+    "cells": [
+        {
+            "language": "markdown",
+            "source": [
+                "# Email Templates\nThis folder contains the email templates we are using for email notifications sent with this lambda. This notebook documents how to create, modify, update and delete these templates.\n\n## AWS SES & Templates\nAWS will render our templates for us. This allows us to use these templates and template data to send bulk emails and not worry about rendering HTML ourselves in a longer running process. See the documentation [Here](https://aws.amazon.com/blogs/messaging-and-targeting/introducing-email-templates-and-bulk-sending/)\n\n## Our process\nAmplify does not provide a direct hook with which to define and update email templates, however, it is an easy set of api calls to define and update these templates. All the instructions and automation are contained in the documentation below."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "# 1. Update html and test\nTo make changes to the template, update the `program-admin-report.html` file and run the code below. This will render the email template to a file named `rendered.html` in the test subdirectory. Open with a browser and inspect.\n\nChange the `data_index` variable to try rendering with different data."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "javascript",
+            "source": [
+                "const data_index = 24;\n\nconst handlebars = require('handlebars')\nconst dataForge = require('data-forge');\nconst fs = require('fs');\nrequire('data-forge-fs');\n\nconst queryResults = fs.readFileSync('../test/data/test-query-results.csv', 'utf-8')\n\nconst { formatReportData } = require('../dataFormatting');\n\nvar all_emails = formatReportData(queryResults);\n\nconst report_template = fs.readFileSync('program-admin-report.html', 'utf8')\ntry {\n  const report_compiled = handlebars.compile(report_template)\n  const report_rendered = report_compiled(all_emails[data_index])\n  fs.writeFileSync('test/rendered.html', report_rendered);\n} catch (error) {\n  console.log(error)\n}"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.error",
+                            "value": {
+                                "name": "Error",
+                                "message": "Cannot find module 'handlebars'\nRequire stack:\n- <repl>",
+                                "stack": "    at Function.Module._resolveFilename (node:internal/modules/cjs/loader:956:15)\n    at Function.Module._resolveFilename.sharedData.moduleResolveFilenameHook.installedValue [as _resolveFilename] (/Users/alenox/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/resources/scripts/node_modules/@cspotcode/source-map-support/source-map-support.js:679:30)\n    at Function.Module._load (node:internal/modules/cjs/loader:804:27)\n    at Function._._load (/Users/alenox/.vscode/extensions/donjayamanne.typescript-notebook-2.0.6/out/extension/server/index.js:2:115372)\n    at Module.require (node:internal/modules/cjs/loader:1028:19)\n    at require (node:internal/modules/cjs/helpers:102:18)\n    at <Cell 3> [3, 0]\n    at <Cell 3> [20, 46]\n    at Script.runInContext (node:vm:141:12)\n    at Script.runInNewContext (node:vm:146:17)"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "## 2. Create aws ses update template JSON argument\nIn order to update the template, we must first create the json file that will be sent along with the api call to update the template. Run the code below to generate this file. \n\nNote: This will fail if the previous code block hasn't been run."
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const sesTemplate = {\n  \"Template\": {\n    \"TemplateName\": \"ProgramAdminWeekly\",\n    \"SubjectPart\": \"SIMPL Bedside Evaluations since {{one_week_ago}}\",\n    \"TextPart\": \"New SIMPL Bedside evaluations of your trainees have occurred recently.\",\n    \"HtmlPart\": `${report_template}`\n  }\n}\ntry {\n  fs.writeFileSync('program-admin-report.json', JSON.stringify(sesTemplate))  \n} catch (error) {\n  console.log(error)\n}"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "## 3. Call the update template api\nNext, use the AWS CLI to update the template. "
+            ],
+            "outputs": []
+        },
+        {
+            "language": "shellscript",
+            "source": [
+                "# aws ses create-template --cli-input-json file://program-admin-report.json --profile bedside\naws ses update-template --cli-input-json file://./program-admin-report.json --profile bedside"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stderr",
+                            "value": [
+                                "/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/OpenSSL/crypto.py:14: CryptographyDeprecationWarning: Python 2 is no longer supported by the Python core team. Support for it is now deprecated in cryptography, and will be removed in the next release.",
+                                "  from cryptography import utils, x509",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "shellscript",
+            "source": [
+                "# test the template\n aws ses get-template --template-name ProgramAdminWeekly --profile bedside"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stderr",
+                            "value": [
+                                "/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/OpenSSL/crypto.py:14: CryptographyDeprecationWarning: Python 2 is no longer supported by the Python core team. Support for it is now deprecated in cryptography, and will be removed in the next release.",
+                                "  from cryptography import utils, x509",
+                                ""
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "{",
+                                "    \"Template\": {",
+                                "        \"HtmlPart\": \"<!DOCTYPE html>\\n<html lang=\\\"en\\\" xmlns=\\\"http://www.w3.org/1999/xhtml\\\" xmlns:o=\\\"urn:schemas-microsoft-com:office:office\\\">\\n<head>\\n    <meta charset=\\\"UTF-8\\\">\\n    <meta name=\\\"viewport\\\" content=\\\"width=device-width,initial-scale=1\\\">\\n    <meta name=\\\"x-apple-disable-message-reformatting\\\">\\n    <title></title>\\n    <!--[if mso]>\\n    <noscript>\\n        <xml>\\n            <o:OfficeDocumentSettings>\\n                <o:PixelsPerInch>96</o:PixelsPerInch>\\n            </o:OfficeDocumentSettings>\\n        </xml>\\n    </noscript>\\n    <![endif]-->\\n    <style>\\n        table, td, div, h1, p {font-family: Arial, sans-serif;}\\n        /* table, td {border:2px solid #000000 !important;} */\\n        a { color:#6ABBCC}\\n    </style>\\n</head>\\n<body style=\\\"margin:0;padding:0;\\\">\\n    <table role=\\\"presentation\\\" style=\\\"width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#ffffff;\\\">\\n        <tr>\\n            <td align=\\\"center\\\" style=\\\"padding:0;\\\">\\n              <table role=\\\"presentation\\\" style=\\\"width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;\\\">\\n                <tr>\\n                    <td style=\\\"padding:0;\\\">\\n                      <table role=\\\"presentation\\\" style=\\\"width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;\\\">\\n                        <tr>\\n                            <td style=\\\"padding: 10px;\\\">\\n                                <img src=\\\"https://bedside-public-files.s3.amazonaws.com/email/simplbedsidelogo1.jpg\\\" style=\\\"width: 20%;\\\"\\n                            </td>\\n                        </tr>\\n                        <tr>\\n                            <td style=\\\"padding: 36px 30px 42px 30px;\\\">\\n                              <p style=\\\"margin:0 0 12px 0;font-size:14px;line-height:24px;font-family:Arial,sans-serif;\\\">\\n                                Dear {{recipient_firstname}},\\n                              </p>\\n                              <p style=\\\"margin:0 0 12px 0;font-size:14px;line-height:24px;font-family:Arial,sans-serif;\\\">\\n                                These trainees have new SIMPL Bedside evaluations since {{one_week_ago}}.\\n                              </p>\\n                              {{#each programs}}\\n                                <p style=\\\"margin:0 0 12px 0;font-size:24px;line-height:24px;font-family:Arial,sans-serif;color:#545454;font-style: italic;\\\">\\n                                  {{program_name}}\\n                                </p>\\n                                {{#each trainees}}\\n                                  <p style=\\\"margin:12px 0 12px 12px;font-size:16px;line-height:24px;font-family:Arial,sans-serif;font-weight: bold; color: #545454;\\\">\\n                                    <a href=\\\"{{trainee_url}}\\\"> {{trainee_firstname}} {{trainee_lastname}}</a>\\n                                  </p>\\n                                  {{#each procedures}}\\n                                    <ul style=\\\"margin:0 0 0 12px;font-size:14px;line-height:24px;font-family:Arial,sans-serif;\\\">\\n                                      <li>\\n                                        <b style=\\\"color: #545454;\\\">{{procedure_name}}</b>: {{practice_ready_procs}} of {{total_procs}} new evaluation(s) at practice-ready or higher.\\n                                      </li>\\n                                    </ul>\\n                                  {{/each}}\\n                                {{/each}}\\n                              {{/each}}\\n                              <p style=\\\"margin:12px 0 12px 0;font-size:14px;line-height:24px;font-family:Arial,sans-serif;\\\">\\n                                Only trainees with new evaluations are listed above<br />\\n                                Do you have questions? Please contact <a href=\\\"mailto:help@simpl-bedside.org\\\">help@simpl-bedside.org</a>\\n                              </p>\\n                            </td>\\n                        </tr>\\n                        <tr>\\n                            <td style=\\\"padding:0;\\\">\\n                              <table role=\\\"presentation\\\" style=\\\"padding: 0;\\\">\\n                                <tr>\\n                                  <td align=\\\"center\\\" style=\\\"padding:0; width: 8%;\\\">\\n                                    <a href=\\\"https://www.simpl.org\\\">\\n                                      <img src=\\\"https://bedside-public-files.s3.amazonaws.com/email/simpllogonotext.jpg\\\" style=\\\"width: 60%;\\\"/>\\n                                    </a>\\n                                  </td>\\n                                  <td style=\\\"padding: 0; width: 92%;\\\">\\n                                    <p style=\\\"font-size:10px;line-height:10px;font-family:Arial,sans-serif;\\\">\\n                                      SIMPL-Bedside is provided by the <a href=\\\"https://www.simpl.org\\\">Society for Improving Medical Professional Learning</a>, a 501c3 nonprofit dedicated to improving the quality of medical education\\n                                    </p>\\n                                  </td>           \\n                                </tr>\\n                              </table>\\n                            </td>\\n                        </tr>\\n                    </table>\\n                    </td>\\n                </tr>\\n              </table>\\n            </td>\\n        </tr>\\n    </table>\\n</body>\\n</html>\", ",
+                                "        \"SubjectPart\": \"SIMPL Bedside Evaluations since {{one_week_ago}}\", ",
+                                "        \"TextPart\": \"New SIMPL Bedside evaluations of your trainees have occurred recently.\", ",
+                                "        \"TemplateName\": \"ProgramAdminWeekly\"",
+                                "    }",
+                                "}",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -25,19 +25,20 @@ struct EvaluateView: View {
     @EnvironmentObject private var loader: UserImageLoader
     @EnvironmentObject var networkStatusObserver : NetworkStatusObserver
     
-    func submit() {
+    func submit() async {
         isLoading = true
-        evaluation.submitEvaluation { error in
-            self.isLoading = false
-            self.evaluation.reset()
-            self.userLoginState.fetchCurrentUserCertRecords()
-            
-            if error != nil {
-                self.errorMessage = "There was an error submitting your evaluation. Please try again later."
-            } else {
-                self.errorMessage = ""
-                NotificationCenter.default.post(name: TabBarEvents.change, object: Tab.verify)
-            }
+
+        let error = await evaluation.submitEvaluation()
+
+        self.isLoading = false
+        self.evaluation.reset()
+        await self.userLoginState.fetchCurrentUserCertRecords()
+
+        if error != nil {
+            self.errorMessage = "There was an error submitting your evaluation. Please try again later."
+        } else {
+            self.errorMessage = ""
+            NotificationCenter.default.post(name: TabBarEvents.change, object: Tab.verify)
         }
     }
     
@@ -134,7 +135,9 @@ struct EvaluateView: View {
                 PerformanceEvaluation(evaluation: self.evaluation) {
                     complete in
                     if complete {
-                        self.submit()
+                        Task {
+                            await self.submit()
+                        }
                     } else {
                         self.reset()
                     }

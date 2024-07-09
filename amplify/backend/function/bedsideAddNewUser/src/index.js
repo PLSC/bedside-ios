@@ -1,4 +1,14 @@
 /* Amplify Params - DO NOT EDIT
+	API_BEDSIDE_GRAPHQLAPIENDPOINTOUTPUT
+	API_BEDSIDE_GRAPHQLAPIIDOUTPUT
+	API_BEDSIDE_GRAPHQLAPIKEYOUTPUT
+	API_BEDSIDE_USERINVITATIONTABLE_ARN
+	API_BEDSIDE_USERINVITATIONTABLE_NAME
+	API_BEDSIDE_USERTABLE_ARN
+	API_BEDSIDE_USERTABLE_NAME
+	ENV
+	REGION
+Amplify Params - DO NOT EDIT */ /* Amplify Params - DO NOT EDIT
 You can access the following resource attributes as environment variables from your Lambda function
 var environment = process.env.ENV
 var region = process.env.REGION
@@ -6,15 +16,13 @@ var region = process.env.REGION
 Amplify Params - DO NOT EDIT */
 var AWS = require("aws-sdk");
 var dbAPI = require("./dbAPI");
-var tablesUtils = require("./tablesUtils");
 
 exports.handler = async (event, context, callback) => {
   var userTypeName = "User";
   var invitationTypeName = "UserInvitation";
-  var getTableName = await tablesUtils.getTableNameFn();
-  var userTableName = getTableName(userTypeName);
+  var userTableName = process.env.API_BEDSIDE_USERTABLE_NAME;
   var userName = event.userName;
-  var invitationTableName = getTableName(invitationTypeName);
+  var invitationTableName = process.env.API_BEDSIDE_USERINVITATIONTABLE_NAME;
   console.log(event);
   var email = event.request.userAttributes.email;
   var userId;

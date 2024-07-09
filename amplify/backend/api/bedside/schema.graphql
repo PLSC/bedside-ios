@@ -82,7 +82,7 @@ type User
       # Defaults to use the "owner" field.
       { allow: private, provider: userPools }
       # Next allow public access with an API Key
-      { allow: public, provider: apiKey, operations: [read] }
+      { allow: public, provider: apiKey, operations: [read, update] }
     ]
   )
   @key(name: "ByEmail", fields: ["email"], queryField: "usersByEmail")
@@ -100,6 +100,8 @@ type User
   isRater: Boolean
   memberships: [Membership] @connection(keyName: "byUser", fields: ["id"])
   settings: UserSettings
+  # TODO - If we want to log any more events, move to a UserEvents object
+  lastLogin: AWSDateTime
 }
 
 type UserSettings {
@@ -174,7 +176,14 @@ type UserInvitation
 
 type ProgramProcedure
   @model
-  @auth(rules: [{ allow: private }])
+  @auth(
+    rules: [
+      # Defaults to use the "owner" field.
+      { allow: private, provider: userPools }
+      # Next allow public access with an API Key
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
   @key(
     name: "byProgram"
     fields: ["programId"]
