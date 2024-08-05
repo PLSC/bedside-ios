@@ -31,14 +31,26 @@ class UserLoginState: ObservableObject {
 
             NSLog("Validating user auth session completed")
 
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
+            let userEmail = UserDefaults.standard.string(forKey: "userEmail")
 
-                self.isSignedIn = session.isSignedIn
-            }
+            if session.isSignedIn && !((userEmail ?? "").isEmpty) {
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
 
-            if session.isSignedIn {
-                await self.fetchUserInfo()
+                    self.isSignedIn = session.isSignedIn
+                }
+
+                if session.isSignedIn {
+                    await self.fetchUserInfo()
+                }
+            } else {
+                _ = await Amplify.Auth.signOut()
+
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+
+                    self.isSignedIn = false
+                }
             }
         } catch let error as AuthError {
             NSLog("Fetch user auth session failed with error \(error)")

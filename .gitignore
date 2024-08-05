@@ -6,6 +6,12 @@
 ## User settings
 xcuserdata/
 
+# Ignore user interface state file
+bedside-ios.xcodeproj/project.xcworkspace/xcuserdata/*/UserInterfaceState.xcuserstate
+
+# Ignore breakpoints file
+bedside-ios.xcodeproj/xcuserdata/*/xcdebugger/Breakpoints_v2.xcbkptlist
+
 ## Xcode 8 and earlier
 *.xcscmblueprint
 *.xccheckout
