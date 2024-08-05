@@ -30,3 +30,17 @@ After a build pointing to the dev branch has been ok'ed for release...
 6. Archive and submit.
 7. Sanity check on device. Get a second opinion.
 8. Submit for review!
+
+# Work-around for amplify pull failure.
+ 
+1. Using the terminal, run the 'amplify pull' command
+2. press ^ + C once that command get stuck.
+3. From a finder window, Change the value of 'AmplifyAppId' to the valid app id in the 
+    amplify/team-provider-info.json, 
+    amplify/#current-cloud-backend/amplify-meta.json, and 
+    amplify/backend/amplify-meta.json 
+files.
+4. Go back to the terminal and run 'amplify codegen models' command.
+
+The 'amplify codegen models' command should be succeed.
+
