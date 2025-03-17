@@ -6,8 +6,6 @@ extension ProgramProcedure {
   // MARK: - CodingKeys 
    public enum CodingKeys: String, ModelKey {
     case id
-    case procedure
-    case program
   }
   
   public static let keys = CodingKeys.self
@@ -24,9 +22,7 @@ extension ProgramProcedure {
     model.pluralName = "ProgramProcedures"
     
     model.fields(
-      .id(),
-      .belongsTo(programProcedure.procedure, is: .required, ofType: Procedure.self, targetName: "procedureId"),
-      .belongsTo(programProcedure.program, is: .required, ofType: Program.self, targetName: "programId")
+      .id()
     )
     }
 }

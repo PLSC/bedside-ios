@@ -25,5 +25,5 @@ struct UITestModels {
         User(id: "2", userName: "brianGeorge", email: "bg@briangeorge.net", phone: "8101021039", firstName: "Brian", lastName: "George", npi: 10349080, memberships: nil)
     ]
 
-    static let evalResponseTestData = [EvaluationResponse(id: "1", subject: UITestModels.usersTestData[0], rater: UITestModels.usersTestData[1], procedure: UITestModels.proceduresTestData[0], evaluationDate: Temporal.DateTime(Date()), ratingLevel: 4)]
+    static let evalResponseTestData = [EvaluationResponse(id: "1", rater: UITestModels.usersTestData[1], evaluationDate: Temporal.DateTime(Date()), ratingLevel: 4)]
 }
