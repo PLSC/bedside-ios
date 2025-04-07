@@ -133,7 +133,7 @@ struct SettingsView: View {
     func signOut() async {
         await authUtil.signOut()
 
-        userLoginState.isSignedIn = false
+        userLoginState.resetStateOnSignOut()
     }
     
     func submit() async {

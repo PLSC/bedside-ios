@@ -289,6 +289,17 @@ class UserLoginState: ObservableObject {
             }
             .store(in: &cancelableSet)
     }
+    
+    func resetStateOnSignOut() {
+        DispatchQueue.main.async {
+            self.isSignedIn = false
+            self.currentUser = nil
+            self.organizations = []
+            self.certRecordViewModel = CertRecordViewModel()
+            self.ratersViewModel = RatersViewModel()
+            self.procedureSelectViewModel = ProcedureSelectViewModel()
+        }
+    }
 }
 
 extension UserLoginState {
