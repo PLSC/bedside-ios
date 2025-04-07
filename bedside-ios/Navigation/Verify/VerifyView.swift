@@ -19,7 +19,6 @@ struct VerifyView: View {
     var userProfileImage = UserProfileImage()
     
     func checkUserImage() async {
-        await userLoginState.fetchCurrentUserCertRecords()
         if !userProfileImage.storedProfileImage {
             showImagePickerAlert = true
         }
@@ -70,8 +69,8 @@ struct VerifyView: View {
         })
         .onAppear {
             Task {
-                await checkUserImage()
                 await userLoginState.fetchCurrentUserCertRecords()
+                await checkUserImage()
             }
         }
         .onReceive(self.userLoginState.certRecordViewModel.$showEmptyView) { (show) in
