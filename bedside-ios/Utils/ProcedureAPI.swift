@@ -88,24 +88,7 @@ extension ProcedureAPI {
                                 __typename
                                 id
                                 procedureId
-                                procedure {
-                                    __typename
-                                    id
-                                    name
-                                    description
-                                    createdAt
-                                    updatedAt
-                                }
                                 programId
-                                program {
-                                    __typename
-                                    id
-                                    name
-                                    orgID
-                                    description
-                                    createdAt
-                                    updatedAt
-                                }
                                 createdAt
                                 updatedAt
                             }

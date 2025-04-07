@@ -8,7 +8,6 @@ extension Procedure {
     case id
     case name
     case description
-    case programs
   }
   
   public static let keys = CodingKeys.self
@@ -27,8 +26,7 @@ extension Procedure {
     model.fields(
       .id(),
       .field(procedure.name, is: .required, ofType: .string),
-      .field(procedure.description, is: .optional, ofType: .string),
-      .hasMany(procedure.programs, is: .optional, ofType: ProgramProcedure.self, associatedWith: ProgramProcedure.keys.procedure)
+      .field(procedure.description, is: .optional, ofType: .string)
     )
     }
 }

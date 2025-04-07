@@ -71,6 +71,7 @@ struct VerifyView: View {
         .onAppear {
             Task {
                 await checkUserImage()
+                await userLoginState.fetchCurrentUserCertRecords()
             }
         }
         .onReceive(self.userLoginState.certRecordViewModel.$showEmptyView) { (show) in
@@ -86,18 +87,22 @@ struct VerifyView_Previews: PreviewProvider {
 }
 
 struct EmptyCertRecordView: View {
+    @EnvironmentObject var userLoginState : UserLoginState
+
     var body: some View {
-        VStack {
-            Spacer()
-            Text("No Evaluations").font(.headline).foregroundColor(.secondary)
-            Button(action: {
-                NotificationCenter.default.post(name: TabBarEvents.change, object: Tab.evaluate)
-            }) {
-                Text("New Evaluation")
-            }.buttonStyle(BigButtonStyle())
-                .frame(minWidth:0, maxWidth: .infinity)
-                .padding(.horizontal, 20)
-            Spacer()
+        LoadingView(isShowing: $userLoginState.certRecordViewModel.loading) {
+            VStack {
+                Spacer()
+                Text("No Evaluations").font(.headline).foregroundColor(.secondary)
+                Button(action: {
+                    NotificationCenter.default.post(name: TabBarEvents.change, object: Tab.evaluate)
+                }) {
+                    Text("New Evaluation")
+                }.buttonStyle(BigButtonStyle())
+                    .frame(minWidth:0, maxWidth: .infinity)
+                    .padding(.horizontal, 20)
+                Spacer()
+            }
         }
     }
 }

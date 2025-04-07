@@ -112,19 +112,6 @@ extension CertRecordAPI {
                                 npi
                                 pgy
                                 isRater
-                                memberships {
-                                    __typename
-                                    items {
-                                        __typename
-                                        id
-                                        role
-                                        userId
-                                        programId
-                                        createdAt
-                                        updatedAt
-                                    }
-                                    nextToken
-                                }
                                 createdAt
                                 updatedAt
                         }
@@ -133,21 +120,6 @@ extension CertRecordAPI {
                             items {
                                 __typename
                                 id
-                                subject {
-                                    __typename
-                                    id
-                                    orgID
-                                    userName
-                                    email
-                                    phone
-                                    firstName
-                                    lastName
-                                    npi
-                                    pgy
-                                    isRater
-                                    createdAt
-                                    updatedAt
-                                }
                                 subjectId
                                 rater {
                                     __typename
@@ -165,14 +137,6 @@ extension CertRecordAPI {
                                     updatedAt
                                 }
                                 raterId
-                                procedure {
-                                    __typename
-                                    id
-                                    name
-                                    description
-                                    createdAt
-                                    updatedAt
-                                }
                                 procedureId
                                 evaluationDate
                                 ratingLevel

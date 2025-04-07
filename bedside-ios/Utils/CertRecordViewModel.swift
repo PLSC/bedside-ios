@@ -13,8 +13,8 @@ class CertRecordViewModel : ObservableObject {
     @Published var allCertificationRecords: [CertificationRecord] = []
     @Published var certified: [CertificationRecord] = []
     @Published var notCertified: [CertificationRecord] = []
-    @Published var showEmptyView: Bool = true
-    @Published var loading: Bool = false
+    @Published var showEmptyView: Bool = false
+    @Published var loading: Bool = true
     
     let certRecordApi = CertRecordAPI()
     
@@ -46,22 +46,20 @@ class CertRecordViewModel : ObservableObject {
             self.loading = true
         }
 
-        let result = await certRecordApi.getCertRecords(subjectId:user.id)
-
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            self.loading = false
-        }
+        let result = await certRecordApi.getCertRecords(subjectId: user.id)
 
         switch result {
         case .success(let certRecords):
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
-
                 self.allCertificationRecords = certRecords
+                self.loading = false
             }
         case .failure(let error):
-            print("Error fetching certRecords: \(error)")
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                self.loading = false
+            }
         }
     }
 }
